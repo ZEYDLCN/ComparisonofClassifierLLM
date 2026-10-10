@@ -37,6 +37,9 @@ clfbench = "clfbench.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+clfbench = ["assets/*.html"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 # faulthandler kapalı: Windows'ta pyarrow'un zararsız ilk-şans istisnasını "fatal" diye raporluyor

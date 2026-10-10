@@ -50,7 +50,8 @@ def test_full_run_with_robustness_cache_and_reports(tmp_path, monkeypatch, task_
     assert summary["reference"] in by and "vs_reference" in by[
         "mock_chat" if summary["reference"] == "mock_jev" else "mock_jev"]
     html = (out / "report.html").read_text(encoding="utf-8")
-    assert "Mock Jev" in html and "data:image/png;base64" in html and "Yöntem ve sınırlar" in html
+    assert "Mock Jev" in html and '<script id="data" type="application/json">' in html  # etkileşimli panel
+    assert "Yöntem ve sınırlar" in (out / "report.md").read_text(encoding="utf-8")
 
     # --- önbellek: aynı koşu ikinci kez API'ye gitmemeli ---
     calls_before = len(_Handler.log)
@@ -124,3 +125,23 @@ def test_payment_required_fails_fast(tmp_path, monkeypatch, make_spec, task_and_
     m = json.loads((out / "summary.json").read_text(encoding="utf-8"))["models"][0]
     assert m["status"] == "failed" and "402" in m["reason"] and "wallet_not_provisioned" in m["reason"]
     assert len(_Handler.log) == 1
+
+
+def test_fully_cached_run_does_not_load_models(tmp_path, monkeypatch, task_and_data):
+    pytest.importorskip("sklearn")
+    from clfbench.providers.local import TfidfLRProvider
+
+    monkeypatch.setattr(bench, "CACHE_DIR", tmp_path / "cache")
+    task, ex = task_and_data
+    spec = ModelSpec(key="tfidf", display="TF-IDF", group="egitimli", provider="tfidf_lr", requires=["sklearn"])
+    out1 = run_benchmark([spec], task, ex, split="test", out_root=tmp_path / "o1")
+    m1 = json.loads((out1 / "summary.json").read_text(encoding="utf-8"))["models"][0]
+
+    def boom(self, *a, **k):
+        raise AssertionError("tam önbellekte model yüklenmemeli")
+
+    monkeypatch.setattr(TfidfLRProvider, "prepare", boom)
+    out2 = run_benchmark([spec], task, ex, split="test", out_root=tmp_path / "o2")
+    m2 = json.loads((out2 / "summary.json").read_text(encoding="utf-8"))["models"][0]
+    assert m2["metrics"]["accuracy"] == m1["metrics"]["accuracy"]
+    assert m2["setup_s"] == m1["setup_s"]  # kurulum süresi ilk koşudan taşınır

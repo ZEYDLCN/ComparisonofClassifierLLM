@@ -73,10 +73,6 @@ def run_model(spec: ModelSpec, task: TaskSpec, eval_examples: list[Example], tra
     eval_ids = {e.id for e in eval_examples}
     shots = [s for s in shots if s.id not in eval_ids]
 
-    t0 = time.perf_counter()
-    provider.prepare(task, train, shots)
-    setup_s = time.perf_counter() - t0
-
     cache: dict[str, dict] = {}
     cache_file: Path | None = None
     if cache_dir is not None and use_cache:
@@ -90,8 +86,19 @@ def run_model(spec: ModelSpec, task: TaskSpec, eval_examples: list[Example], tra
                     cache[r["id"]] = r
 
     pending = [e for e in eval_examples if e.id not in cache]
-    conc = 1 if spec.is_local else max(1, concurrency or spec.concurrency)
+    meta_file = cache_file.with_suffix(".meta.json") if cache_file else None
     cold_ms = None
+    if pending:
+        t0 = time.perf_counter()
+        provider.prepare(task, train, shots)
+        setup_s = time.perf_counter() - t0
+    else:
+        # Hepsi önbellekte: model yüklemeye/indirmeye gerek yok. Kurulum/soğuk başlangıç değerleri ilk koşudan alınır.
+        setup_s, cold_ms = 0.0, None
+        if meta_file is not None and meta_file.exists():
+            m0 = json.loads(meta_file.read_text(encoding="utf-8"))
+            setup_s, cold_ms = m0.get("setup_s", 0.0), m0.get("cold_ms")
+    conc = 1 if spec.is_local else max(1, concurrency or spec.concurrency)
     if pending and warmup > 0:
         # ısınma: TLS/bağlantı, tembel model indirme/yükleme, soğuk başlangıç; sonuçlara dahil edilmez, 'soğuk ms' olarak ayrı raporlanır
         for _ in range(warmup):
@@ -134,6 +141,8 @@ def run_model(spec: ModelSpec, task: TaskSpec, eval_examples: list[Example], tra
             fh.close()
         provider.close()
     wall_s = time.perf_counter() - t_wall
+    if meta_file is not None and pending:
+        meta_file.write_text(json.dumps({"setup_s": setup_s, "cold_ms": cold_ms}), encoding="utf-8")
     records = [results[e.id] for e in eval_examples if e.id in results]
     return ModelRun(key=spec.key, order_mode=order_mode, records=records, setup_s=setup_s, cold_ms=cold_ms,
                     wall_s=wall_s, concurrency=conc, cached=len(cache),

@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Classifier LLM Karşılaştırma Paneli</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f6f3;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+  --border:rgba(11,11,11,.10);--shadow:0 1px 2px rgba(11,11,11,.06),0 8px 24px rgba(11,11,11,.06);
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--good:#0c8a0c;--warn:#b87800;--crit:#d03b3b;--accent:#2a78d6;--chip:#eeeeea;
+  --q1:#cde2fb;--q2:#9ec5f4;--q3:#6da7ec;--q4:#3987e5;--q5:#256abf;--q6:#184f95;--q7:#0d366b;
+}
+:root[data-theme=dark]{
+  color-scheme:dark;
+  --bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--axis:#383835;
+  --border:rgba(255,255,255,.10);--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--good:#0ca30c;--warn:#fab219;--crit:#e66767;--accent:#3987e5;--chip:#262624;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme=light]){
+    color-scheme:dark;
+    --bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--axis:#383835;
+    --border:rgba(255,255,255,.10);--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+    --s1:#3987e5;--s2:#d95926;--s3:#199e70;--good:#0ca30c;--warn:#fab219;--crit:#e66767;--accent:#3987e5;--chip:#262624;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:56px}
+.brand{font-weight:650;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+.brand small{color:var(--muted);font-weight:500;margin-left:8px}
+nav.links{display:flex;gap:2px;margin-left:12px;overflow-x:auto}
+nav.links a{padding:6px 10px;border-radius:8px;color:var(--ink2);text-decoration:none;white-space:nowrap;font-size:13px}
+nav.links a:hover{background:var(--chip);color:var(--ink)}
+.spacer{flex:1}
+.iconbtn{border:1px solid var(--border);background:var(--surface);border-radius:8px;height:34px;padding:0 12px;display:inline-flex;align-items:center;gap:6px;color:var(--ink2)}
+.iconbtn:hover{color:var(--ink);border-color:var(--axis)}
+.hero{padding:28px 0 8px}
+h1{font-size:28px;line-height:1.2;margin:0 0 6px;letter-spacing:-.02em}
+.sub{color:var(--ink2);margin:0;max-width:880px}
+.sub b{color:var(--ink);font-weight:600}
+.warnbox{margin:14px 0 0;padding:10px 14px;border:1px solid color-mix(in srgb,var(--warn) 45%,var(--border));background:color-mix(in srgb,var(--warn) 9%,var(--surface));border-radius:10px;color:var(--ink2);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 4px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);text-align:left;width:100%}
+button.kpi:hover{border-color:var(--axis)}
+.kpi .k{color:var(--muted);font-size:12px;letter-spacing:.02em;text-transform:uppercase}
+.kpi .v{font-size:30px;font-weight:650;letter-spacing:-.02em;margin:4px 0 2px;line-height:1.1}
+.kpi .d{color:var(--ink2);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+section{margin:30px 0}
+.sechead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+h2{font-size:18px;margin:0;letter-spacing:-.01em}
+.hint{color:var(--muted);font-size:13px;margin:2px 0 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0 0}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:5px 12px 5px 10px;font-size:13px;color:var(--ink2)}
+.chip[aria-pressed=false]{opacity:.5}
+.chip:hover{border-color:var(--axis)}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dot.dia{border-radius:2px;transform:rotate(45deg) scale(.85)}
+.search{flex:1;min-width:180px;max-width:320px;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:6px 14px;outline:none}
+.search:focus{border-color:var(--accent)}
+select.sel{border:1px solid var(--border);background:var(--surface);border-radius:8px;padding:5px 8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:9px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:5px 12px;color:var(--ink2);font-size:13px}
+.seg button[aria-pressed=true]{background:var(--chip);color:var(--ink);font-weight:600}
+svg{display:block;max-width:100%;height:auto;overflow:visible}
+svg text{font-family:inherit}
+.bar{cursor:pointer}
+.bar:hover rect.fill,.bar:focus-visible rect.fill{filter:brightness(1.08)}
+.bar:hover .rowbg,.bar:focus-visible .rowbg{opacity:1}
+.rowbg{fill:var(--chip);opacity:0}
+.pt{cursor:pointer}
+.pt:hover circle,.pt:hover path,.pt:focus-visible circle,.pt:focus-visible path{stroke:var(--ink);stroke-width:2}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--ink2);font-size:12.5px;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--grid);white-space:nowrap;text-align:left}
+th{font-weight:600;color:var(--ink2);font-size:12.5px;background:var(--surface);position:sticky;top:0}
+th button{border:0;background:transparent;font-weight:600;color:inherit;padding:0;display:inline-flex;align-items:center;gap:4px}
+th button:hover{color:var(--ink)}
+th .arr{opacity:.35;font-size:10px}th[aria-sort=ascending] .arr,th[aria-sort=descending] .arr{opacity:1;color:var(--accent)}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.row{cursor:pointer}
+tr.row:hover td{background:var(--chip)}
+tr:last-child td{border-bottom:0}
+.mname{font-weight:600}
+.mname small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--ink2)}
+.minibar{position:relative;width:76px;height:8px;background:var(--grid);border-radius:4px;display:inline-block;vertical-align:middle;margin-left:8px}
+.minibar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.minibar b{position:absolute;top:-2px;bottom:-2px;width:0;border-left:1.5px solid var(--ink2)}
+.minibar b.h{width:auto;border:0;border-top:1.5px solid var(--ink2);height:0;top:50%;bottom:auto}
+.chk{width:16px;height:16px;accent-color:var(--accent)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.failcard{background:var(--surface);border:1px solid color-mix(in srgb,var(--crit) 35%,var(--border));border-radius:12px;padding:12px 14px}
+.failcard h4{margin:0 0 4px;font-size:14px}
+.failcard p{margin:4px 0;color:var(--ink2);font-size:13px}
+.failcard code{display:block;background:var(--chip);padding:6px 8px;border-radius:6px;font-size:12px;color:var(--ink2);word-break:break-word;white-space:pre-wrap;margin-top:6px}
+.tag{font-size:11.5px;padding:1px 7px;border-radius:6px;background:var(--chip);color:var(--ink2)}
+.ok{color:var(--good)}.bad{color:var(--crit)}
+details.method{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:4px 16px}
+details.method summary{cursor:pointer;font-weight:600;padding:10px 0}
+details.method ul{margin:4px 0 12px;padding-left:20px;color:var(--ink2)}
+details.method li{margin:5px 0}
+dl.gl{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;color:var(--ink2);margin:6px 0 12px}
+dl.gl dt{font-weight:600;color:var(--ink)}dl.gl dd{margin:0}
+footer{color:var(--muted);font-size:12.5px;padding:8px 0 48px}
+/* tooltip */
+#tip{position:fixed;z-index:60;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--axis);border-radius:10px;padding:8px 11px;box-shadow:var(--shadow);font-size:12.5px;max-width:300px;opacity:0;transition:opacity .08s}
+#tip.on{opacity:1}
+#tip b{font-weight:650}#tip .m{color:var(--ink2)}
+/* drawer */
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:40;opacity:0;pointer-events:none;transition:opacity .18s}
+#scrim.on{opacity:1;pointer-events:auto}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(780px,100vw);background:var(--bg);z-index:50;transform:translateX(102%);transition:transform .22s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;border-left:1px solid var(--axis);box-shadow:-12px 0 40px rgba(0,0,0,.25)}
+#drawer.on{transform:none}
+.dhead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface)}
+.dhead h3{margin:0;font-size:17px;letter-spacing:-.01em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dbody{overflow:auto;padding:18px;flex:1}
+.dbody section{margin:22px 0}
+.dbody h4{margin:0 0 8px;font-size:14px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+.mc .k{color:var(--muted);font-size:12px}.mc .v{font-size:20px;font-weight:650;letter-spacing:-.01em}.mc .s{color:var(--ink2);font-size:12px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;border:1px solid var(--border);color:var(--ink2);margin:0 6px 6px 0}
+.cm{border-collapse:separate;border-spacing:2px;font-size:11.5px;width:auto}
+.cm td,.cm th{padding:0;border:0;position:static;background:transparent}
+.cm th.col{height:84px;vertical-align:bottom;font-weight:500;color:var(--ink2)}
+.cm th.col div{transform:rotate(-55deg);transform-origin:left bottom;white-space:nowrap;width:22px;margin-bottom:-2px}
+.cm th.row{text-align:right;padding-right:8px;font-weight:500;color:var(--ink2);white-space:nowrap}
+.cm td.c{width:40px;height:34px;text-align:center;border-radius:5px;cursor:pointer;font-variant-numeric:tabular-nums}
+.cm td.c:hover{outline:2px solid var(--ink)}
+.cm td.c.sel{outline:2px solid var(--accent)}
+.errtable td{white-space:normal;vertical-align:top}
+.errtable td.t{min-width:260px}
+.errtable td.r{white-space:nowrap}
+.cmp{margin-top:14px;display:none}
+.cmp.on{display:block}
+.empty{color:var(--muted);padding:18px;text-align:center}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}nav.links{display:none}.brand small{display:none}}
+@media(max-width:560px){.wrap{padding:0 14px}h1{font-size:23px}.kpi .v{font-size:25px}#drawer{width:100vw}}
+@media print{header.top,.filters,#drawer,#scrim{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">Classifier LLM Paneli<small id="runid"></small></div>
+  <nav class="links">
+    <a href="#overview">Genel bakış</a><a href="#tradeoff">Hız &amp; maliyet</a><a href="#table">Tablo</a><a href="#failed" id="navfailed">Atlananlar</a><a href="#method">Yöntem</a>
+  </nav>
+  <div class="spacer"></div>
+  <button class="iconbtn" id="csvbtn" title="Tabloyu CSV olarak indir">⭳ CSV</button>
+  <button class="iconbtn" id="themebtn" title="Tema değiştir" aria-label="Tema değiştir">◐ Tema</button>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>Classifier modelleri: aynı veri, aynı ölçüler</h1>
+    <p class="sub" id="subtitle"></p>
+    <div class="warnbox" id="warnbox"></div>
+  </div>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="filters" id="filters" role="group" aria-label="Filtreler"></div>
+
+  <section id="overview">
+    <div class="sechead">
+      <div><h2>Sıralama</h2><p class="hint">Bir çubuğa tıkla: model detayı açılır. Çizgi %95 güven aralığıdır; aralıklar çakışan modeller arasında kesin sıralama yapılamaz.</p></div>
+      <label class="hint">Ölçüt&nbsp;<select class="sel" id="rankmetric" aria-label="Sıralama ölçütü"></select></label>
+    </div>
+    <div class="card"><div id="rank"></div><div class="legend" id="legend1"></div></div>
+  </section>
+
+  <section id="tradeoff">
+    <div class="sechead">
+      <div><h2>Doğruluk, hız ve maliyet dengesi</h2><p class="hint">Sol üst köşe en iyi bölgedir. Kesikli çizgi Pareto sınırıdır: onu geçen başka model yok.</p></div>
+      <div class="seg" role="group" aria-label="X ekseni"><button id="xlat" aria-pressed="true">Gecikme (p50)</button><button id="xcost" aria-pressed="false">Maliyet ($/1.000)</button></div>
+    </div>
+    <div class="card"><div id="scatter"></div><div class="legend" id="legend2"></div></div>
+  </section>
+
+  <section id="table">
+    <div class="sechead">
+      <div><h2>Tüm modeller</h2><p class="hint">Sütun başlığına tıkla: sırala. Satıra tıkla: detay. İki model işaretle: karşılaştır.</p></div>
+    </div>
+    <div class="tablewrap"><table id="tbl"></table></div>
+    <div class="card cmp" id="cmp"></div>
+  </section>
+
+  <section id="failed"><div class="sechead"><div><h2>Çalışmayan / atlanan modeller</h2><p class="hint">Bu modeller puanlanamadı; nedeni ve çözümü aşağıda.</p></div></div><div class="cards" id="failcards"></div></section>
+
+  <section id="method">
+    <details class="method" id="methodbox"><summary>Yöntem, ölçüler ve sınırlar</summary><div id="methodbody"></div></details>
+  </section>
+  <footer id="foot"></footer>
+</main>
+
+<div id="scrim"></div>
+<aside id="drawer" role="dialog" aria-modal="true" aria-labelledby="dtitle" aria-hidden="true">
+  <div class="dhead">
+    <button class="iconbtn" id="dprev" aria-label="Önceki model" title="Önceki model (←)">←</button>
+    <button class="iconbtn" id="dnext" aria-label="Sonraki model" title="Sonraki model (→)">→</button>
+    <h3 id="dtitle"></h3>
+    <button class="iconbtn" id="dclose" aria-label="Kapat" title="Kapat (Esc)">✕ Kapat</button>
+  </div>
+  <div class="dbody" id="dbody"></div>
+</aside>
+<div id="tip" role="tooltip"></div>
+
+<script id="data" type="application/json">__DATA_JSON__</script>
+<script>
+(function(){
+"use strict";
+const D = JSON.parse(document.getElementById('data').textContent);
+const LAB = D.labels, EX = D.examples, K = LAB.length;
+const ALL = D.models;
+const scored = ALL.filter(m => m.m);
+const failed = ALL.filter(m => !m.m);
+
+/* ---------- yardımcılar ---------- */
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf = (x, d = 1) => x == null || isNaN(x) ? '—' : x.toFixed(d).replace('.', ',');
+const pct = (x, d = 1) => x == null ? '—' : '%' + nf(x * 100, d);
+const pp = (x, d = 1) => x == null ? '—' : (x >= 0 ? '+' : '−') + nf(Math.abs(x) * 100, d) + ' puan';
+const ms = x => x == null ? '—' : x >= 1000 ? nf(x / 1000, 2) + ' sn' : x >= 100 ? Math.round(x).toLocaleString('tr-TR') + ' ms' : nf(x, 1) + ' ms';
+const usd = (x, est) => x == null ? '—' : (est ? '~' : '') + '$' + (x < 1 ? x.toFixed(4) : x.toFixed(2)).replace('.', ',');
+const GROUP = {
+  'karar-api': {name: 'Karar API', pg: 'karar-api'},
+  'uretken-llm': {name: 'Üretken LLM', pg: 'uretken-llm'},
+  'encoder': {name: 'Encoder (yerel)', pg: 'yerel'},
+  'egitimli': {name: 'Eğitimli (yerel)', pg: 'yerel'},
+};
+const PGCOLOR = {'karar-api': 'var(--s1)', 'uretken-llm': 'var(--s2)', 'yerel': 'var(--s3)'};
+const colorOf = m => PGCOLOR[(GROUP[m.group] || GROUP.encoder).pg];
+const KINDS = {native: 'yerel olasılık', verbalized: 'sözel güven', derived: 'türetilmiş skor'};
+const SLICE = {ascii: 'Türkçe karaktersiz', typo: 'Yazım hatalı', short: 'Çok kısa (≤4 sözcük)', multi: 'Çok niyetli', long: 'Uzun (≥22 sözcük)'};
+const byKey = k => ALL.find(m => m.key === k);
+const ref = D.meta.reference;
+
+const state = {
+  groups: new Set(Object.keys(GROUP).filter(g => scored.some(m => m.group === g) || failed.some(m => m.group === g))),
+  q: '', sortKey: 'accuracy', sortDir: -1, rank: 'accuracy', x: 'lat', open: null, cmp: [],
+};
+
+/* ---------- tema ---------- */
+(function theme(){
+  let t = null; try { t = localStorage.getItem('clf-theme'); } catch (e) {}
+  const ht = /theme=(dark|light)/.exec(location.hash); if (ht) t = ht[1];
+  if (t) document.documentElement.dataset.theme = t;
+  $('#themebtn').onclick = () => {
+    const cur = document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+    const nx = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nx;
+    try { localStorage.setItem('clf-theme', nx); } catch (e) {}
+  };
+})();
+
+/* ---------- tooltip ---------- */
+const tip = $('#tip');
+function showTip(html, ev){
+  tip.innerHTML = html; tip.classList.add('on');
+  const r = tip.getBoundingClientRect(), pad = 14;
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad;
+  tip.style.left = Math.max(8, x) + 'px'; tip.style.top = Math.max(8, y) + 'px';
+}
+function hideTip(){ tip.classList.remove('on'); }
+function bindTip(el, htmlFn){
+  el.addEventListener('mousemove', e => showTip(htmlFn(), e));
+  el.addEventListener('mouseleave', hideTip);
+  el.addEventListener('focus', () => { const r = el.getBoundingClientRect(); showTip(htmlFn(), {clientX: r.left + r.width / 2, clientY: r.top}); });
+  el.addEventListener('blur', hideTip);
+}
+function modelTip(m){
+  const t = m.m;
+  return `<b>${esc(m.display)}</b><div class="m">${esc((GROUP[m.group] || {}).name || m.group)}</div>` +
+    `<div>Doğruluk <b>${pct(t.accuracy)}</b> <span class="m">[${pct(t.accuracyCI[0], 0)}–${pct(t.accuracyCI[1], 0)}]</span></div>` +
+    `<div>Macro-F1 <b>${pct(t.macroF1)}</b> · p50 <b>${ms(t.latP50)}</b></div>` +
+    `<div>Maliyet <b>${t.cost1000 == null ? (m.local ? 'yerel' : '—') : usd(t.cost1000, t.tokensEstimated) + ' / 1.000'}</b></div>` +
+    `<div class="m">Ayrıntı için tıkla</div>`;
+}
+
+/* ---------- veri yardımcıları ---------- */
+const visible = () => scored.filter(m => state.groups.has(m.group) && (!state.q || (m.display + ' ' + m.model + ' ' + m.key).toLowerCase().includes(state.q)));
+const visibleFailed = () => failed.filter(m => state.groups.has(m.group) && (!state.q || (m.display + ' ' + m.key).toLowerCase().includes(state.q)));
+const isCorrect = (m, i) => m.preds[i] && m.preds[i][0] === EX[i].t && !m.preds[i][3];
+
+/* ---------- üst bölüm ---------- */
+function renderHeader(){
+  const d = D.meta.dataset, e = D.meta.environment;
+  $('#runid').textContent = D.meta.run_id;
+  $('#subtitle').innerHTML = `<b>${esc(d.name)}</b> verisi · <b>${d.n_eval}</b> değerlendirme örneği (<code>${esc(d.split)}</code> bölümü) · ${K} sınıf · eğitim bölümü ${d.n_train} örnek · ` +
+    `${scored.length} model puanlandı${failed.length ? `, ${failed.length} model atlandı` : ''} · ${esc(D.meta.started.replace('T', ' '))}` +
+    (D.meta.note ? `<br><span class="hint">${esc(D.meta.note)}</span>` : '');
+  $('#warnbox').innerHTML = '<b>Okumadan önce:</b> yerleşik <code>destek_tr</code> seti gümüş etiketlidir (insan altın kümesi değil) ve test bölümü küçüktür: güven aralıkları geniştir. ' +
+    'Bu panel yöntemi ve boru hattını gösterir; satın alma kararı için kendi insan etiketli Türkçe verinle çalıştır.';
+  if (!d.is_builtin) $('#warnbox').style.display = 'none';
+}
+function renderKPIs(){
+  const box = $('#kpis');
+  if (!scored.length){ box.innerHTML = '<div class="empty card" style="grid-column:1/-1">Puanlanan model yok. Aşağıdaki "Atlananlar" bölümüne bak.</div>'; return; }
+  const best = scored.reduce((a, b) => b.m.accuracy > a.m.accuracy ? b : a);
+  const lat = scored.filter(m => m.m.latP50 != null);
+  const fast = lat.length ? lat.reduce((a, b) => b.m.latP50 < a.m.latP50 ? b : a) : null;
+  const priced = scored.filter(m => m.m.cost1000 != null && m.m.cost1000 > 0);
+  const cheap = priced.length ? priced.reduce((a, b) => b.m.cost1000 < a.m.cost1000 ? b : a) : null;
+  const tiles = [
+    ['En yüksek doğruluk', pct(best.m.accuracy), best.display, best.key],
+    ['En düşük gecikme (p50)', fast ? ms(fast.m.latP50) : '—', fast ? `${fast.display} · doğruluk ${pct(fast.m.accuracy)}` : 'ölçüm yok', fast && fast.key],
+    ['En düşük API maliyeti', cheap ? usd(cheap.m.cost1000, cheap.m.tokensEstimated) : '—', cheap ? `1.000 karar · ${cheap.display}` : 'fiyatlı API modeli yok', cheap && cheap.key],
+    ['Model sayısı', `${scored.length}<span style="font-size:16px;color:var(--muted)"> / ${ALL.length}</span>`, failed.length ? `${failed.length} model atlandı (aşağıda nedeni)` : 'hepsi puanlandı', null],
+  ];
+  box.innerHTML = tiles.map(([k, v, d, key]) => `<${key ? 'button' : 'div'} class="kpi" ${key ? `data-open="${esc(key)}"` : ''}><div class="k">${k}</div><div class="v">${v}</div><div class="d" title="${esc(d)}">${esc(d)}</div></${key ? 'button' : 'div'}>`).join('');
+  box.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openModel(b.dataset.open));
+}
+function renderFilters(){
+  const f = $('#filters');
+  const gs = Object.keys(GROUP).filter(g => ALL.some(m => m.group === g));
+  f.innerHTML = gs.map(g => {
+    const n = ALL.filter(m => m.group === g).length;
+    const col = PGCOLOR[GROUP[g].pg];
+    return `<button class="chip" data-g="${g}" aria-pressed="${state.groups.has(g)}"><span class="dot ${g === 'egitimli' ? 'dia' : ''}" style="background:${col}"></span>${GROUP[g].name}<span style="color:var(--muted)">${n}</span></button>`;
+  }).join('') + '<input class="search" id="q" type="search" placeholder="Model ara…" aria-label="Model ara">';
+  f.querySelectorAll('.chip').forEach(b => b.onclick = () => {
+    const g = b.dataset.g; state.groups.has(g) ? state.groups.delete(g) : state.groups.add(g);
+    b.setAttribute('aria-pressed', state.groups.has(g)); renderAll();
+  });
+  $('#q').oninput = e => { state.q = e.target.value.trim().toLowerCase(); renderAll(false); };
+}
+
+/* ---------- sıralama grafiği ---------- */
+const RANKS = {
+  accuracy: {label: 'Doğruluk', get: m => m.m.accuracy, fmt: pct, hi: true, ci: m => m.m.accuracyCI, max: 1},
+  macroF1: {label: 'Macro-F1', get: m => m.m.macroF1, fmt: pct, hi: true, ci: m => m.m.macroF1CI, max: 1},
+  ece: {label: 'Kalibrasyon hatası (ECE, düşük iyi)', get: m => m.m.ece, fmt: x => nf(x * 100) + ' puan', hi: false, max: null},
+  latP50: {label: 'Gecikme p50 (düşük iyi)', get: m => m.m.latP50, fmt: ms, hi: false, max: null},
+  cost1000: {label: '1.000 karar maliyeti (düşük iyi)', get: m => m.m.cost1000, fmt: x => usd(x), hi: false, max: null},
+};
+function renderRank(){
+  const cfg = RANKS[state.rank];
+  const rows = visible().filter(m => cfg.get(m) != null);
+  const box = $('#rank');
+  if (!rows.length){ box.innerHTML = '<div class="empty">Gösterilecek model yok (filtreleri kontrol et).</div>'; return; }
+  rows.sort((a, b) => cfg.hi ? cfg.get(b) - cfg.get(a) : cfg.get(a) - cfg.get(b));
+  const W = 1000, rowH = 34, labW = 340, valW = 70, top = 6, H = top + rows.length * rowH + 28;
+  const maxV = cfg.max || Math.max(...rows.map(cfg.get)) * 1.05 || 1;
+  const sx = v => labW + (W - labW - valW) * Math.min(v / maxV, 1);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.label)} sıralaması">`;
+  const ticks = cfg.max ? [0, .2, .4, .6, .8, 1] : [0, .25, .5, .75, 1].map(f => f * maxV);
+  ticks.forEach(t => { const x = sx(t); s += `<line x1="${x}" x2="${x}" y1="${top}" y2="${H - 22}" stroke="var(--grid)"/><text x="${x}" y="${H - 6}" text-anchor="middle" font-size="11" fill="var(--muted)">${cfg.max ? '%' + Math.round(t * 100) : (cfg.fmt(t))}</text>`; });
+  rows.forEach((m, i) => {
+    const y = top + i * rowH, v = cfg.get(m), c = colorOf(m);
+    s += `<g class="bar" data-k="${esc(m.key)}" tabindex="0" role="button" aria-label="${esc(m.display)}: ${esc(cfg.fmt(v))}. Ayrıntı için Enter">`;
+    s += `<rect class="rowbg" x="0" y="${y}" width="${W}" height="${rowH}" rx="6"/>`;
+    s += `<text x="${labW - 12}" y="${y + rowH / 2 + 4}" text-anchor="end" font-size="13" fill="var(--ink2)">${esc(clip(m.display, 52))}</text>`;
+    s += `<rect class="fill" x="${labW}" y="${y + 7}" width="${Math.max(2, sx(v) - labW)}" height="${rowH - 14}" rx="4" fill="${c}"/>`;
+    if (cfg.ci){ const [lo, hi] = cfg.ci(m); const yy = y + rowH / 2;
+      s += `<line x1="${sx(lo)}" x2="${sx(hi)}" y1="${yy}" y2="${yy}" stroke="var(--ink)" stroke-width="1.3"/><line x1="${sx(lo)}" x2="${sx(lo)}" y1="${yy - 5}" y2="${yy + 5}" stroke="var(--ink)" stroke-width="1.3"/><line x1="${sx(hi)}" x2="${sx(hi)}" y1="${yy - 5}" y2="${yy + 5}" stroke="var(--ink)" stroke-width="1.3"/>`; }
+    const endX = cfg.ci ? sx(cfg.ci(m)[1]) : sx(v);
+    s += `<text x="${endX + 8}" y="${y + rowH / 2 + 4}" font-size="12.5" font-weight="600" fill="var(--ink)">${esc(cfg.fmt(v))}</text></g>`;
+  });
+  box.innerHTML = s + '</svg>';
+  box.querySelectorAll('.bar').forEach(g => {
+    const m = byKey(g.dataset.k);
+    g.onclick = () => openModel(m.key);
+    g.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModel(m.key); } };
+    bindTip(g, () => modelTip(m));
+  });
+  legend('#legend1', rows);
+}
+const clip = (s, n) => s.length > n ? s.slice(0, n - 1) + '…' : s;
+function legend(sel, rows, diamondNote){
+  const pgs = ['karar-api', 'uretken-llm', 'yerel'].filter(p => rows.some(m => (GROUP[m.group] || GROUP.encoder).pg === p));
+  const name = {'karar-api': 'Karar API', 'uretken-llm': 'Üretken LLM', 'yerel': 'Yerel model'};
+  let h = pgs.map(p => `<span><i class="dot" style="background:${PGCOLOR[p]}"></i>${name[p]}</span>`).join('');
+  if (diamondNote && rows.some(m => m.group === 'egitimli')) h += '<span><i class="dot dia" style="background:var(--muted)"></i>elmas işaret = eğitimli model (train bölümünden öğrenir)</span>';
+  $(sel).innerHTML = h;
+}
+
+/* ---------- dağılım grafiği ---------- */
+function paretoSet(rows, xf){
+  const pts = rows.filter(m => xf(m) != null && xf(m) > 0);
+  return new Set(pts.filter(a => !pts.some(b => b !== a && b.m.accuracy >= a.m.accuracy && xf(b) <= xf(a) && (b.m.accuracy > a.m.accuracy || xf(b) < xf(a)))).map(m => m.key));
+}
+function renderScatter(){
+  const xf = state.x === 'lat' ? (m => m.m.latP50) : (m => m.m.cost1000);
+  const rows = visible().filter(m => xf(m) != null && xf(m) > 0);
+  const box = $('#scatter');
+  if (rows.length < 1){ box.innerHTML = `<div class="empty">${state.x === 'cost' ? 'Fiyatı bilinen API modeli yok: yerel modellerin API ücreti olmadığı için bu grafikte görünmezler.' : 'Gösterilecek model yok.'}</div>`; $('#legend2').innerHTML = ''; return; }
+  const W = 1000, H = 520, L = 64, R = 24, T = 16, B = 52;
+  const xs = rows.map(xf), lo = Math.min(...xs), hi = Math.max(...xs);
+  const x0 = Math.pow(10, Math.floor(Math.log10(lo) - .15)), x1 = Math.pow(10, Math.ceil(Math.log10(hi) + .15));
+  const accs = rows.map(m => m.m.accuracy * 100);
+  const y0 = Math.max(0, Math.floor((Math.min(...accs) - 6) / 10) * 10), y1 = Math.min(100, Math.ceil((Math.max(...accs) + 4) / 10) * 10);
+  const sx = v => L + (W - L - R) * (Math.log10(v) - Math.log10(x0)) / (Math.log10(x1) - Math.log10(x0));
+  const sy = v => T + (H - T - B) * (1 - (v - y0) / (y1 - y0));
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Doğruluk ve ${state.x === 'lat' ? 'gecikme' : 'maliyet'} dağılımı">`;
+  for (let v = y0; v <= y1; v += 10) s += `<line x1="${L}" x2="${W - R}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--grid)"/><text x="${L - 10}" y="${sy(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">%${v}</text>`;
+  for (let e = Math.log10(x0); e <= Math.log10(x1) + 1e-9; e++){
+    const v = Math.pow(10, e), x = sx(v);
+    s += `<line x1="${x}" x2="${x}" y1="${T}" y2="${H - B}" stroke="var(--grid)"/><text x="${x}" y="${H - B + 18}" text-anchor="middle" font-size="11" fill="var(--muted)">${state.x === 'lat' ? ms(v) : '$' + (v < 1 ? v.toString().replace('.', ',') : v)}</text>`;
+  }
+  s += `<line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--axis)"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H - B}" stroke="var(--axis)"/>`;
+  s += `<text x="${(L + W - R) / 2}" y="${H - 8}" text-anchor="middle" font-size="12" fill="var(--ink2)">${state.x === 'lat' ? 'p50 gecikme (log ölçek) — sola doğru daha hızlı' : '1.000 karar başına maliyet, USD (log ölçek) — sola doğru daha ucuz'}</text>`;
+  s += `<text transform="translate(16 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle" font-size="12" fill="var(--ink2)">Doğruluk — yukarı daha iyi</text>`;
+  const par = paretoSet(rows, xf);
+  const pp_ = rows.filter(m => par.has(m.key)).sort((a, b) => xf(a) - xf(b));
+  if (pp_.length > 1){
+    let d = `M${sx(xf(pp_[0]))} ${sy(pp_[0].m.accuracy * 100)}`;
+    for (let i = 1; i < pp_.length; i++) d += ` H${sx(xf(pp_[i]))} V${sy(pp_[i].m.accuracy * 100)}`;
+    s += `<path d="${d}" fill="none" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="5 4"/>`;
+  }
+  const boxes = [];
+  rows.forEach(m => { boxes.push({x: sx(xf(m)) - 9, y: sy(m.m.accuracy * 100) - 9, w: 18, h: 18}); });
+  const overl = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  const placed = [];
+  let pts = '', labels = '';
+  [...rows].sort((a, b) => xf(a) - xf(b)).forEach(m => {
+    const cx = sx(xf(m)), cy = sy(m.m.accuracy * 100), c = colorOf(m), dia = m.group === 'egitimli';
+    const shape = dia ? `<path d="M${cx} ${cy - 9} L${cx + 9} ${cy} L${cx} ${cy + 9} L${cx - 9} ${cy} Z" fill="${c}" stroke="var(--surface)" stroke-width="1.5"/>` : `<circle cx="${cx}" cy="${cy}" r="7.5" fill="${c}" stroke="var(--surface)" stroke-width="1.5"/>`;
+    pts += `<g class="pt" data-k="${esc(m.key)}" tabindex="0" role="button" aria-label="${esc(m.display)}">${shape}</g>`;
+    const txt = clip(m.display, 46), tw = txt.length * 6.1 + 4;
+    const cands = [[11, -6, 'start'], [11, 14, 'start'], [-11, -6, 'end'], [-11, 14, 'end'], [0, -16, 'middle'], [0, 24, 'middle']];
+    let pick = cands[0];
+    for (const c2 of cands){
+      const bx = c2[2] === 'start' ? cx + c2[0] : c2[2] === 'end' ? cx + c2[0] - tw : cx - tw / 2;
+      const r = {x: bx, y: cy + c2[1] - 11, w: tw, h: 14};
+      if (bx > L && bx + tw < W - 2 && r.y > T - 4 && r.y + r.h < H - B + 2 && !placed.some(p => overl(r, p)) && !boxes.some(b => overl(r, b))) { pick = c2; placed.push(r); break; }
+    }
+    labels += `<text x="${cx + pick[0]}" y="${cy + pick[1]}" text-anchor="${pick[2]}" font-size="11.5" fill="var(--ink2)" pointer-events="none">${esc(txt)}</text>`;
+  });
+  box.innerHTML = s + labels + pts + '</svg>';
+  box.querySelectorAll('.pt').forEach(g => {
+    const m = byKey(g.dataset.k);
+    g.onclick = () => openModel(m.key);
+    g.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModel(m.key); } };
+    bindTip(g, () => modelTip(m) + (par.has(m.key) ? '<div class="ok">✓ Pareto sınırında</div>' : ''));
+  });
+  legend('#legend2', rows, true);
+}
+
+/* ---------- tablo ---------- */
+const COLS = [
+  {k: 'name', label: 'Model', get: m => m.display.toLowerCase(), cls: ''},
+  {k: 'group', label: 'Grup', get: m => m.group, cls: ''},
+  {k: 'accuracy', label: 'Doğruluk [%95 GA]', get: m => m.m.accuracy, cls: 'r'},
+  {k: 'macroF1', label: 'Macro-F1', get: m => m.m.macroF1, cls: 'r'},
+  {k: 'err', label: 'Geçersiz', get: m => m.m.errorRate, cls: 'r'},
+  {k: 'ece', label: 'ECE', get: m => m.m.ece, cls: 'r'},
+  {k: 'p50', label: 'p50', get: m => m.m.latP50, cls: 'r'},
+  {k: 'p95', label: 'p95', get: m => m.m.latP95, cls: 'r'},
+  {k: 'cost', label: '$/1.000 karar', get: m => m.m.cost1000, cls: 'r'},
+];
+function renderTable(){
+  const rows = visible();
+  const col = COLS.find(c => c.k === state.sortKey) || COLS[2];
+  rows.sort((a, b) => {
+    const x = col.get(a), y = col.get(b);
+    if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1;
+    return (x < y ? -1 : x > y ? 1 : 0) * state.sortDir;
+  });
+  const head = '<thead><tr><th style="width:34px" aria-label="Karşılaştır"></th>' + COLS.map(c =>
+    `<th class="${c.cls}" aria-sort="${c.k === state.sortKey ? (state.sortDir > 0 ? 'ascending' : 'descending') : 'none'}"><button data-sort="${c.k}">${c.label}<span class="arr">${c.k === state.sortKey ? (state.sortDir > 0 ? '▲' : '▼') : '▲▼'}</span></button></th>`).join('') + '</tr></thead>';
+  const body = '<tbody>' + rows.map(m => {
+    const t = m.m, c = colorOf(m), g = GROUP[m.group] || {name: m.group};
+    const cost = t.cost1000 != null ? usd(t.cost1000, t.tokensEstimated) : (m.local ? '<span style="color:var(--muted)">yerel</span>' : '—');
+    return `<tr class="row" data-k="${esc(m.key)}" tabindex="0"><td><input class="chk" type="checkbox" data-c="${esc(m.key)}" ${state.cmp.includes(m.key) ? 'checked' : ''} aria-label="${esc(m.display)} karşılaştır"></td>` +
+      `<td><div class="mname">${esc(m.display)}<small>${esc(m.model || m.provider)}</small></div></td>` +
+      `<td><span class="badge"><i class="dot ${m.group === 'egitimli' ? 'dia' : ''}" style="background:${c}"></i>${esc(g.name)}</span></td>` +
+      `<td class="r"><b>${pct(t.accuracy)}</b> <span style="color:var(--muted)">[${pct(t.accuracyCI[0], 0)}–${pct(t.accuracyCI[1], 0)}]</span><span class="minibar"><i style="width:${t.accuracy * 100}%;background:${c}"></i><b style="left:${t.accuracyCI[0] * 100}%"></b><b style="left:${t.accuracyCI[1] * 100}%"></b></span></td>` +
+      `<td class="r">${pct(t.macroF1)}</td><td class="r ${t.errorRate > 0 ? 'bad' : ''}">${pct(t.errorRate)}</td>` +
+      `<td class="r">${t.ece == null ? '—' : nf(t.ece * 100) + ' pp'}</td><td class="r">${ms(t.latP50)}</td><td class="r">${ms(t.latP95)}</td><td class="r">${cost}</td></tr>`;
+  }).join('') + '</tbody>';
+  const tbl = $('#tbl');
+  tbl.innerHTML = head + (rows.length ? body : '<tbody><tr><td colspan="10" class="empty">Eşleşen model yok.</td></tr></tbody>');
+  tbl.querySelectorAll('[data-sort]').forEach(b => b.onclick = () => {
+    const k = b.dataset.sort; if (state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = (k === 'name' || k === 'group' || k === 'err' || k === 'ece' || k === 'p50' || k === 'p95' || k === 'cost') ? 1 : -1; }
+    renderTable();
+  });
+  tbl.querySelectorAll('tr.row').forEach(tr => {
+    tr.onclick = e => { if (e.target.closest('.chk')) return; openModel(tr.dataset.k); };
+    tr.onkeydown = e => { if (e.key === 'Enter' && !e.target.closest('.chk')) openModel(tr.dataset.k); };
+  });
+  tbl.querySelectorAll('.chk').forEach(c => c.onchange = () => {
+    const k = c.dataset.c;
+    if (c.checked){ state.cmp.push(k); if (state.cmp.length > 2) state.cmp.shift(); } else state.cmp = state.cmp.filter(x => x !== k);
+    renderTable(); renderCompare();
+  });
+}
+function renderFailed(){
+  const rows = visibleFailed();
+  $('#navfailed').style.display = $('#failed').style.display = failed.length ? '' : 'none';
+  $('#failcards').innerHTML = rows.map(m => {
+    const r = m.reason || m.firstError || m.status || '';
+    return `<div class="failcard"><h4>${esc(m.display)} <span class="tag">${esc((GROUP[m.group] || {}).name || m.group)}</span></h4><p><b class="bad">${esc(m.status === 'failed' ? 'Çalıştırılamadı' : 'Durdu')}</b> — ${esc(hint(r))}</p>` +
+      (m.verified ? `<p style="color:var(--muted);font-size:12px">${esc(m.verified)}</p>` : '') + `<code>${esc(r)}</code></div>`;
+  }).join('') || '<div class="empty">Filtrelere uyan atlanan model yok.</div>';
+}
+function hint(r){
+  if (/HTTP 401/.test(r)) return 'Anahtar bu servis tarafından reddedildi (401). Anahtarın bu API’ye ait ve geçerli olduğundan emin ol; yanlış servisin anahtarı olabilir.';
+  if (/HTTP 402|wallet|credits|PAYMENT/i.test(r)) return 'Anahtar geçerli ama hesapta bakiye/kredi yok (402). Servise kredi yüklenince model otomatik çalışır.';
+  if (/HTTP 403/.test(r)) return 'Erişim yok (403). Hesabın bu modele/betaya erişimi olmayabilir.';
+  if (/HTTP 404/.test(r)) return 'Uç nokta veya model adı bulunamadı (404). configs/models.yaml içindeki base_url/model değerlerini kontrol et.';
+  if (/paket eksik/.test(r)) return 'Gerekli Python paketi kurulu değil. pip install -e ".[all]" ile kurabilirsin.';
+  if (/tanımlı değil/.test(r)) return 'API anahtarı .env dosyasında tanımlı değil.';
+  return 'Ayrıntı aşağıdaki hata metninde.';
+}
+
+/* ---------- karşılaştırma ---------- */
+function renderCompare(){
+  const box = $('#cmp');
+  if (state.cmp.length < 2){ box.classList.remove('on'); box.innerHTML = ''; return; }
+  const [a, b] = state.cmp.map(byKey);
+  let both = 0, onlyA = [], onlyB = [], none = 0;
+  EX.forEach((e, i) => { const x = isCorrect(a, i), y = isCorrect(b, i); if (x && y) both++; else if (x) onlyA.push(i); else if (y) onlyB.push(i); else none++; });
+  const row = (lab, f) => `<tr><td>${lab}</td><td class="r">${f(a)}</td><td class="r">${f(b)}</td></tr>`;
+  const list = (idx, m, other) => idx.slice(0, 12).map(i => `<tr><td style="white-space:normal">${esc(EX[i].x)}</td><td>${esc(LAB[EX[i].t].key)}</td><td>${esc(predName(other, i))}</td></tr>`).join('') || `<tr><td colspan="3" class="empty">Yok</td></tr>`;
+  box.innerHTML = `<div class="sechead"><div><h2>Karşılaştırma</h2><p class="hint">Aynı ${EX.length} örnek üzerinde iki model.</p></div><button class="iconbtn" id="cmpclear">Temizle</button></div>` +
+    `<div class="grid2"><div class="tablewrap" style="box-shadow:none"><table><thead><tr><th></th><th class="r">${esc(clip(a.display, 28))}</th><th class="r">${esc(clip(b.display, 28))}</th></tr></thead><tbody>` +
+    row('Doğruluk', m => pct(m.m.accuracy)) + row('Macro-F1', m => pct(m.m.macroF1)) + row('Geçersiz yanıt', m => pct(m.m.errorRate)) + row('ECE', m => m.m.ece == null ? '—' : nf(m.m.ece * 100) + ' pp') +
+    row('Gecikme p50', m => ms(m.m.latP50)) + row('Gecikme p95', m => ms(m.m.latP95)) + row('$/1.000 karar', m => m.m.cost1000 == null ? '—' : usd(m.m.cost1000)) +
+    `</tbody></table></div><div class="card" style="box-shadow:none"><h4>Aynı mı, farklı mı?</h4>` +
+    `<p>İkisi de doğru: <b>${both}</b> · ikisi de yanlış: <b>${none}</b></p><p>Yalnız <b>${esc(clip(a.display, 24))}</b> doğru: <b>${onlyA.length}</b> · yalnız <b>${esc(clip(b.display, 24))}</b> doğru: <b>${onlyB.length}</b></p>` +
+    `<p class="hint">Model hataları ne kadar farklı dağılıyorsa, ikisini birlikte kullanmak (örn. ucuz model + belirsizlikte güçlü model) o kadar anlamlıdır.</p></div></div>` +
+    `<div class="grid2" style="margin-top:14px"><div><h4>Yalnız ${esc(clip(a.display, 30))} doğru</h4><div class="tablewrap" style="box-shadow:none"><table class="errtable"><thead><tr><th>Mesaj</th><th>Gerçek</th><th>Diğer model</th></tr></thead><tbody>${list(onlyA, a, b)}</tbody></table></div></div>` +
+    `<div><h4>Yalnız ${esc(clip(b.display, 30))} doğru</h4><div class="tablewrap" style="box-shadow:none"><table class="errtable"><thead><tr><th>Mesaj</th><th>Gerçek</th><th>Diğer model</th></tr></thead><tbody>${list(onlyB, b, a)}</tbody></table></div></div></div>`;
+  box.classList.add('on');
+  $('#cmpclear').onclick = () => { state.cmp = []; renderTable(); renderCompare(); };
+}
+function predName(m, i){ const p = m.preds[i]; return !p || p[0] < 0 || p[3] ? '— (hata)' : LAB[p[0]].key; }
+
+/* ---------- model detayı (çekmece) ---------- */
+let lastFocus = null;
+function openModel(key, noHash){
+  const m = byKey(key); if (!m) return;
+  state.open = key; state.cell = null; state.errOnly = true; state.errQ = '';
+  lastFocus = document.activeElement;
+  $('#dtitle').textContent = m.display;
+  renderDrawer(m);
+  $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden', 'false');
+  $('#dbody').scrollTop = 0; $('#dclose').focus();
+  if (!noHash) history.replaceState(null, '', '#m=' + encodeURIComponent(key));
+}
+function closeDrawer(){
+  state.open = null; hideTip();
+  $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); $('#drawer').setAttribute('aria-hidden', 'true');
+  history.replaceState(null, '', location.pathname + location.search);
+  if (lastFocus && lastFocus.focus) try { lastFocus.focus(); } catch (e) {}
+}
+function stepModel(d){
+  const list = ALL.filter(m => m.m && state.groups.has(m.group));
+  if (!list.length) return; let i = list.findIndex(m => m.key === state.open); if (i < 0) i = 0;
+  openModel(list[(i + d + list.length) % list.length].key);
+}
+function failDrawer(m){
+  const r = m.reason || m.firstError || '';
+  return `<section><span class="pill">${esc((GROUP[m.group] || {}).name || m.group)}</span><span class="pill">${esc(m.provider)}</span>${m.model ? `<span class="pill">${esc(m.model)}</span>` : ''}</section>` +
+    `<section><h4 class="bad">Bu model puanlanamadı</h4><p>${esc(hint(r))}</p><div class="failcard" style="border-color:var(--border)"><code>${esc(r)}</code></div>` +
+    (m.verified ? `<p class="hint">${esc(m.verified)}</p>` : '') + (m.notes ? `<p class="hint">${esc(m.notes)}</p>` : '') + '</section>';
+}
+function mcard(k, v, s){ return `<div class="mc"><div class="k">${k}</div><div class="v">${v}</div>${s ? `<div class="s">${s}</div>` : ''}</div>`; }
+function renderDrawer(m){
+  const body = $('#dbody');
+  if (!m.m){ body.innerHTML = failDrawer(m); return; }
+  const t = m.m, g = GROUP[m.group] || {name: m.group};
+  let h = `<section style="margin-top:0"><span class="pill" style="border-color:${colorOf(m)};color:var(--ink)">${esc(g.name)}</span><span class="pill">${esc(m.provider)}</span>${m.model ? `<span class="pill">${esc(m.model)}</span>` : ''}` +
+    (t.confKinds.length ? t.confKinds.map(k => `<span class="pill">güven: ${KINDS[k] || k}</span>`).join('') : '<span class="pill">olasılık yok</span>') + `</section>`;
+  if (m.notes) h += `<p class="hint" style="margin-top:-6px">${esc(m.notes)}</p>`;
+  h += '<section><h4>Özet ölçüler</h4><div class="mgrid">' +
+    mcard('Doğruluk', pct(t.accuracy), `%95 GA ${pct(t.accuracyCI[0])}–${pct(t.accuracyCI[1])}`) +
+    mcard('Macro-F1', pct(t.macroF1), `%95 GA ${pct(t.macroF1CI[0], 0)}–${pct(t.macroF1CI[1], 0)}`) +
+    mcard('Geçersiz yanıt', pct(t.errorRate), `${t.n - t.nOk} / ${t.n} istek başarısız`) +
+    mcard('Gecikme p50', ms(t.latP50), `p95 ${ms(t.latP95)} · p99 ${ms(t.latP99)}`) +
+    mcard('Maliyet / 1.000 karar', t.cost1000 == null ? (m.local ? 'yerel' : '—') : usd(t.cost1000, t.tokensEstimated), t.tokIn != null ? `ort. ${nf(t.tokIn, 0)} giriş / ${nf(t.tokOut || 0, 0)} çıkış token${t.tokensEstimated ? ' (tahmin)' : ''}` : (m.local ? 'API ücreti yok (altyapı hariç)' : 'token bilgisi yok')) +
+    mcard('Kalibrasyon (ECE)', t.ece == null ? '—' : nf(t.ece * 100) + ' pp', t.brier == null ? '' : `Brier ${nf(t.brier, 3)}`) +
+    mcard('Doğruluk @%80 kapsama', pct(t.accAtCov80), `en emin %80'in doğruluğu`) +
+    mcard('Kapsama @%95 doğruluk', t.covAtAcc95 == null ? '—' : pct(t.covAtAcc95, 0), 'doğruluk ≥%95 kalacak en geniş kapsama') +
+    '</div></section>';
+  if (m.vsRef) h += `<section><h4>Referans modele göre (${esc((byKey(m.vsRef.reference) || {}).display || m.vsRef.reference)})</h4><p>Eşlenmiş fark <b>${pp(m.vsRef.diff)}</b> · %95 aralık ${pp(m.vsRef.lo)} … ${pp(m.vsRef.hi)} → <b>${m.vsRef.lo > 0 ? 'referanstan anlamlı iyi' : m.vsRef.hi < 0 ? 'referanstan anlamlı kötü' : 'referansla ayırt edilemez'}</b></p></section>`;
+  else if (m.key === ref) h += '<section><p class="hint">Bu model eşlenmiş karşılaştırmalarda <b>referans</b> olarak kullanıldı.</p></section>';
+  h += '<section><h4>Sınıf bazında başarı</h4>' + classTable(m) + '</section>';
+  h += '<section><h4>Karışıklık matrisi</h4><p class="hint">Satır: gerçek sınıf, sütun: tahmin. Hücreye tıkla: o hataları aşağıda filtrele.</p><div style="overflow-x:auto">' + confusion(m) + '</div></section>';
+  h += '<section><h4>Gecikme dağılımı</h4>' + latHist(m) + '</section>';
+  h += '<section><h4>Güven kalibrasyonu</h4>' + (t.nProb ? '<p class="hint">Modelin söylediği güven ile gerçek doğruluk. Noktalar köşegende ise model dürüsttür; köşegenin altı aşırı özgüvendir.</p>' + reliab(m) : '<p class="hint">Bu model olasılık/güven değeri vermiyor.</p>') + '</section>';
+  const sl = Object.entries(m.slices || {});
+  if (sl.length) h += '<section><h4>Zor örnek dilimleri</h4>' + sl.map(([k, v]) => bar1(SLICE[k] || k, v.accuracy, `n=${v.n}`, colorOf(m))).join('') + '<p class="hint">Küçük örneklemler; yalnızca yön gösterir.</p></section>';
+  if (m.robustness && m.robustness.accShuffled != null){
+    const r = m.robustness;
+    h += `<section><h4>Seçenek sırası dayanıklılığı</h4><p>Varsayılan sıra <b>${pct(r.accCanonical)}</b> → karıştırılmış sıra <b>${pct(r.accShuffled)}</b> (${pp(r.delta)}). Aynı etiketi seçme oranı: <b>${pct(r.consistency, 0)}</b>.</p></section>`;
+  }
+  h += '<section><h4>Hatalı tahminler</h4><div id="errbox"></div></section>';
+  h += '<section><h4>Teknik notlar</h4><div class="mgrid">' +
+    mcard('Kurulum / yükleme', m.setupS == null ? '—' : nf(m.setupS, 1) + ' sn', 'model yükleme, eğitim') +
+    mcard('İlk (soğuk) istek', ms(m.coldMs), 'ısınma isteği; p50/p95 dışında') +
+    mcard('Eşzamanlılık', m.concurrency == null ? '—' : String(m.concurrency), 'aynı anda istek') +
+    mcard('Fiyat (g/ç, $/1M token)', m.price.in == null ? '—' : `${nf(m.price.in, 3)} / ${nf(m.price.out || 0, 3)}`, m.price.note || '') +
+    '</div>' + (m.verified ? `<p class="hint">Doğrulama: ${esc(m.verified)}</p>` : '') + '</section>';
+  body.innerHTML = h;
+  bindConfusion(m); renderErrors(m);
+  body.querySelectorAll('.tt').forEach(el => bindTip(el, () => el.dataset.tip));
+}
+function bar1(label, v, extra, color){
+  return `<div style="display:grid;grid-template-columns:170px 1fr 90px;gap:10px;align-items:center;margin:5px 0"><span style="color:var(--ink2)">${esc(label)}</span><span style="background:var(--grid);height:10px;border-radius:5px;position:relative"><i style="position:absolute;left:0;top:0;bottom:0;width:${Math.max(0, v) * 100}%;background:${color};border-radius:5px"></i></span><span style="text-align:right;font-variant-numeric:tabular-nums"><b>${pct(v, 0)}</b> <span style="color:var(--muted)">${esc(extra || '')}</span></span></div>`;
+}
+function classTable(m){
+  const pc = m.m.perClass;
+  return '<div class="tablewrap" style="box-shadow:none"><table><thead><tr><th>Sınıf</th><th class="r">Örnek</th><th class="r">Precision</th><th class="r">Recall</th><th class="r">F1</th></tr></thead><tbody>' +
+    LAB.map(l => { const c = pc[l.key]; if (!c) return ''; return `<tr><td><span class="tt" data-tip="${esc(l.desc)}" tabindex="0">${esc(l.key)}</span></td><td class="r">${c.support}</td><td class="r">${pct(c.precision, 0)}</td><td class="r">${pct(c.recall, 0)}</td><td class="r"><b>${pct(c.f1, 0)}</b><span class="minibar" style="width:70px"><i style="width:${c.f1 * 100}%;background:${colorOf(m)}"></i></span></td></tr>`; }).join('') + '</tbody></table></div>';
+}
+function confusion(m){
+  const cm = m.m.confusion;
+  const ramp = ['--q1', '--q2', '--q3', '--q4', '--q5', '--q6', '--q7'];
+  let h = '<table class="cm"><thead><tr><th></th>' + LAB.map(l => `<th class="col"><div>${esc(l.key)}</div></th>`).join('') + '<th class="col"><div>geçersiz</div></th></tr></thead><tbody>';
+  cm.forEach((row, i) => {
+    const tot = row.reduce((a, b) => a + b, 0) || 1;
+    h += `<tr><th class="row">${esc(LAB[i].key)}</th>` + row.map((v, j) => {
+      const f = v / tot, step = v ? Math.min(6, Math.floor(f * 6.99)) : 0;
+      const bg = v ? `var(${ramp[Math.max(1, step)]})` : 'var(--chip)';
+      const fg = v && step >= 3 ? '#fff' : 'var(--ink)';
+      const jl = j < K ? LAB[j].key : 'geçersiz';
+      return `<td class="c" data-i="${i}" data-j="${j}" style="background:${bg};color:${fg}">${v || ''}</td>`;
+    }).join('') + '</tr>';
+  });
+  return h + '</tbody></table>';
+}
+function bindConfusion(m){
+  document.querySelectorAll('.cm td.c').forEach(td => {
+    const i = +td.dataset.i, j = +td.dataset.j, v = m.m.confusion[i][j];
+    const tot = m.m.confusion[i].reduce((a, b) => a + b, 0) || 1;
+    bindTip(td, () => `<b>${esc(LAB[i].key)} → ${j < K ? esc(LAB[j].key) : 'geçersiz'}</b><div>${v} örnek · gerçek sınıfın ${pct(v / tot, 0)}'${j === i ? 'i doğru' : 'i bu şekilde'}</div>`);
+    td.onclick = () => { state.cell = (state.cell && state.cell.i === i && state.cell.j === j) ? null : {i, j}; state.errOnly = true; document.querySelectorAll('.cm td.c').forEach(x => x.classList.remove('sel')); if (state.cell) td.classList.add('sel'); renderErrors(m); };
+  });
+}
+function latHist(m){
+  const v = m.preds.filter(p => p && !p[3] && p[2] != null).map(p => p[2]);
+  if (!v.length) return '<p class="hint">Gecikme verisi yok.</p>';
+  const lo = Math.min(...v), hi = Math.max(...v), nb = 14;
+  const l0 = Math.log10(Math.max(lo, .1)), l1 = Math.log10(Math.max(hi, lo * 1.01 + .01));
+  const bins = new Array(nb).fill(0);
+  v.forEach(x => { let b = Math.floor((Math.log10(Math.max(x, .1)) - l0) / (l1 - l0 + 1e-9) * nb); bins[Math.min(nb - 1, Math.max(0, b))]++; });
+  const W = 700, H = 150, L = 8, R = 8, T = 10, B = 34, mx = Math.max(...bins);
+  const sx = x => L + (W - L - R) * (Math.log10(Math.max(x, .1)) - l0) / (l1 - l0 + 1e-9);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gecikme histogramı">`;
+  const bw = (W - L - R) / nb;
+  bins.forEach((c, i) => { const h2 = (H - T - B) * c / mx; s += `<rect class="tt" data-tip="${c} istek" x="${L + i * bw + 1}" y="${H - B - h2}" width="${bw - 2}" height="${h2}" rx="3" fill="${colorOf(m)}" opacity=".85"/>`; });
+  s += `<line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--axis)"/>`;
+  [['p50', m.m.latP50], ['p95', m.m.latP95], ['p99', m.m.latP99]].forEach(([n, x], i) => { if (x == null) return; const px = sx(x); s += `<line x1="${px}" x2="${px}" y1="${T}" y2="${H - B}" stroke="var(--ink)" stroke-dasharray="3 3"/><text x="${px + 3}" y="${T + 10 + i * 12}" font-size="11" fill="var(--ink2)">${n} ${ms(x)}</text>`; });
+  s += `<text x="${L}" y="${H - 14}" font-size="11" fill="var(--muted)">${ms(lo)}</text><text x="${W - R}" y="${H - 14}" text-anchor="end" font-size="11" fill="var(--muted)">${ms(hi)}</text><text x="${W / 2}" y="${H - 2}" text-anchor="middle" font-size="11" fill="var(--muted)">log ölçek</text></svg>`;
+  return s;
+}
+function reliab(m){
+  const bins = Array.from({length: 10}, () => ({n: 0, c: 0, s: 0}));
+  m.preds.forEach((p, i) => { if (!p || p[3] || p[1] == null) return; const b = Math.min(9, Math.floor(p[1] * 10)); bins[b].n++; bins[b].s += p[1]; bins[b].c += isCorrect(m, i) ? 1 : 0; });
+  const S = 250, P = 34, mx = Math.max(...bins.map(b => b.n)) || 1;
+  const sx = x => P + (S - P - 10) * x, sy = y => S - P - (S - P - 10) * y;
+  let s = `<svg viewBox="0 0 ${S + 150} ${S}" style="max-width:420px" role="img" aria-label="Güvenilirlik diyagramı">`;
+  [0, .5, 1].forEach(t => { s += `<line x1="${sx(0)}" x2="${sx(1)}" y1="${sy(t)}" y2="${sy(t)}" stroke="var(--grid)"/><line x1="${sx(t)}" x2="${sx(t)}" y1="${sy(0)}" y2="${sy(1)}" stroke="var(--grid)"/><text x="${sx(t)}" y="${S - P + 16}" text-anchor="middle" font-size="10" fill="var(--muted)">%${t * 100}</text><text x="${P - 6}" y="${sy(t) + 3}" text-anchor="end" font-size="10" fill="var(--muted)">%${t * 100}</text>`; });
+  s += `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(1)}" y2="${sy(1)}" stroke="var(--muted)" stroke-dasharray="4 3"/>`;
+  s += `<text x="${(sx(0) + sx(1)) / 2}" y="${S - 4}" text-anchor="middle" font-size="10.5" fill="var(--ink2)">Model güveni</text><text transform="translate(9 ${(sy(0) + sy(1)) / 2}) rotate(-90)" text-anchor="middle" font-size="10.5" fill="var(--ink2)">Gerçek doğruluk</text>`;
+  bins.forEach((b, i) => { if (!b.n) return; const cx = sx(b.s / b.n), cy = sy(b.c / b.n), r = 3 + 7 * Math.sqrt(b.n / mx);
+    s += `<circle class="tt" tabindex="0" data-tip="Güven ${pct(i / 10, 0)}–${pct((i + 1) / 10, 0)}: ${b.n} örnek · gerçek doğruluk ${pct(b.c / b.n, 0)} · ort. güven ${pct(b.s / b.n, 0)}" cx="${cx}" cy="${cy}" r="${r}" fill="${colorOf(m)}" stroke="var(--surface)" stroke-width="1.5"/>`; });
+  s += `<text x="${S + 8}" y="40" font-size="11" fill="var(--ink2)">Nokta boyutu =</text><text x="${S + 8}" y="54" font-size="11" fill="var(--ink2)">örnek sayısı</text></svg>`;
+  return s;
+}
+function renderErrors(m){
+  const box = $('#errbox'); if (!box) return;
+  const c = state.cell;
+  let idx = EX.map((_, i) => i).filter(i => {
+    const p = m.preds[i]; const ok = isCorrect(m, i);
+    if (state.errOnly && ok) return false;
+    if (c){ const pj = !p || p[3] || p[0] < 0 ? K : p[0]; if (EX[i].t !== c.i || pj !== c.j) return false; }
+    if (state.errQ && !EX[i].x.toLowerCase().includes(state.errQ)) return false;
+    return true;
+  });
+  const total = idx.length; idx = idx.slice(0, 60);
+  box.innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px"><div class="seg"><button data-eo="1" aria-pressed="${state.errOnly}">Yalnız hatalar</button><button data-eo="0" aria-pressed="${!state.errOnly}">Tüm örnekler</button></div>` +
+    `<input class="search" id="errq" type="search" placeholder="Mesajda ara…" value="${esc(state.errQ)}" aria-label="Mesajlarda ara" style="max-width:240px">` +
+    (c ? `<span class="pill">${esc(LAB[c.i].key)} → ${c.j < K ? esc(LAB[c.j].key) : 'geçersiz'} <button class="iconbtn" id="clrcell" style="height:22px;padding:0 8px;margin-left:6px">✕</button></span>` : '') +
+    `<span class="hint">${total} örnek${total > 60 ? ' (ilk 60 gösteriliyor)' : ''}</span></div>` +
+    (idx.length ? `<div class="tablewrap" style="box-shadow:none"><table class="errtable"><thead><tr><th>Mesaj</th><th>Gerçek</th><th>Tahmin</th><th class="r">Güven</th><th class="r">Süre</th></tr></thead><tbody>` +
+      idx.map(i => { const p = m.preds[i] || [], ok = isCorrect(m, i), err = p[3];
+        return `<tr><td class="t">${esc(EX[i].x)}${EX[i].g.length ? ' ' + EX[i].g.map(g => `<span class="tag">${esc(SLICE[g] || g)}</span>`).join(' ') : ''}</td><td>${esc(LAB[EX[i].t].key)}</td>` +
+          `<td class="${ok ? 'ok' : 'bad'}">${err ? 'hata: ' + esc(clip(err, 60)) : esc(predName(m, i))}</td><td class="r">${p[1] == null ? '—' : pct(p[1], 0)}</td><td class="r">${ms(p[2])}</td></tr>`; }).join('') + '</tbody></table></div>'
+      : '<div class="empty">Bu filtreyle örnek yok.</div>');
+  box.querySelectorAll('[data-eo]').forEach(b => b.onclick = () => { state.errOnly = b.dataset.eo === '1'; renderErrors(m); });
+  const q = $('#errq'); q.oninput = e => { state.errQ = e.target.value.trim().toLowerCase(); renderErrors(m); const q2 = $('#errq'); q2.focus(); q2.setSelectionRange(q2.value.length, q2.value.length); };
+  const cl = $('#clrcell'); if (cl) cl.onclick = () => { state.cell = null; document.querySelectorAll('.cm td.c').forEach(x => x.classList.remove('sel')); renderErrors(m); };
+}
+
+/* ---------- yöntem ---------- */
+function renderMethod(){
+  const s = D.meta.settings, e = D.meta.environment;
+  $('#methodbody').innerHTML =
+    '<dl class="gl"><dt>Doğruluk (sıkı)</dt><dd>Doğru etiket sayısı / tüm istekler. Başarısız veya geçersiz yanıtlar yanlış sayılır; oranı ayrıca "Geçersiz" sütununda görünür.</dd>' +
+    '<dt>Macro-F1</dt><dd>Her sınıfın F1 değerinin ortalaması. Dengesiz sınıflarda doğruluktan daha dürüsttür.</dd>' +
+    '<dt>%95 GA</dt><dd>Örnekler üzerinde 2000 bootstrap ile güven aralığı. Aralıklar çakışıyorsa kesin sıralama yapılamaz.</dd>' +
+    '<dt>ECE / Brier</dt><dd>Kalibrasyon: modelin söylediği güven gerçek doğrulukla uyuşuyor mu? Düşük iyi. Üretken LLM\'lerde güven modelin yazdığı sayıdır (sözel), karar API\'lerinde ve yerel modellerde gerçek olasılıktır: doğrudan kıyaslanmaz.</dd>' +
+    '<dt>Doğruluk@%80 kapsama</dt><dd>Model yalnız en emin olduğu %80 örnekte karar verse doğruluğu ne olur? Belirsizlikte insana/güçlü modele aktarma senaryosu için.</dd>' +
+    '<dt>p50 / p95 / p99</dt><dd>İstemci tarafı uçtan uca gecikme (ms). Isınma isteği hariç; ilk (soğuk) istek ayrıca verilir.</dd>' +
+    '<dt>$/1.000 karar</dt><dd>Yanıttan okunan gerçek token kullanımı × tarife. API token vermezse tahmindir (~). Yerel modellerde API ücreti yoktur (altyapı maliyeti hariç).</dd></dl>' +
+    '<ul><li><b>Veri:</b> ' + esc(D.meta.dataset.name) + ' · ' + D.meta.dataset.n_eval + ' değerlendirme örneği · parmak izi <code>' + esc(D.meta.dataset.fingerprint) + '</code>. Eğitimli modeller yalnız <code>train</code> bölümünü görür; few-shot örnekleri de oradan gelir. Değerlendirme hiçbir zaman <code>train</code> üzerinde yapılmaz.</li>' +
+    '<li><b>Aynı görev, doğal arayüz:</b> Karar API\'leri kendi <code>choice</code> şemasıyla, üretken LLM\'ler aynı Türkçe talimat + JSON şemasıyla, encoder modeller etiketlerin kısa Türkçe adlarıyla çağrılır. Farkın bir kısmı arayüz/istem farkından gelebilir.</li>' +
+    '<li><b>Gecikme kontrollü bir donanım yarışı değildir:</b> ağ, konum, eşzamanlılık ve sunucu yükü etkiler; yerel modeller bu makinenin CPU\'sunda ölçüldü.</li>' +
+    '<li><b>Ayarlar:</b> tohum ' + s.seed + ' · etiket başına few-shot ' + s.shots_per_label + ' · seçenek sırası testi ' + (s.robustness ? 'evet' : 'hayır') + ' · istem sürümü ' + esc(s.prompt_version) + '</li>' +
+    '<li><b>Ortam:</b> Python ' + esc(e.python) + ' · ' + esc(e.platform) + ' · clfbench ' + esc(D.meta.version) + (e.git_commit ? ' · git ' + esc(e.git_commit) : '') + '</li></ul>';
+  $('#foot').textContent = 'clfbench ' + D.meta.version + ' ile üretildi. Bu dosya tek başına çalışır (internet gerekmez); veriler içine gömülüdür.';
+}
+
+/* ---------- CSV ---------- */
+function exportCSV(){
+  const head = ['model', 'grup', 'model_id', 'dogruluk', 'dogruluk_ga_alt', 'dogruluk_ga_ust', 'macro_f1', 'gecersiz_oran', 'ece', 'brier', 'p50_ms', 'p95_ms', 'p99_ms', 'maliyet_1000_usd'];
+  const rows = scored.map(m => { const t = m.m; return [m.display, m.group, m.model, t.accuracy, t.accuracyCI[0], t.accuracyCI[1], t.macroF1, t.errorRate, t.ece, t.brier, t.latP50, t.latP95, t.latP99, t.cost1000]; });
+  const q = v => v == null ? '' : /[",\n;]/.test(String(v)) ? '"' + String(v).replace(/"/g, '""') + '"' : v;
+  const csv = '﻿' + [head, ...rows].map(r => r.map(q).join(',')).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8'}));
+  a.download = (D.meta.run_id || 'sonuclar') + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------- başlat ---------- */
+function renderAll(full){
+  renderRank(); renderScatter(); renderTable(); renderFailed(); renderCompare();
+}
+function init(){
+  renderHeader(); renderKPIs(); renderFilters(); renderMethod();
+  const sel = $('#rankmetric');
+  sel.innerHTML = Object.entries(RANKS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
+  sel.onchange = () => { state.rank = sel.value; renderRank(); };
+  const setX = x => { state.x = x; $('#xlat').setAttribute('aria-pressed', x === 'lat'); $('#xcost').setAttribute('aria-pressed', x === 'cost'); renderScatter(); };
+  $('#xlat').onclick = () => setX('lat'); $('#xcost').onclick = () => setX('cost');
+  $('#csvbtn').onclick = exportCSV;
+  $('#dclose').onclick = closeDrawer; $('#scrim').onclick = closeDrawer;
+  $('#dprev').onclick = () => stepModel(-1); $('#dnext').onclick = () => stepModel(1);
+  document.addEventListener('keydown', e => {
+    if (!state.open) return;
+    if (e.key === 'Escape') closeDrawer();
+    else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) stepModel(e.key === 'ArrowRight' ? 1 : -1);
+  });
+  renderAll();
+  const hm = /[#&]m=([^&]+)/.exec(location.hash); if (hm) openModel(decodeURIComponent(hm[1]), true);
+  const hc = /[#&]cmp=([^,&]+),([^&]+)/.exec(location.hash); if (hc){ state.cmp = [decodeURIComponent(hc[1]), decodeURIComponent(hc[2])].filter(byKey); renderTable(); renderCompare(); }
+  window.__clfReady = true;
+}
+init();
+})();
+</script>
+</body>
+</html>

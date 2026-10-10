@@ -1,12 +1,12 @@
 """Rapor üretimi: Markdown + tek dosyalık HTML (grafikler gömülü) + PNG grafikler."""
 from __future__ import annotations
 
-import base64
 import html as _html
 import json
 from pathlib import Path
 
 from . import charts
+from .dashboard import write_dashboard
 
 GROUP_TR = {"karar-api": "Karar API", "uretken-llm": "Üretken LLM", "encoder": "Encoder", "egitimli": "Eğitimli"}
 SLICE_TR = {"ascii": "Türkçe karaktersiz (ascii)", "typo": "Yazım hatalı", "short": "Çok kısa (≤4 sözcük)",
@@ -273,51 +273,6 @@ def render_markdown(summary, secs, run) -> str:
     return "\n".join(out)
 
 
-_CSS = """
-:root{--bg:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--accent:#2a78d6;}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--grid:#2c2c2a;--accent:#3987e5;}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:1080px;margin:0 auto;padding:28px 16px 64px}h1{font-size:26px;margin:0 0 4px}h2{font-size:19px;margin:34px 0 10px}
-.meta{color:var(--ink2);margin:0 0 18px}p{margin:8px 0}code{background:var(--grid);padding:1px 5px;border-radius:4px;font-size:.92em}
-.tablewrap{overflow-x:auto;margin:12px 0;border:1px solid var(--grid);border-radius:8px;background:var(--surface)}
-table{border-collapse:collapse;width:100%;font-size:13.5px}th,td{padding:7px 10px;border-bottom:1px solid var(--grid);white-space:nowrap}
-th{font-weight:600;color:var(--ink2);text-align:left;position:sticky;top:0;background:var(--surface)}td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
-tr:last-child td{border-bottom:0}figure{margin:12px 0;padding:10px;background:#fcfcfb;border:1px solid var(--grid);border-radius:8px}
-figure img{max-width:100%;height:auto;display:block}ul{padding-left:20px}
-"""
-
-
-def _inline(s: str) -> str:
-    """Minimal Markdown -> HTML: **kalın**, `kod`."""
-    s = _html.escape(s)
-    import re
-
-    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
-    return re.sub(r"`(.+?)`", r"<code>\1</code>", s)
-
-
-def render_html(summary, secs, run, chart_dir: Path) -> str:
-    parts = [f"<!doctype html><html lang='tr'><head><meta charset='utf-8'>"
-             f"<meta name='viewport' content='width=device-width,initial-scale=1'>"
-             f"<title>Classifier LLM karşılaştırma raporu</title><style>{_CSS}</style></head><body><main>",
-             f"<h1>Classifier LLM karşılaştırma raporu</h1><p class='meta'>Koşu <code>{_html.escape(summary['run_id'])}</code> · {run['started']}</p>"]
-    for s in secs:
-        parts.append(f"<h2>{_html.escape(s['title'])}</h2>")
-        bullets = [p for p in s.get("paras", []) if p.startswith("- ")]
-        plain = [p for p in s.get("paras", []) if not p.startswith("- ")]
-        for p in plain:
-            parts.append(f"<p>{_inline(p)}</p>")
-        if bullets:
-            parts.append("<ul>" + "".join(f"<li>{_inline(b[2:])}</li>" for b in bullets) + "</ul>")
-        if s.get("chart"):
-            data = base64.b64encode((chart_dir / s["chart"]).read_bytes()).decode()
-            parts.append(f"<figure><img alt='{_html.escape(s['title'])}' src='data:image/png;base64,{data}'></figure>")
-        if s.get("table"):
-            parts.append(s["table"].html())
-    parts.append("</main></body></html>")
-    return "".join(parts)
-
-
 def generate_report(out_dir: Path) -> Path:
     out_dir = Path(out_dir)
     summary = json.loads((out_dir / "summary.json").read_text(encoding="utf-8"))
@@ -344,5 +299,5 @@ def generate_report(out_dir: Path) -> Path:
             files["robustness"] = "robustness.png"
     secs = build_sections(summary, run, files)
     (out_dir / "report.md").write_text(render_markdown(summary, secs, run), encoding="utf-8")
-    (out_dir / "report.html").write_text(render_html(summary, secs, run, chart_dir), encoding="utf-8")
+    write_dashboard(out_dir)  # etkileşimli panel (tek dosya, çevrimdışı)
     return out_dir / "report.html"

@@ -41,7 +41,8 @@ GUIDES: list[KeyGuide] = [
              "d1:free metin için ücretsiz katman sunuyor olabilir; model adını configs/models.yaml'da 'd1:free' yapabilirsin."),
     KeyGuide("TYPESAFE_API_KEY", "TypeSafe (Jev)",
              "https://docs.typesafe.ai",
-             "Dokümanda anahtar paneli adresi verilmiyor: TypeSafe sitesinden hesap aç veya sales@typesafe.ai ile iletişime geç.",
+             "TypeSafe konsolunda API Keys sayfasından anahtar oluştur (docs.typesafe.ai). Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. "
+             "Anahtarı Vercel AI Gateway / Zuplo gibi bir aracıdan aldıysan api.typesafe.ai 401 verir: configs/models.yaml içinde jev girdisinin base_url'ini o servise çevir.",
              "Ücretsiz katman belirtilmemiş; tarife 0,042 USD / 1M giriş tokenı."),
     KeyGuide("ZOODATA_API_KEY", "ZooData (Instinct 27B / 4B)",
              "https://zoodata.ai/en/api-keys",

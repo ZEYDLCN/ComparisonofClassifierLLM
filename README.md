@@ -93,7 +93,7 @@ Hepsi için kısa özet `python -m clfbench keys` ile de görülebilir. Anahtar�
 | `OPENAI_API_KEY` | OpenAI → **Decisions** (gpt-6-luna) | <https://platform.openai.com/api-keys> | Decisions public beta; hesabında erişim yoksa 403/404 döner |
 | `GEMINI_API_KEY` | Google → Gemini 3.5 Flash-Lite | <https://aistudio.google.com/apikey> | Ücretsiz katman olabilir (düşük hız limiti) |
 | `OPENROUTER_API_KEY` | OpenRouter → GPT-6 Luna (sohbet), DeepSeek V4 Flash, Qwen3.8 Flash | <https://openrouter.ai/keys> | Tek anahtar, çok model; Credits yükle |
-| `TYPESAFE_API_KEY` | TypeSafe → **Jev** | <https://docs.typesafe.ai> | Dokümanda panel adresi yok: TypeSafe sitesinden hesap aç veya sales@typesafe.ai |
+| `TYPESAFE_API_KEY` | TypeSafe → **Jev** | <https://docs.typesafe.ai> | TypeSafe konsolundaki *API Keys* sayfası. Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. **Vercel AI Gateway / Zuplo gibi aracı servisten alınan anahtar `api.typesafe.ai`'de 401 verir**; o durumda `configs/models.yaml` → `jev` → `base_url`'i o servisin adresine çevir |
 | `ZOODATA_API_KEY` | ZooData → **Instinct** 27B/4B | <https://zoodata.ai/en/api-keys> | **En az 20 USD bakiye** yüklemek gerekir; istemezsen bu modelleri atla |
 
 Yerel modeller (TF-IDF, embedding, NLI, GLiClass, Laya, SetFit) **anahtar istemez**; ilk çalıştırmada modeli
@@ -123,6 +123,20 @@ Fiyatlar 10 Ekim 2026 itibarıyla resmî dokümanlardan ve OpenRouter model list
 Raporun maliyeti = **yanıttan okunan gerçek token kullanımı × `models.yaml` tarifesi** (API token vermezse tahmin edilir ve `~` ile işaretlenir).
 
 ---
+
+## Etkileşimli panel (`report.html`)
+
+Her koşu `results/<koşu>/report.html` olarak **tek dosyalık, çevrimdışı çalışan etkileşimli bir panel** üretir (çift tıkla tarayıcıda aç):
+
+- **Üstte özet kartları:** en doğru, en hızlı, en ucuz model; kaç model puanlandı/atlandı.
+- **Sıralama grafiği:** ölçüt seçilebilir (doğruluk, macro-F1, ECE, gecikme, maliyet); %95 güven aralığı çizgisiyle. Çubuğa tıkla → model detayı.
+- **Hız–maliyet dağılım grafiği:** doğruluk ↔ gecikme veya maliyet, Pareto sınırı, üzerine gelince ayrıntı.
+- **Sıralanabilir tablo + filtreler:** grup (Karar API / Üretken LLM / Encoder / Eğitimli) ve arama; satıra tıkla → detay; iki modeli işaretle → **yan yana karşılaştırma** ve hangi örnekte biri doğru diğeri yanlış.
+- **Model detayı (yan panel):** tüm ölçüler, sınıf bazında P/R/F1, **etkileşimli karışıklık matrisi** (hücreye tıkla → o hatalar listelenir), gecikme dağılımı, güven kalibrasyonu diyagramı, zor örnek dilimleri, seçenek sırası dayanıklılığı, **hatalı tahminlerin tam listesi** (arama/filtre), teknik notlar. `←` `→` ile modeller arasında gez, `Esc` ile kapat.
+- **Atlanan modeller:** neden çalışmadığı (401 anahtar reddedildi, 402 bakiye yok, paket eksik...) ve çözümü.
+- Koyu/açık tema, CSV dışa aktarma, klavye erişimi, mobil uyum. Bir modele doğrudan bağlantı: `report.html#m=<model_anahtarı>`.
+
+Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnek: [examples/tam-kosu](examples/tam-kosu/report.html).
 
 ## Rapor neleri içerir?
 
