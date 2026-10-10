@@ -142,7 +142,7 @@ Her koşu `results/<koşu>/report.html` olarak **tek dosyalık, çevrimdışı �
 - **Atlanan modeller:** neden çalışmadığı (401 anahtar reddedildi, 402 bakiye yok, paket eksik...) ve çözümü.
 - Koyu/açık tema, CSV dışa aktarma, klavye erişimi, mobil uyum. Bir modele doğrudan bağlantı: `report.html#m=<model_anahtarı>`.
 
-Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnek: [examples/tam-kosu](examples/tam-kosu/report.html).
+Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnek: [examples/jev-40](examples/jev-40/report.html).
 
 ## Rapor neleri içerir?
 

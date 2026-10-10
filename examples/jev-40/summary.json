@@ -1,6 +1,6 @@
 {
-  "run_id": "20261011-003518-tam-kosu-jevai",
-  "reference": "embedding_e5_lr",
+  "run_id": "20261011-005911-jev-40",
+  "reference": "jev_beatapi",
   "labels": [
     "fatura_odeme",
     "teknik_destek",
@@ -12,11 +12,13 @@
     "diger"
   ],
   "pareto_latency": [
-    "embedding_e5_lr",
+    "jev_beatapi",
     "setfit_minilm",
     "tfidf_lr"
   ],
-  "pareto_cost": [],
+  "pareto_cost": [
+    "jev_beatapi"
+  ],
   "models": [
     {
       "key": "jev_ai",
@@ -34,6 +36,201 @@
       "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {   \"error\": true,   \"url\": \"https://jev-ai.pro/api/v1/systemone\",   \"statusCode\": 402,   \"statusMessage\": \"Credit and token balances are insufficient.\",   \"message\": \"Credit and token balan). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
     },
     {
+      "key": "jev_beatapi",
+      "display": "Jev ücretsiz (BeatAPI, jev-1.13-free)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "jev-1.13-free",
+      "price_in": 0.0,
+      "price_out": 0.0,
+      "price_note": "Ücretsiz katman (sıfır bakiyede çalıştığı iddia ediliyor); limitler doğrulanmadı",
+      "verified": "Uç nokta doğrulandı (sahte anahtara 401 invalid_api_key). Ücretsiz erişim/kota yalnızca topluluk makalesi ve jevapi.io'ya dayanıyor: kullanmadan önce beatapi.io'da teyit edin",
+      "notes": "",
+      "local": false,
+      "status": "ok",
+      "setup_s": 0.0,
+      "cold_ms": 1201.1719000292942,
+      "wall_s": 2135.454,
+      "concurrency": 1,
+      "cached": 9,
+      "metrics": {
+        "n": 40,
+        "n_ok": 40,
+        "error_rate": 0.0,
+        "accuracy": 0.95,
+        "accuracy_valid": 0.95,
+        "macro_f1": 0.9460227272727273,
+        "accuracy_ci": [
+          0.875,
+          1.0
+        ],
+        "macro_f1_ci": [
+          0.8481894841269841,
+          1.0
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 5
+          },
+          "teknik_destek": {
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "f1": 0.9090909090909091,
+            "support": 5
+          },
+          "kargo_teslimat": {
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "f1": 0.9090909090909091,
+            "support": 5
+          },
+          "iade_degisim": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 5
+          },
+          "hesap_guvenlik": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 5
+          },
+          "satis_fiyat": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 5
+          },
+          "sikayet_oneri": {
+            "precision": 1.0,
+            "recall": 0.6,
+            "f1": 0.7499999999999999,
+            "support": 5
+          },
+          "diger": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 5
+          }
+        },
+        "confusion": [
+          [
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            0
+          ]
+        ],
+        "n_prob": 40,
+        "brier": 0.06797499999999998,
+        "ece": 0.037749999999999964,
+        "mean_conf": 0.95625,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 1.0,
+        "cov_at_acc95": 1.0,
+        "lat_p50": 494.4412499316968,
+        "lat_p95": 755.6762749794833,
+        "lat_p99": 2617.229376013856,
+        "lat_mean": 611.1453525081743,
+        "tok_in_mean": 761.925,
+        "tok_out_mean": 103.4,
+        "tokens_estimated": false,
+        "cost_per_1000": 0.0,
+        "cost_per_1m": 0.0,
+        "retries_total": 44
+      },
+      "slices": {}
+    },
+    {
       "key": "instinct_27b",
       "display": "Instinct 27B (ZooData)",
       "group": "karar-api",
@@ -46,7 +243,7 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_3f3d35a0418f46cf\",\"timestamp\":\"2026-10-10T21:35:19.777399Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_7d47d9c0e5444cd8\",\"timestamp\":\"2026-10-10T22:34:50.059844Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
     },
     {
       "key": "instinct_tuned_4b",
@@ -61,7 +258,7 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_1a47f3f9f04d4f9c\",\"timestamp\":\"2026-10-10T21:35:19.979371Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_07c49f8698594ce9\",\"timestamp\":\"2026-10-10T22:34:50.263237Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
     },
     {
       "key": "instinct_dual_4b",
@@ -76,7 +273,7 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_3186b1d2e00b401a\",\"timestamp\":\"2026-10-10T21:35:20.197646Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_d79bebcc49514b42\",\"timestamp\":\"2026-10-10T22:34:50.442198Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
     },
     {
       "key": "mercury_2_5_or",
@@ -153,89 +350,78 @@
       "status": "ok",
       "setup_s": 0.079,
       "cold_ms": 136462.53780007828,
-      "wall_s": 0.029,
+      "wall_s": 0.001,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
-        "n": 151,
-        "n_ok": 151,
+        "n": 40,
+        "n_ok": 40,
         "error_rate": 0.0,
-        "accuracy": 0.33112582781456956,
-        "accuracy_valid": 0.33112582781456956,
-        "macro_f1": 0.2823419540229885,
+        "accuracy": 0.325,
+        "accuracy_valid": 0.325,
+        "macro_f1": 0.2780122655122655,
         "accuracy_ci": [
-          0.2582781456953642,
-          0.40397350993377484
+          0.175,
+          0.475
         ],
         "macro_f1_ci": [
-          0.21367177856789732,
-          0.3411460507540978
+          0.14670986215845086,
+          0.38099781599781585
         ],
         "per_class": {
           "fatura_odeme": {
-            "precision": 0.8333333333333334,
-            "recall": 0.2777777777777778,
-            "f1": 0.4166666666666667,
-            "support": 18
+            "precision": 0.5,
+            "recall": 0.2,
+            "f1": 0.28571428571428575,
+            "support": 5
           },
           "teknik_destek": {
-            "precision": 0.18556701030927836,
-            "recall": 0.9473684210526315,
-            "f1": 0.31034482758620685,
-            "support": 19
+            "precision": 0.16,
+            "recall": 0.8,
+            "f1": 0.26666666666666666,
+            "support": 5
           },
           "kargo_teslimat": {
-            "precision": 0.8,
-            "recall": 0.42105263157894735,
-            "f1": 0.5517241379310345,
-            "support": 19
+            "precision": 0.6666666666666666,
+            "recall": 0.4,
+            "f1": 0.5,
+            "support": 5
           },
           "iade_degisim": {
-            "precision": 0.45161290322580644,
-            "recall": 0.7368421052631579,
-            "f1": 0.56,
-            "support": 19
+            "precision": 0.6666666666666666,
+            "recall": 0.8,
+            "f1": 0.7272727272727272,
+            "support": 5
           },
           "hesap_guvenlik": {
-            "precision": 1.0,
-            "recall": 0.05263157894736842,
-            "f1": 0.1,
-            "support": 19
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 5
           },
           "satis_fiyat": {
-            "precision": 0.6666666666666666,
-            "recall": 0.21052631578947367,
-            "f1": 0.32,
-            "support": 19
+            "precision": 0.5,
+            "recall": 0.4,
+            "f1": 0.4444444444444445,
+            "support": 5
           },
           "sikayet_oneri": {
             "precision": 0.0,
             "recall": 0.0,
             "f1": 0.0,
-            "support": 19
+            "support": 5
           },
           "diger": {
             "precision": 0.0,
             "recall": 0.0,
             "f1": 0.0,
-            "support": 19
+            "support": 5
           }
         },
         "confusion": [
           [
-            5,
-            7,
             1,
-            5,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          [
-            1,
-            18,
+            4,
             0,
             0,
             0,
@@ -245,9 +431,31 @@
             0
           ],
           [
+            1,
+            4,
             0,
-            7,
-            8,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            2,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
             4,
             0,
             0,
@@ -259,7 +467,7 @@
             0,
             5,
             0,
-            14,
+            0,
             0,
             0,
             0,
@@ -268,40 +476,29 @@
           ],
           [
             0,
-            18,
+            2,
+            0,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            1,
             0,
             0,
             1,
             0,
             0,
-            0,
             0
           ],
           [
-            0,
-            8,
-            0,
-            7,
             0,
             4,
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            16,
-            1,
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            18,
             0,
             0,
             0,
@@ -311,19 +508,19 @@
             0
           ]
         ],
-        "n_prob": 151,
-        "brier": 1.2010446404050314,
-        "ece": 0.5688271101222807,
-        "mean_conf": 0.891315941096944,
+        "n_prob": 40,
+        "brier": 1.1619717750006269,
+        "ece": 0.5488029433550305,
+        "mean_conf": 0.8714152585865538,
         "conf_kinds": [
           "native"
         ],
-        "acc_at_cov80": 0.3305785123966942,
-        "cov_at_acc95": 0.0,
-        "lat_p50": 532.2766999015585,
-        "lat_p95": 637.2649499680847,
-        "lat_p99": 706.0217999387532,
-        "lat_mean": 542.2617331107103,
+        "acc_at_cov80": 0.3125,
+        "cov_at_acc95": 0.125,
+        "lat_p50": 541.8667499907315,
+        "lat_p95": 652.8887499764096,
+        "lat_p99": 870.5908039968924,
+        "lat_mean": 565.6180624879198,
         "tok_in_mean": null,
         "tok_out_mean": null,
         "tokens_estimated": false,
@@ -331,32 +528,12 @@
         "cost_per_1m": null,
         "retries_total": 0
       },
-      "slices": {
-        "ascii": {
-          "n": 5,
-          "accuracy": 0.0
-        },
-        "multi": {
-          "n": 5,
-          "accuracy": 0.4
-        },
-        "short": {
-          "n": 12,
-          "accuracy": 0.25
-        }
-      },
-      "robustness": {
-        "n": 151,
-        "acc_canonical": 0.33112582781456956,
-        "acc_shuffled": 0.3708609271523179,
-        "delta": 0.039735099337748325,
-        "consistency": 0.8145695364238411
-      },
+      "slices": {},
       "vs_reference": {
-        "reference": "embedding_e5_lr",
-        "diff": -0.4768211920529801,
-        "lo": -0.5695364238410596,
-        "hi": -0.3841059602649007,
+        "reference": "jev_beatapi",
+        "diff": -0.625,
+        "lo": -0.775,
+        "hi": -0.475,
         "p_better": 0.0
       }
     },
@@ -379,74 +556,107 @@
       "concurrency": 1,
       "cached": 151,
       "metrics": {
-        "n": 151,
-        "n_ok": 151,
+        "n": 40,
+        "n_ok": 40,
         "error_rate": 0.0,
-        "accuracy": 0.6026490066225165,
-        "accuracy_valid": 0.6026490066225165,
-        "macro_f1": 0.5944414381914381,
+        "accuracy": 0.675,
+        "accuracy_valid": 0.675,
+        "macro_f1": 0.6544622044622045,
         "accuracy_ci": [
-          0.5231788079470199,
-          0.6754966887417219
+          0.525,
+          0.8
         ],
         "macro_f1_ci": [
-          0.5095241087689929,
-          0.6620679408628587
+          0.47026007846320345,
+          0.7726422046091159
         ],
         "per_class": {
           "fatura_odeme": {
-            "precision": 0.5185185185185185,
-            "recall": 0.7777777777777778,
-            "f1": 0.6222222222222222,
-            "support": 18
+            "precision": 0.6666666666666666,
+            "recall": 0.8,
+            "f1": 0.7272727272727272,
+            "support": 5
           },
           "teknik_destek": {
-            "precision": 0.42857142857142855,
-            "recall": 0.7894736842105263,
-            "f1": 0.5555555555555555,
-            "support": 19
+            "precision": 0.5,
+            "recall": 0.8,
+            "f1": 0.6153846153846154,
+            "support": 5
           },
           "kargo_teslimat": {
-            "precision": 0.9230769230769231,
-            "recall": 0.631578947368421,
-            "f1": 0.7499999999999999,
-            "support": 19
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "iade_degisim": {
-            "precision": 0.7619047619047619,
-            "recall": 0.8421052631578947,
-            "f1": 0.8,
-            "support": 19
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "hesap_guvenlik": {
-            "precision": 0.5625,
-            "recall": 0.47368421052631576,
-            "f1": 0.5142857142857142,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.4,
+            "f1": 0.5714285714285715,
+            "support": 5
           },
           "satis_fiyat": {
-            "precision": 0.6470588235294118,
-            "recall": 0.5789473684210527,
-            "f1": 0.6111111111111113,
-            "support": 19
+            "precision": 0.625,
+            "recall": 1.0,
+            "f1": 0.7692307692307693,
+            "support": 5
           },
           "sikayet_oneri": {
             "precision": 0.5,
-            "recall": 0.21052631578947367,
-            "f1": 0.2962962962962963,
-            "support": 19
+            "recall": 0.2,
+            "f1": 0.28571428571428575,
+            "support": 5
           },
           "diger": {
-            "precision": 0.7142857142857143,
-            "recall": 0.5263157894736842,
-            "f1": 0.6060606060606061,
-            "support": 19
+            "precision": 0.75,
+            "recall": 0.6,
+            "f1": 0.6666666666666665,
+            "support": 5
           }
         },
         "confusion": [
           [
-            14,
+            4,
             0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
             0,
             4,
             0,
@@ -456,97 +666,64 @@
             0
           ],
           [
-            1,
-            15,
             0,
+            3,
             0,
-            1,
-            1,
-            0,
-            1,
-            0
-          ],
-          [
-            0,
-            6,
-            12,
-            0,
-            0,
-            0,
-            0,
-            1,
-            0
-          ],
-          [
-            1,
-            1,
-            0,
-            16,
-            0,
-            0,
-            1,
-            0,
-            0
-          ],
-          [
-            2,
-            5,
-            0,
-            1,
-            9,
             0,
             2,
             0,
+            0,
+            0,
             0
           ],
           [
-            3,
-            3,
             0,
             0,
-            1,
-            11,
             0,
-            1,
+            0,
+            0,
+            5,
+            0,
+            0,
             0
           ],
           [
             1,
-            5,
+            0,
             1,
             0,
-            5,
+            0,
             2,
-            4,
             1,
+            0,
             0
           ],
           [
-            5,
             0,
             0,
             0,
             0,
-            3,
+            0,
             1,
-            10,
+            1,
+            3,
             0
           ]
         ],
-        "n_prob": 151,
-        "brier": 0.7947019867549668,
-        "ece": 0.3973509933774835,
+        "n_prob": 40,
+        "brier": 0.65,
+        "ece": 0.32499999999999996,
         "mean_conf": 1.0,
         "conf_kinds": [
           "derived",
           "native"
         ],
-        "acc_at_cov80": 0.6033057851239669,
-        "cov_at_acc95": 0.006622516556291391,
-        "lat_p50": 795.1754999812692,
-        "lat_p95": 925.5067499470897,
-        "lat_p99": 1026.3799999956973,
-        "lat_mean": 804.5460529754937,
+        "acc_at_cov80": 0.6875,
+        "cov_at_acc95": 0.025,
+        "lat_p50": 799.9181000050157,
+        "lat_p95": 924.092129903147,
+        "lat_p99": 1019.1820280172395,
+        "lat_mean": 806.7574649961898,
         "tok_in_mean": null,
         "tok_out_mean": null,
         "tokens_estimated": false,
@@ -554,32 +731,12 @@
         "cost_per_1m": null,
         "retries_total": 0
       },
-      "slices": {
-        "ascii": {
-          "n": 5,
-          "accuracy": 0.8
-        },
-        "multi": {
-          "n": 5,
-          "accuracy": 0.4
-        },
-        "short": {
-          "n": 12,
-          "accuracy": 0.5833333333333334
-        }
-      },
-      "robustness": {
-        "n": 151,
-        "acc_canonical": 0.6026490066225165,
-        "acc_shuffled": 0.5695364238410596,
-        "delta": -0.0331125827814569,
-        "consistency": 0.8874172185430463
-      },
+      "slices": {},
       "vs_reference": {
-        "reference": "embedding_e5_lr",
-        "diff": -0.2052980132450331,
-        "lo": -0.2980132450331126,
-        "hi": -0.11258278145695365,
+        "reference": "jev_beatapi",
+        "diff": -0.275,
+        "lo": -0.425,
+        "hi": -0.125,
         "p_better": 0.0
       }
     },
@@ -598,177 +755,177 @@
       "status": "ok",
       "setup_s": 119.573,
       "cold_ms": null,
-      "wall_s": 0.001,
+      "wall_s": 0.002,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
-        "n": 151,
-        "n_ok": 151,
+        "n": 40,
+        "n_ok": 40,
         "error_rate": 0.0,
-        "accuracy": 0.304635761589404,
-        "accuracy_valid": 0.304635761589404,
-        "macro_f1": 0.3214503576345682,
+        "accuracy": 0.35,
+        "accuracy_valid": 0.35,
+        "macro_f1": 0.3381907308377896,
         "accuracy_ci": [
-          0.23178807947019867,
-          0.37748344370860926
+          0.2,
+          0.5
         ],
         "macro_f1_ci": [
-          0.24499032981258306,
-          0.3848614368825088
+          0.2106547619047619,
+          0.43920827162603476
         ],
         "per_class": {
           "fatura_odeme": {
-            "precision": 1.0,
-            "recall": 0.2222222222222222,
-            "f1": 0.3636363636363636,
-            "support": 18
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 5
           },
           "teknik_destek": {
-            "precision": 0.09523809523809523,
-            "recall": 0.10526315789473684,
-            "f1": 0.1,
-            "support": 19
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 5
           },
           "kargo_teslimat": {
-            "precision": 0.75,
-            "recall": 0.631578947368421,
-            "f1": 0.6857142857142857,
-            "support": 19
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "iade_degisim": {
-            "precision": 0.42857142857142855,
-            "recall": 0.15789473684210525,
-            "f1": 0.23076923076923078,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.2,
+            "f1": 0.33333333333333337,
+            "support": 5
           },
           "hesap_guvenlik": {
-            "precision": 0.5789473684210527,
-            "recall": 0.5789473684210527,
-            "f1": 0.5789473684210527,
-            "support": 19
+            "precision": 0.6666666666666666,
+            "recall": 0.8,
+            "f1": 0.7272727272727272,
+            "support": 5
           },
           "satis_fiyat": {
             "precision": 0.5,
-            "recall": 0.21052631578947367,
-            "f1": 0.2962962962962963,
-            "support": 19
+            "recall": 0.6,
+            "f1": 0.5454545454545454,
+            "support": 5
           },
           "sikayet_oneri": {
-            "precision": 0.13559322033898305,
-            "recall": 0.42105263157894735,
-            "f1": 0.20512820512820512,
-            "support": 19
+            "precision": 0.08333333333333333,
+            "recall": 0.2,
+            "f1": 0.11764705882352941,
+            "support": 5
           },
           "diger": {
-            "precision": 0.11764705882352941,
-            "recall": 0.10526315789473684,
-            "f1": 0.1111111111111111,
-            "support": 19
+            "precision": 0.16666666666666666,
+            "recall": 0.2,
+            "f1": 0.1818181818181818,
+            "support": 5
           }
         },
         "confusion": [
           [
-            4,
             0,
-            3,
             0,
             1,
-            1,
-            9,
-            0,
-            0
-          ],
-          [
-            0,
-            2,
-            0,
-            1,
-            4,
-            0,
-            7,
-            5,
-            0
-          ],
-          [
-            0,
-            3,
-            12,
             0,
             0,
-            0,
-            2,
-            2,
-            0
-          ],
-          [
-            0,
-            4,
             1,
             3,
             0,
-            0,
-            11,
-            0,
             0
           ],
           [
             0,
-            2,
+            0,
+            0,
             0,
             2,
-            11,
             0,
-            2,
+            1,
             2,
             0
           ],
           [
+            0,
             0,
             4,
             0,
             0,
             0,
-            4,
-            11,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            3,
             0,
             0
           ],
           [
             0,
-            2,
-            0,
-            0,
             1,
-            2,
-            8,
-            6,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
             0
           ],
           [
             0,
-            4,
+            1,
+            0,
+            0,
+            0,
+            3,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            1,
+            2,
+            0
+          ],
+          [
             0,
             1,
-            2,
+            0,
+            0,
+            0,
+            0,
+            3,
             1,
-            9,
-            2,
             0
           ]
         ],
-        "n_prob": 151,
-        "brier": 0.8495377337301696,
-        "ece": 0.17400326210256825,
-        "mean_conf": 0.4786390236919723,
+        "n_prob": 40,
+        "brier": 0.8158038617191969,
+        "ece": 0.20568300643607054,
+        "mean_conf": 0.5233802354672454,
         "conf_kinds": [
           "native"
         ],
-        "acc_at_cov80": 0.3305785123966942,
-        "cov_at_acc95": 0.026490066225165563,
-        "lat_p50": 5754.769699997269,
-        "lat_p95": 6817.588949983474,
-        "lat_p99": 7629.350949951913,
-        "lat_mean": 5712.043935763002,
+        "acc_at_cov80": 0.375,
+        "cov_at_acc95": 0.025,
+        "lat_p50": 5860.117400006857,
+        "lat_p95": 6744.272074982291,
+        "lat_p99": 7459.653620028402,
+        "lat_mean": 5785.055050003575,
         "tok_in_mean": null,
         "tok_out_mean": null,
         "tokens_estimated": false,
@@ -776,25 +933,12 @@
         "cost_per_1m": null,
         "retries_total": 0
       },
-      "slices": {
-        "ascii": {
-          "n": 5,
-          "accuracy": 0.8
-        },
-        "multi": {
-          "n": 5,
-          "accuracy": 0.4
-        },
-        "short": {
-          "n": 12,
-          "accuracy": 0.25
-        }
-      },
+      "slices": {},
       "vs_reference": {
-        "reference": "embedding_e5_lr",
-        "diff": -0.5033112582781457,
-        "lo": -0.6026490066225165,
-        "hi": -0.40397350993377484,
+        "reference": "jev_beatapi",
+        "diff": -0.6,
+        "lo": -0.75,
+        "hi": -0.425,
         "p_better": 0.0
       }
     },
@@ -817,173 +961,173 @@
       "concurrency": 1,
       "cached": 151,
       "metrics": {
-        "n": 151,
-        "n_ok": 151,
+        "n": 40,
+        "n_ok": 40,
         "error_rate": 0.0,
-        "accuracy": 0.3841059602649007,
-        "accuracy_valid": 0.3841059602649007,
-        "macro_f1": 0.3671670577209002,
+        "accuracy": 0.425,
+        "accuracy_valid": 0.425,
+        "macro_f1": 0.35763888888888895,
         "accuracy_ci": [
-          0.31125827814569534,
-          0.45695364238410596
+          0.275,
+          0.575
         ],
         "macro_f1_ci": [
-          0.2873321734604978,
-          0.4326014135799469
+          0.2134566265777566,
+          0.4664801084226794
         ],
         "per_class": {
           "fatura_odeme": {
-            "precision": 0.5833333333333334,
-            "recall": 0.3888888888888889,
-            "f1": 0.4666666666666666,
-            "support": 18
+            "precision": 0.3333333333333333,
+            "recall": 0.2,
+            "f1": 0.25,
+            "support": 5
           },
           "teknik_destek": {
-            "precision": 0.25,
-            "recall": 0.15789473684210525,
-            "f1": 0.1935483870967742,
-            "support": 19
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 5
           },
           "kargo_teslimat": {
-            "precision": 0.6666666666666666,
-            "recall": 0.5263157894736842,
-            "f1": 0.5882352941176471,
-            "support": 19
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "iade_degisim": {
-            "precision": 0.30434782608695654,
-            "recall": 0.7368421052631579,
-            "f1": 0.43076923076923074,
-            "support": 19
+            "precision": 0.3333333333333333,
+            "recall": 1.0,
+            "f1": 0.5,
+            "support": 5
           },
           "hesap_guvenlik": {
-            "precision": 0.3103448275862069,
-            "recall": 0.47368421052631576,
-            "f1": 0.375,
-            "support": 19
+            "precision": 0.5,
+            "recall": 0.4,
+            "f1": 0.4444444444444445,
+            "support": 5
           },
           "satis_fiyat": {
-            "precision": 0.32,
-            "recall": 0.42105263157894735,
-            "f1": 0.3636363636363636,
-            "support": 19
+            "precision": 0.4,
+            "recall": 0.8,
+            "f1": 0.5333333333333333,
+            "support": 5
           },
           "sikayet_oneri": {
-            "precision": 0.6666666666666666,
-            "recall": 0.3157894736842105,
-            "f1": 0.42857142857142855,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.2,
+            "f1": 0.33333333333333337,
+            "support": 5
           },
           "diger": {
-            "precision": 0.3333333333333333,
-            "recall": 0.05263157894736842,
-            "f1": 0.09090909090909091,
-            "support": 19
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 5
           }
         },
         "confusion": [
           [
-            7,
-            0,
-            1,
-            7,
-            2,
             1,
             0,
             0,
-            0
-          ],
-          [
-            2,
-            3,
-            0,
-            2,
-            7,
             4,
             0,
-            1,
+            0,
+            0,
+            0,
             0
           ],
           [
             1,
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            4,
+            0,
+            0,
             1,
-            10,
-            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
             3,
             2,
-            1,
+            0,
+            0,
             0,
             0
           ],
           [
             0,
             0,
-            1,
-            14,
-            2,
-            2,
             0,
-            0,
-            0
-          ],
-          [
-            0,
-            2,
-            1,
-            6,
-            9,
             1,
             0,
-            0,
-            0
-          ],
-          [
-            0,
-            2,
-            0,
-            6,
-            2,
-            8,
-            1,
-            0,
-            0
-          ],
-          [
-            0,
-            2,
-            1,
             4,
-            2,
-            3,
-            6,
-            1,
+            0,
+            0,
             0
           ],
           [
-            2,
-            2,
-            1,
-            6,
-            2,
-            4,
+            0,
             1,
             1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0,
+            1,
+            0,
+            2,
+            0,
+            0,
             0
           ]
         ],
-        "n_prob": 151,
-        "brier": 0.7372392266285103,
-        "ece": 0.11319025229905239,
-        "mean_conf": 0.33319953872471564,
+        "n_prob": 40,
+        "brier": 0.7499854287187335,
+        "ece": 0.19870969402527502,
+        "mean_conf": 0.35220586490823036,
         "conf_kinds": [
           "native"
         ],
-        "acc_at_cov80": 0.45454545454545453,
-        "cov_at_acc95": 0.013245033112582781,
-        "lat_p50": 548.6030000029132,
-        "lat_p95": 688.3108000038192,
-        "lat_p99": 721.0962499957532,
-        "lat_mean": 548.6788562882926,
+        "acc_at_cov80": 0.5,
+        "cov_at_acc95": 0.05,
+        "lat_p50": 552.0207999506965,
+        "lat_p95": 695.3848550270776,
+        "lat_p99": 722.1816969756037,
+        "lat_mean": 558.4069499920588,
         "tok_in_mean": null,
         "tok_out_mean": null,
         "tokens_estimated": false,
@@ -991,25 +1135,12 @@
         "cost_per_1m": null,
         "retries_total": 0
       },
-      "slices": {
-        "ascii": {
-          "n": 5,
-          "accuracy": 0.6
-        },
-        "multi": {
-          "n": 5,
-          "accuracy": 0.0
-        },
-        "short": {
-          "n": 12,
-          "accuracy": 0.25
-        }
-      },
+      "slices": {},
       "vs_reference": {
-        "reference": "embedding_e5_lr",
-        "diff": -0.423841059602649,
-        "lo": -0.5165562913907285,
-        "hi": -0.33112582781456956,
+        "reference": "jev_beatapi",
+        "diff": -0.525,
+        "lo": -0.675,
+        "hi": -0.375,
         "p_better": 0.0
       }
     },
@@ -1032,109 +1163,76 @@
       "concurrency": 1,
       "cached": 151,
       "metrics": {
-        "n": 151,
-        "n_ok": 151,
+        "n": 40,
+        "n_ok": 40,
         "error_rate": 0.0,
-        "accuracy": 0.5827814569536424,
-        "accuracy_valid": 0.5827814569536424,
-        "macro_f1": 0.5563037406355379,
+        "accuracy": 0.55,
+        "accuracy_valid": 0.55,
+        "macro_f1": 0.49171122994652405,
         "accuracy_ci": [
-          0.5033112582781457,
-          0.6556291390728477
+          0.4,
+          0.7
         ],
         "macro_f1_ci": [
-          0.4753781339395733,
-          0.624630903599446
+          0.3319345238095239,
+          0.6139108721139971
         ],
         "per_class": {
           "fatura_odeme": {
-            "precision": 0.7692307692307693,
-            "recall": 0.5555555555555556,
-            "f1": 0.6451612903225806,
-            "support": 18
+            "precision": 1.0,
+            "recall": 0.6,
+            "f1": 0.7499999999999999,
+            "support": 5
           },
           "teknik_destek": {
-            "precision": 0.5454545454545454,
-            "recall": 0.9473684210526315,
-            "f1": 0.6923076923076923,
-            "support": 19
+            "precision": 0.4166666666666667,
+            "recall": 1.0,
+            "f1": 0.5882352941176471,
+            "support": 5
           },
           "kargo_teslimat": {
-            "precision": 0.64,
-            "recall": 0.8421052631578947,
-            "f1": 0.7272727272727272,
-            "support": 19
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "iade_degisim": {
-            "precision": 0.5333333333333333,
-            "recall": 0.8421052631578947,
-            "f1": 0.653061224489796,
-            "support": 19
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6666666666666666,
+            "support": 5
           },
           "hesap_guvenlik": {
-            "precision": 0.875,
-            "recall": 0.3684210526315789,
-            "f1": 0.5185185185185185,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.2,
+            "f1": 0.33333333333333337,
+            "support": 5
           },
           "satis_fiyat": {
-            "precision": 0.5217391304347826,
-            "recall": 0.631578947368421,
-            "f1": 0.5714285714285715,
-            "support": 19
+            "precision": 0.5,
+            "recall": 0.6,
+            "f1": 0.5454545454545454,
+            "support": 5
           },
           "sikayet_oneri": {
-            "precision": 0.7142857142857143,
-            "recall": 0.2631578947368421,
-            "f1": 0.3846153846153846,
-            "support": 19
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 5
           },
           "diger": {
             "precision": 0.3333333333333333,
-            "recall": 0.21052631578947367,
-            "f1": 0.2580645161290323,
-            "support": 19
+            "recall": 0.2,
+            "f1": 0.25,
+            "support": 5
           }
         },
         "confusion": [
           [
-            10,
-            0,
-            0,
-            7,
-            1,
-            0,
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            18,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            0
-          ],
-          [
-            0,
-            1,
-            16,
-            1,
-            0,
-            0,
-            0,
-            1,
-            0
-          ],
-          [
-            0,
-            0,
             3,
-            16,
+            0,
+            0,
+            2,
             0,
             0,
             0,
@@ -1144,61 +1242,94 @@
           [
             0,
             5,
-            2,
-            2,
-            7,
-            1,
             0,
-            2,
-            0
-          ],
-          [
-            1,
             0,
-            1,
-            4,
             0,
-            12,
             0,
-            1,
+            0,
+            0,
             0
           ],
           [
             0,
-            6,
-            1,
-            0,
             0,
             4,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
             5,
-            3,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           [
+            0,
             2,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            2,
+            0,
             3,
-            2,
             0,
             0,
-            6,
-            2,
+            0
+          ],
+          [
+            0,
             4,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            0,
+            0,
+            2,
+            0,
+            1,
             0
           ]
         ],
-        "n_prob": 151,
-        "brier": 0.7595190441615528,
-        "ece": 0.3725383532583899,
-        "mean_conf": 0.21024310369525254,
+        "n_prob": 40,
+        "brier": 0.756577973531913,
+        "ece": 0.3310924226489798,
+        "mean_conf": 0.2189075773510202,
         "conf_kinds": [
           "derived"
         ],
-        "acc_at_cov80": 0.6611570247933884,
-        "cov_at_acc95": 0.1390728476821192,
-        "lat_p50": 24.553700000979006,
-        "lat_p95": 29.494750022422522,
-        "lat_p99": 33.716400037519634,
-        "lat_mean": 24.493505963932304,
+        "acc_at_cov80": 0.625,
+        "cov_at_acc95": 0.15,
+        "lat_p50": 23.134800023399293,
+        "lat_p95": 31.134690094040707,
+        "lat_p99": 31.935804988024756,
+        "lat_mean": 24.07768749690149,
         "tok_in_mean": null,
         "tok_out_mean": null,
         "tokens_estimated": false,
@@ -1206,25 +1337,12 @@
         "cost_per_1m": null,
         "retries_total": 0
       },
-      "slices": {
-        "ascii": {
-          "n": 5,
-          "accuracy": 0.8
-        },
-        "multi": {
-          "n": 5,
-          "accuracy": 0.6
-        },
-        "short": {
-          "n": 12,
-          "accuracy": 0.5
-        }
-      },
+      "slices": {},
       "vs_reference": {
-        "reference": "embedding_e5_lr",
-        "diff": -0.2251655629139073,
-        "lo": -0.31125827814569534,
-        "hi": -0.1390728476821192,
+        "reference": "jev_beatapi",
+        "diff": -0.4,
+        "lo": -0.55,
+        "hi": -0.25,
         "p_better": 0.0
       }
     },
@@ -1247,173 +1365,173 @@
       "concurrency": 1,
       "cached": 151,
       "metrics": {
-        "n": 151,
-        "n_ok": 151,
+        "n": 40,
+        "n_ok": 40,
         "error_rate": 0.0,
-        "accuracy": 0.7019867549668874,
-        "accuracy_valid": 0.7019867549668874,
-        "macro_f1": 0.696761683656845,
+        "accuracy": 0.775,
+        "accuracy_valid": 0.775,
+        "macro_f1": 0.7721688034188033,
         "accuracy_ci": [
-          0.6225165562913907,
-          0.7748344370860927
+          0.65,
+          0.9
         ],
         "macro_f1_ci": [
-          0.6127418927775784,
-          0.76353736644201
+          0.5891680255574917,
+          0.8910763608327946
         ],
         "per_class": {
           "fatura_odeme": {
-            "precision": 0.7692307692307693,
-            "recall": 0.5555555555555556,
-            "f1": 0.6451612903225806,
-            "support": 18
+            "precision": 0.75,
+            "recall": 0.6,
+            "f1": 0.6666666666666665,
+            "support": 5
           },
           "teknik_destek": {
-            "precision": 0.64,
-            "recall": 0.8421052631578947,
-            "f1": 0.7272727272727272,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.6,
+            "f1": 0.7499999999999999,
+            "support": 5
           },
           "kargo_teslimat": {
-            "precision": 0.6,
-            "recall": 0.7894736842105263,
-            "f1": 0.6818181818181819,
-            "support": 19
+            "precision": 0.625,
+            "recall": 1.0,
+            "f1": 0.7692307692307693,
+            "support": 5
           },
           "iade_degisim": {
-            "precision": 0.6956521739130435,
-            "recall": 0.8421052631578947,
-            "f1": 0.761904761904762,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.8,
+            "f1": 0.888888888888889,
+            "support": 5
           },
           "hesap_guvenlik": {
             "precision": 0.7142857142857143,
-            "recall": 0.7894736842105263,
-            "f1": 0.7500000000000001,
-            "support": 19
+            "recall": 1.0,
+            "f1": 0.8333333333333333,
+            "support": 5
           },
           "satis_fiyat": {
-            "precision": 0.7647058823529411,
-            "recall": 0.6842105263157895,
-            "f1": 0.7222222222222222,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.6,
+            "f1": 0.7499999999999999,
+            "support": 5
           },
           "sikayet_oneri": {
-            "precision": 0.75,
-            "recall": 0.631578947368421,
-            "f1": 0.6857142857142857,
-            "support": 19
+            "precision": 0.625,
+            "recall": 1.0,
+            "f1": 0.7692307692307693,
+            "support": 5
           },
           "diger": {
-            "precision": 0.8181818181818182,
-            "recall": 0.47368421052631576,
-            "f1": 0.6,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.6,
+            "f1": 0.7499999999999999,
+            "support": 5
           }
         },
         "confusion": [
           [
-            10,
-            0,
-            3,
-            3,
-            2,
-            0,
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            16,
-            1,
-            0,
-            1,
-            0,
-            1,
-            0,
-            0
-          ],
-          [
-            0,
-            1,
-            15,
-            3,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            0,
-            1,
-            16,
-            2,
-            0,
-            0,
-            0,
-            0
-          ],
-          [
-            1,
-            2,
-            0,
-            1,
-            15,
-            0,
-            0,
-            0,
-            0
-          ],
-          [
-            1,
-            0,
             3,
             0,
             1,
-            13,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            0,
+            0,
+            1,
+            0,
             1,
             0,
             0
           ],
           [
             0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
             4,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
             1,
             0,
             0,
+            3,
+            1,
             0,
-            12,
-            2,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
             0
           ],
           [
             1,
-            2,
+            0,
+            0,
+            0,
+            0,
+            0,
             1,
-            0,
-            0,
-            4,
-            2,
-            9,
+            3,
             0
           ]
         ],
-        "n_prob": 151,
-        "brier": 0.5038153946195894,
-        "ece": 0.2582426572949506,
-        "mean_conf": 0.4461009502740601,
+        "n_prob": 40,
+        "brier": 0.449175594506736,
+        "ece": 0.31542367665218557,
+        "mean_conf": 0.4595763233478144,
         "conf_kinds": [
           "native"
         ],
-        "acc_at_cov80": 0.768595041322314,
-        "cov_at_acc95": 0.24503311258278146,
-        "lat_p50": 1.397899934090674,
-        "lat_p95": 2.5192000321112573,
-        "lat_p99": 3.5603499854914844,
-        "lat_mean": 1.6042178825148388,
+        "acc_at_cov80": 0.78125,
+        "cov_at_acc95": 0.6,
+        "lat_p50": 1.4452500035986304,
+        "lat_p95": 3.406450088368728,
+        "lat_p99": 4.386005969718098,
+        "lat_mean": 1.8431375065119937,
         "tok_in_mean": null,
         "tok_out_mean": null,
         "tokens_estimated": false,
@@ -1421,26 +1539,13 @@
         "cost_per_1m": null,
         "retries_total": 0
       },
-      "slices": {
-        "ascii": {
-          "n": 5,
-          "accuracy": 0.8
-        },
-        "multi": {
-          "n": 5,
-          "accuracy": 0.4
-        },
-        "short": {
-          "n": 12,
-          "accuracy": 0.5
-        }
-      },
+      "slices": {},
       "vs_reference": {
-        "reference": "embedding_e5_lr",
-        "diff": -0.10596026490066225,
-        "lo": -0.18543046357615894,
-        "hi": -0.033112582781456956,
-        "p_better": 0.003
+        "reference": "jev_beatapi",
+        "diff": -0.175,
+        "lo": -0.325,
+        "hi": -0.025,
+        "p_better": 0.0075
       }
     },
     {
@@ -1458,177 +1563,177 @@
       "status": "ok",
       "setup_s": 18.426,
       "cold_ms": null,
-      "wall_s": 0.001,
+      "wall_s": 0.0,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
-        "n": 151,
-        "n_ok": 151,
+        "n": 40,
+        "n_ok": 40,
         "error_rate": 0.0,
-        "accuracy": 0.8079470198675497,
-        "accuracy_valid": 0.8079470198675497,
-        "macro_f1": 0.8074304350620141,
+        "accuracy": 0.825,
+        "accuracy_valid": 0.825,
+        "macro_f1": 0.827020202020202,
         "accuracy_ci": [
-          0.7417218543046358,
-          0.8675496688741722
+          0.7,
+          0.925
         ],
         "macro_f1_ci": [
-          0.7349431136462626,
-          0.8671536841293754
+          0.6817496657754011,
+          0.9242424242424242
         ],
         "per_class": {
           "fatura_odeme": {
-            "precision": 0.7777777777777778,
-            "recall": 0.7777777777777778,
-            "f1": 0.7777777777777778,
-            "support": 18
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "teknik_destek": {
-            "precision": 0.8823529411764706,
-            "recall": 0.7894736842105263,
-            "f1": 0.8333333333333333,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.8,
+            "f1": 0.888888888888889,
+            "support": 5
           },
           "kargo_teslimat": {
-            "precision": 0.8,
-            "recall": 0.8421052631578947,
-            "f1": 0.8205128205128205,
-            "support": 19
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 5
           },
           "iade_degisim": {
-            "precision": 0.7619047619047619,
-            "recall": 0.8421052631578947,
-            "f1": 0.8,
-            "support": 19
+            "precision": 0.6666666666666666,
+            "recall": 0.8,
+            "f1": 0.7272727272727272,
+            "support": 5
           },
           "hesap_guvenlik": {
-            "precision": 0.7391304347826086,
-            "recall": 0.8947368421052632,
-            "f1": 0.8095238095238095,
-            "support": 19
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "satis_fiyat": {
-            "precision": 0.8421052631578947,
-            "recall": 0.8421052631578947,
-            "f1": 0.8421052631578947,
-            "support": 19
+            "precision": 0.6,
+            "recall": 0.6,
+            "f1": 0.6,
+            "support": 5
           },
           "sikayet_oneri": {
-            "precision": 0.8823529411764706,
-            "recall": 0.7894736842105263,
-            "f1": 0.8333333333333333,
-            "support": 19
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 5
           },
           "diger": {
-            "precision": 0.8125,
-            "recall": 0.6842105263157895,
-            "f1": 0.742857142857143,
-            "support": 19
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           }
         },
         "confusion": [
           [
-            14,
+            4,
+            0,
             0,
             1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            4,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            4,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            1,
+            0,
             3,
             0,
             0,
-            0,
-            0,
             0
           ],
           [
             0,
-            15,
-            1,
-            0,
-            2,
-            0,
-            1,
-            0,
-            0
-          ],
-          [
-            0,
-            1,
-            16,
-            1,
-            1,
             0,
             0,
+            0,
+            0,
+            0,
+            5,
             0,
             0
           ],
           [
             0,
             0,
-            1,
-            16,
-            1,
-            1,
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            1,
-            0,
-            0,
-            17,
-            0,
-            0,
-            1,
-            0
-          ],
-          [
-            2,
-            0,
-            0,
-            1,
-            0,
-            16,
-            0,
-            0,
-            0
-          ],
-          [
-            0,
-            0,
-            1,
-            0,
-            1,
-            0,
-            15,
-            2,
-            0
-          ],
-          [
-            2,
             0,
             0,
             0,
             1,
-            2,
-            1,
-            13,
+            0,
+            4,
             0
           ]
         ],
-        "n_prob": 151,
-        "brier": 0.4291828281314525,
-        "ece": 0.33958855996019427,
-        "mean_conf": 0.4683584599073552,
+        "n_prob": 40,
+        "brier": 0.38145395067477617,
+        "ece": 0.32436436194695534,
+        "mean_conf": 0.5006356380530447,
         "conf_kinds": [
           "native"
         ],
-        "acc_at_cov80": 0.859504132231405,
-        "cov_at_acc95": 0.2781456953642384,
-        "lat_p50": 24.88919999450445,
-        "lat_p95": 31.07510000700131,
-        "lat_p99": 34.02220003772527,
-        "lat_mean": 24.992703308277324,
+        "acc_at_cov80": 0.90625,
+        "cov_at_acc95": 0.675,
+        "lat_p50": 25.074000004678965,
+        "lat_p95": 32.80639491858892,
+        "lat_p99": 34.02905199560337,
+        "lat_mean": 25.813824991928414,
         "tok_in_mean": null,
         "tok_out_mean": null,
         "tokens_estimated": false,
@@ -1636,19 +1741,13 @@
         "cost_per_1m": null,
         "retries_total": 0
       },
-      "slices": {
-        "ascii": {
-          "n": 5,
-          "accuracy": 0.8
-        },
-        "multi": {
-          "n": 5,
-          "accuracy": 0.4
-        },
-        "short": {
-          "n": 12,
-          "accuracy": 0.75
-        }
+      "slices": {},
+      "vs_reference": {
+        "reference": "jev_beatapi",
+        "diff": -0.125,
+        "lo": -0.275,
+        "hi": 0.025,
+        "p_better": 0.026
       }
     },
     {
@@ -1666,115 +1765,93 @@
       "status": "ok",
       "setup_s": 225.089,
       "cold_ms": 24.02709994930774,
-      "wall_s": 0.001,
+      "wall_s": 0.0,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
-        "n": 151,
-        "n_ok": 151,
+        "n": 40,
+        "n_ok": 40,
         "error_rate": 0.0,
-        "accuracy": 0.7483443708609272,
-        "accuracy_valid": 0.7483443708609272,
-        "macro_f1": 0.7509653659034464,
+        "accuracy": 0.875,
+        "accuracy_valid": 0.875,
+        "macro_f1": 0.870770202020202,
         "accuracy_ci": [
-          0.6754966887417219,
-          0.8145695364238411
+          0.75,
+          0.975
         ],
         "macro_f1_ci": [
-          0.6738121256038895,
-          0.8139103258624354
+          0.7259635880867498,
+          0.9665200313079778
         ],
         "per_class": {
           "fatura_odeme": {
-            "precision": 0.75,
-            "recall": 0.8333333333333334,
-            "f1": 0.7894736842105262,
-            "support": 18
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "teknik_destek": {
-            "precision": 0.8421052631578947,
-            "recall": 0.8421052631578947,
-            "f1": 0.8421052631578947,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.8,
+            "f1": 0.888888888888889,
+            "support": 5
           },
           "kargo_teslimat": {
-            "precision": 0.8666666666666667,
-            "recall": 0.6842105263157895,
-            "f1": 0.7647058823529413,
-            "support": 19
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "f1": 0.9090909090909091,
+            "support": 5
           },
           "iade_degisim": {
-            "precision": 0.7368421052631579,
-            "recall": 0.7368421052631579,
-            "f1": 0.7368421052631579,
-            "support": 19
+            "precision": 0.8,
+            "recall": 0.8,
+            "f1": 0.8000000000000002,
+            "support": 5
           },
           "hesap_guvenlik": {
-            "precision": 0.85,
-            "recall": 0.8947368421052632,
-            "f1": 0.8717948717948718,
-            "support": 19
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "f1": 0.9090909090909091,
+            "support": 5
           },
           "satis_fiyat": {
-            "precision": 0.65,
-            "recall": 0.6842105263157895,
-            "f1": 0.6666666666666667,
-            "support": 19
+            "precision": 0.8333333333333334,
+            "recall": 1.0,
+            "f1": 0.9090909090909091,
+            "support": 5
           },
           "sikayet_oneri": {
-            "precision": 0.8666666666666667,
-            "recall": 0.6842105263157895,
-            "f1": 0.7647058823529413,
-            "support": 19
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 5
           },
           "diger": {
-            "precision": 0.5217391304347826,
-            "recall": 0.631578947368421,
-            "f1": 0.5714285714285715,
-            "support": 19
+            "precision": 1.0,
+            "recall": 0.6,
+            "f1": 0.7499999999999999,
+            "support": 5
           }
         },
         "confusion": [
           [
-            15,
-            0,
-            0,
-            2,
+            4,
             0,
             0,
             1,
+            0,
+            0,
+            0,
             0,
             0
           ],
           [
             1,
-            16,
+            4,
             0,
             0,
             0,
             0,
-            1,
-            1,
-            0
-          ],
-          [
-            1,
-            1,
-            13,
-            1,
-            1,
-            0,
-            0,
-            2,
-            0
-          ],
-          [
-            0,
-            1,
-            1,
-            14,
-            1,
-            2,
             0,
             0,
             0
@@ -1782,61 +1859,83 @@
           [
             0,
             0,
-            0,
-            0,
-            17,
-            1,
-            0,
-            1,
-            0
-          ],
-          [
-            2,
-            0,
-            0,
-            2,
-            0,
-            13,
-            0,
-            2,
-            0
-          ],
-          [
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            13,
             5,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           [
-            1,
-            1,
+            0,
+            0,
+            0,
+            4,
             1,
             0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
             1,
+            0,
+            0,
+            1,
+            0,
             3,
-            0,
-            12,
             0
           ]
         ],
-        "n_prob": 151,
-        "brier": 0.3912663027666066,
-        "ece": 0.11734387699412041,
-        "mean_conf": 0.6310004938668068,
+        "n_prob": 40,
+        "brier": 0.2846842267440059,
+        "ece": 0.2167833115637815,
+        "mean_conf": 0.6725855834268598,
         "conf_kinds": [
           "native"
         ],
-        "acc_at_cov80": 0.8181818181818182,
-        "cov_at_acc95": 0.3973509933774834,
-        "lat_p50": 19.96330008842051,
-        "lat_p95": 25.49379999982193,
-        "lat_p99": 27.32864994322881,
-        "lat_mean": 20.677182124156676,
+        "acc_at_cov80": 0.875,
+        "cov_at_acc95": 0.65,
+        "lat_p50": 19.56524996785447,
+        "lat_p95": 25.325535068986934,
+        "lat_p99": 26.968732988461852,
+        "lat_mean": 20.520717502222396,
         "tok_in_mean": null,
         "tok_out_mean": null,
         "tokens_estimated": false,
@@ -1844,26 +1943,13 @@
         "cost_per_1m": null,
         "retries_total": 0
       },
-      "slices": {
-        "ascii": {
-          "n": 5,
-          "accuracy": 0.6
-        },
-        "multi": {
-          "n": 5,
-          "accuracy": 0.6
-        },
-        "short": {
-          "n": 12,
-          "accuracy": 0.6666666666666666
-        }
-      },
+      "slices": {},
       "vs_reference": {
-        "reference": "embedding_e5_lr",
-        "diff": -0.059602649006622516,
-        "lo": -0.1456953642384106,
-        "hi": 0.019867549668874173,
-        "p_better": 0.062
+        "reference": "jev_beatapi",
+        "diff": -0.075,
+        "lo": -0.2,
+        "hi": 0.05,
+        "p_better": 0.093
       }
     }
   ],
@@ -1871,26 +1957,26 @@
     "name": "destek_tr",
     "fingerprint": "9ac13de53ff85f2d",
     "split": "test",
-    "n_eval": 151,
+    "n_eval": 40,
     "n_train": 128,
     "class_counts": {
-      "fatura_odeme": 18,
-      "teknik_destek": 19,
-      "kargo_teslimat": 19,
-      "iade_degisim": 19,
-      "hesap_guvenlik": 19,
-      "satis_fiyat": 19,
-      "sikayet_oneri": 19,
-      "diger": 19
+      "fatura_odeme": 5,
+      "teknik_destek": 5,
+      "kargo_teslimat": 5,
+      "iade_degisim": 5,
+      "hesap_guvenlik": 5,
+      "satis_fiyat": 5,
+      "sikayet_oneri": 5,
+      "diger": 5
     }
   },
   "settings": {
     "seed": 0,
     "shots_per_label": 0,
-    "robustness": true,
+    "robustness": false,
     "warmup": 1,
     "prompt_version": "v1",
-    "concurrency_override": null
+    "concurrency_override": 1
   },
   "environment": {
     "python": "3.13.14",
@@ -1907,7 +1993,7 @@
       "laya": "0.4.2",
       "setfit": "1.2.0"
     },
-    "git_commit": "1453327"
+    "git_commit": "7e4cf16"
   },
-  "note": "Jev (jev-ai.pro) uç noktası eklendi; yerel sonuçlar önbellekten (aynı veri, aynı ayarlar)"
+  "note": "Jev ücretsiz katmanı dakikada 1 istek sınırlı: tüm modeller aynı dengeli 40 örnekte (sınıf başına 5) çalıştırıldı"
 }

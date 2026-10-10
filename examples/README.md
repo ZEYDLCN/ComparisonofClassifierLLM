@@ -1,22 +1,27 @@
 # Örnek rapor (gerçek koşu)
 
-[`tam-kosu/report.html`](tam-kosu/report.html) dosyasını tarayıcıda aç: etkileşimli panel (tıklanınca model detayı,
-karşılaştırma, filtreler, koyu tema). Aynı sonuçların Markdown sürümü: [`report.md`](tam-kosu/report.md).
-Doğrudan bir modele bağlantı örneği: `report.html#m=gliclass_large_v3`, koyu tema: `#theme=dark`.
+[`jev-40/report.html`](jev-40/report.html) dosyasını tarayıcıda aç: etkileşimli panel (tıklanınca model detayı,
+karşılaştırma, filtreler, koyu tema). Aynı sonuçların Markdown sürümü: [`report.md`](jev-40/report.md).
+Doğrudan bir modele bağlantı: `report.html#m=jev_beatapi`, koyu tema: `#theme=dark`.
 
 Üretildiği komut:
 
 ```powershell
-python -m clfbench run --robustness --name tam-kosu-jevai
+python -m clfbench run --limit 40 --concurrency 1 --name jev-40
 ```
 
 **Bu bir model sıralaması değildir; boru hattının gerçek bir koşusudur.**
 
-- **8 yerel model puanlandı** (TF-IDF, e5 sıfır-örnek ve LR, SetFit, GLiClass, Laya, mDeBERTa NLI, ModernBERT-NLI).
-- **8 API modeli puanlanamadı** ve nedeni panelde "Atlananlar" bölümünde görünür: Jev (jev-ai.pro, 402: token/kredi bakiyesi yok),
-  Instinct ×3 (402, cüzdan boş), OpenRouter üzerindeki 4 model (402, kredi yok). Bunlar gerçek API yanıtlarıdır (anahtarlar
-  geçerli, hesaplarda bakiye yok); sistem boş istek atmadan modeli açık nedenle atlar.
-- Veri: yerleşik `destek_tr` (gümüş etiketli, test = 151 örnek). Güven aralıkları geniştir (±6-8 puan).
-- Gecikmeler 4 iş parçacıklı bir dizüstü CPU'sunda ölçüldü (NLI modelleri bu donanımda yavaştır).
+- **9 model puanlandı:** Jev ücretsiz (BeatAPI `jev-1.13-free`, gerçek API) + 8 yerel model (TF-IDF, e5 sıfır-örnek ve LR, SetFit,
+  GLiClass, Laya, mDeBERTa NLI, ModernBERT-NLI).
+- **Yalnızca 40 örnek (sınıf başına 5):** BeatAPI'nin ücretsiz katmanı hesap başına dakikada 1 başarılı isteğe izin veriyor
+  (151 örnek ≈ 2,5 saat). Bu yüzden *tüm modeller aynı dengeli 40 örnekte* değerlendirildi. %95 güven aralıkları çok geniştir
+  (örn. Jev %95,0 [%88–%100]); modeller arasında kesin sıralama çıkarılamaz.
+- **Jev bu 40 örnekte öne çıktı** (doğruluk %95, kalibrasyon hatası 3,8 puan, p50 gecikme ~0,5 sn, örnek başına ~760 giriş tokenı).
+  Gecikme API'ye uçtan uca istek süresidir, hız limiti beklemesi hariçtir. Daha fazla örnekle (bakiye yükleyince limit artıyor) doğrulanmalı.
+- **8 API modeli puanlanamadı** ve nedeni panelde "Atlananlar" bölümünde görünür: Jev (jev-ai.pro, 402 bakiye yok), Instinct ×3
+  (402 cüzdan boş), OpenRouter üzerindeki 4 model (402 kredi yok). Bunlar gerçek API yanıtlarıdır; anahtarlar geçerli, hesaplarda
+  bakiye yok. Sistem boş istek atmadan modeli açık nedenle atlar.
+- Veri: yerleşik `destek_tr` (gümüş etiketli). Gecikmeler 4 iş parçacıklı bir dizüstü CPU'sunda ölçüldü.
 - Eğitimli modeller `train` bölümünden öğrenir; sıfır örnekli modellerle veri bütçesi farklıdır, panelde ayrı grup olarak görünür.
-- Laya multilingual bu Türkçe görevde zayıf çıktı (%33); sonuç bu veri ve etiket adlarına özgüdür.
+- Laya multilingual bu Türkçe görevde zayıf çıktı; sonuç bu veri ve etiket adlarına özgüdür.

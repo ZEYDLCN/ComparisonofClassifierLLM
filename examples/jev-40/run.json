@@ -1,0 +1,584 @@
+{
+  "clfbench_version": "0.1.0",
+  "run_id": "20261011-005911-jev-40",
+  "started": "2026-10-11T01:34:52",
+  "argv": [
+    "run",
+    "--limit",
+    "40",
+    "--concurrency",
+    "1",
+    "--name",
+    "jev-40",
+    "--note",
+    "Jev ücretsiz katmanı dakikada 1 istek sınırlı: tüm modeller aynı dengeli 40 örnekte (sınıf başına 5) çalıştırıldı"
+  ],
+  "note": "Jev ücretsiz katmanı dakikada 1 istek sınırlı: tüm modeller aynı dengeli 40 örnekte (sınıf başına 5) çalıştırıldı",
+  "dataset": {
+    "name": "destek_tr",
+    "fingerprint": "9ac13de53ff85f2d",
+    "split": "test",
+    "n_eval": 40,
+    "n_train": 128,
+    "class_counts": {
+      "fatura_odeme": 5,
+      "teknik_destek": 5,
+      "kargo_teslimat": 5,
+      "iade_degisim": 5,
+      "hesap_guvenlik": 5,
+      "satis_fiyat": 5,
+      "sikayet_oneri": 5,
+      "diger": 5
+    }
+  },
+  "task": {
+    "instruction": "Aşağıdaki Türkçe müşteri mesajını, mesajın ASIL talebine göre tam olarak bir kategoriye ata. Mesaj bir ürün/hizmet talebi içermiyorsa veya şirketle ilgisizse 'diger' seç.",
+    "labels": {
+      "fatura_odeme": "Ödeme, çifte veya hatalı çekim, fatura, taksit, abonelik ücreti, ödenmiş paranın hesaba geri yatması",
+      "teknik_destek": "Uygulama veya site hataları, çökme, yavaşlık, yükleme sorunları, bildirim, API ve entegrasyon sorunları",
+      "kargo_teslimat": "Kargo takibi, gecikme, hasarlı veya eksik teslimat, adres değişikliği, kurye ve teslimat seçenekleri",
+      "iade_degisim": "Ürünü geri gönderme, ürün değişimi, sipariş iptali, cayma hakkı, garanti ve arıza başvurusu",
+      "hesap_guvenlik": "Şifre, hesap kilitlenmesi, yetkisiz erişim, dolandırıcılık şüphesi, kişisel veriler ve gizlilik, hesap ayarları",
+      "satis_fiyat": "Satın alma öncesi bilgi: fiyat, kampanya, stok, indirim kodu, kurumsal satış, ürün özellikleri",
+      "sikayet_oneri": "Belirli bir talep içermeyen genel memnuniyetsizlik, personel şikayeti, teşekkür, övgü veya öneri",
+      "diger": "Kapsam dışı, anlamsız, spam, test veya şirketle ilgisiz mesajlar"
+    },
+    "notes": "Çakışma kuralı: ödenmiş paranın geri yatması fatura_odeme; ürünün geri gönderilmesi/değişimi/iptali iade_degisim. Mesajda birden fazla talep varsa ilk ve öncelikli talebe göre etiketlenir."
+  },
+  "settings": {
+    "seed": 0,
+    "shots_per_label": 0,
+    "robustness": false,
+    "warmup": 1,
+    "prompt_version": "v1",
+    "concurrency_override": 1
+  },
+  "environment": {
+    "python": "3.13.14",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "packages": {
+      "requests": "2.34.2",
+      "numpy": "2.5.4",
+      "anthropic": "1.13.0",
+      "scikit-learn": "1.9.1",
+      "torch": "2.14.1",
+      "transformers": "5.19.0",
+      "sentence-transformers": "6.1.0",
+      "gliclass": "0.1.20",
+      "laya": "0.4.2",
+      "setfit": "1.2.0"
+    },
+    "git_commit": "7e4cf16"
+  },
+  "models": [
+    {
+      "key": "jev_ai",
+      "display": "Jev (jev-ai.pro)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "Fiyat bilinmiyor: jev-ai.pro tarifesini girin (USD / 1M giriş tokenı)",
+      "verified": "Sağlayıcının verdiği curl örneği: POST /api/v1/systemone, Bearer anahtar, state + questions (System One şeması)",
+      "notes": "",
+      "local": false,
+      "status": "failed",
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {   \"error\": true,   \"url\": \"https://jev-ai.pro/api/v1/systemone\",   \"statusCode\": 402,   \"statusMessage\": \"Credit and token balances are insufficient.\",   \"message\": \"Credit and token balan). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+    },
+    {
+      "key": "jev_beatapi",
+      "display": "Jev ücretsiz (BeatAPI, jev-1.13-free)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "jev-1.13-free",
+      "price_in": 0.0,
+      "price_out": 0.0,
+      "price_note": "Ücretsiz katman (sıfır bakiyede çalıştığı iddia ediliyor); limitler doğrulanmadı",
+      "verified": "Uç nokta doğrulandı (sahte anahtara 401 invalid_api_key). Ücretsiz erişim/kota yalnızca topluluk makalesi ve jevapi.io'ya dayanıyor: kullanmadan önce beatapi.io'da teyit edin",
+      "notes": "",
+      "local": false,
+      "status": "ok",
+      "setup_s": 0.0,
+      "cold_ms": 1201.1719000292942,
+      "wall_s": 2135.454,
+      "concurrency": 1,
+      "cached": 9
+    },
+    {
+      "key": "instinct_27b",
+      "display": "Instinct 27B (ZooData)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "instinct",
+      "price_in": 0.03,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "notes": "",
+      "local": false,
+      "status": "failed",
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_7d47d9c0e5444cd8\",\"timestamp\":\"2026-10-10T22:34:50.059844Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+    },
+    {
+      "key": "instinct_tuned_4b",
+      "display": "Instinct tuned 4B (ZooData)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "instinct-tuned-4b",
+      "price_in": 0.01,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "notes": "",
+      "local": false,
+      "status": "failed",
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_07c49f8698594ce9\",\"timestamp\":\"2026-10-10T22:34:50.263237Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+    },
+    {
+      "key": "instinct_dual_4b",
+      "display": "Instinct dual 4B (ZooData)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "instinct-dual-4b",
+      "price_in": 0.01,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "notes": "",
+      "local": false,
+      "status": "failed",
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_d79bebcc49514b42\",\"timestamp\":\"2026-10-10T22:34:50.442198Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+    },
+    {
+      "key": "mercury_2_5_or",
+      "display": "Mercury 2.5 (sohbet, OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "inception/mercury-2.5",
+      "price_in": 0.04,
+      "price_out": 0.15,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı. Mercury Decide OpenRouter'da yok; o için INCEPTION_API_KEY gerekir",
+      "notes": "",
+      "local": false,
+      "status": "failed",
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+    },
+    {
+      "key": "gpt_6_luna",
+      "display": "GPT-6 Luna (sohbet, OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "openai/gpt-6-luna",
+      "price_in": 0.1,
+      "price_out": 0.5,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "notes": "",
+      "local": false,
+      "status": "failed",
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+    },
+    {
+      "key": "deepseek_v4_flash",
+      "display": "DeepSeek V4 Flash (OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "deepseek/deepseek-v4-flash",
+      "price_in": 0.03,
+      "price_out": 1.28,
+      "price_note": "Sağlayıcıya göre değişebilir; reasoning çıktı tokenı yükseltir",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "notes": "",
+      "local": false,
+      "status": "failed",
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+    },
+    {
+      "key": "qwen3_8_flash",
+      "display": "Qwen3.8 Flash (OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "qwen/qwen3.8-flash",
+      "price_in": 0.15,
+      "price_out": 0.47,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "notes": "",
+      "local": false,
+      "status": "failed",
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+    },
+    {
+      "key": "laya_multilingual",
+      "display": "Laya multilingual (322M)",
+      "group": "encoder",
+      "provider": "laya",
+      "model": "convaiinnovations/laya-multilingual",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "Laya README: Router.predict(text, questions)",
+      "notes": "pip install laya",
+      "local": true,
+      "status": "ok",
+      "setup_s": 0.079,
+      "cold_ms": 136462.53780007828,
+      "wall_s": 0.001,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "gliclass_large_v3",
+      "display": "GLiClass large v3.0",
+      "group": "encoder",
+      "provider": "gliclass",
+      "model": "knowledgator/gliclass-large-v3.0",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "GLiClass README: ZeroShotClassificationPipeline",
+      "notes": "Model kartı çok dilli desteği belirtmiyor; Türkçe sonucu ayrıca yorumlanmalı. pip install gliclass",
+      "local": true,
+      "status": "ok",
+      "setup_s": 397.555,
+      "cold_ms": 1390.0171000277624,
+      "wall_s": 0.001,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "nli_mdeberta_xnli",
+      "display": "mDeBERTa-v3 çok dilli NLI (sıfır örnek)",
+      "group": "encoder",
+      "provider": "nli",
+      "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "",
+      "local": true,
+      "status": "ok",
+      "setup_s": 119.573,
+      "cold_ms": null,
+      "wall_s": 0.002,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "nli_modernbert_en",
+      "display": "ModernBERT-base NLI (yalnız İngilizce; negatif kontrol)",
+      "group": "encoder",
+      "provider": "nli",
+      "model": "tasksource/ModernBERT-base-nli",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "İngilizce model Türkçe metinde zayıf beklenir; çok dilli modellerle fark görülsün diye eklendi.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 116.677,
+      "cold_ms": null,
+      "wall_s": 0.001,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "embedding_e5_zeroshot",
+      "display": "multilingual-e5-small (sıfır örnek, kosinüs)",
+      "group": "encoder",
+      "provider": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "",
+      "local": true,
+      "status": "ok",
+      "setup_s": 9.337,
+      "cold_ms": null,
+      "wall_s": 0.001,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "tfidf_lr",
+      "display": "TF-IDF + Lojistik Regresyon (eğitimli)",
+      "group": "egitimli",
+      "provider": "tfidf_lr",
+      "model": "",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "train bölümüyle eğitilir. Etiketli veri bütçesi: sıfır örnekli modellerden farklı.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 0.419,
+      "cold_ms": null,
+      "wall_s": 0.001,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "embedding_e5_lr",
+      "display": "multilingual-e5-small + LR (eğitimli)",
+      "group": "egitimli",
+      "provider": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "SetFit'in karşıtı basit sürüm: gömme dondurulur, yalnız sınıflandırıcı başı eğitilir.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 18.426,
+      "cold_ms": null,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "setfit_minilm",
+      "display": "SetFit (MiniLM çok dilli, 8-shot)",
+      "group": "egitimli",
+      "provider": "setfit",
+      "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "pip install setfit. CPU'da eğitim dakikalar sürebilir.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 225.089,
+      "cold_ms": 24.02709994930774,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    }
+  ],
+  "eval_examples": [
+    {
+      "id": "diger-845d856f",
+      "tags": [
+        "short"
+      ],
+      "text": "Yanlış numara, kusura bakmayın."
+    },
+    {
+      "id": "diger-8e2a3041",
+      "tags": [],
+      "text": "Evimizin çatısı akıyor, tamirci tavsiye eder misiniz?"
+    },
+    {
+      "id": "diger-8f57c59f",
+      "tags": [
+        "short"
+      ],
+      "text": "Türkiye'nin başkenti neresidir?"
+    },
+    {
+      "id": "diger-98372d77",
+      "tags": [],
+      "text": "Bitcoin yatırımı ile günde 500 dolar kazanın!"
+    },
+    {
+      "id": "diger-9a79c67d",
+      "tags": [],
+      "text": "Annemin doğum günü için pasta tarifi arıyorum."
+    },
+    {
+      "id": "fatura_odeme-742c5c80",
+      "tags": [],
+      "text": "Ödeme yaparken sepet tutarı ile çekilen tutar arasında 25 TL fark var."
+    },
+    {
+      "id": "fatura_odeme-86979dcd",
+      "tags": [],
+      "text": "Peşin ödediğim tutarın bir kısmı iade edilecekti, hâlâ görmedim."
+    },
+    {
+      "id": "fatura_odeme-a2f14974",
+      "tags": [],
+      "text": "Banka kartımla ödeme yapamıyorum, sadece kredi kartı mı kabul ediyorsunuz?"
+    },
+    {
+      "id": "fatura_odeme-a477f287",
+      "tags": [],
+      "text": "Kapıda ödeme seçeneği neden kapalı?"
+    },
+    {
+      "id": "fatura_odeme-a9be8435",
+      "tags": [],
+      "text": "Kartımdan aynı sipariş için iki kez çekim yapılmış, fazla tutarın iadesini istiyorum."
+    },
+    {
+      "id": "hesap_guvenlik-6a6b8824",
+      "tags": [],
+      "text": "Hesabımdan çıkış yapmadığım başka cihazları kapatabilir miyim?"
+    },
+    {
+      "id": "hesap_guvenlik-768bfd30",
+      "tags": [],
+      "text": "İki adımlı doğrulamayı nasıl açarım?"
+    },
+    {
+      "id": "hesap_guvenlik-7bea5bfe",
+      "tags": [],
+      "text": "Başkası benim adıma işlem yapıyor, hesabımı dondurmanızı istiyorum."
+    },
+    {
+      "id": "hesap_guvenlik-81dd1d2e",
+      "tags": [
+        "ascii"
+      ],
+      "text": "hesabim hacklendi sifremi degistiremiyorum yardim edin"
+    },
+    {
+      "id": "hesap_guvenlik-9d151f7b",
+      "tags": [],
+      "text": "Eski şifremle giriş yapabiliyorum ama yenisiyle yapamıyorum, hesabımda bir sorun mu var?"
+    },
+    {
+      "id": "iade_degisim-9ded8740",
+      "tags": [],
+      "text": "Hediye aldım, fiyat etiketi yok, iade edebilir miyim?"
+    },
+    {
+      "id": "iade_degisim-a53df295",
+      "tags": [],
+      "text": "Kupon kullanarak aldığım ürünü iade edersem kupon geri gelir mi?"
+    },
+    {
+      "id": "iade_degisim-a8458714",
+      "tags": [],
+      "text": "Telefonun ekranında çizik var, garanti kapsamında değişim mümkün mü?"
+    },
+    {
+      "id": "iade_degisim-b36f33d2",
+      "tags": [],
+      "text": "Aynı üründen iki adet gelmiş, birini geri göndermek istiyorum."
+    },
+    {
+      "id": "iade_degisim-b3cec9e6",
+      "tags": [],
+      "text": "Beden tablosuna göre aldım ama olmadı, değişim hakkım kaç gün?"
+    },
+    {
+      "id": "kargo_teslimat-79a501ea",
+      "tags": [],
+      "text": "Kargom \"teslim edildi\" görünüyor ama bana ulaşmadı."
+    },
+    {
+      "id": "kargo_teslimat-7e07c5e7",
+      "tags": [],
+      "text": "Kargo firması paketimi şubede 5 gündür bekletiyor, geri gönderilecek diyorlar."
+    },
+    {
+      "id": "kargo_teslimat-7f0e328a",
+      "tags": [
+        "ascii"
+      ],
+      "text": "kargom nerde 3 gundur ayni sehirde bekliyor"
+    },
+    {
+      "id": "kargo_teslimat-89d0cd44",
+      "tags": [],
+      "text": "Kargom yanlış adrese teslim edilmiş, ne yapmalıyım?"
+    },
+    {
+      "id": "kargo_teslimat-8eedcfcc",
+      "tags": [],
+      "text": "Kurye telefonuma hiç ulaşmadan \"alıcı yok\" diyerek geri götürmüş."
+    },
+    {
+      "id": "satis_fiyat-983237d8",
+      "tags": [],
+      "text": "Fiyat farkı iadesi yapıyor musunuz? Aldıktan iki gün sonra fiyat düştü."
+    },
+    {
+      "id": "satis_fiyat-98422379",
+      "tags": [],
+      "text": "Bu ürün hangi yaş grubuna uygun?"
+    },
+    {
+      "id": "satis_fiyat-9be4ec61",
+      "tags": [
+        "short"
+      ],
+      "text": "Fiyatı ne kadar?"
+    },
+    {
+      "id": "satis_fiyat-9d0adb9a",
+      "tags": [
+        "ascii"
+      ],
+      "text": "bu urunun fiyati neden dun daha ucuzdu"
+    },
+    {
+      "id": "satis_fiyat-aab3a54f",
+      "tags": [],
+      "text": "Pro paketle standart paket arasındaki farklar neler?"
+    },
+    {
+      "id": "sikayet_oneri-a249b8e3",
+      "tags": [],
+      "text": "Sitenizin renkleri gözümü yoruyor, daha sade olabilir."
+    },
+    {
+      "id": "sikayet_oneri-a39c803f",
+      "tags": [],
+      "text": "Fiyat/performans açısından çok başarılı bir hizmet."
+    },
+    {
+      "id": "sikayet_oneri-b21c8915",
+      "tags": [
+        "multi"
+      ],
+      "text": "Uygulama güzel ama kargo süreniz çok yavaş, bunu iyileştirmenizi öneririm."
+    },
+    {
+      "id": "sikayet_oneri-bfba156d",
+      "tags": [],
+      "text": "Bu kadar pahalıya bu hizmeti vermek ayıp."
+    },
+    {
+      "id": "sikayet_oneri-bfbead84",
+      "tags": [],
+      "text": "Bildirimleriniz çok fazla, rahatsız edici olmaya başladı."
+    },
+    {
+      "id": "teknik_destek-a59a2ae9",
+      "tags": [],
+      "text": "Ödeme sayfası açılırken sonsuz döngüye giriyor, geri tuşu da çalışmıyor."
+    },
+    {
+      "id": "teknik_destek-b31c4706",
+      "tags": [
+        "multi"
+      ],
+      "text": "Faturamı görmek için hesabıma girmem lazım ama uygulama giriş ekranında çöküyor."
+    },
+    {
+      "id": "teknik_destek-b97b2c4a",
+      "tags": [],
+      "text": "SDK'nın son sürümünü kullanınca derleme hatası alıyoruz, \"undefined reference\" diyor."
+    },
+    {
+      "id": "teknik_destek-b9f72f71",
+      "tags": [],
+      "text": "Harita ekranı hiç yüklenmiyor, sadece gri kutu görünüyor."
+    },
+    {
+      "id": "teknik_destek-ba403854",
+      "tags": [],
+      "text": "Web sitesi Safari'de düzgün görünmüyor, butonlar kaymış."
+    }
+  ]
+}
