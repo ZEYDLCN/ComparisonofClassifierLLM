@@ -44,6 +44,11 @@ GUIDES: list[KeyGuide] = [
              "Sağlayıcı panelinden anahtar oluştur (sk_jev-ai_ ile başlar). Uç nokta: https://jev-ai.pro/api/v1/systemone; istekte model alanı yok. "
              "Bakiye yoksa API 402 döner; yükleme adresi: https://jev-ai.pro/pricing?context=api&mode=top-up",
              "Çağrı için token/kredi bakiyesi gerekir (bakiye yokken ücret kesilmez). Tarife bilinmiyor: models.yaml'da jev_ai fiyatını girersen rapor maliyeti hesaplar."),
+    KeyGuide("BEATAPI_API_KEY", "BeatAPI (Jev ücretsiz: jev-1.13-free)",
+             "https://beatapi.io/dashboard/apikeys",
+             "beatapi.io'da hesap aç → Dashboard → API keys → anahtar oluştur. Uç nokta: https://api.beatapi.io/v1/systemone. "
+             "Anahtarı sunucu tarafında (.env) tut. jev-ai.pro anahtarın buraya UYMAZ: her servisin anahtarı ayrıdır.",
+             "Sıfır bakiyede ücretsiz çalıştığı belirtiliyor (kaynak: topluluk makalesi, jevapi.io); limitler doğrulanmadı."),
     KeyGuide("TYPESAFE_API_KEY", "TypeSafe (Jev)",
              "https://docs.typesafe.ai",
              "TypeSafe konsolunda API Keys sayfasından anahtar oluştur (docs.typesafe.ai). Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. "
