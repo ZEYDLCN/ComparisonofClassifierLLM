@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clfbench"
+version = "0.1.0"
+description = "Classifier LLM karşılaştırma altyapısı: karar API'leri, üretken LLM'ler, encoder ve eğitimli modeller aynı Türkçe veri üzerinde."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31",
+    "numpy>=1.26",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+    "tqdm>=4.66",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+# Claude modelleri için resmi SDK
+anthropic = ["anthropic>=1.0"]
+# Yerel (CPU/GPU) modeller: TF-IDF, embedding, NLI
+local = ["scikit-learn>=1.4", "sentence-transformers>=3.0", "transformers>=4.44", "torch>=2.2"]
+# İsteğe bağlı yerel encoder paketleri
+gliclass = ["gliclass"]
+laya = ["laya"]
+setfit = ["setfit"]
+# Herkese açık Hugging Face veri kümeleri için
+hf = ["datasets>=2.19"]
+dev = ["pytest>=8.0"]
+all = ["clfbench[anthropic,local,gliclass,laya,setfit,hf,dev]"]
+
+[project.scripts]
+clfbench = "clfbench.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# faulthandler kapalı: Windows'ta pyarrow'un zararsız ilk-şans istisnasını "fatal" diye raporluyor
+addopts = "-q -p no:faulthandler"

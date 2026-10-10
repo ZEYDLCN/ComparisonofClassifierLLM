@@ -1,0 +1,307 @@
+# Model kayıt defteri — karşılaştırmaya girecek tüm adaylar burada tanımlıdır.
+#
+# * API anahtarı .env dosyasındaki ortam değişkeninden (api_key_env) okunur; anahtarı olmayan model
+#   otomatik ATLANIR ve 'clfbench doctor' çıktısında nedeni görünür.
+# * price: USD / 1 milyon token. Rapordaki maliyet = ölçülen kullanım tokenı x bu tarife.
+#   Tarifeler 10 Ekim 2026 itibarıyla resmî doküman / OpenRouter model listesinden alındı; değişebilir.
+# * enabled: false olan model, yalnızca '--models anahtar' ile açıkça istenirse çalışır.
+# * group: karar-api | uretken-llm | encoder | egitimli  (raporda renk/grup olarak kullanılır)
+#
+# Yeni bir "System One" uyumlu karar API'si eklemek için jev girdisini kopyalayıp base_url/path/model/
+# api_key_env/price alanlarını değiştirmeniz yeterlidir. OpenAI uyumlu bir sohbet modeli için provider: chat_json.
+
+defaults:
+  concurrency: 4
+  timeout_s: 60
+  max_retries: 4
+
+models:
+  # ==================================================================================== KARAR API'LERİ
+  - key: jev
+    display: Jev 1.13 (TypeSafe)
+    group: karar-api
+    provider: systemone
+    base_url: https://api.typesafe.ai
+    path: /v1/systemone
+    model: jev-1.13.0            # sabitlenmiş sürüm; 'jev-latest' ile değiştirilebilir
+    api_key_env: TYPESAFE_API_KEY
+    price: {input: 0.042, output: 0.0, note: "TypeSafe liste tarifesi"}
+    verified: "TypeSafe dokümanı (docs.typesafe.ai) — istek/yanıt şeması doğrulandı"
+
+  - key: mercury_decide
+    display: Mercury Decide (Inception)
+    group: karar-api
+    provider: systemone
+    base_url: https://api.inceptionlabs.ai
+    path: /v1/decisions
+    model: mercury-decide
+    api_key_env: INCEPTION_API_KEY
+    price: {input: 0.02, output: 0.0, note: "Kampanyalı tarife; normal tarife 0.04"}
+    verified: "Inception dokümanı (docs.inceptionlabs.ai/capabilities/decisions) — şema doğrulandı"
+
+  - key: liquid_d1
+    display: Liquid d1 API
+    group: karar-api
+    provider: systemone
+    base_url: https://api.liquid.ai
+    path: /decisions/v1/systemone
+    model: d1
+    api_key_env: LIQUID_API_KEY
+    price: {input: 0.04, output: 0.0}
+    verified: "Liquid d1 blogu: state/questions biçimi; 'choice' alanları System One ortak protokolünden alındı"
+
+  - key: instinct_27b
+    display: Instinct 27B (ZooData)
+    group: karar-api
+    provider: systemone
+    base_url: https://api.zoodata.ai
+    path: /v1/systemone
+    model: instinct
+    api_key_env: ZOODATA_API_KEY
+    price: {input: 0.03, output: 0.0, note: "En az 20 USD bakiye yüklemesi gerekir"}
+    verified: "ZooData/Instinct dokümanı — şema doğrulandı"
+
+  - key: instinct_tuned_4b
+    display: Instinct tuned 4B (ZooData)
+    group: karar-api
+    provider: systemone
+    base_url: https://api.zoodata.ai
+    path: /v1/systemone
+    model: instinct-tuned-4b
+    api_key_env: ZOODATA_API_KEY
+    price: {input: 0.01, output: 0.0, note: "En az 20 USD bakiye yüklemesi gerekir"}
+    verified: "ZooData/Instinct dokümanı — şema doğrulandı"
+
+  - key: instinct_dual_4b
+    display: Instinct dual 4B (ZooData)
+    group: karar-api
+    provider: systemone
+    base_url: https://api.zoodata.ai
+    path: /v1/systemone
+    model: instinct-dual-4b      # iki farklı seçenek sırasıyla çalışır
+    api_key_env: ZOODATA_API_KEY
+    price: {input: 0.01, output: 0.0, note: "En az 20 USD bakiye yüklemesi gerekir"}
+    verified: "ZooData/Instinct dokümanı — şema doğrulandı"
+
+  - key: openai_decisions
+    display: OpenAI Decisions (gpt-6-luna)
+    group: karar-api
+    provider: openai_decisions
+    base_url: https://api.openai.com
+    path: /v1/decisions
+    model: gpt-6-luna
+    api_key_env: OPENAI_API_KEY
+    price: {input: 0.10, output: 0.0, note: "Public beta"}
+    verified: "OpenAI Decisions dokümanı — şema doğrulandı"
+
+  - key: sage
+    display: Sage 1.3 (Levanto)
+    group: karar-api
+    provider: systemone
+    enabled: false
+    base_url: ""                  # docs.levanto.ai'den uç noktayı kopyalayıp doldurun
+    path: /v1/systemone
+    model: sage-1.3.0
+    api_key_env: LEVANTO_API_KEY
+    price: {input: 0.05, output: 10.0, note: "Giriş tarifesi; reasoning/arama ek ücreti ayrı"}
+    verified: "DOĞRULANMADI — Levanto fiyat sayfası uç nokta/şema vermiyor. base_url ve model kimliğini dokümandan doğrulayın"
+
+  - key: microsoft_decision_1
+    display: Microsoft-Decision-1 (Foundry)
+    group: karar-api
+    provider: systemone
+    enabled: false
+    base_url: ""                  # Foundry dağıtım uç noktanız
+    path: /v1/systemone
+    model: microsoft-decision-1
+    api_key_env: FOUNDRY_API_KEY
+    price: {input: 0.042, output: 0.0, note: "Foundry tarifesi doğrulanmalı"}
+    verified: "DOĞRULANMADI — dağıtım uç noktası ve istek şeması Foundry portalından teyit edilmeli"
+
+  # ==================================================================================== ÜRETKEN LLM'LER
+  - key: claude_haiku_5_5
+    display: Claude Haiku 5.5
+    group: uretken-llm
+    provider: claude
+    model: claude-haiku-5-5
+    api_key_env: ANTHROPIC_API_KEY
+    requires: [anthropic]
+    price: {input: 0.10, output: 0.50, note: "100K token altı istemler için"}
+    options: {effort: low, max_tokens: 1024}
+    verified: "Resmî Anthropic SDK, JSON-şema çıktısı"
+
+  - key: claude_sonnet_5_5
+    display: Claude Sonnet 5.5
+    group: uretken-llm
+    provider: claude
+    model: claude-sonnet-5-5
+    api_key_env: ANTHROPIC_API_KEY
+    requires: [anthropic]
+    price: {input: 2.0, output: 10.0}
+    options: {effort: low, max_tokens: 1024}
+    verified: "Resmî Anthropic SDK, JSON-şema çıktısı"
+
+  - key: claude_opus_5_5
+    display: Claude Opus 5.5
+    group: uretken-llm
+    provider: claude
+    enabled: false
+    model: claude-opus-5-5
+    api_key_env: ANTHROPIC_API_KEY
+    requires: [anthropic]
+    price: {input: 4.0, output: 20.0}
+    options: {effort: low, max_tokens: 1024}
+    verified: "Resmî Anthropic SDK, JSON-şema çıktısı"
+
+  - key: gemini_3_5_flash_lite
+    display: Gemini 3.5 Flash-Lite
+    group: uretken-llm
+    provider: gemini
+    model: gemini-3.5-flash-lite
+    api_key_env: GEMINI_API_KEY
+    price: {input: 0.30, output: 2.50, note: "Çıktı fiyatı düşünme tokenlarını da kapsar"}
+    options: {max_tokens: 2048}
+    verified: "Google AI fiyat sayfası: model kimliği ve tarife doğrulandı"
+
+  - key: gemini_3_8_flash
+    display: Gemini 3.8 Flash
+    group: uretken-llm
+    provider: gemini
+    enabled: false
+    model: gemini-3.8-flash
+    api_key_env: GEMINI_API_KEY
+    price: {input: 0.75, output: 3.75, note: "31 Aralık 2026'ya kadar; 1 Ocak 2027'den itibaren 1.50 / 7.50"}
+    options: {max_tokens: 2048}
+    verified: "Google AI fiyat sayfası"
+
+  - key: mercury_2_5
+    display: Mercury 2.5 (sohbet, Inception)
+    group: uretken-llm
+    provider: chat_json
+    base_url: https://api.inceptionlabs.ai/v1
+    path: /chat/completions
+    model: mercury-2.5
+    api_key_env: INCEPTION_API_KEY
+    price: {input: 0.04, output: 0.15, note: "Kampanyalı tarife (normal 0.20 / 0.75)"}
+    options: {max_tokens: 512, json_mode: true}
+    verified: "Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta"
+
+  - key: gpt_6_luna
+    display: GPT-6 Luna (sohbet, OpenRouter)
+    group: uretken-llm
+    provider: chat_json
+    base_url: https://openrouter.ai/api/v1
+    path: /chat/completions
+    model: openai/gpt-6-luna
+    api_key_env: OPENROUTER_API_KEY
+    price: {input: 0.10, output: 0.50}
+    options: {max_tokens: 2048, json_mode: true, extra_body: {reasoning: {effort: low}}}
+    verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı"
+
+  - key: deepseek_v4_flash
+    display: DeepSeek V4 Flash (OpenRouter)
+    group: uretken-llm
+    provider: chat_json
+    base_url: https://openrouter.ai/api/v1
+    path: /chat/completions
+    model: deepseek/deepseek-v4-flash
+    api_key_env: OPENROUTER_API_KEY
+    price: {input: 0.03, output: 1.28, note: "Sağlayıcıya göre değişebilir; reasoning çıktı tokenı yükseltir"}
+    options: {max_tokens: 2048, json_mode: true, extra_body: {reasoning: {effort: low}}}
+    verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı"
+
+  - key: qwen3_8_flash
+    display: Qwen3.8 Flash (OpenRouter)
+    group: uretken-llm
+    provider: chat_json
+    base_url: https://openrouter.ai/api/v1
+    path: /chat/completions
+    model: qwen/qwen3.8-flash
+    api_key_env: OPENROUTER_API_KEY
+    price: {input: 0.15, output: 0.47}
+    options: {max_tokens: 2048, json_mode: true, extra_body: {reasoning: {effort: low}}}
+    verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı"
+
+  - key: qwen3_8_27b
+    display: Qwen3.8 27B (OpenRouter)
+    group: uretken-llm
+    provider: chat_json
+    enabled: false
+    base_url: https://openrouter.ai/api/v1
+    path: /chat/completions
+    model: qwen/qwen3.8-27b
+    api_key_env: OPENROUTER_API_KEY
+    price: {input: 0.425, output: 2.55}
+    options: {max_tokens: 2048, json_mode: true, extra_body: {reasoning: {effort: low}}}
+    verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı"
+
+  # ==================================================================================== ENCODER (YEREL)
+  - key: laya_multilingual
+    display: Laya multilingual (322M)
+    group: encoder
+    provider: laya
+    model: convaiinnovations/laya-multilingual
+    requires: [laya]
+    options: {checkpoint: multilingual}
+    verified: "Laya README: Router.predict(text, questions)"
+    notes: "pip install laya"
+
+  - key: gliclass_large_v3
+    display: GLiClass large v3.0
+    group: encoder
+    provider: gliclass
+    model: knowledgator/gliclass-large-v3.0
+    requires: [gliclass, transformers, torch]
+    verified: "GLiClass README: ZeroShotClassificationPipeline"
+    notes: "Model kartı çok dilli desteği belirtmiyor; Türkçe sonucu ayrıca yorumlanmalı. pip install gliclass"
+
+  - key: nli_mdeberta_xnli
+    display: mDeBERTa-v3 çok dilli NLI (sıfır örnek)
+    group: encoder
+    provider: nli
+    model: MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7
+    requires: [transformers, torch]
+    options: {hypothesis_template: "Bu mesaj {} ile ilgilidir."}
+
+  - key: nli_modernbert_en
+    display: ModernBERT-base NLI (yalnız İngilizce; negatif kontrol)
+    group: encoder
+    provider: nli
+    model: tasksource/ModernBERT-base-nli
+    requires: [transformers, torch]
+    options: {hypothesis_template: "This message is about {}."}
+    notes: "İngilizce model Türkçe metinde zayıf beklenir; çok dilli modellerle fark görülsün diye eklendi."
+
+  - key: embedding_e5_zeroshot
+    display: multilingual-e5-small (sıfır örnek, kosinüs)
+    group: encoder
+    provider: embedding
+    model: intfloat/multilingual-e5-small
+    requires: [sentence_transformers, torch]
+    options: {mode: zero_shot, query_prefix: "query: ", passage_prefix: "passage: ", temperature: 0.05}
+
+  # ==================================================================================== EĞİTİMLİ TEMEL MODELLER
+  - key: tfidf_lr
+    display: TF-IDF + Lojistik Regresyon (eğitimli)
+    group: egitimli
+    provider: tfidf_lr
+    requires: [sklearn]
+    notes: "train bölümüyle eğitilir. Etiketli veri bütçesi: sıfır örnekli modellerden farklı."
+
+  - key: embedding_e5_lr
+    display: multilingual-e5-small + LR (eğitimli)
+    group: egitimli
+    provider: embedding
+    model: intfloat/multilingual-e5-small
+    requires: [sentence_transformers, torch, sklearn]
+    options: {mode: lr, query_prefix: "query: "}
+    notes: "SetFit'in karşıtı basit sürüm: gömme dondurulur, yalnız sınıflandırıcı başı eğitilir."
+
+  - key: setfit_minilm
+    display: SetFit (MiniLM çok dilli, 8-shot)
+    group: egitimli
+    provider: setfit
+    model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    requires: [setfit, datasets, torch]
+    options: {k_shot: 8, num_epochs: 1, num_iterations: 10, batch_size: 16}
+    notes: "pip install setfit. CPU'da eğitim dakikalar sürebilir."
