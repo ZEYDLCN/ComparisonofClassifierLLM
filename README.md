@@ -39,6 +39,26 @@ python -m clfbench run --robustness        # hepsini çalıştır → results/<t
 Anahtarı olmayan model **otomatik atlanır**; hiçbir anahtar olmadan bile yerel modellerle (TF-IDF, embedding, NLI)
 tüm boru hattı çalışır. Rapor `results/<koşu>/report.html` (tek dosya, grafikler gömülü) ve `report.md` olarak üretilir.
 
+Her şeyi (Laya, GLiClass, SetFit dahil) tek seferde kurmak için `pip install -e ".[all]"`. Bu kurulum temiz bir
+sanal ortamda (Python 3.13, Windows) test edildi: 38 test geçti ve yerel sağlayıcıların hepsi gerçek modelle çalıştı.
+
+### Disk ve süre notu (yerel modeller)
+
+Yerel modeller ilk çalıştırmada Hugging Face'ten indirilir. Diskin dolu olduğu makinelerde `HF_HOME` ile önbelleği
+başka sürücüye alabilirsin (örn. PowerShell: `setx HF_HOME D:\hf-cache`, yeni terminal aç).
+
+| Model | İlk indirme | CPU'da hız (151 örnek) |
+|---|---|---|
+| TF-IDF + LR | yok | saniyeler |
+| multilingual-e5-small (sıfır örnek / LR) | ~0,46 GB | ~25 ms/örnek |
+| SetFit (MiniLM çok dilli) | ~0,45 GB | eğitim ~3-5 dk, sonra ~30 ms/örnek |
+| Laya multilingual | ~0,6 GB | kısa; ilk çağrıda model indirilir |
+| mDeBERTa-v3 NLI / ModernBERT-NLI | ~0,55 GB / ~0,56 GB | **~5 sn/örnek** (8 etiket × NLI) ≈ 12 dk |
+| GLiClass large v3 | ~1,6 GB | ~1-2 sn/örnek |
+
+NLI modelleri CPU'da yavaştır; yalnız API modellerini çalıştırmak için `--groups karar-api,uretken-llm`,
+yalnız hızlı yerel modeller için `--models tfidf_lr,embedding_e5_lr,setfit_minilm` kullan.
+
 ### Sık kullanılan komutlar
 
 | Komut | Ne yapar |
