@@ -1,0 +1,327 @@
+{"id": "diger-5fa339bb", "text": "asdfghjkl", "label": "diger", "split": "dev", "tags": ["short"]}
+{"id": "diger-67bc85b3", "text": "Haftaya yoga kursuna katılmak isteyenler var mı?", "label": "diger", "split": "dev", "tags": []}
+{"id": "diger-6a7c5159", "text": "Bugün günlerden ne?", "label": "diger", "split": "dev", "tags": ["short"]}
+{"id": "diger-6eae3a5b", "text": "...", "label": "diger", "split": "dev", "tags": ["short"]}
+{"id": "diger-7a85f476", "text": "ok", "label": "diger", "split": "dev", "tags": ["short"]}
+{"id": "diger-7d8280c2", "text": "Genel merkeziniz nerede? Yoksa başka bir şirkete mi yazıyorum?", "label": "diger", "split": "dev", "tags": []}
+{"id": "fatura_odeme-5f11eaa7", "text": "Hediye çeki bakiyem ödeme ekranında kullanılmıyor.", "label": "fatura_odeme", "split": "dev", "tags": []}
+{"id": "fatura_odeme-6552a927", "text": "Ödeme yaparken 3D Secure kodu hiç gelmiyor, ödeme tamamlanamıyor.", "label": "fatura_odeme", "split": "dev", "tags": []}
+{"id": "fatura_odeme-6850d037", "text": "Havale açıklamasına sipariş numarasını yazmayı unuttum, ödemem eşleşir mi?", "label": "fatura_odeme", "split": "dev", "tags": []}
+{"id": "fatura_odeme-69587687", "text": "3 taksit seçmiştim ama ekstrede tek çekim görünüyor.", "label": "fatura_odeme", "split": "dev", "tags": []}
+{"id": "fatura_odeme-7317daba", "text": "Son ödememde indirim kodu uygulanmadı ama tutar düşmüş gösterdi, hangisi doğru?", "label": "fatura_odeme", "split": "dev", "tags": []}
+{"id": "fatura_odeme-73dd8411", "text": "Geçen hafta yaptığım ödemenin dekontunu iletiyorum, sisteme işlenmemiş.", "label": "fatura_odeme", "split": "dev", "tags": []}
+{"id": "hesap_guvenlik-4f4155d2", "text": "Kredi kartı bilgilerim sistemde kayıtlı kalıyor mu, silebilir miyim?", "label": "hesap_guvenlik", "split": "dev", "tags": []}
+{"id": "hesap_guvenlik-503d92ba", "text": "Şifremi unuttum, sıfırlama e-postası gelmiyor.", "label": "hesap_guvenlik", "split": "dev", "tags": []}
+{"id": "hesap_guvenlik-57839794", "text": "Kimlik doğrulama için yüklediğim belgeler reddedildi, nedenini öğrenebilir miyim?", "label": "hesap_guvenlik", "split": "dev", "tags": []}
+{"id": "hesap_guvenlik-57e49f3a", "text": "Hesabımı kalıcı olarak silmek istiyorum, verilerim de silinsin.", "label": "hesap_guvenlik", "split": "dev", "tags": []}
+{"id": "hesap_guvenlik-5b0eeaed", "text": "sifremi sifirlama linki calismiyo suresi dolmus yaziyor", "label": "hesap_guvenlik", "split": "dev", "tags": ["typo"]}
+{"id": "hesap_guvenlik-5f9f075b", "text": "Biyometrik giriş (parmak izi) ayarını sıfırlamak istiyorum.", "label": "hesap_guvenlik", "split": "dev", "tags": []}
+{"id": "iade_degisim-677157ec", "text": "Ürün kampanyalıydı, değişimde fark ücreti ödemem gerekir mi?", "label": "iade_degisim", "split": "dev", "tags": []}
+{"id": "iade_degisim-6bb47e5d", "text": "sipaisimi iptal etmek istiyorm acil", "label": "iade_degisim", "split": "dev", "tags": ["typo"]}
+{"id": "iade_degisim-6f4430c6", "text": "İade paketini kargoya verdim, ürünüm size ulaştı mı?", "label": "iade_degisim", "split": "dev", "tags": []}
+{"id": "iade_degisim-7e26903b", "text": "Yanlış renk gönderilmiş, doğrusuyla değiştirmek istiyorum.", "label": "iade_degisim", "split": "dev", "tags": []}
+{"id": "iade_degisim-8177cf3a", "text": "Sipariş verdiğim koltuğun rengini değiştirmek istiyorum, hâlâ iptal edebilir miyim?", "label": "iade_degisim", "split": "dev", "tags": []}
+{"id": "iade_degisim-8a20bb41", "text": "Değişim ürününü ne zaman göndereceksiniz, eski ürünü kargoya verdim.", "label": "iade_degisim", "split": "dev", "tags": []}
+{"id": "kargo_teslimat-4d429391", "text": "Paketin içinden iki ürün eksik çıktı.", "label": "kargo_teslimat", "split": "dev", "tags": []}
+{"id": "kargo_teslimat-5b686289", "text": "Kargo şirketini ben seçebilir miyim, Yurtiçi dışında bir firma istiyorum.", "label": "kargo_teslimat", "split": "dev", "tags": []}
+{"id": "kargo_teslimat-5ecc866d", "text": "Takip numaram sistemde görünmüyor.", "label": "kargo_teslimat", "split": "dev", "tags": ["short"]}
+{"id": "kargo_teslimat-6913375c", "text": "Siparişimin tahmini teslim tarihi ne zaman?", "label": "kargo_teslimat", "split": "dev", "tags": []}
+{"id": "kargo_teslimat-6a3ad457", "text": "Express teslimat seçeneği hangi şehirlerde geçerli?", "label": "kargo_teslimat", "split": "dev", "tags": []}
+{"id": "kargo_teslimat-76cc50e9", "text": "Paket hasarlı geldi, kutusu ezilmiş.", "label": "kargo_teslimat", "split": "dev", "tags": []}
+{"id": "satis_fiyat-8548b286", "text": "Mağazada gördüğüm fiyat ile internet fiyatı neden farklı?", "label": "satis_fiyat", "split": "dev", "tags": []}
+{"id": "satis_fiyat-873b5e75", "text": "Ürün stokta yok yazıyor, tekrar ne zaman gelecek?", "label": "satis_fiyat", "split": "dev", "tags": []}
+{"id": "satis_fiyat-896210ab", "text": "Bu cihazla uyumlu aksesuarlar var mı?", "label": "satis_fiyat", "split": "dev", "tags": []}
+{"id": "satis_fiyat-8b7084d4", "text": "Üyelere özel kampanyalar nelerdir?", "label": "satis_fiyat", "split": "dev", "tags": ["short"]}
+{"id": "satis_fiyat-908e382c", "text": "Bu ürünün 128 GB modeli stokta var mı?", "label": "satis_fiyat", "split": "dev", "tags": []}
+{"id": "satis_fiyat-980fd038", "text": "İndirim kodum \"YAZ25\" geçersiz görünüyor, hâlâ geçerli mi?", "label": "satis_fiyat", "split": "dev", "tags": []}
+{"id": "sikayet_oneri-8375bef4", "text": "Bu şirketten hiç memnun değilim.", "label": "sikayet_oneri", "split": "dev", "tags": []}
+{"id": "sikayet_oneri-83a8d669", "text": "Rakiplerinize göre çok geride kalmışsınız.", "label": "sikayet_oneri", "split": "dev", "tags": []}
+{"id": "sikayet_oneri-866b77b0", "text": "Emeği geçen herkese teşekkürler, sorunumu hızlıca çözdünüz.", "label": "sikayet_oneri", "split": "dev", "tags": []}
+{"id": "sikayet_oneri-86afebe4", "text": "Paketleme çok özenliydi, tebrik ederim.", "label": "sikayet_oneri", "split": "dev", "tags": []}
+{"id": "sikayet_oneri-929c8aa5", "text": "Siteniz çok karışık, aradığımı bulmak için dakikalarca uğraşıyorum.", "label": "sikayet_oneri", "split": "dev", "tags": []}
+{"id": "sikayet_oneri-98d4cc00", "text": "Telefonda bana bağırdılar, bu şikayetimi yöneticiye iletin.", "label": "sikayet_oneri", "split": "dev", "tags": []}
+{"id": "teknik_destek-79d6132e", "text": "Sayfa yüklenmesi çok yavaş, her tıklamada 10 saniye bekliyorum.", "label": "teknik_destek", "split": "dev", "tags": []}
+{"id": "teknik_destek-7d530d1c", "text": "Yeni sürümde favori listem senkronize olmuyor.", "label": "teknik_destek", "split": "dev", "tags": []}
+{"id": "teknik_destek-8f4ecb1c", "text": "Eski telefonumdaki sürümde yeni özellikler görünmüyor.", "label": "teknik_destek", "split": "dev", "tags": []}
+{"id": "teknik_destek-987ad780", "text": "Giriş yapmaya çalışınca \"Hata 500\" mesajı alıyorum.", "label": "teknik_destek", "split": "dev", "tags": []}
+{"id": "teknik_destek-a16eb2da", "text": "Masaüstü uygulaması bağlanamıyor, \"sunucuya ulaşılamadı\" yazıyor.", "label": "teknik_destek", "split": "dev", "tags": []}
+{"id": "teknik_destek-a2e8d52a", "text": "Takvim entegrasyonu Google hesabıyla eşleşmiyor.", "label": "teknik_destek", "split": "dev", "tags": []}
+{"id": "diger-845d856f", "text": "Yanlış numara, kusura bakmayın.", "label": "diger", "split": "test", "tags": ["short"]}
+{"id": "diger-8e2a3041", "text": "Evimizin çatısı akıyor, tamirci tavsiye eder misiniz?", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-8f57c59f", "text": "Türkiye'nin başkenti neresidir?", "label": "diger", "split": "test", "tags": ["short"]}
+{"id": "diger-98372d77", "text": "Bitcoin yatırımı ile günde 500 dolar kazanın!", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-9a79c67d", "text": "Annemin doğum günü için pasta tarifi arıyorum.", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-9d01d284", "text": "bilgisayarima format atacak usta lazim istanbul kadikoy", "label": "diger", "split": "test", "tags": ["ascii"]}
+{"id": "diger-a8e4c8da", "text": "Bugün hava çok güzel, parka gidiyorum.", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-b9316ea0", "text": "Okul servis ücretleri ne kadar?", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-bf5d2d96", "text": "Mesaj gönderme denemesi 1 2 3", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-bffbb3dc", "text": "Çocuğumun ödevi için fotosentez hakkında bilgi verir misiniz?", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-d8dc1ff7", "text": "Aşağıdaki cümleyi İngilizceye çevirir misin: Yarın görüşürüz.", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-dc991cb6", "text": "Ücretsiz bitcoin madenciliği için buraya tıklayın www.kazanc-firsati.example", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-dce3e044", "text": "Bu akşam hangi filmi izlemeliyim?", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-df53c2b7", "text": "Merhaba", "label": "diger", "split": "test", "tags": ["short"]}
+{"id": "diger-e195d3c6", "text": "Test mesajı", "label": "diger", "split": "test", "tags": ["short"]}
+{"id": "diger-e7b79f4c", "text": "Lorem ipsum dolor sit amet.", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-e81896ab", "text": "Hesabımla ilgili değil ama kedim kayboldu, gören var mı?", "label": "diger", "split": "test", "tags": []}
+{"id": "diger-e9f19d12", "text": "Dolar kuru bugün kaç?", "label": "diger", "split": "test", "tags": ["short"]}
+{"id": "diger-fed53d53", "text": "Elinizdeki tüm bilgileri bana verin.", "label": "diger", "split": "test", "tags": []}
+{"id": "fatura_odeme-742c5c80", "text": "Ödeme yaparken sepet tutarı ile çekilen tutar arasında 25 TL fark var.", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-86979dcd", "text": "Peşin ödediğim tutarın bir kısmı iade edilecekti, hâlâ görmedim.", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-a2f14974", "text": "Banka kartımla ödeme yapamıyorum, sadece kredi kartı mı kabul ediyorsunuz?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-a477f287", "text": "Kapıda ödeme seçeneği neden kapalı?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-a9be8435", "text": "Kartımdan aynı sipariş için iki kez çekim yapılmış, fazla tutarın iadesini istiyorum.", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-aa32c702", "text": "Para iadesi için IBAN bilgisi vermem gerekiyor mu?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-acf4c691", "text": "İade edilen tutar kartıma değil mağaza kredisine yüklenmiş, nakit iade istiyorum.", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-b0a9f329", "text": "İptal ettiğim siparişin ücreti 10 gündür hesabıma geri yatmadı.", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-b16bde29", "text": "Fatura bilgilerimi şirket adına değiştirmek istiyorum.", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-b6cc5677", "text": "Aylık plan ücretim dolar kuruna göre mi hesaplanıyor?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-c6fd1d6d", "text": "Ödememi iki ayrı kartla bölerek yapabilir miyim?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-cc09749f", "text": "Havale yaptım ama ödeme hâlâ onaylanmadı görünüyor.", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-de168fe2", "text": "Ödemem başarısız oldu ama sipariş onay maili geldi, bu normal mi?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-e2408257", "text": "Kurumsal fatura için vergi numarası ekleyebilir miyim?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-e2ee8ada", "text": "Borcum görünüyor ama ödemeyi dün yaptım, kayıt güncellenmemiş.", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-e86b048d", "text": "Fatura dönemi ortasında paket değiştirdim, fark nasıl yansıtılacak?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-edecb859", "text": "Bu ayki aidat ücretim neden arttı?", "label": "fatura_odeme", "split": "test", "tags": []}
+{"id": "fatura_odeme-f845080a", "text": "Kargom gecikti ama asıl sorunum kartımdan iki kez çekim yapılması, önce parayı iade edin.", "label": "fatura_odeme", "split": "test", "tags": ["multi"]}
+{"id": "hesap_guvenlik-6a6b8824", "text": "Hesabımdan çıkış yapmadığım başka cihazları kapatabilir miyim?", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-768bfd30", "text": "İki adımlı doğrulamayı nasıl açarım?", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-7bea5bfe", "text": "Başkası benim adıma işlem yapıyor, hesabımı dondurmanızı istiyorum.", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-81dd1d2e", "text": "hesabim hacklendi sifremi degistiremiyorum yardim edin", "label": "hesap_guvenlik", "split": "test", "tags": ["ascii"]}
+{"id": "hesap_guvenlik-9d151f7b", "text": "Eski şifremle giriş yapabiliyorum ama yenisiyle yapamıyorum, hesabımda bir sorun mu var?", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-a2a468b6", "text": "Çalışanlarımın hesaplarına rol bazlı yetki tanımlayabilir miyim?", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-a528c8bd", "text": "Verilerimin bir kopyasını talep ediyorum.", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-a95a350a", "text": "Profil bilgilerimde yazan doğum tarihi yanlış, düzeltebilir miyim?", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-ab402a9e", "text": "Giriş yaptığım cihazların listesini görmek istiyorum.", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-af22ee63", "text": "E-posta adresimi değiştirdim ama eski adres hâlâ giriş için isteniyor.", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-b3dc3789", "text": "Adıma açılmış başka bir hesap olduğunu fark ettim, bu dolandırıcılık olabilir mi?", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-d7caaa5d", "text": "Sahte bir e-posta aldım, sizden geliyormuş gibi görünüyor ve şifre istiyor.", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-dc40b4db", "text": "Parolamı sosyal medya hesabımla giriş yaparak kurtarabilir miyim?", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-e202c465", "text": "Güvenlik sorumun cevabını hatırlamıyorum.", "label": "hesap_guvenlik", "split": "test", "tags": ["short"]}
+{"id": "hesap_guvenlik-e2aa32b4", "text": "Hesap sahibi vefat etti, hesabın devri için ne yapmamız gerekiyor?", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-e3c526d8", "text": "Hesabımda benim vermediğim bir sipariş görünüyor, hesabım ele geçirilmiş olabilir.", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-e5ddfa1b", "text": "Telefon numaramı güncellemek istiyorum.", "label": "hesap_guvenlik", "split": "test", "tags": ["short"]}
+{"id": "hesap_guvenlik-eb65d6e9", "text": "Doğrulama kodu SMS ile gelmiyor, giriş yapamıyorum.", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "hesap_guvenlik-f56d5beb", "text": "Gizlilik ayarlarında profilimi kimlerin gördüğünü kontrol etmek istiyorum.", "label": "hesap_guvenlik", "split": "test", "tags": []}
+{"id": "iade_degisim-9ded8740", "text": "Hediye aldım, fiyat etiketi yok, iade edebilir miyim?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-a53df295", "text": "Kupon kullanarak aldığım ürünü iade edersem kupon geri gelir mi?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-a8458714", "text": "Telefonun ekranında çizik var, garanti kapsamında değişim mümkün mü?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-b36f33d2", "text": "Aynı üründen iki adet gelmiş, birini geri göndermek istiyorum.", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-b3cec9e6", "text": "Beden tablosuna göre aldım ama olmadı, değişim hakkım kaç gün?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-b8a3fe61", "text": "Ürünü kullanmadım, 14 gün içinde iade edebilir miyim?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-beaf7798", "text": "Hasarlı gelen ürün için değişim talebi açmak istiyorum, fotoğraflarını yükledim.", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-c4c66cea", "text": "Ayrı ayrı gelen ürünlerden yalnızca birini iade etmek mümkün mü?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-c5310aba", "text": "Cayma hakkımı kullanmak istiyorum.", "label": "iade_degisim", "split": "test", "tags": ["short"]}
+{"id": "iade_degisim-c9b3ee05", "text": "Ürün kutusunu attım, orijinal ambalajı olmadan iade olur mu?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-cfd01900", "text": "Ürün fotoğraftakinden çok farklı çıktı, geri göndermek istiyorum.", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-dc7fd797", "text": "Aldığım ayakkabı bir numara büyük geldi, değiştirmek istiyorum.", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-ddec7601", "text": "Pil şişmiş çıktı, güvenlik gereği derhal iade etmek istiyorum.", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-e14604df", "text": "Aldığım ürünün kutusu açık geldi, kullanılmış gibi, iade etmek istiyorum.", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-e4a1750c", "text": "Hasarlı ürünüm için iade yerine sadece değişim yapabiliyor musunuz?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-e7162068", "text": "İade talebimi oluşturdum ama ekranda \"beklemede\" yazıyor, ne zaman işlenecek?", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-ec31b125", "text": "Ürün hasarlı geldi, kargocu da tutanak tutmadı; değişim istiyorum.", "label": "iade_degisim", "split": "test", "tags": ["multi"]}
+{"id": "iade_degisim-f3489a5f", "text": "Defolu ürün gelmiş, tamir yerine yenisini istiyorum.", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "iade_degisim-fab27812", "text": "Siparişimi henüz kargoya verilmeden iptal etmek istiyorum.", "label": "iade_degisim", "split": "test", "tags": []}
+{"id": "kargo_teslimat-79a501ea", "text": "Kargom \"teslim edildi\" görünüyor ama bana ulaşmadı.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-7e07c5e7", "text": "Kargo firması paketimi şubede 5 gündür bekletiyor, geri gönderilecek diyorlar.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-7f0e328a", "text": "kargom nerde 3 gundur ayni sehirde bekliyor", "label": "kargo_teslimat", "split": "test", "tags": ["ascii"]}
+{"id": "kargo_teslimat-89d0cd44", "text": "Kargom yanlış adrese teslim edilmiş, ne yapmalıyım?", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-8eedcfcc", "text": "Kurye telefonuma hiç ulaşmadan \"alıcı yok\" diyerek geri götürmüş.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-90a28bf8", "text": "Teslimat şubesine gelen kargomu alamıyorum, kimlik yeterli mi?", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-91c00745", "text": "Bayram tatilinde kargo çalışıyor mu?", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-96a0ecd8", "text": "Teslimat sırasında kutu açılmış ve yeniden bantlanmıştı.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-98f76c5f", "text": "Teslim alırken imza istenmedi, nasıl \"teslim edildi\" olmuş?", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-9c4b0a56", "text": "Hafta sonu teslimat yapıyor musunuz?", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-b24abca5", "text": "Kuryeniz adresi bulamadığını söyledi ama kapı numaram doğru yazılı.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-b3f12b9a", "text": "Soğuk zincir ürünlerim eridi, paket ıslak geldi.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-c0b07969", "text": "Sipariş numaramla kargo takip kodunu eşleştiremiyorum.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-ccc5b81f", "text": "Paketin ağırlığı 12 kg ama kurye apartman girişine bırakıp gitmiş.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-e16458a8", "text": "Kuryeye hiçbir şekilde ulaşamıyorum, numarası kapalı.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-e908cc19", "text": "İade ettiğim ürünün kargosu hâlâ şubede bekliyor, kurye almaya gelmedi.", "label": "kargo_teslimat", "split": "test", "tags": ["multi"]}
+{"id": "kargo_teslimat-f07d88d9", "text": "Siparişim 6 gündür \"dağıtıma çıktı\" görünüyor ama elime ulaşmadı.", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-f3241ee1", "text": "Aynı siparişin parçaları farklı günlerde geliyor, hepsi birlikte gelmeyecek mi?", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "kargo_teslimat-fabfee0b", "text": "Teslimat saatini akşam 18:00 sonrasına alabilir miyim?", "label": "kargo_teslimat", "split": "test", "tags": []}
+{"id": "satis_fiyat-983237d8", "text": "Fiyat farkı iadesi yapıyor musunuz? Aldıktan iki gün sonra fiyat düştü.", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-98422379", "text": "Bu ürün hangi yaş grubuna uygun?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-9be4ec61", "text": "Fiyatı ne kadar?", "label": "satis_fiyat", "split": "test", "tags": ["short"]}
+{"id": "satis_fiyat-9d0adb9a", "text": "bu urunun fiyati neden dun daha ucuzdu", "label": "satis_fiyat", "split": "test", "tags": ["ascii"]}
+{"id": "satis_fiyat-aab3a54f", "text": "Pro paketle standart paket arasındaki farklar neler?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-ab4b3329", "text": "Öğrenci indirimi var mı, nasıl yararlanabilirim?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-ab9432de", "text": "Ürünün Türkçe kullanım kılavuzu var mı?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-ac650ed4", "text": "Şirketimiz için yıllık lisans paketi fiyatları nedir?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-b0e2a474", "text": "Ürünün yurt dışı modeli ile aynı mı?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-b14c5ca6", "text": "Aboneliği yıllık ödersem ne kadar tasarruf ederim?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-b2ff93c4", "text": "Ürünün renk seçenekleri neler, mavi mevcut mu?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-bce84d5c", "text": "Paket yükseltmek istiyorum, fiyat farkı ne kadar olur?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-c415f786", "text": "Bayilik almak istiyorum, koşullar nelerdir?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-d513fa37", "text": "Yeni sezon ürünler ne zaman gelecek?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-de743e65", "text": "Taksitli alışverişte vade farkı var mı?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-e7b6acdb", "text": "Kampanya ne zaman bitiyor?", "label": "satis_fiyat", "split": "test", "tags": ["short"]}
+{"id": "satis_fiyat-e9136fe8", "text": "Rakibinizin sitesinde aynı ürün daha ucuz, fiyat eşitleme yapıyor musunuz?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-efeac33e", "text": "Hediye çeki satın alabilir miyim, geçerlilik süresi nedir?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "satis_fiyat-fea1beee", "text": "Bu ürünün kutu içeriğinde şarj adaptörü var mı?", "label": "satis_fiyat", "split": "test", "tags": []}
+{"id": "sikayet_oneri-a249b8e3", "text": "Sitenizin renkleri gözümü yoruyor, daha sade olabilir.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-a39c803f", "text": "Fiyat/performans açısından çok başarılı bir hizmet.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-b21c8915", "text": "Uygulama güzel ama kargo süreniz çok yavaş, bunu iyileştirmenizi öneririm.", "label": "sikayet_oneri", "split": "test", "tags": ["multi"]}
+{"id": "sikayet_oneri-bfba156d", "text": "Bu kadar pahalıya bu hizmeti vermek ayıp.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-bfbead84", "text": "Bildirimleriniz çok fazla, rahatsız edici olmaya başladı.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-c201f108", "text": "Çocuklar için özel bir bölüm açmanızı öneririm.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-c40edcd1", "text": "Canlı destekteki temsilciniz sorunuma çok hızlı çözüm buldu, teşekkürler.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-d153a164", "text": "cok memnun kaldim tesekkurler hizli ve guvenilir", "label": "sikayet_oneri", "split": "test", "tags": ["ascii"]}
+{"id": "sikayet_oneri-d816818a", "text": "Reklamlarınız yanıltıcı, sonrasında hayal kırıklığına uğradım.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-d9d4c24e", "text": "Mesajlarıma günlerce cevap vermiyorsunuz.", "label": "sikayet_oneri", "split": "test", "tags": ["short"]}
+{"id": "sikayet_oneri-dae0e2dc", "text": "Ürün çeşitliliğiniz yetersiz, daha fazla marka eklemelisiniz.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-dd04840d", "text": "Şube çalışanları çok bilgisizdi, soruma cevap veremediler.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-deb60f71", "text": "Uygulamanız harika olmuş, ellerinize sağlık.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-ec70dc14", "text": "Keşke ürün sayfalarına video inceleme de eklenebilse.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-ec8fcf12", "text": "Çağrı merkezinde 40 dakika bekledim, bu kabul edilemez.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-ee4b634c", "text": "Müşteri hizmetleriniz çok ilgisizdi, bir daha alışveriş yapmayacağım.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-ee5cd2f9", "text": "Sizi sosyal medyada şikayet edeceğim, çok mağdur oldum.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-eff54a0c", "text": "Sürekli aynı şeyleri anlatmak zorunda kalıyorum, her seferinde farklı biri bakıyor.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "sikayet_oneri-f5ed0076", "text": "Sizinle çalışmaktan memnunum, böyle devam edin.", "label": "sikayet_oneri", "split": "test", "tags": []}
+{"id": "teknik_destek-a59a2ae9", "text": "Ödeme sayfası açılırken sonsuz döngüye giriyor, geri tuşu da çalışmıyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-b31c4706", "text": "Faturamı görmek için hesabıma girmem lazım ama uygulama giriş ekranında çöküyor.", "label": "teknik_destek", "split": "test", "tags": ["multi"]}
+{"id": "teknik_destek-b97b2c4a", "text": "SDK'nın son sürümünü kullanınca derleme hatası alıyoruz, \"undefined reference\" diyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-b9f72f71", "text": "Harita ekranı hiç yüklenmiyor, sadece gri kutu görünüyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-ba403854", "text": "Web sitesi Safari'de düzgün görünmüyor, butonlar kaymış.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-c0c5c428", "text": "Android 14'te uygulama pil tüketimini aşırı artırıyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-c852ed0f", "text": "Mobil uygulamada arama çubuğu yazdıklarımı silip duruyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-cc593fea", "text": "Dil ayarı Türkçe olmasına rağmen menüler İngilizce görünüyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-d39d17ef", "text": "QR kodu okutunca uygulama kapanıyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-d6f6745c", "text": "Uygulamanın iPad sürümünde ekran yan çevrilince görünüm bozuluyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-db3fae7b", "text": "Sesli mesaj özelliği çalışmıyor, mikrofon iznini verdim.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-e1bf9bde", "text": "Dashboard'daki grafikler veri göstermiyor, sadece yükleniyor animasyonu var.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-e2efb51b", "text": "CSV içe aktarırken Türkçe karakterler bozuk çıkıyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-ea62fab4", "text": "Fotoğraf yüklerken \"dosya çok büyük\" diyor ama dosya 1 MB bile değil.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-ed89246c", "text": "Entegrasyon webhook'ları iki gündür tetiklenmiyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-ee168001", "text": "Uygulama açılışta sürekli çöküyor, son güncellemeden beri kullanamıyorum.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-f2865251", "text": "Site açılmıyor.", "label": "teknik_destek", "split": "test", "tags": ["short"]}
+{"id": "teknik_destek-faea1985", "text": "Bildirimler hiç gelmiyor, ayarları kontrol ettim ama sorun devam ediyor.", "label": "teknik_destek", "split": "test", "tags": []}
+{"id": "teknik_destek-ff75d54e", "text": "Uyguluma yüklenmiyo, play storeden indirmeye çalışıyorum hata veriyor.", "label": "teknik_destek", "split": "test", "tags": ["typo"]}
+{"id": "diger-04bcb22b", "text": "Yarın İstanbul'da yağmur yağacak mı?", "label": "diger", "split": "train", "tags": []}
+{"id": "diger-093fd9c1", "text": "Galatasaray maçı kaçta başlıyor?", "label": "diger", "split": "train", "tags": ["short"]}
+{"id": "diger-0b385af5", "text": "Deneme deneme", "label": "diger", "split": "train", "tags": ["short"]}
+{"id": "diger-1896d11f", "text": "Aşk acısını nasıl unuturum?", "label": "diger", "split": "train", "tags": ["short"]}
+{"id": "diger-20603088", "text": "mrb bi sey sorcaktim ama unuttum", "label": "diger", "split": "train", "tags": ["typo"]}
+{"id": "diger-26248204", "text": "Dün gece garip bir rüya gördüm, yorumlar mısınız?", "label": "diger", "split": "train", "tags": []}
+{"id": "diger-35264253", "text": "Merhaba, hava çok güzel, bu arada Python öğrenmek için kitap önerir misiniz?", "label": "diger", "split": "train", "tags": ["multi"]}
+{"id": "diger-3b844e7b", "text": "Sunum için güzel bir slogan önerir misiniz?", "label": "diger", "split": "train", "tags": []}
+{"id": "diger-3bd54725", "text": "Python ile web scraping nasıl yapılır?", "label": "diger", "split": "train", "tags": []}
+{"id": "diger-3bdaaa50", "text": "İş başvurusu için özgeçmişimi nereye gönderebilirim?", "label": "diger", "split": "train", "tags": []}
+{"id": "diger-4cbfa391", "text": "5551234567 numarasını kaydedin lütfen.", "label": "diger", "split": "train", "tags": ["short"]}
+{"id": "diger-4e5a35a6", "text": "😀😀😀", "label": "diger", "split": "train", "tags": ["short"]}
+{"id": "diger-50140c56", "text": "Selam, nasılsınız?", "label": "diger", "split": "train", "tags": ["short"]}
+{"id": "diger-54bbd754", "text": "Kazandınız! 10.000 TL ödül için hemen bu linke tıklayın.", "label": "diger", "split": "train", "tags": []}
+{"id": "diger-5d4c038e", "text": "Bu mesajı yanlışlıkla gönderdim, dikkate almayın.", "label": "diger", "split": "train", "tags": []}
+{"id": "diger-5f3c9082", "text": "Ali Bey'e iletir misiniz, toplantı yarına ertelendi.", "label": "diger", "split": "train", "tags": []}
+{"id": "fatura_odeme-01db88d8", "text": "Faturamda KDV oranı yanlış hesaplanmış.", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-0bc766df", "text": "Bu ayki fatura tutarım ne kadar, son ödeme tarihim ne zaman?", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-0c388b82", "text": "Geçen ayın faturasında tanımadığım bir ücret kalemi var.", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-0dbdd430", "text": "Sipariş iptal edildi ama ödeme provizyonda duruyor, kartım bloke.", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-0f6af76e", "text": "Ödeme planımı bir sonraki aya erteleyebilir miyim?", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-1270a292", "text": "kartimdan 2 kere para cekildi lutfen duzeltin", "label": "fatura_odeme", "split": "train", "tags": ["ascii", "typo"]}
+{"id": "fatura_odeme-1abf7ad9", "text": "Ödeme yöntemlerine Papara eklenecek mi?", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-1e1abee3", "text": "Fatura adresimi yanlış yazmışım, faturayı düzeltebilir misiniz?", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-2d5f1e66", "text": "odeme sayfasinda kart bilgilerimi girince islem basarisiz diyor ama bankadan para kesilmis", "label": "fatura_odeme", "split": "train", "tags": ["ascii"]}
+{"id": "fatura_odeme-306ed21a", "text": "Taksit seçeneklerinde neden sadece 2 taksit çıkıyor?", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-343ae3fd", "text": "Faturamı e-posta ile alamadım, tekrar gönderebilir misiniz?", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-4ace4223", "text": "Yıllık aboneliğimde otomatik yenilemeyi kapatmak ve bu yılın faturasını görmek istiyorum.", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-4c950c3a", "text": "Faturalandırma döngüm 15'inde başlıyor ama ayın 1'ine çekmek istiyorum.", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-516eabae", "text": "Ödeme makbuzunu dekont olarak talep ediyorum.", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-562aca65", "text": "Aboneliğimi iptal etmeme rağmen bu ay yine ücret çekildi.", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "fatura_odeme-594e40ce", "text": "Faturada ismim yanlış yazılmış, e-arşiv faturayı yenileyin lütfen.", "label": "fatura_odeme", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-0689a5e5", "text": "Şifre belirlerken hangi karakterleri kullanmalıyım, kuralları görebilir miyim?", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-10d5e0fd", "text": "Şüpheli bir giriş denemesi tespit edildi dediniz, ne yapmam lazım?", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-149a4906", "text": "Hesabımı birleştirmek istiyorum, iki ayrı e-postayla iki hesap açmışım.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-1606c69e", "text": "Size ait olduğunu söyleyen bir SMS geldi, linke tıklamadım, doğru mu?", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-2254ada3", "text": "Hesabıma yetkisiz giriş yapılmış ve bir sipariş verilmiş, önce hesabı güvenceye alın.", "label": "hesap_guvenlik", "split": "train", "tags": ["multi"]}
+{"id": "hesap_guvenlik-23cd1832", "text": "Kişisel verilerimin nasıl işlendiğini öğrenmek istiyorum (KVKK).", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-2b16b98f", "text": "Hesabımı başka bir telefon numarasına taşımak istiyorum.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-2e2394cf", "text": "Ev adresimin sizin sisteminizde saklanmasını istemiyorum.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-2f14c59f", "text": "Kullanıcı adımı değiştirebilir miyim?", "label": "hesap_guvenlik", "split": "train", "tags": ["short"]}
+{"id": "hesap_guvenlik-32a68ec1", "text": "Hesabımda yetkisiz değişiklik yapılmış, e-posta adresim değişmiş.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-34b8fce0", "text": "Pazarlama e-postalarından çıkmak ve verilerimin paylaşılmasını durdurmak istiyorum.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-40fd2c06", "text": "Şifrem ele geçirilmiş olabilir, tüm oturumları sonlandırmak istiyorum.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-42a261a8", "text": "Hesabıma bilmediğim bir cihazdan giriş yapılmış, bildirim aldım.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-4404e440", "text": "Şifremi unuttum.", "label": "hesap_guvenlik", "split": "train", "tags": ["short"]}
+{"id": "hesap_guvenlik-4c2c1a4c", "text": "Telefonum çalındı, hesabımın erişimini hemen kapatın.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "hesap_guvenlik-4ebf4a93", "text": "Hesabım kilitlendi, çok fazla hatalı giriş denemesi yaptığımı söylüyor.", "label": "hesap_guvenlik", "split": "train", "tags": []}
+{"id": "iade_degisim-10098cfd", "text": "İndirimli ürünlerde iade hakkı var mı?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-100e70e9", "text": "Dijital ürün satın aldım, iade edilebiliyor mu?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-1258be1e", "text": "urunu begenmedim iade etmek istiyorum nasil yapacagim", "label": "iade_degisim", "split": "train", "tags": ["ascii"]}
+{"id": "iade_degisim-19f98e1f", "text": "İade kargosu için adresimden alım yapılacak mı?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-1a2cfc3f", "text": "Mağazaya gidip iade edebilir miyim yoksa kargo ile mi göndermem gerekiyor?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-1dff0c86", "text": "Çocuğumun kıyafeti küçük geldi, bir büyük bedenle değiştirir misiniz?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-1fa604b4", "text": "Yanlış ürün gönderdiniz, sipariş ettiğim model bu değildi.", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-21bf457b", "text": "Ürünün faturası olmadan iade kabul ediyor musunuz?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-298c3f05", "text": "İade talebim onaylandı, ürünü ne zamana kadar göndermem gerekiyor?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-2ac3036d", "text": "Yanlışlıkla iki sipariş verdim, ikincisini iptal etmek istiyorum.", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-3563f323", "text": "Sipariş iptal etme butonu pasif görünüyor, nasıl iptal edeceğim?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-3ad86892", "text": "Kulaklığın sağ tarafı çalışmıyor, değişim istiyorum.", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-43cddaf8", "text": "Garanti süresi içinde arızalanan cihazımı servise göndermek istiyorum.", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-4d037faa", "text": "Ürünü yurt dışından almıştım, iade süreci farklı mı işliyor?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-5f796f89", "text": "İade kargo kodunu nereden alacağım?", "label": "iade_degisim", "split": "train", "tags": []}
+{"id": "iade_degisim-674d81ba", "text": "İade etmek istiyorum.", "label": "iade_degisim", "split": "train", "tags": ["short"]}
+{"id": "kargo_teslimat-064d0197", "text": "Kargo takip linkine tıklayınca \"gönderi bulunamadı\" çıkıyor.", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-09b9eda7", "text": "Ürün İzmir'e gidecekti, takipte Ankara aktarma merkezinde görünüyor.", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-0d57cd0b", "text": "Adresimde apartman numarası eksik, kurye ulaşamadan düzeltebilir miyim?", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-16a7515b", "text": "kargom gecikmiş bukadar beklemek zorunda mıyım", "label": "kargo_teslimat", "split": "train", "tags": ["typo"]}
+{"id": "kargo_teslimat-1ccfff03", "text": "Teslimat adresimi değiştirmek istiyorum, henüz kargoya verilmediyse mümkün mü?", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-20ccdd63", "text": "Siparişim hâlâ \"hazırlanıyor\" durumunda, 4 gündür kargoya verilmedi.", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-24841a8b", "text": "Yurt dışına gönderim yapıyor musunuz, gümrükte bekleyen paketim var.", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-279969bf", "text": "Teslimat için evde olmayacağım, kargoyu iş yerime yönlendirebilir miyim?", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-29d01f9f", "text": "Kargom bugün gelecekti, saat 20:00 oldu hâlâ gelmedi.", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-3b690f5e", "text": "Bu paket neden iki farklı şehirden geçti, rota çok uzun görünüyor?", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-3e04ab3f", "text": "Mahalle bazında teslimat süresi nasıl değişiyor?", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-3f9a10b9", "text": "Gönderi 10 gündür gümrükte, ne zaman çıkar?", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-4162083e", "text": "Büyük boy ürünün montajlı teslimatı var mı?", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-43bc66b6", "text": "Kargoyu komşuma bırakmışlar ama haberim yok, bulamıyorum.", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-441aa218", "text": "Siparişin tamamı değil sadece bir kısmı teslim edildi, kalanı nerede?", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "kargo_teslimat-495975af", "text": "Paket aktarma merkezinde beklerken kayboldu sanırım.", "label": "kargo_teslimat", "split": "train", "tags": []}
+{"id": "satis_fiyat-0a287fba", "text": "Kurumsal alımlarda toplu indirim yapıyor musunuz?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-0d93d515", "text": "İkinci el veya yenilenmiş ürün satışınız var mı?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-0ec84713", "text": "fiyat listesini gönderebilirmisiniz", "label": "satis_fiyat", "split": "train", "tags": ["typo", "short"]}
+{"id": "satis_fiyat-189b0f45", "text": "Black Friday indirimleri hangi tarihte başlıyor?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-2abf0436", "text": "Aynı ürünü 3 adet alırsam kargo ücretsiz oluyor mu?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-35e838fb", "text": "50 adetlik sipariş için özel fiyat teklifi alabilir miyim?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-401e4b99", "text": "Kampanyalardan haberdar olmak için nasıl bülten kaydı yapabilirim?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-43c3c3f4", "text": "Ürünün fiyatı KDV dahil mi?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-4f1172ae", "text": "En çok satan 3 modeliniz hangileri, hangisini önerirsiniz?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-51faf901", "text": "Üniversite için 20 laptoplık bir alım yapmak istiyoruz, teklif verir misiniz?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-54d48728", "text": "Sipariş vermeden önce ürünü deneme imkânınız var mı?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-596b29fc", "text": "Ücretsiz deneme sürümü var mı, ne kadar süreyle?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-651ab305", "text": "Hangi şehirlerde mağazanız var?", "label": "satis_fiyat", "split": "train", "tags": ["short"]}
+{"id": "satis_fiyat-65f67d63", "text": "Bu modelin garanti süresi ve teknik özellikleri neler?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-663b0758", "text": "Sepetimdeki ürün için fiyat garantisi alabilir miyim?", "label": "satis_fiyat", "split": "train", "tags": []}
+{"id": "satis_fiyat-7dd28919", "text": "Ürünü almadan önce iade koşullarını ve güncel fiyatını öğrenmek istiyorum.", "label": "satis_fiyat", "split": "train", "tags": ["multi"]}
+{"id": "sikayet_oneri-14ac61cb", "text": "cok kotu bir deneyimdi bidaha asla", "label": "sikayet_oneri", "split": "train", "tags": ["typo"]}
+{"id": "sikayet_oneri-2105f920", "text": "Tebrikler, bu ayki kampanya çok iyiydi.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-23c3b1ed", "text": "Müşteri memnuniyeti anketine katılmak ve görüşlerimi paylaşmak isterim.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-255b323d", "text": "Daha fazla ödeme seçeneği eklemenizi isterim.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-2585c62b", "text": "Öneri: Siparişin kargo aşamasını SMS ile de bildirirseniz iyi olur.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-2611ceaa", "text": "Berbat bir hizmet.", "label": "sikayet_oneri", "split": "train", "tags": ["short"]}
+{"id": "sikayet_oneri-2876cbec", "text": "Sizi tavsiye edeceğim, memnun kaldım.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-2b9dc5cc", "text": "Mağazadaki satış görevlisi bana çok kaba davrandı, şikayetçiyim.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-2de515aa", "text": "Yıllardır müşterinizim ama son zamanlarda hak ettiğim değeri görmüyorum.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-4363b069", "text": "Kurye çok nazikti, teşekkür ederim.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-50b1a5ad", "text": "Yeni tasarım eskisinden çok daha kötü olmuş.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-53de37c8", "text": "Bekleme süreleri çok uzun, daha fazla personel alın.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-59689706", "text": "Dark mode eklerseniz çok sevinirim.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-59836c14", "text": "Hizmet kalitesi her geçen gün düşüyor, eskiden böyle değildi.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-6de628f0", "text": "Menüdeki yazı boyutları çok küçük, yaşlılar için okunaksız.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "sikayet_oneri-73918b9f", "text": "Teşekkürler, çok hızlı ve güler yüzlü bir hizmetti.", "label": "sikayet_oneri", "split": "train", "tags": []}
+{"id": "teknik_destek-0073d081", "text": "Canlı destek penceresi açılmıyor.", "label": "teknik_destek", "split": "train", "tags": ["short"]}
+{"id": "teknik_destek-10541a2e", "text": "Bugün saat 14:00'den beri sistem tamamen erişilemez durumda, tüm ekibimiz etkileniyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-1b751afe", "text": "Sepete ürün eklediğimde sayfa donuyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-1e04b9d2", "text": "Barkod tarayıcı karanlık ortamda çalışmıyor, flaş açılmıyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-261915ca", "text": "API anahtarımla istek attığımda 401 dönüyor, anahtar doğru.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-2e945a49", "text": "Siteye girince \"bu bağlantı güvenli değil\" uyarısı çıkıyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-31db8e1d", "text": "SSO ile giriş yaparken sonsuz yönlendirme döngüsüne giriyorum.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-3216d01d", "text": "Excel'e aktarma butonuna basınca boş dosya iniyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-3cbd694d", "text": "Sürüklediğim dosyalar yüklenmiyor, ilerleme çubuğu %99'da takılıyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-470c1042", "text": "uygulama acilmiyor ekran beyaz kaliyor", "label": "teknik_destek", "split": "train", "tags": ["ascii"]}
+{"id": "teknik_destek-4a77b7c9", "text": "Uygulama içi tarayıcı kendiliğinden kapanıyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-4dcac6fa", "text": "Tarayıcıda çerezler yüzünden sürekli oturumum kapanıyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-509fb5fd", "text": "Güncelleme sonrası karanlık mod ayarı kayboldu.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-5521f7f8", "text": "PDF raporu indirmeye çalışınca 404 hatası alıyorum.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-59c65e2a", "text": "Sipariş geçmişim sayfası boş yükleniyor.", "label": "teknik_destek", "split": "train", "tags": []}
+{"id": "teknik_destek-60491ac2", "text": "Mesaj gönderince \"bir hata oluştu\" yazıyor ama sebebini söylemiyor.", "label": "teknik_destek", "split": "train", "tags": []}

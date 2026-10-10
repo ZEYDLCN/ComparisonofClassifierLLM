@@ -1,0 +1,25 @@
+{
+  "task": "destek_tr",
+  "instruction": "Aşağıdaki Türkçe müşteri mesajını, mesajın ASIL talebine göre tam olarak bir kategoriye ata. Mesaj bir ürün/hizmet talebi içermiyorsa veya şirketle ilgisizse 'diger' seç.",
+  "labels": {
+    "fatura_odeme": "Ödeme, çifte veya hatalı çekim, fatura, taksit, abonelik ücreti, ödenmiş paranın hesaba geri yatması",
+    "teknik_destek": "Uygulama veya site hataları, çökme, yavaşlık, yükleme sorunları, bildirim, API ve entegrasyon sorunları",
+    "kargo_teslimat": "Kargo takibi, gecikme, hasarlı veya eksik teslimat, adres değişikliği, kurye ve teslimat seçenekleri",
+    "iade_degisim": "Ürünü geri gönderme, ürün değişimi, sipariş iptali, cayma hakkı, garanti ve arıza başvurusu",
+    "hesap_guvenlik": "Şifre, hesap kilitlenmesi, yetkisiz erişim, dolandırıcılık şüphesi, kişisel veriler ve gizlilik, hesap ayarları",
+    "satis_fiyat": "Satın alma öncesi bilgi: fiyat, kampanya, stok, indirim kodu, kurumsal satış, ürün özellikleri",
+    "sikayet_oneri": "Belirli bir talep içermeyen genel memnuniyetsizlik, personel şikayeti, teşekkür, övgü veya öneri",
+    "diger": "Kapsam dışı, anlamsız, spam, test veya şirketle ilgisiz mesajlar"
+  },
+  "short": {
+    "fatura_odeme": "fatura ve ödeme",
+    "teknik_destek": "teknik sorun",
+    "kargo_teslimat": "kargo ve teslimat",
+    "iade_degisim": "iade, değişim ve iptal",
+    "hesap_guvenlik": "hesap ve güvenlik",
+    "satis_fiyat": "fiyat ve satış",
+    "sikayet_oneri": "şikayet, teşekkür ve öneri",
+    "diger": "alakasız mesaj"
+  },
+  "notes": "Çakışma kuralı: ödenmiş paranın geri yatması fatura_odeme; ürünün geri gönderilmesi/değişimi/iptali iade_degisim. Mesajda birden fazla talep varsa ilk ve öncelikli talebe göre etiketlenir."
+}

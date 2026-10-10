@@ -1,0 +1,41 @@
+Şifremi unuttum, sıfırlama e-postası gelmiyor.
+Hesabıma bilmediğim bir cihazdan giriş yapılmış, bildirim aldım.
+Hesabım kilitlendi, çok fazla hatalı giriş denemesi yaptığımı söylüyor.
+Telefon numaramı güncellemek istiyorum.
+İki adımlı doğrulamayı nasıl açarım?
+[ascii] hesabim hacklendi sifremi degistiremiyorum yardim edin
+Hesabımı kalıcı olarak silmek istiyorum, verilerim de silinsin.
+Adıma açılmış başka bir hesap olduğunu fark ettim, bu dolandırıcılık olabilir mi?
+Size ait olduğunu söyleyen bir SMS geldi, linke tıklamadım, doğru mu?
+Kişisel verilerimin nasıl işlendiğini öğrenmek istiyorum (KVKK).
+E-posta adresimi değiştirdim ama eski adres hâlâ giriş için isteniyor.
+Hesabımda benim vermediğim bir sipariş görünüyor, hesabım ele geçirilmiş olabilir.
+Güvenlik sorumun cevabını hatırlamıyorum.
+Hesabımdan çıkış yapmadığım başka cihazları kapatabilir miyim?
+Doğrulama kodu SMS ile gelmiyor, giriş yapamıyorum.
+Şifrem ele geçirilmiş olabilir, tüm oturumları sonlandırmak istiyorum.
+Kimlik doğrulama için yüklediğim belgeler reddedildi, nedenini öğrenebilir miyim?
+[typo] sifremi sifirlama linki calismiyo suresi dolmus yaziyor
+Hesap sahibi vefat etti, hesabın devri için ne yapmamız gerekiyor?
+Başkası benim adıma işlem yapıyor, hesabımı dondurmanızı istiyorum.
+Profil bilgilerimde yazan doğum tarihi yanlış, düzeltebilir miyim?
+Pazarlama e-postalarından çıkmak ve verilerimin paylaşılmasını durdurmak istiyorum.
+Kullanıcı adımı değiştirebilir miyim?
+Şifre belirlerken hangi karakterleri kullanmalıyım, kuralları görebilir miyim?
+Gizlilik ayarlarında profilimi kimlerin gördüğünü kontrol etmek istiyorum.
+Sahte bir e-posta aldım, sizden geliyormuş gibi görünüyor ve şifre istiyor.
+Hesabımı başka bir telefon numarasına taşımak istiyorum.
+Eski şifremle giriş yapabiliyorum ama yenisiyle yapamıyorum, hesabımda bir sorun mu var?
+Hesabımda yetkisiz değişiklik yapılmış, e-posta adresim değişmiş.
+Çalışanlarımın hesaplarına rol bazlı yetki tanımlayabilir miyim?
+Ev adresimin sizin sisteminizde saklanmasını istemiyorum.
+Şüpheli bir giriş denemesi tespit edildi dediniz, ne yapmam lazım?
+Biyometrik giriş (parmak izi) ayarını sıfırlamak istiyorum.
+Hesabımı birleştirmek istiyorum, iki ayrı e-postayla iki hesap açmışım.
+Parolamı sosyal medya hesabımla giriş yaparak kurtarabilir miyim?
+Verilerimin bir kopyasını talep ediyorum.
+[short] Şifremi unuttum.
+Telefonum çalındı, hesabımın erişimini hemen kapatın.
+Giriş yaptığım cihazların listesini görmek istiyorum.
+Kredi kartı bilgilerim sistemde kayıtlı kalıyor mu, silebilir miyim?
+[multi] Hesabıma yetkisiz giriş yapılmış ve bir sipariş verilmiş, önce hesabı güvenceye alın.

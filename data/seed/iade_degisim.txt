@@ -1,0 +1,41 @@
+Aldığım ayakkabı bir numara büyük geldi, değiştirmek istiyorum.
+Ürünü kullanmadım, 14 gün içinde iade edebilir miyim?
+Siparişimi henüz kargoya verilmeden iptal etmek istiyorum.
+Yanlış renk gönderilmiş, doğrusuyla değiştirmek istiyorum.
+İade kargo kodunu nereden alacağım?
+Telefonun ekranında çizik var, garanti kapsamında değişim mümkün mü?
+[ascii] urunu begenmedim iade etmek istiyorum nasil yapacagim
+İade paketini kargoya verdim, ürünüm size ulaştı mı?
+Defolu ürün gelmiş, tamir yerine yenisini istiyorum.
+Hediye aldım, fiyat etiketi yok, iade edebilir miyim?
+İndirimli ürünlerde iade hakkı var mı?
+Aldığım ürünün kutusu açık geldi, kullanılmış gibi, iade etmek istiyorum.
+Sipariş verdiğim koltuğun rengini değiştirmek istiyorum, hâlâ iptal edebilir miyim?
+Cayma hakkımı kullanmak istiyorum.
+İade talebim onaylandı, ürünü ne zamana kadar göndermem gerekiyor?
+Dijital ürün satın aldım, iade edilebiliyor mu?
+Aynı üründen iki adet gelmiş, birini geri göndermek istiyorum.
+Garanti süresi içinde arızalanan cihazımı servise göndermek istiyorum.
+Ürün fotoğraftakinden çok farklı çıktı, geri göndermek istiyorum.
+Beden tablosuna göre aldım ama olmadı, değişim hakkım kaç gün?
+Ürün kampanyalıydı, değişimde fark ücreti ödemem gerekir mi?
+[typo] sipaisimi iptal etmek istiyorm acil
+Kupon kullanarak aldığım ürünü iade edersem kupon geri gelir mi?
+Yanlış ürün gönderdiniz, sipariş ettiğim model bu değildi.
+Pil şişmiş çıktı, güvenlik gereği derhal iade etmek istiyorum.
+İade talebimi oluşturdum ama ekranda "beklemede" yazıyor, ne zaman işlenecek?
+Ürünü yurt dışından almıştım, iade süreci farklı mı işliyor?
+Hasarlı gelen ürün için değişim talebi açmak istiyorum, fotoğraflarını yükledim.
+Mağazaya gidip iade edebilir miyim yoksa kargo ile mi göndermem gerekiyor?
+Sipariş iptal etme butonu pasif görünüyor, nasıl iptal edeceğim?
+Ürünün faturası olmadan iade kabul ediyor musunuz?
+Kulaklığın sağ tarafı çalışmıyor, değişim istiyorum.
+Ürün kutusunu attım, orijinal ambalajı olmadan iade olur mu?
+Yanlışlıkla iki sipariş verdim, ikincisini iptal etmek istiyorum.
+Ayrı ayrı gelen ürünlerden yalnızca birini iade etmek mümkün mü?
+Çocuğumun kıyafeti küçük geldi, bir büyük bedenle değiştirir misiniz?
+[short] İade etmek istiyorum.
+İade kargosu için adresimden alım yapılacak mı?
+Değişim ürününü ne zaman göndereceksiniz, eski ürünü kargoya verdim.
+Hasarlı ürünüm için iade yerine sadece değişim yapabiliyor musunuz?
+[multi] Ürün hasarlı geldi, kargocu da tutanak tutmadı; değişim istiyorum.

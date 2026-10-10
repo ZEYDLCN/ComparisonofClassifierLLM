@@ -1,0 +1,41 @@
+Uygulama açılışta sürekli çöküyor, son güncellemeden beri kullanamıyorum.
+Giriş yapmaya çalışınca "Hata 500" mesajı alıyorum.
+Sepete ürün eklediğimde sayfa donuyor.
+Bildirimler hiç gelmiyor, ayarları kontrol ettim ama sorun devam ediyor.
+Sipariş geçmişim sayfası boş yükleniyor.
+[ascii] uygulama acilmiyor ekran beyaz kaliyor
+API anahtarımla istek attığımda 401 dönüyor, anahtar doğru.
+Mobil uygulamada arama çubuğu yazdıklarımı silip duruyor.
+Web sitesi Safari'de düzgün görünmüyor, butonlar kaymış.
+Fotoğraf yüklerken "dosya çok büyük" diyor ama dosya 1 MB bile değil.
+Sayfa yüklenmesi çok yavaş, her tıklamada 10 saniye bekliyorum.
+Entegrasyon webhook'ları iki gündür tetiklenmiyor.
+Güncelleme sonrası karanlık mod ayarı kayboldu.
+Canlı destek penceresi açılmıyor.
+QR kodu okutunca uygulama kapanıyor.
+Excel'e aktarma butonuna basınca boş dosya iniyor.
+[typo] Uyguluma yüklenmiyo, play storeden indirmeye çalışıyorum hata veriyor.
+Harita ekranı hiç yüklenmiyor, sadece gri kutu görünüyor.
+Tarayıcıda çerezler yüzünden sürekli oturumum kapanıyor.
+Uygulamanın iPad sürümünde ekran yan çevrilince görünüm bozuluyor.
+Dashboard'daki grafikler veri göstermiyor, sadece yükleniyor animasyonu var.
+CSV içe aktarırken Türkçe karakterler bozuk çıkıyor.
+Sesli mesaj özelliği çalışmıyor, mikrofon iznini verdim.
+Yeni sürümde favori listem senkronize olmuyor.
+Siteye girince "bu bağlantı güvenli değil" uyarısı çıkıyor.
+Ödeme sayfası açılırken sonsuz döngüye giriyor, geri tuşu da çalışmıyor.
+Masaüstü uygulaması bağlanamıyor, "sunucuya ulaşılamadı" yazıyor.
+PDF raporu indirmeye çalışınca 404 hatası alıyorum.
+Android 14'te uygulama pil tüketimini aşırı artırıyor.
+Sürüklediğim dosyalar yüklenmiyor, ilerleme çubuğu %99'da takılıyor.
+Takvim entegrasyonu Google hesabıyla eşleşmiyor.
+Mesaj gönderince "bir hata oluştu" yazıyor ama sebebini söylemiyor.
+Bugün saat 14:00'den beri sistem tamamen erişilemez durumda, tüm ekibimiz etkileniyor.
+Eski telefonumdaki sürümde yeni özellikler görünmüyor.
+Uygulama içi tarayıcı kendiliğinden kapanıyor.
+[short] Site açılmıyor.
+Dil ayarı Türkçe olmasına rağmen menüler İngilizce görünüyor.
+Barkod tarayıcı karanlık ortamda çalışmıyor, flaş açılmıyor.
+SSO ile giriş yaparken sonsuz yönlendirme döngüsüne giriyorum.
+SDK'nın son sürümünü kullanınca derleme hatası alıyoruz, "undefined reference" diyor.
+[multi] Faturamı görmek için hesabıma girmem lazım ama uygulama giriş ekranında çöküyor.

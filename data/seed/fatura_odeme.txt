@@ -1,0 +1,41 @@
+# Etiket: fatura_odeme — satır başı [etiket,etiket] ile isteğe bağlı etiketleme yapılabilir
+Kartımdan aynı sipariş için iki kez çekim yapılmış, fazla tutarın iadesini istiyorum.
+Faturamı e-posta ile alamadım, tekrar gönderebilir misiniz?
+3 taksit seçmiştim ama ekstrede tek çekim görünüyor.
+[ascii] odeme sayfasinda kart bilgilerimi girince islem basarisiz diyor ama bankadan para kesilmis
+Geçen ayın faturasında tanımadığım bir ücret kalemi var.
+Aboneliğimi iptal etmeme rağmen bu ay yine ücret çekildi.
+Kurumsal fatura için vergi numarası ekleyebilir miyim?
+Havale yaptım ama ödeme hâlâ onaylanmadı görünüyor.
+Fatura adresimi yanlış yazmışım, faturayı düzeltebilir misiniz?
+İptal ettiğim siparişin ücreti 10 gündür hesabıma geri yatmadı.
+Taksit seçeneklerinde neden sadece 2 taksit çıkıyor?
+Ödeme yaparken 3D Secure kodu hiç gelmiyor, ödeme tamamlanamıyor.
+Bu ayki aidat ücretim neden arttı?
+Hediye çeki bakiyem ödeme ekranında kullanılmıyor.
+Faturamda KDV oranı yanlış hesaplanmış.
+[ascii,typo] kartimdan 2 kere para cekildi lutfen duzeltin
+Fatura bilgilerimi şirket adına değiştirmek istiyorum.
+Peşin ödediğim tutarın bir kısmı iade edilecekti, hâlâ görmedim.
+Ödeme planımı bir sonraki aya erteleyebilir miyim?
+Bu ayki fatura tutarım ne kadar, son ödeme tarihim ne zaman?
+Para iadesi için IBAN bilgisi vermem gerekiyor mu?
+Havale açıklamasına sipariş numarasını yazmayı unuttum, ödemem eşleşir mi?
+Banka kartımla ödeme yapamıyorum, sadece kredi kartı mı kabul ediyorsunuz?
+Kapıda ödeme seçeneği neden kapalı?
+Ödeme makbuzunu dekont olarak talep ediyorum.
+Son ödememde indirim kodu uygulanmadı ama tutar düşmüş gösterdi, hangisi doğru?
+Aylık plan ücretim dolar kuruna göre mi hesaplanıyor?
+Ödememi iki ayrı kartla bölerek yapabilir miyim?
+Borcum görünüyor ama ödemeyi dün yaptım, kayıt güncellenmemiş.
+Fatura dönemi ortasında paket değiştirdim, fark nasıl yansıtılacak?
+Faturada ismim yanlış yazılmış, e-arşiv faturayı yenileyin lütfen.
+Sipariş iptal edildi ama ödeme provizyonda duruyor, kartım bloke.
+Geçen hafta yaptığım ödemenin dekontunu iletiyorum, sisteme işlenmemiş.
+Ödeme yöntemlerine Papara eklenecek mi?
+Faturalandırma döngüm 15'inde başlıyor ama ayın 1'ine çekmek istiyorum.
+İade edilen tutar kartıma değil mağaza kredisine yüklenmiş, nakit iade istiyorum.
+Ödeme yaparken sepet tutarı ile çekilen tutar arasında 25 TL fark var.
+Yıllık aboneliğimde otomatik yenilemeyi kapatmak ve bu yılın faturasını görmek istiyorum.
+Ödemem başarısız oldu ama sipariş onay maili geldi, bu normal mi?
+[multi] Kargom gecikti ama asıl sorunum kartımdan iki kez çekim yapılması, önce parayı iade edin.
