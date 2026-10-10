@@ -510,7 +510,7 @@ function renderFailed(){
 }
 function hint(r){
   if (/HTTP 401/.test(r)) return 'Anahtar bu servis tarafından reddedildi (401). Anahtarın bu API’ye ait ve geçerli olduğundan emin ol; yanlış servisin anahtarı olabilir.';
-  if (/HTTP 402|wallet|credits|PAYMENT/i.test(r)) return 'Anahtar geçerli ama hesapta bakiye/kredi yok (402). Servise kredi yüklenince model otomatik çalışır.';
+  if (/HTTP 402|wallet|credits|PAYMENT|insufficient/i.test(r)) return 'Anahtar geçerli ama hesapta bakiye/kredi yok (402). Servise kredi yüklenince model otomatik çalışır.';
   if (/HTTP 403/.test(r)) return 'Erişim yok (403). Hesabın bu modele/betaya erişimi olmayabilir.';
   if (/HTTP 404/.test(r)) return 'Uç nokta veya model adı bulunamadı (404). configs/models.yaml içindeki base_url/model değerlerini kontrol et.';
   if (/paket eksik/.test(r)) return 'Gerekli Python paketi kurulu değil. pip install -e ".[all]" ile kurabilirsin.';

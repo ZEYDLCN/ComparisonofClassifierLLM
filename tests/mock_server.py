@@ -79,7 +79,7 @@ class _Handler(BaseHTTPRequestHandler):
             q = body["questions"]["routing"]
             labels = list(q["criteria"])
             pick, probs = classify(text, labels)
-            return self._send(200, {"model": body["model"], "answers": {"routing": {
+            return self._send(200, {"model": body.get("model", ""), "answers": {"routing": {
                 "type": "choice", "choice": pick, "probabilities": probs, "confidence": max(probs.values())}},
                 "usage": {"input_tokens": 100 + len(text) // 4, "output_tokens": 0}})
         if path == "/oai/v1/decisions":

@@ -39,6 +39,11 @@ GUIDES: list[KeyGuide] = [
              "https://console.liquid.ai",
              "Kaydol → bir organizasyona katıl → Dashboard → API Keys → yeni anahtar (liquid_ ile başlar).",
              "d1:free metin için ücretsiz katman sunuyor olabilir; model adını configs/models.yaml'da 'd1:free' yapabilirsin."),
+    KeyGuide("JEV_AI_API_KEY", "Jev AI (jev-ai.pro) — Jev",
+             "https://jev-ai.pro",
+             "Sağlayıcı panelinden anahtar oluştur (sk_jev-ai_ ile başlar). Uç nokta: https://jev-ai.pro/api/v1/systemone; istekte model alanı yok. "
+             "Bakiye yoksa API 402 döner; yükleme adresi: https://jev-ai.pro/pricing?context=api&mode=top-up",
+             "Çağrı için token/kredi bakiyesi gerekir (bakiye yokken ücret kesilmez). Tarife bilinmiyor: models.yaml'da jev_ai fiyatını girersen rapor maliyeti hesaplar."),
     KeyGuide("TYPESAFE_API_KEY", "TypeSafe (Jev)",
              "https://docs.typesafe.ai",
              "TypeSafe konsolunda API Keys sayfasından anahtar oluştur (docs.typesafe.ai). Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. "
@@ -61,6 +66,7 @@ PREFIX_HINT = {
     "LIQUID_API_KEY": "liquid_",
     "ZOODATA_API_KEY": "hms_",
     "GEMINI_API_KEY": "AIza",
+    "JEV_AI_API_KEY": "sk_jev-ai_",
 }
 
 

@@ -1,5 +1,5 @@
 {
-  "run_id": "20261011-000203-tam-kosu",
+  "run_id": "20261011-003518-tam-kosu-jevai",
   "reference": "embedding_e5_lr",
   "labels": [
     "fatura_odeme",
@@ -19,19 +19,19 @@
   "pareto_cost": [],
   "models": [
     {
-      "key": "jev",
-      "display": "Jev 1.13 (TypeSafe)",
+      "key": "jev_ai",
+      "display": "Jev (jev-ai.pro)",
       "group": "karar-api",
       "provider": "systemone",
-      "model": "jev-1.13.0",
-      "price_in": 0.042,
-      "price_out": 0.0,
-      "price_note": "TypeSafe liste tarifesi",
-      "verified": "TypeSafe dokümanı (docs.typesafe.ai) — istek/yanıt şeması doğrulandı",
+      "model": "",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "Fiyat bilinmiyor: jev-ai.pro tarifesini girin (USD / 1M giriş tokenı)",
+      "verified": "Sağlayıcının verdiği curl örneği: POST /api/v1/systemone, Bearer anahtar, state + questions (System One şeması)",
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 401: {\"detail\":{\"error_type\":\"authentication_error\",\"message\":\"Cannot authenticate with the server. Please check your API key and try again.\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping jev'"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {   \"error\": true,   \"url\": \"https://jev-ai.pro/api/v1/systemone\",   \"statusCode\": 402,   \"statusMessage\": \"Credit and token balances are insufficient.\",   \"message\": \"Credit and token balan). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
     },
     {
       "key": "instinct_27b",
@@ -46,7 +46,7 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_32e94b2317fd427c\",\"timestamp\":\"2026-10-10T21:02:05.645944Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_3f3d35a0418f46cf\",\"timestamp\":\"2026-10-10T21:35:19.777399Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
     },
     {
       "key": "instinct_tuned_4b",
@@ -61,7 +61,7 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_d59998bedb9045d7\",\"timestamp\":\"2026-10-10T21:02:05.872314Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_1a47f3f9f04d4f9c\",\"timestamp\":\"2026-10-10T21:35:19.979371Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
     },
     {
       "key": "instinct_dual_4b",
@@ -76,7 +76,7 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_3a0ae83d22504730\",\"timestamp\":\"2026-10-10T21:02:06.059725Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_3186b1d2e00b401a\",\"timestamp\":\"2026-10-10T21:35:20.197646Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
     },
     {
       "key": "mercury_2_5_or",
@@ -153,9 +153,9 @@
       "status": "ok",
       "setup_s": 0.079,
       "cold_ms": 136462.53780007828,
-      "wall_s": 82.31,
+      "wall_s": 0.029,
       "concurrency": 1,
-      "cached": 0,
+      "cached": 151,
       "metrics": {
         "n": 151,
         "n_ok": 151,
@@ -375,9 +375,9 @@
       "status": "ok",
       "setup_s": 397.555,
       "cold_ms": 1390.0171000277624,
-      "wall_s": 121.521,
+      "wall_s": 0.001,
       "concurrency": 1,
-      "cached": 0,
+      "cached": 151,
       "metrics": {
         "n": 151,
         "n_ok": 151,
@@ -598,7 +598,7 @@
       "status": "ok",
       "setup_s": 119.573,
       "cold_ms": null,
-      "wall_s": 0.0,
+      "wall_s": 0.001,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
@@ -813,7 +813,7 @@
       "status": "ok",
       "setup_s": 116.677,
       "cold_ms": null,
-      "wall_s": 0.0,
+      "wall_s": 0.001,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
@@ -1028,7 +1028,7 @@
       "status": "ok",
       "setup_s": 9.337,
       "cold_ms": null,
-      "wall_s": 0.0,
+      "wall_s": 0.001,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
@@ -1243,7 +1243,7 @@
       "status": "ok",
       "setup_s": 0.419,
       "cold_ms": null,
-      "wall_s": 0.0,
+      "wall_s": 0.001,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
@@ -1458,7 +1458,7 @@
       "status": "ok",
       "setup_s": 18.426,
       "cold_ms": null,
-      "wall_s": 0.0,
+      "wall_s": 0.001,
       "concurrency": 1,
       "cached": 151,
       "metrics": {
@@ -1666,9 +1666,9 @@
       "status": "ok",
       "setup_s": 225.089,
       "cold_ms": 24.02709994930774,
-      "wall_s": 3.148,
+      "wall_s": 0.001,
       "concurrency": 1,
-      "cached": 0,
+      "cached": 151,
       "metrics": {
         "n": 151,
         "n_ok": 151,
@@ -1907,7 +1907,7 @@
       "laya": "0.4.2",
       "setfit": "1.2.0"
     },
-    "git_commit": "8acd27b"
+    "git_commit": "1453327"
   },
-  "note": "Gerçek anahtarlarla ilk koşu: Jev/Instinct/OpenRouter erişim hataları rapora yansır; yerel modeller 4 iş parçacıklı dizüstü CPU'da"
+  "note": "Jev (jev-ai.pro) uç noktası eklendi; yerel sonuçlar önbellekten (aynı veri, aynı ayarlar)"
 }

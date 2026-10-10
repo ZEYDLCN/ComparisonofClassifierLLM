@@ -7,15 +7,15 @@ Doğrudan bir modele bağlantı örneği: `report.html#m=gliclass_large_v3`, koy
 Üretildiği komut:
 
 ```powershell
-python -m clfbench run --robustness --name tam-kosu
+python -m clfbench run --robustness --name tam-kosu-jevai
 ```
 
 **Bu bir model sıralaması değildir; boru hattının gerçek bir koşusudur.**
 
 - **8 yerel model puanlandı** (TF-IDF, e5 sıfır-örnek ve LR, SetFit, GLiClass, Laya, mDeBERTa NLI, ModernBERT-NLI).
-- **8 API modeli puanlanamadı** ve nedeni panelde "Atlananlar" bölümünde görünür: Jev (401, anahtar `api.typesafe.ai` tarafından
-  reddedildi), Instinct ×3 (402, cüzdan boş), OpenRouter üzerindeki modeller (402, kredi yok). Bu durumlar gerçek API
-  yanıtlarıdır; sistem boş istek atmadan modeli açık nedenle atlar.
+- **8 API modeli puanlanamadı** ve nedeni panelde "Atlananlar" bölümünde görünür: Jev (jev-ai.pro, 402: token/kredi bakiyesi yok),
+  Instinct ×3 (402, cüzdan boş), OpenRouter üzerindeki 4 model (402, kredi yok). Bunlar gerçek API yanıtlarıdır (anahtarlar
+  geçerli, hesaplarda bakiye yok); sistem boş istek atmadan modeli açık nedenle atlar.
 - Veri: yerleşik `destek_tr` (gümüş etiketli, test = 151 örnek). Güven aralıkları geniştir (±6-8 puan).
 - Gecikmeler 4 iş parçacıklı bir dizüstü CPU'sunda ölçüldü (NLI modelleri bu donanımda yavaştır).
 - Eğitimli modeller `train` bölümünden öğrenir; sıfır örnekli modellerle veri bütçesi farklıdır, panelde ayrı grup olarak görünür.

@@ -116,3 +116,13 @@ def test_persistent_500_raises_after_retries(task_and_data, make_spec):
     task, _ = task_and_data
     with pytest.raises(ProviderError, match="500"):
         _predict(make_spec("systemone", path="/v1/systemone"), task, "__500__ x")
+
+
+def test_systemone_omits_model_when_empty(task_and_data, make_spec):
+    from mock_server import _Handler
+
+    task, _ = task_and_data
+    spec = make_spec("systemone", path="/v1/systemone", model="")
+    pred = _predict(spec, task, KARGO)
+    _, _, body = _Handler.log[-1]
+    assert "model" not in body and pred.label == "kargo_teslimat"

@@ -30,6 +30,17 @@ models:
     price: {input: 0.042, output: 0.0, note: "TypeSafe liste tarifesi"}
     verified: "TypeSafe dokümanı (docs.typesafe.ai) — istek/yanıt şeması doğrulandı"
 
+  - key: jev_ai
+    display: Jev (jev-ai.pro)
+    group: karar-api
+    provider: systemone
+    base_url: https://jev-ai.pro
+    path: /api/v1/systemone
+    model: ""                    # bu sağlayıcı istekte model alanı istemiyor
+    api_key_env: JEV_AI_API_KEY
+    price: {input: null, output: null, note: "Fiyat bilinmiyor: jev-ai.pro tarifesini girin (USD / 1M giriş tokenı)"}
+    verified: "Sağlayıcının verdiği curl örneği: POST /api/v1/systemone, Bearer anahtar, state + questions (System One şeması)"
+
   - key: mercury_decide
     display: Mercury Decide (Inception)
     group: karar-api

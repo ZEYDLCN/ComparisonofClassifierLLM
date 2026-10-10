@@ -1,6 +1,6 @@
 # Classifier LLM karşılaştırma raporu
 
-Koşu: `20261011-000203-tam-kosu` · oluşturma: 2026-10-11T00:26:39
+Koşu: `20261011-003518-tam-kosu-jevai` · oluşturma: 2026-10-11T00:35:22
 
 ## Koşul özeti
 
@@ -12,7 +12,7 @@ Koşu: `20261011-000203-tam-kosu` · oluşturma: 2026-10-11T00:26:39
 
 **Ortam:** Python 3.13.14 · Windows-10-10.0.19045-SP0
 
-**Not:** Gerçek anahtarlarla ilk koşu: Jev/Instinct/OpenRouter erişim hataları rapora yansır; yerel modeller 4 iş parçacıklı dizüstü CPU'da
+**Not:** Jev (jev-ai.pro) uç noktası eklendi; yerel sonuçlar önbellekten (aynı veri, aynı ayarlar)
 
 ## Öne çıkan bulgular
 
@@ -129,10 +129,10 @@ Bu modeller ya hiç puanlanamadı ya da bazı istekleri başarısız oldu. Başa
 
 | Model | Durum | Neden / ilk hata |
 |:---|:---|:---|
-| Jev 1.13 (TypeSafe) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 401: {"detail":{"error_type":"authentication_error","message":"Cannot authenticate with the server. Please check your API key and try again."}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python  |
-| Instinct 27B (ZooData) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"success":false,"error":{"code":"PAYMENT_REQUIRED","message":"wallet_not_provisioned"},"meta":{"requestId":"req_32e94b2317fd427c","timestamp":"2026-10-10T21:02:05.645944Z"}}). Anahtarı, bakiyeyi, model adını ve ba |
-| Instinct tuned 4B (ZooData) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"success":false,"error":{"code":"PAYMENT_REQUIRED","message":"wallet_not_provisioned"},"meta":{"requestId":"req_d59998bedb9045d7","timestamp":"2026-10-10T21:02:05.872314Z"}}). Anahtarı, bakiyeyi, model adını ve ba |
-| Instinct dual 4B (ZooData) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"success":false,"error":{"code":"PAYMENT_REQUIRED","message":"wallet_not_provisioned"},"meta":{"requestId":"req_3a0ae83d22504730","timestamp":"2026-10-10T21:02:06.059725Z"}}). Anahtarı, bakiyeyi, model adını ve ba |
+| Jev (jev-ai.pro) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {   "error": true,   "url": "https://jev-ai.pro/api/v1/systemone",   "statusCode": 402,   "statusMessage": "Credit and token balances are insufficient.",   "message": "Credit and token balan). Anahtarı, bakiyeyi, m |
+| Instinct 27B (ZooData) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"success":false,"error":{"code":"PAYMENT_REQUIRED","message":"wallet_not_provisioned"},"meta":{"requestId":"req_3f3d35a0418f46cf","timestamp":"2026-10-10T21:35:19.777399Z"}}). Anahtarı, bakiyeyi, model adını ve ba |
+| Instinct tuned 4B (ZooData) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"success":false,"error":{"code":"PAYMENT_REQUIRED","message":"wallet_not_provisioned"},"meta":{"requestId":"req_1a47f3f9f04d4f9c","timestamp":"2026-10-10T21:35:19.979371Z"}}). Anahtarı, bakiyeyi, model adını ve ba |
+| Instinct dual 4B (ZooData) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"success":false,"error":{"code":"PAYMENT_REQUIRED","message":"wallet_not_provisioned"},"meta":{"requestId":"req_3186b1d2e00b401a","timestamp":"2026-10-10T21:35:20.197646Z"}}). Anahtarı, bakiyeyi, model adını ve ba |
 | Mercury 2.5 (sohbet, OpenRouter) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, m |
 | GPT-6 Luna (sohbet, OpenRouter) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, m |
 | DeepSeek V4 Flash (OpenRouter) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, m |
@@ -154,6 +154,6 @@ Bu modeller ya hiç puanlanamadı ya da bazı istekleri başarısız oldu. Başa
 
 - **İstatistik:** Güven aralıkları örnekler üzerinde bootstrap (2000) ile hesaplanır; küçük farklardan kazanan çıkarılamaz.
 
-- **Tarifeler (USD / 1M giriş / çıkış):** Jev 1.13 (TypeSafe): 0,042 / 0,000 (TypeSafe liste tarifesi); Instinct 27B (ZooData): 0,030 / 0,000 (En az 20 USD bakiye yüklemesi gerekir); Instinct tuned 4B (ZooData): 0,010 / 0,000 (En az 20 USD bakiye yüklemesi gerekir); Instinct dual 4B (ZooData): 0,010 / 0,000 (En az 20 USD bakiye yüklemesi gerekir); Mercury 2.5 (sohbet, OpenRouter): 0,040 / 0,150; GPT-6 Luna (sohbet, OpenRouter): 0,100 / 0,500; DeepSeek V4 Flash (OpenRouter): 0,030 / 1,280 (Sağlayıcıya göre değişebilir; reasoning çıktı tokenı yükseltir); Qwen3.8 Flash (OpenRouter): 0,150 / 0,470
+- **Tarifeler (USD / 1M giriş / çıkış):** Instinct 27B (ZooData): 0,030 / 0,000 (En az 20 USD bakiye yüklemesi gerekir); Instinct tuned 4B (ZooData): 0,010 / 0,000 (En az 20 USD bakiye yüklemesi gerekir); Instinct dual 4B (ZooData): 0,010 / 0,000 (En az 20 USD bakiye yüklemesi gerekir); Mercury 2.5 (sohbet, OpenRouter): 0,040 / 0,150; GPT-6 Luna (sohbet, OpenRouter): 0,100 / 0,500; DeepSeek V4 Flash (OpenRouter): 0,030 / 1,280 (Sağlayıcıya göre değişebilir; reasoning çıktı tokenı yükseltir); Qwen3.8 Flash (OpenRouter): 0,150 / 0,470
 
-- **Sürüm:** clfbench 0.1.0 · git 8acd27b · paketler: requests 2.34.2, numpy 2.5.4, anthropic 1.13.0, scikit-learn 1.9.1, torch 2.14.1, transformers 5.19.0, sentence-transformers 6.1.0, gliclass 0.1.20, laya 0.4.2, setfit 1.2.0
+- **Sürüm:** clfbench 0.1.0 · git 1453327 · paketler: requests 2.34.2, numpy 2.5.4, anthropic 1.13.0, scikit-learn 1.9.1, torch 2.14.1, transformers 5.19.0, sentence-transformers 6.1.0, gliclass 0.1.20, laya 0.4.2, setfit 1.2.0

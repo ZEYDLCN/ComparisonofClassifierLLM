@@ -17,7 +17,6 @@ class SystemOneProvider(Provider):
         labels = task.ordered(order)
         state = {"message": text} if self.opt("state_format") == "message" else text
         payload = {
-            "model": self.spec.model,
             "state": state,
             "questions": {
                 QUESTION_NAME: {
@@ -27,6 +26,8 @@ class SystemOneProvider(Provider):
                 }
             },
         }
+        if self.spec.model:  # bazı sağlayıcılar (örn. jev-ai.pro) 'model' alanı istemez
+            payload["model"] = self.spec.model
         payload.update(self.opt("extra_body", {}) or {})
         res = post_json(
             self.url(),
