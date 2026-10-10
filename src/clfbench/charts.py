@@ -74,7 +74,7 @@ def _legend_groups(ax, models, loc="best", extra_local_shapes=False) -> None:
                       markersize=8, label=GROUP_LABEL[g]) for g in present]
     if extra_local_shapes and any(m["group"] == "egitimli" for m in models):
         handles.append(Line2D([0], [0], marker="D", color="none", markerfacecolor=MUTED, markeredgecolor=SURFACE,
-                              markersize=7, label="◆ eğitimli (yerel)"))
+                              markersize=7, label="eğitimli (yerel), elmas işaret"))
     leg = ax.legend(handles=handles, loc=loc, frameon=False, fontsize=9, labelcolor=INK2)
     for t in leg.get_texts():
         t.set_color(INK2)
@@ -167,7 +167,7 @@ def scatter_tradeoff(models: list[dict], path: Path, *, x_key: str, x_label: str
     ax.set_xlim(xs.min() / 1.8, xs.max() * 2.4)
     ax.set_ylabel("Doğruluk (%)")
     ax.set_xlabel(x_label)
-    _legend_groups(ax, pts, loc="lower right", extra_local_shapes=True)
+    _legend_groups(ax, pts, loc="upper right", extra_local_shapes=True)
     _place_labels(fig, ax, xs, ys, [m["display"] for m in pts])
     ax.text(0.01, 0.015, "Kesikli çizgi: Pareto sınırı (daha doğru ve daha hızlı/ucuz başka model yok)" + title_note,
             transform=ax.transAxes, fontsize=8, color=MUTED, va="bottom")

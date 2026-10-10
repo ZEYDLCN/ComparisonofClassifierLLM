@@ -305,5 +305,5 @@ models:
     provider: setfit
     model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
     requires: [setfit, datasets, torch]
-    options: {k_shot: 8, num_epochs: 1, num_iterations: 10, batch_size: 16}
+    options: {k_shot: 8, num_epochs: 1, num_iterations: 20, batch_size: 16}
     notes: "pip install setfit. CPU'da eğitim dakikalar sürebilir."

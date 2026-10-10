@@ -92,8 +92,9 @@ def run_model(spec: ModelSpec, task: TaskSpec, eval_examples: list[Example], tra
     pending = [e for e in eval_examples if e.id not in cache]
     conc = 1 if spec.is_local else max(1, concurrency or spec.concurrency)
     cold_ms = None
-    if pending and warmup > 0 and not spec.is_local:
-        for _ in range(warmup):  # ısınma: TLS/bağlantı/soğuk başlangıç; sonuçlara dahil edilmez
+    if pending and warmup > 0:
+        # ısınma: TLS/bağlantı, tembel model indirme/yükleme, soğuk başlangıç; sonuçlara dahil edilmez, 'soğuk ms' olarak ayrı raporlanır
+        for _ in range(warmup):
             w = _predict_one(provider, spec, task, pending[0], order_mode, seed)
             if w["error"] is None and cold_ms is None:
                 cold_ms = w["latency_ms"]

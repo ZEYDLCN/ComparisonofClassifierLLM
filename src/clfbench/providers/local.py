@@ -207,7 +207,8 @@ class SetFitProvider(Provider):
         args = TrainingArguments(batch_size=int(self.opt("batch_size", 16)),
                                  num_epochs=int(self.opt("num_epochs", 1)),
                                  num_iterations=int(self.opt("num_iterations", 10)),
-                                 show_progress_bar=False)
+                                 show_progress_bar=False,
+                                 save_strategy="no", report_to="none")  # checkpoint yazma: gerek yok
         Trainer(model=self._model, args=args, train_dataset=ds).train()
         self.trained_on = len(picked)
 

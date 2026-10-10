@@ -1,0 +1,1129 @@
+{
+  "run_id": "20261010-220750-yerel-taban",
+  "reference": "embedding_e5_lr",
+  "labels": [
+    "fatura_odeme",
+    "teknik_destek",
+    "kargo_teslimat",
+    "iade_degisim",
+    "hesap_guvenlik",
+    "satis_fiyat",
+    "sikayet_oneri",
+    "diger"
+  ],
+  "pareto_latency": [
+    "embedding_e5_lr",
+    "tfidf_lr"
+  ],
+  "pareto_cost": [],
+  "models": [
+    {
+      "key": "tfidf_lr",
+      "display": "TF-IDF + Lojistik Regresyon (eğitimli)",
+      "group": "egitimli",
+      "provider": "tfidf_lr",
+      "model": "",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "train bölümüyle eğitilir. Etiketli veri bütçesi: sıfır örnekli modellerden farklı.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 1.841,
+      "cold_ms": null,
+      "wall_s": 0.007,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.7019867549668874,
+        "accuracy_valid": 0.7019867549668874,
+        "macro_f1": 0.696761683656845,
+        "accuracy_ci": [
+          0.6225165562913907,
+          0.7748344370860927
+        ],
+        "macro_f1_ci": [
+          0.6127418927775784,
+          0.76353736644201
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.7692307692307693,
+            "recall": 0.5555555555555556,
+            "f1": 0.6451612903225806,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.64,
+            "recall": 0.8421052631578947,
+            "f1": 0.7272727272727272,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.6,
+            "recall": 0.7894736842105263,
+            "f1": 0.6818181818181819,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.6956521739130435,
+            "recall": 0.8421052631578947,
+            "f1": 0.761904761904762,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.7142857142857143,
+            "recall": 0.7894736842105263,
+            "f1": 0.7500000000000001,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.7647058823529411,
+            "recall": 0.6842105263157895,
+            "f1": 0.7222222222222222,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.75,
+            "recall": 0.631578947368421,
+            "f1": 0.6857142857142857,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.8181818181818182,
+            "recall": 0.47368421052631576,
+            "f1": 0.6,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            10,
+            0,
+            3,
+            3,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            16,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            15,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            16,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            2,
+            0,
+            1,
+            15,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            3,
+            0,
+            1,
+            13,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            4,
+            1,
+            0,
+            0,
+            0,
+            12,
+            2,
+            0
+          ],
+          [
+            1,
+            2,
+            1,
+            0,
+            0,
+            4,
+            2,
+            9,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.5038153946195894,
+        "ece": 0.2582426572949506,
+        "mean_conf": 0.4461009502740601,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.768595041322314,
+        "cov_at_acc95": 0.24503311258278146,
+        "lat_p50": 1.397899934090674,
+        "lat_p95": 2.5192000321112573,
+        "lat_p99": 3.5603499854914844,
+        "lat_mean": 1.6042178825148388,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.4
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.5
+        }
+      },
+      "vs_reference": {
+        "reference": "embedding_e5_lr",
+        "diff": -0.10596026490066225,
+        "lo": -0.18543046357615894,
+        "hi": -0.033112582781456956,
+        "p_better": 0.003
+      }
+    },
+    {
+      "key": "embedding_e5_lr",
+      "display": "multilingual-e5-small + LR (eğitimli)",
+      "group": "egitimli",
+      "provider": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "SetFit'in karşıtı basit sürüm: gömme dondurulur, yalnız sınıflandırıcı başı eğitilir.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 12.97,
+      "cold_ms": null,
+      "wall_s": 0.001,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.8079470198675497,
+        "accuracy_valid": 0.8079470198675497,
+        "macro_f1": 0.8074304350620141,
+        "accuracy_ci": [
+          0.7417218543046358,
+          0.8675496688741722
+        ],
+        "macro_f1_ci": [
+          0.7349431136462626,
+          0.8671536841293754
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.7777777777777778,
+            "recall": 0.7777777777777778,
+            "f1": 0.7777777777777778,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.8823529411764706,
+            "recall": 0.7894736842105263,
+            "f1": 0.8333333333333333,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.8,
+            "recall": 0.8421052631578947,
+            "f1": 0.8205128205128205,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.7619047619047619,
+            "recall": 0.8421052631578947,
+            "f1": 0.8,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.7391304347826086,
+            "recall": 0.8947368421052632,
+            "f1": 0.8095238095238095,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.8421052631578947,
+            "recall": 0.8421052631578947,
+            "f1": 0.8421052631578947,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.8823529411764706,
+            "recall": 0.7894736842105263,
+            "f1": 0.8333333333333333,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.8125,
+            "recall": 0.6842105263157895,
+            "f1": 0.742857142857143,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            14,
+            0,
+            1,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            15,
+            1,
+            0,
+            2,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            16,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            16,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            17,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            1,
+            0,
+            16,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            15,
+            2,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            0,
+            1,
+            2,
+            1,
+            13,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.4291828281314525,
+        "ece": 0.33958855996019427,
+        "mean_conf": 0.4683584599073552,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.859504132231405,
+        "cov_at_acc95": 0.2781456953642384,
+        "lat_p50": 24.88919999450445,
+        "lat_p95": 31.07510000700131,
+        "lat_p99": 34.02220003772527,
+        "lat_mean": 24.992703308277324,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.4
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.75
+        }
+      }
+    },
+    {
+      "key": "embedding_e5_zeroshot",
+      "display": "multilingual-e5-small (sıfır örnek, kosinüs)",
+      "group": "encoder",
+      "provider": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "",
+      "local": true,
+      "status": "ok",
+      "setup_s": 4.359,
+      "cold_ms": null,
+      "wall_s": 0.001,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.5827814569536424,
+        "accuracy_valid": 0.5827814569536424,
+        "macro_f1": 0.5563037406355379,
+        "accuracy_ci": [
+          0.5033112582781457,
+          0.6556291390728477
+        ],
+        "macro_f1_ci": [
+          0.4753781339395733,
+          0.624630903599446
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.7692307692307693,
+            "recall": 0.5555555555555556,
+            "f1": 0.6451612903225806,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.5454545454545454,
+            "recall": 0.9473684210526315,
+            "f1": 0.6923076923076923,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.64,
+            "recall": 0.8421052631578947,
+            "f1": 0.7272727272727272,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.5333333333333333,
+            "recall": 0.8421052631578947,
+            "f1": 0.653061224489796,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.875,
+            "recall": 0.3684210526315789,
+            "f1": 0.5185185185185185,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.5217391304347826,
+            "recall": 0.631578947368421,
+            "f1": 0.5714285714285715,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.7142857142857143,
+            "recall": 0.2631578947368421,
+            "f1": 0.3846153846153846,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.3333333333333333,
+            "recall": 0.21052631578947367,
+            "f1": 0.2580645161290323,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            10,
+            0,
+            0,
+            7,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            18,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            16,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            3,
+            16,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            5,
+            2,
+            2,
+            7,
+            1,
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            0,
+            1,
+            4,
+            0,
+            12,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            6,
+            1,
+            0,
+            0,
+            4,
+            5,
+            3,
+            0
+          ],
+          [
+            2,
+            3,
+            2,
+            0,
+            0,
+            6,
+            2,
+            4,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.7595190441615528,
+        "ece": 0.3725383532583899,
+        "mean_conf": 0.21024310369525254,
+        "conf_kinds": [
+          "derived"
+        ],
+        "acc_at_cov80": 0.6611570247933884,
+        "cov_at_acc95": 0.1390728476821192,
+        "lat_p50": 24.553700000979006,
+        "lat_p95": 29.494750022422522,
+        "lat_p99": 33.716400037519634,
+        "lat_mean": 24.493505963932304,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.6
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.5
+        }
+      },
+      "vs_reference": {
+        "reference": "embedding_e5_lr",
+        "diff": -0.2251655629139073,
+        "lo": -0.31125827814569534,
+        "hi": -0.1390728476821192,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "nli_mdeberta_xnli",
+      "display": "mDeBERTa-v3 çok dilli NLI (sıfır örnek)",
+      "group": "encoder",
+      "provider": "nli",
+      "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "",
+      "local": true,
+      "status": "ok",
+      "setup_s": 1.902,
+      "cold_ms": null,
+      "wall_s": 862.567,
+      "concurrency": 1,
+      "cached": 0,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.304635761589404,
+        "accuracy_valid": 0.304635761589404,
+        "macro_f1": 0.3214503576345682,
+        "accuracy_ci": [
+          0.23178807947019867,
+          0.37748344370860926
+        ],
+        "macro_f1_ci": [
+          0.24499032981258306,
+          0.3848614368825088
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 1.0,
+            "recall": 0.2222222222222222,
+            "f1": 0.3636363636363636,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.09523809523809523,
+            "recall": 0.10526315789473684,
+            "f1": 0.1,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.75,
+            "recall": 0.631578947368421,
+            "f1": 0.6857142857142857,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.42857142857142855,
+            "recall": 0.15789473684210525,
+            "f1": 0.23076923076923078,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.5789473684210527,
+            "recall": 0.5789473684210527,
+            "f1": 0.5789473684210527,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.5,
+            "recall": 0.21052631578947367,
+            "f1": 0.2962962962962963,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.13559322033898305,
+            "recall": 0.42105263157894735,
+            "f1": 0.20512820512820512,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.11764705882352941,
+            "recall": 0.10526315789473684,
+            "f1": 0.1111111111111111,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            4,
+            0,
+            3,
+            0,
+            1,
+            1,
+            9,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            1,
+            4,
+            0,
+            7,
+            5,
+            0
+          ],
+          [
+            0,
+            3,
+            12,
+            0,
+            0,
+            0,
+            2,
+            2,
+            0
+          ],
+          [
+            0,
+            4,
+            1,
+            3,
+            0,
+            0,
+            11,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            2,
+            11,
+            0,
+            2,
+            2,
+            0
+          ],
+          [
+            0,
+            4,
+            0,
+            0,
+            0,
+            4,
+            11,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            0,
+            1,
+            2,
+            8,
+            6,
+            0
+          ],
+          [
+            0,
+            4,
+            0,
+            1,
+            2,
+            1,
+            9,
+            2,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.8495377337301696,
+        "ece": 0.17400326210256825,
+        "mean_conf": 0.4786390236919723,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.3305785123966942,
+        "cov_at_acc95": 0.026490066225165563,
+        "lat_p50": 5754.769699997269,
+        "lat_p95": 6817.588949983474,
+        "lat_p99": 7629.350949951913,
+        "lat_mean": 5712.043935763002,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.4
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.25
+        }
+      },
+      "vs_reference": {
+        "reference": "embedding_e5_lr",
+        "diff": -0.5033112582781457,
+        "lo": -0.6026490066225165,
+        "hi": -0.40397350993377484,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "nli_modernbert_en",
+      "display": "ModernBERT-base NLI (yalnız İngilizce; negatif kontrol)",
+      "group": "encoder",
+      "provider": "nli",
+      "model": "tasksource/ModernBERT-base-nli",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "İngilizce model Türkçe metinde zayıf beklenir; çok dilli modellerle fark görülsün diye eklendi.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 146.234,
+      "cold_ms": null,
+      "wall_s": 82.916,
+      "concurrency": 1,
+      "cached": 0,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.3841059602649007,
+        "accuracy_valid": 0.3841059602649007,
+        "macro_f1": 0.3671670577209002,
+        "accuracy_ci": [
+          0.31125827814569534,
+          0.45695364238410596
+        ],
+        "macro_f1_ci": [
+          0.2873321734604978,
+          0.4326014135799469
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.5833333333333334,
+            "recall": 0.3888888888888889,
+            "f1": 0.4666666666666666,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.25,
+            "recall": 0.15789473684210525,
+            "f1": 0.1935483870967742,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.6666666666666666,
+            "recall": 0.5263157894736842,
+            "f1": 0.5882352941176471,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.30434782608695654,
+            "recall": 0.7368421052631579,
+            "f1": 0.43076923076923074,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.3103448275862069,
+            "recall": 0.47368421052631576,
+            "f1": 0.375,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.32,
+            "recall": 0.42105263157894735,
+            "f1": 0.3636363636363636,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.6666666666666666,
+            "recall": 0.3157894736842105,
+            "f1": 0.42857142857142855,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.3333333333333333,
+            "recall": 0.05263157894736842,
+            "f1": 0.09090909090909091,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            7,
+            0,
+            1,
+            7,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            3,
+            0,
+            2,
+            7,
+            4,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            10,
+            1,
+            3,
+            2,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            14,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            1,
+            6,
+            9,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            6,
+            2,
+            8,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            1,
+            4,
+            2,
+            3,
+            6,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            1,
+            6,
+            2,
+            4,
+            1,
+            1,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.7372392266285103,
+        "ece": 0.11319025229905239,
+        "mean_conf": 0.33319953872471564,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.45454545454545453,
+        "cov_at_acc95": 0.013245033112582781,
+        "lat_p50": 548.6030000029132,
+        "lat_p95": 688.3108000038192,
+        "lat_p99": 721.0962499957532,
+        "lat_mean": 548.6788562882926,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.6
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.0
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.25
+        }
+      },
+      "vs_reference": {
+        "reference": "embedding_e5_lr",
+        "diff": -0.423841059602649,
+        "lo": -0.5165562913907285,
+        "hi": -0.33112582781456956,
+        "p_better": 0.0
+      }
+    }
+  ],
+  "dataset": {
+    "name": "destek_tr",
+    "fingerprint": "9ac13de53ff85f2d",
+    "split": "test",
+    "n_eval": 151,
+    "n_train": 128,
+    "class_counts": {
+      "fatura_odeme": 18,
+      "teknik_destek": 19,
+      "kargo_teslimat": 19,
+      "iade_degisim": 19,
+      "hesap_guvenlik": 19,
+      "satis_fiyat": 19,
+      "sikayet_oneri": 19,
+      "diger": 19
+    }
+  },
+  "settings": {
+    "seed": 0,
+    "shots_per_label": 0,
+    "robustness": true,
+    "warmup": 1,
+    "prompt_version": "v1",
+    "concurrency_override": null
+  },
+  "environment": {
+    "python": "3.13.14",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "packages": {
+      "requests": "2.32.5",
+      "numpy": "2.3.5",
+      "anthropic": "0.55.0",
+      "scikit-learn": "1.7.2",
+      "torch": "2.9.1",
+      "transformers": "4.57.3",
+      "sentence-transformers": "5.1.2"
+    },
+    "git_commit": "122cd27"
+  },
+  "note": "Yalnız yerel modeller, 4 iş parçacıklı dizüstü CPU (Windows 10); gecikmeler bu donanıma aittir"
+}
