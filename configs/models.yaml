@@ -4,6 +4,8 @@
 #   otomatik ATLANIR ve 'clfbench doctor' çıktısında nedeni görünür.
 # * price: USD / 1 milyon token. Rapordaki maliyet = ölçülen kullanım tokenı x bu tarife.
 #   Tarifeler 10 Ekim 2026 itibarıyla resmî doküman / OpenRouter model listesinden alındı; değişebilir.
+# * options.json_mode: true → response_format=json_object gönderir (her sağlayıcı desteklemeyebilir; varsayılan kapalı,
+#   JSON zaten istemle istenir ve ayrıştırıcı kod çiti/ek metne toleranslıdır).
 # * enabled: false olan model, yalnızca '--models anahtar' ile açıkça istenirse çalışır.
 # * group: karar-api | uretken-llm | encoder | egitimli  (raporda renk/grup olarak kullanılır)
 #
@@ -183,7 +185,7 @@ models:
     model: mercury-2.5
     api_key_env: INCEPTION_API_KEY
     price: {input: 0.04, output: 0.15, note: "Kampanyalı tarife (normal 0.20 / 0.75)"}
-    options: {max_tokens: 512, json_mode: true}
+    options: {max_tokens: 512}
     verified: "Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta"
 
   - key: gpt_6_luna
@@ -195,7 +197,7 @@ models:
     model: openai/gpt-6-luna
     api_key_env: OPENROUTER_API_KEY
     price: {input: 0.10, output: 0.50}
-    options: {max_tokens: 2048, json_mode: true, extra_body: {reasoning: {effort: low}}}
+    options: {max_tokens: 2048, extra_body: {reasoning: {effort: low}}}
     verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı"
 
   - key: deepseek_v4_flash
@@ -207,7 +209,7 @@ models:
     model: deepseek/deepseek-v4-flash
     api_key_env: OPENROUTER_API_KEY
     price: {input: 0.03, output: 1.28, note: "Sağlayıcıya göre değişebilir; reasoning çıktı tokenı yükseltir"}
-    options: {max_tokens: 2048, json_mode: true, extra_body: {reasoning: {effort: low}}}
+    options: {max_tokens: 2048, extra_body: {reasoning: {effort: low}}}
     verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı"
 
   - key: qwen3_8_flash
@@ -219,7 +221,7 @@ models:
     model: qwen/qwen3.8-flash
     api_key_env: OPENROUTER_API_KEY
     price: {input: 0.15, output: 0.47}
-    options: {max_tokens: 2048, json_mode: true, extra_body: {reasoning: {effort: low}}}
+    options: {max_tokens: 2048, extra_body: {reasoning: {effort: low}}}
     verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı"
 
   - key: qwen3_8_27b
@@ -232,7 +234,7 @@ models:
     model: qwen/qwen3.8-27b
     api_key_env: OPENROUTER_API_KEY
     price: {input: 0.425, output: 2.55}
-    options: {max_tokens: 2048, json_mode: true, extra_body: {reasoning: {effort: low}}}
+    options: {max_tokens: 2048, extra_body: {reasoning: {effort: low}}}
     verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı"
 
   # ==================================================================================== ENCODER (YEREL)

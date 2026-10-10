@@ -95,3 +95,18 @@ def test_local_supervised_model_trains_only_on_train(tmp_path, monkeypatch, task
     assert m["metrics"]["accuracy"] > 0.5 and m["metrics"]["cost_per_1000"] is None
     # test örnekleri eğitimde görülmemeli: aynı veriyle ezber (%100) olmamalı
     assert m["metrics"]["accuracy"] < 0.99
+
+
+def test_bad_key_fails_fast_without_burning_requests(tmp_path, monkeypatch, make_spec, task_and_data):
+    from mock_server import _Handler
+
+    monkeypatch.setattr(bench, "CACHE_DIR", tmp_path / "cache")
+    task, ex = task_and_data
+    spec = make_spec("systemone", path="/v1/systemone", key="BAD_API_KEY")
+    spec.key, spec.display = "badkey", "Bad Key"
+    _Handler.log.clear()
+    out = run_benchmark([spec], task, ex, split="test", warmup=1, out_root=tmp_path / "out")
+    m = json.loads((out / "summary.json").read_text(encoding="utf-8"))["models"][0]
+    assert m["status"] == "failed" and "401" in m["reason"] and "ping" in m["reason"]
+    assert len(_Handler.log) == 1, "geçersiz anahtarla yalnızca ısınma isteği atılmalı"
+    assert "metrics" not in m

@@ -70,9 +70,19 @@ def run_benchmark(specs: list[ModelSpec], task: TaskSpec, examples: list[Example
             try:
                 modes = ["canonical"] + (["shuffle"] if robustness and not _order_independent(spec) else [])
                 for mode in modes:
-                    run = run_model(spec, task, eval_ex, train, order_mode=mode, seed=seed, shots_k=shots_k,
-                                    data_fp=fp, cache_dir=CACHE_DIR, use_cache=use_cache, warmup=warmup,
-                                    concurrency=concurrency)
+                    try:
+                        run = run_model(spec, task, eval_ex, train, order_mode=mode, seed=seed, shots_k=shots_k,
+                                        data_fp=fp, cache_dir=CACHE_DIR, use_cache=use_cache, warmup=warmup,
+                                        concurrency=concurrency)
+                    except KeyboardInterrupt:
+                        raise
+                    except Exception as e:
+                        if mode == "canonical":
+                            raise  # ana koşu yoksa model atlanır
+                        # dayanıklılık koşusu başarısızsa ana sonuçlar korunur
+                        meta["robustness_error"] = f"{type(e).__name__}: {str(e)[:200]}"
+                        print(f"  ⚠ seçenek sırası testi başarısız: {meta['robustness_error']}")
+                        continue
                     runs.append(run)
                     for r in run.records:
                         pf.write(json.dumps({"model": spec.key, "mode": mode, **r}, ensure_ascii=False) + "\n")
