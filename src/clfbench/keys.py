@@ -48,7 +48,7 @@ GUIDES: list[KeyGuide] = [
              "https://beatapi.io/dashboard/apikeys",
              "beatapi.io'da hesap aç → Dashboard → API keys → anahtar oluştur. Uç nokta: https://api.beatapi.io/v1/systemone. "
              "Anahtarı sunucu tarafında (.env) tut. jev-ai.pro anahtarın buraya UYMAZ: her servisin anahtarı ayrıdır.",
-             "Sıfır bakiyede ücretsiz çalıştığı belirtiliyor (kaynak: topluluk makalesi, jevapi.io); limitler doğrulanmadı."),
+             "Sıfır bakiyede ücretsiz çalışır ama hesap başına dakikada 1 başarılı istek (gerçek yanıtla doğrulandı). Tam test ~2,5 saat; --limit 40 kullan veya bakiye yükle."),
     KeyGuide("TYPESAFE_API_KEY", "TypeSafe (Jev)",
              "https://docs.typesafe.ai",
              "TypeSafe konsolunda API Keys sayfasından anahtar oluştur (docs.typesafe.ai). Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. "

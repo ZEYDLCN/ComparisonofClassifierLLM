@@ -126,3 +126,11 @@ def test_systemone_omits_model_when_empty(task_and_data, make_spec):
     pred = _predict(spec, task, KARGO)
     _, _, body = _Handler.log[-1]
     assert "model" not in body and pred.label == "kargo_teslimat"
+
+
+def test_rate_limit_eta(make_spec):
+    from clfbench.cli import rate_limit_minutes
+
+    spec = make_spec("systemone", path="/v1/systemone", options={"rpm_limit": 1})
+    assert rate_limit_minutes(spec, 152) == 152.0  # 1 istek/dk → 152 dk
+    assert rate_limit_minutes(make_spec("systemone", path="/v1/systemone"), 152) is None

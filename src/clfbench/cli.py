@@ -154,6 +154,21 @@ def estimate_cost(spec: ModelSpec, task, n_eval: int, texts: list[str], shots_k:
     return calls * (t_in * spec.price_in + t_out * (spec.price_out or 0)) / 1e6
 
 
+def rate_limit_minutes(spec: ModelSpec, n_calls: int) -> float | None:
+    """Dakika başına istek sınırı (options.rpm_limit) olan modeller için asgari süre (dk)."""
+    rpm = spec.options.get("rpm_limit")
+    return n_calls / float(rpm) if rpm else None
+
+
+def warn_slow_models(run: list[ModelSpec], n_eval: int, robustness: bool, warmup: int, limit: int | None) -> None:
+    for s in run:
+        mins = rate_limit_minutes(s, n_eval * (2 if robustness else 1) + warmup)
+        if mins is not None and mins > 10:
+            hint = "" if limit else (f". Daha kısa deneme için --limit kullan (örn. --limit 40 ≈ "
+                                     f"{40 / float(s.options['rpm_limit']):.0f} dk) veya hesaba bakiye yükle.")
+            print(f"  ⏱ {s.key}: hız limiti dakikada {s.options['rpm_limit']} istek → en az ~{mins:.0f} dk sürer{hint}")
+
+
 def cmd_estimate(args) -> int:
     reg = load_registry(args.config)
     task, ex = load_dataset(args.dataset)
@@ -166,6 +181,7 @@ def cmd_estimate(args) -> int:
         total += c or 0
         print(f"  {s.key:26s} " + (f"~${c:.3f}" if c is not None else "ücretsiz/yerel veya fiyat yok"))
     print(f"\nTOPLAM tahmini API maliyeti: ~${total:.3f}  (üretken modellerde düşünme tokenları nedeniyle gerçek değer sapabilir)")
+    warn_slow_models(run, len(ev), args.robustness, args.warmup, None)
     for s, why in skipped:
         print(f"  atlanır: {s.key} — {why}")
     return 0
@@ -190,6 +206,7 @@ def cmd_run(args) -> int:
            for s in run}
     total = sum(v or 0 for v in est.values())
     print(f"\n{len(run)} model · {n_eval} örnek ({args.split}) · tahmini API maliyeti ~${total:.3f}")
+    warn_slow_models(run, n_eval, args.robustness, args.warmup, args.limit)
     if total > args.max_cost and not args.yes:
         print(f"Tahmini maliyet --max-cost ({args.max_cost}) sınırını aşıyor. Onaylıyorsanız --yes ekleyin "
               f"veya --models / --limit ile daralın.")

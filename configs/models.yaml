@@ -49,9 +49,10 @@ models:
     path: /v1/systemone
     model: jev-1.13-free         # bulunamazsa 'jev-1.13' (ücretli) denenebilir: jevapi.io SSS bunu kullanıyor
     api_key_env: BEATAPI_API_KEY
-    concurrency: 2               # ücretsiz katman limitleri bilinmiyor: temkinli başla
-    price: {input: 0.0, output: 0.0, note: "Ücretsiz katman (sıfır bakiyede çalıştığı iddia ediliyor); limitler doğrulanmadı"}
-    verified: "Uç nokta doğrulandı (sahte anahtara 401 invalid_api_key). Ücretsiz erişim/kota yalnızca topluluk makalesi ve jevapi.io'ya dayanıyor: kullanmadan önce beatapi.io'da teyit edin"
+    concurrency: 1
+    price: {input: 0.0, output: 0.0, note: "Ücretsiz katman: hesap başına dakikada 1 başarılı istek (bakiye yükleyenlere daha yüksek limit)"}
+    options: {rpm_limit: 1}       # çalıştırmadan önce tahmini süre uyarısı için (estimate/run)
+    verified: "Gerçek yanıtla doğrulandı: çalışıyor, ancak 429 rate_limit_exceeded: 'at most 1 successful requests per minute per account'. Tam test (151 örnek) ~2,5 saat; --limit ile daralt veya bakiye yükle"
 
   - key: mercury_decide
     display: Mercury Decide (Inception)

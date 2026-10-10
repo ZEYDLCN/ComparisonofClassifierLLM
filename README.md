@@ -74,6 +74,10 @@ yalnız hızlı yerel modeller için `--models tfidf_lr,embedding_e5_lr,setfit_m
 | `python -m clfbench run --robustness` | Seçenek sırasını karıştırıp tekrarla (dayanıklılık) |
 | `python -m clfbench report <klasör> --reference jev` | Raporu başka referans modelle yeniden üret |
 
+**Hız limitli servisler:** bazı ücretsiz katmanlar çok düşük limit verir (örn. BeatAPI ücretsiz Jev: dakikada 1 istek).
+`run` ve `estimate` bunu (`rpm_limit`) bilen modeller için çalıştırmadan önce tahmini süreyi uyarır. Tüm modelleri aynı dengeli
+alt kümede kıyaslamak için `python -m clfbench run --limit 40` kullan (sınıf başına 5 örnek; yerel sonuçlar önbellekten gelir).
+
 Maliyet güvencesi: tahmini maliyet `--max-cost` (varsayılan 2 USD) değerini aşarsa `--yes` vermeden çalışmaz.
 Aynı koşu tekrarlanırsa başarılı yanıtlar `results/cache` içinden gelir (para harcanmaz); yarıda kesilen koşu kaldığı yerden sürer.
 `--no-cache` ile sıfırdan çalıştırılır.
@@ -93,7 +97,7 @@ Hepsi için kısa özet `python -m clfbench keys` ile de görülebilir. Anahtar�
 | `OPENAI_API_KEY` | OpenAI → **Decisions** (gpt-6-luna) | <https://platform.openai.com/api-keys> | Decisions public beta; hesabında erişim yoksa 403/404 döner |
 | `GEMINI_API_KEY` | Google → Gemini 3.5 Flash-Lite | <https://aistudio.google.com/apikey> | Ücretsiz katman olabilir (düşük hız limiti) |
 | `OPENROUTER_API_KEY` | OpenRouter → GPT-6 Luna (sohbet), DeepSeek V4 Flash, Qwen3.8 Flash | <https://openrouter.ai/keys> | Tek anahtar, çok model; Credits yükle |
-| `BEATAPI_API_KEY` | BeatAPI → **Jev ücretsiz** (`jev-1.13-free`) | <https://beatapi.io/dashboard/apikeys> | Sıfır bakiyede ücretsiz çalıştığı belirtiliyor (topluluk makalesi + jevapi.io); **limitler doğrulanmadı**. Uç nokta canlı (sahte anahtara 401 döner). Başlamak için en kolay Jev yolu olabilir |
+| `BEATAPI_API_KEY` | BeatAPI → **Jev ücretsiz** (`jev-1.13-free`) | <https://beatapi.io/dashboard/apikeys> | **Gerçek yanıtla doğrulandı: sıfır bakiyede çalışıyor, ama hesap başına dakikada 1 başarılı istek** (429 `rate_limit_exceeded`). Tam test (151 örnek) ~2,5 saat; `--limit 40` ≈ 40 dk. Bakiye yükleyenlere daha yüksek limit veriliyor |
 | `JEV_AI_API_KEY` | Jev AI (jev-ai.pro) → **Jev** | <https://jev-ai.pro> | Anahtar `sk_jev-ai_` ile başlar. **Bakiye yoksa 402 döner**; yükleme: <https://jev-ai.pro/pricing?context=api&mode=top-up>. İstekte `model` alanı yok |
 | `TYPESAFE_API_KEY` | TypeSafe → **Jev** | <https://docs.typesafe.ai> | TypeSafe konsolundaki *API Keys* sayfası. Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. **Vercel AI Gateway / Zuplo gibi aracı servisten alınan anahtar `api.typesafe.ai`'de 401 verir**; o durumda `configs/models.yaml` → `jev` → `base_url`'i o servisin adresine çevir |
 | `ZOODATA_API_KEY` | ZooData → **Instinct** 27B/4B | <https://zoodata.ai/en/api-keys> | **En az 20 USD bakiye** yüklemek gerekir; istemezsen bu modelleri atla |
