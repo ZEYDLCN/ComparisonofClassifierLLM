@@ -110,3 +110,17 @@ def test_bad_key_fails_fast_without_burning_requests(tmp_path, monkeypatch, make
     assert m["status"] == "failed" and "401" in m["reason"] and "ping" in m["reason"]
     assert len(_Handler.log) == 1, "geçersiz anahtarla yalnızca ısınma isteği atılmalı"
     assert "metrics" not in m
+
+
+def test_payment_required_fails_fast(tmp_path, monkeypatch, make_spec, task_and_data):
+    from mock_server import _Handler
+
+    monkeypatch.setattr(bench, "CACHE_DIR", tmp_path / "cache")
+    task, ex = task_and_data
+    spec = make_spec("systemone", path="/v1/systemone", key="BROKE_API_KEY")
+    spec.key, spec.display = "broke", "Broke"
+    _Handler.log.clear()
+    out = run_benchmark([spec], task, ex, split="test", warmup=1, out_root=tmp_path / "out")
+    m = json.loads((out / "summary.json").read_text(encoding="utf-8"))["models"][0]
+    assert m["status"] == "failed" and "402" in m["reason"] and "wallet_not_provisioned" in m["reason"]
+    assert len(_Handler.log) == 1

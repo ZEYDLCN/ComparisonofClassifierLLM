@@ -188,6 +188,18 @@ models:
     options: {max_tokens: 512}
     verified: "Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta"
 
+  - key: mercury_2_5_or
+    display: Mercury 2.5 (sohbet, OpenRouter)
+    group: uretken-llm
+    provider: chat_json
+    base_url: https://openrouter.ai/api/v1
+    path: /chat/completions
+    model: inception/mercury-2.5
+    api_key_env: OPENROUTER_API_KEY
+    price: {input: 0.04, output: 0.15}
+    options: {max_tokens: 512}
+    verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı. Mercury Decide OpenRouter'da yok; o için INCEPTION_API_KEY gerekir"
+
   - key: gpt_6_luna
     display: GPT-6 Luna (sohbet, OpenRouter)
     group: uretken-llm
@@ -307,3 +319,18 @@ models:
     requires: [setfit, datasets, torch]
     options: {k_shot: 8, num_epochs: 1, num_iterations: 20, batch_size: 16}
     notes: "pip install setfit. CPU'da eğitim dakikalar sürebilir."
+
+  # ==================================================================================== ÜCRETSİZ DENEME (OpenRouter :free)
+  # Kredisiz hesapta toplam ~50 istek/gün sınırı ve sağlayıcı kaynaklı 429'lar olur: yalnızca denemek için, --limit ile kullanın.
+  - key: gemma_4_31b_free
+    display: Gemma 4 31B (OpenRouter ücretsiz)
+    group: uretken-llm
+    provider: chat_json
+    enabled: false
+    base_url: https://openrouter.ai/api/v1
+    path: /chat/completions
+    model: google/gemma-4-31b-it:free
+    api_key_env: OPENROUTER_API_KEY
+    price: {input: 0.0, output: 0.0, note: "Ücretsiz katman; günlük istek sınırlı"}
+    options: {max_tokens: 512}
+    verified: "OpenRouter model listesi"

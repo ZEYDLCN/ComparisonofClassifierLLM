@@ -22,6 +22,7 @@ def mock_url():
 def _keys(monkeypatch, mock_url):
     monkeypatch.setenv("MOCK_API_KEY", "good-key")
     monkeypatch.setenv("BAD_API_KEY", "wrong")
+    monkeypatch.setenv("BROKE_API_KEY", "broke-key")
     monkeypatch.setenv("ANTHROPIC_BASE_URL", mock_url)
 
 

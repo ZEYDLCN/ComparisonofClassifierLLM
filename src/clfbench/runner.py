@@ -98,11 +98,11 @@ def run_model(spec: ModelSpec, task: TaskSpec, eval_examples: list[Example], tra
             w = _predict_one(provider, spec, task, pending[0], order_mode, seed)
             if w["error"] is None and cold_ms is None:
                 cold_ms = w["latency_ms"]
-            elif w["error"] and any(c in w["error"] for c in ("HTTP 401", "HTTP 403", "HTTP 404")):
-                # Anahtar/erişim/uç nokta hatası: tüm örnekler aynı hatayı alır, boşa istek atma
+            elif w["error"] and any(c in w["error"] for c in ("HTTP 401", "HTTP 402", "HTTP 403", "HTTP 404")):
+                # Anahtar/bakiye/erişim/uç nokta hatası: tüm örnekler aynı hatayı alır, boşa istek atma
                 provider.close()
                 raise ProviderError(
-                    f"Erişim hatası ({w['error'][:200]}). Anahtarı, model adını ve base_url/path'i kontrol edin: "
+                    f"Erişim/ödeme hatası ({w['error'][:200]}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: "
                     f"'python -m clfbench ping {spec.key}'")
 
     lock = threading.Lock()

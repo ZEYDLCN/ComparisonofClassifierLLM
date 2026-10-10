@@ -64,6 +64,8 @@ class _Handler(BaseHTTPRequestHandler):
         body = json.loads(self.rfile.read(n) or b"{}")
         _Handler.log.append((self.path, dict(self.headers), body))
         auth = self.headers.get("Authorization", "") or self.headers.get("x-api-key", "") or self.headers.get("x-goog-api-key", "")
+        if "broke-key" in auth:  # geçerli anahtar ama bakiye yok (Instinct/OpenRouter 402 davranışı)
+            return self._send(402, {"error": {"code": "PAYMENT_REQUIRED", "message": "wallet_not_provisioned"}})
         if "good-key" not in auth:
             return self._send(401, {"error": "bad key"})
         path = self.path.split("?")[0]
