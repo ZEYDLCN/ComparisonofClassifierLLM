@@ -9,7 +9,7 @@ from pathlib import Path
 from .config import ModelSpec, load_env, load_registry, resolve_models
 from .core import Prediction
 from .data import build_seed_dataset, load_dataset, select
-from .keys import BY_ENV, GUIDES, render_guides
+from .keys import BY_ENV, prefix_warning, render_guides
 from .paths import RESULTS_DIR, ROOT
 from .prompts import estimate_tokens, system_prompt
 
@@ -72,8 +72,12 @@ def cmd_doctor(args) -> int:
         print(f"  {'✓' if importlib.util.find_spec(mod) else '·'} {mod:22s} {why}")
     print("\nAPI anahtarları:")
     for env in sorted({s.api_key_env for s in reg.values() if s.api_key_env}):
-        print(f"  {'✓ tanımlı' if os.environ.get(env, '').strip() else '· yok     '}  {env:22s} "
+        val = os.environ.get(env, "").strip().strip("\"'")
+        print(f"  {'✓ tanımlı' if val else '· yok     '}  {env:22s} "
               f"({', '.join(s.key for s in reg.values() if s.api_key_env == env)})")
+        warn = prefix_warning(env, val)
+        if warn:
+            print(f"      ⚠ {warn}")
     run, skipped = resolve_models(reg, None)
     print(f"\nÇalıştırılabilir modeller ({len(run)}):")
     for s in run:

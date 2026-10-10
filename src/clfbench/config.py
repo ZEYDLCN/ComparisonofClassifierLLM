@@ -48,7 +48,7 @@ class ModelSpec:
         return not self.api_key_env and not self.base_url and self.provider in LOCAL_PROVIDERS
 
     def api_key(self) -> str:
-        return os.environ.get(self.api_key_env, "").strip() if self.api_key_env else ""
+        return os.environ.get(self.api_key_env, "").strip().strip("\"'") if self.api_key_env else ""
 
     def missing_requirements(self) -> list[str]:
         return [m for m in self.requires if importlib.util.find_spec(m.split(".")[0]) is None]

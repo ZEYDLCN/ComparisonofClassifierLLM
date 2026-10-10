@@ -117,7 +117,8 @@ class NLIProvider(Provider):
         self._inv = inv
 
     def predict(self, text, task, order=None):
-        out = self._pipe(text, list(self._texts.values()), hypothesis_template=self._tmpl, multi_label=False)
+        out = self._pipe(text, list(self._texts.values()), hypothesis_template=self._tmpl, multi_label=False,
+                         batch_size=len(self._texts))  # etiket çiftleri tek partide: CPU'da ~3x hızlı
         probs = {self._inv[l]: float(s) for l, s in zip(out["labels"], out["scores"])}
         keys = task.label_keys
         p = np.array([probs.get(k, 0.0) for k in keys])

@@ -48,7 +48,7 @@ models:
     model: d1
     api_key_env: LIQUID_API_KEY
     price: {input: 0.04, output: 0.0}
-    verified: "Liquid d1 blogu: state/questions biçimi; 'choice' alanları System One ortak protokolünden alındı"
+    verified: "Liquid d1 dokümanı (docs.liquid.ai/lfm/models/d1) — choice isteği/yanıtı doğrulandı"
 
   - key: instinct_27b
     display: Instinct 27B (ZooData)

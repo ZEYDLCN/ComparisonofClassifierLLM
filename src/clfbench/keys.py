@@ -45,11 +45,29 @@ GUIDES: list[KeyGuide] = [
              "Ücretsiz katman belirtilmemiş; tarife 0,042 USD / 1M giriş tokenı."),
     KeyGuide("ZOODATA_API_KEY", "ZooData (Instinct 27B / 4B)",
              "https://zoodata.ai/en/api-keys",
-             "Giriş yap → önce https://zoodata.ai/en/pricing/models üzerinden bakiye yükle (en az 20 USD) → API Keys sayfasında anahtar oluştur.",
+             "Giriş yap → önce https://zoodata.ai/en/pricing/models üzerinden bakiye yükle (en az 20 USD) → API Keys sayfasında anahtar oluştur (anahtar hms_ ile başlar).",
              "En az 20 USD ön yükleme zorunlu; para yatırmak istemiyorsan Instinct modellerini atla."),
 ]
 
 BY_ENV = {g.env: g for g in GUIDES}
+
+# Beklenen anahtar önekleri. hms_ (ZooData hata mesajı) ve liquid_ (Liquid dokümanı) doğrulandı; diğerleri yaygın biçimdir.
+# Yalnızca bilgilendirici uyarı: doctor yanlış yapıştırmayı yakalamak için kullanır, çalışmayı engellemez.
+PREFIX_HINT = {
+    "ANTHROPIC_API_KEY": "sk-ant-",
+    "OPENROUTER_API_KEY": "sk-or-",
+    "OPENAI_API_KEY": "sk-",
+    "LIQUID_API_KEY": "liquid_",
+    "ZOODATA_API_KEY": "hms_",
+    "GEMINI_API_KEY": "AIza",
+}
+
+
+def prefix_warning(env: str, value: str) -> str | None:
+    want = PREFIX_HINT.get(env)
+    if want and value and not value.startswith(want):
+        return f"{env} '{want}' ile başlamalı (yanlış anahtar yapıştırılmış olabilir)"
+    return None
 
 
 def render_guides(only: set[str] | None = None) -> str:
