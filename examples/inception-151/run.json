@@ -1,0 +1,1550 @@
+{
+  "clfbench_version": "0.1.0",
+  "run_id": "20261012-163525-inception-yerel",
+  "started": "2026-10-12T16:35:26",
+  "argv": [
+    "run",
+    "--robustness",
+    "--name",
+    "inception-yerel",
+    "--yes",
+    "--note",
+    "Gerçek koşu: Inception API modelleri (Mercury Decide, Mercury 2.5) ve tüm yerel modeller. Diğer servislerin anahtarı tanımlı olmadığı için atlandı. Gecikmeler bulut kapsayıcısında (CPU, tek istemci konumu) ölçüldü."
+  ],
+  "note": "Gerçek koşu: Inception API modelleri (Mercury Decide, Mercury 2.5) ve tüm yerel modeller. Diğer servislerin anahtarı tanımlı olmadığı için atlandı. Gecikmeler bulut kapsayıcısında (CPU, tek istemci konumu) ölçüldü.",
+  "dataset": {
+    "name": "destek_tr",
+    "fingerprint": "9ac13de53ff85f2d",
+    "split": "test",
+    "n_eval": 151,
+    "n_train": 128,
+    "class_counts": {
+      "fatura_odeme": 18,
+      "teknik_destek": 19,
+      "kargo_teslimat": 19,
+      "iade_degisim": 19,
+      "hesap_guvenlik": 19,
+      "satis_fiyat": 19,
+      "sikayet_oneri": 19,
+      "diger": 19
+    }
+  },
+  "task": {
+    "instruction": "Aşağıdaki Türkçe müşteri mesajını, mesajın ASIL talebine göre tam olarak bir kategoriye ata. Mesaj bir ürün/hizmet talebi içermiyorsa veya şirketle ilgisizse 'diger' seç.",
+    "labels": {
+      "fatura_odeme": "Ödeme, çifte veya hatalı çekim, fatura, taksit, abonelik ücreti, ödenmiş paranın hesaba geri yatması",
+      "teknik_destek": "Uygulama veya site hataları, çökme, yavaşlık, yükleme sorunları, bildirim, API ve entegrasyon sorunları",
+      "kargo_teslimat": "Kargo takibi, gecikme, hasarlı veya eksik teslimat, adres değişikliği, kurye ve teslimat seçenekleri",
+      "iade_degisim": "Ürünü geri gönderme, ürün değişimi, sipariş iptali, cayma hakkı, garanti ve arıza başvurusu",
+      "hesap_guvenlik": "Şifre, hesap kilitlenmesi, yetkisiz erişim, dolandırıcılık şüphesi, kişisel veriler ve gizlilik, hesap ayarları",
+      "satis_fiyat": "Satın alma öncesi bilgi: fiyat, kampanya, stok, indirim kodu, kurumsal satış, ürün özellikleri",
+      "sikayet_oneri": "Belirli bir talep içermeyen genel memnuniyetsizlik, personel şikayeti, teşekkür, övgü veya öneri",
+      "diger": "Kapsam dışı, anlamsız, spam, test veya şirketle ilgisiz mesajlar"
+    },
+    "notes": "Çakışma kuralı: ödenmiş paranın geri yatması fatura_odeme; ürünün geri gönderilmesi/değişimi/iptali iade_degisim. Mesajda birden fazla talep varsa ilk ve öncelikli talebe göre etiketlenir."
+  },
+  "settings": {
+    "seed": 0,
+    "shots_per_label": 0,
+    "robustness": true,
+    "warmup": 1,
+    "prompt_version": "v1",
+    "concurrency_override": null
+  },
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+    "packages": {
+      "requests": "2.34.2",
+      "numpy": "2.5.3",
+      "anthropic": "1.13.0",
+      "scikit-learn": "1.9.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0",
+      "sentence-transformers": "6.1.0",
+      "gliclass": "0.1.20",
+      "laya": "0.4.6",
+      "setfit": "1.2.0"
+    },
+    "git_commit": "2d70294"
+  },
+  "models": [
+    {
+      "key": "mercury_decide",
+      "display": "Mercury Decide (Inception)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "mercury-decide",
+      "price_in": 0.02,
+      "price_out": 0.0,
+      "price_note": "Kampanyalı tarife; normal tarife 0.04",
+      "verified": "Inception dokümanı (docs.inceptionlabs.ai/capabilities/decisions) — şema doğrulandı",
+      "notes": "",
+      "local": false,
+      "free": "olasi",
+      "free_note": "Inception yeni kullanıcıya ücretsiz token verdiğini belirtiyor (kart gerekmiyor); doğrulanmadı",
+      "status": "ok",
+      "setup_s": 0.0,
+      "cold_ms": 976.9424790000016,
+      "wall_s": 0.003,
+      "concurrency": 4,
+      "cached": 151
+    },
+    {
+      "key": "mercury_2_5",
+      "display": "Mercury 2.5 (sohbet, Inception)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "mercury-2.5",
+      "price_in": 0.04,
+      "price_out": 0.15,
+      "price_note": "Kampanyalı tarife (normal 0.20 / 0.75)",
+      "verified": "Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta",
+      "notes": "",
+      "local": false,
+      "free": "olasi",
+      "free_note": "Inception yeni kullanıcıya ücretsiz token verdiğini belirtiyor (kart gerekmiyor); doğrulanmadı",
+      "status": "ok",
+      "setup_s": 0.0,
+      "cold_ms": 1858.4886300000107,
+      "wall_s": 0.0,
+      "concurrency": 4,
+      "cached": 151
+    },
+    {
+      "key": "laya_multilingual",
+      "display": "Laya multilingual (322M)",
+      "group": "encoder",
+      "provider": "laya",
+      "model": "convaiinnovations/laya-multilingual",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "Laya README: Router.predict(text, questions)",
+      "notes": "pip install laya",
+      "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
+      "status": "ok",
+      "setup_s": 0.023,
+      "cold_ms": 33126.85497299992,
+      "wall_s": 0.001,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "gliclass_large_v3",
+      "display": "GLiClass large v3.0",
+      "group": "encoder",
+      "provider": "gliclass",
+      "model": "knowledgator/gliclass-large-v3.0",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "GLiClass README: ZeroShotClassificationPipeline",
+      "notes": "Model kartı çok dilli desteği belirtmiyor; Türkçe sonucu ayrıca yorumlanmalı. pip install gliclass",
+      "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
+      "status": "ok",
+      "setup_s": 16.509,
+      "cold_ms": 421.8228849999832,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "nli_mdeberta_xnli",
+      "display": "mDeBERTa-v3 çok dilli NLI (sıfır örnek)",
+      "group": "encoder",
+      "provider": "nli",
+      "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "",
+      "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
+      "status": "ok",
+      "setup_s": 13.796,
+      "cold_ms": 270.06685999992897,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "nli_modernbert_en",
+      "display": "ModernBERT-base NLI (yalnız İngilizce; negatif kontrol)",
+      "group": "encoder",
+      "provider": "nli",
+      "model": "tasksource/ModernBERT-base-nli",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "İngilizce model Türkçe metinde zayıf beklenir; çok dilli modellerle fark görülsün diye eklendi.",
+      "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
+      "status": "ok",
+      "setup_s": 8.745,
+      "cold_ms": 216.7662399999699,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "embedding_e5_zeroshot",
+      "display": "multilingual-e5-small (sıfır örnek, kosinüs)",
+      "group": "encoder",
+      "provider": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "",
+      "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
+      "status": "ok",
+      "setup_s": 12.767,
+      "cold_ms": 27.299648000052912,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "tfidf_lr",
+      "display": "TF-IDF + Lojistik Regresyon (eğitimli)",
+      "group": "egitimli",
+      "provider": "tfidf_lr",
+      "model": "",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "train bölümüyle eğitilir. Etiketli veri bütçesi: sıfır örnekli modellerden farklı.",
+      "local": true,
+      "free": "yerel",
+      "free_note": "Ağ ve indirme gerekmez (yalnız scikit-learn)",
+      "status": "ok",
+      "setup_s": 2.198,
+      "cold_ms": 6.638127000030636,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "embedding_e5_lr",
+      "display": "multilingual-e5-small + LR (eğitimli)",
+      "group": "egitimli",
+      "provider": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "SetFit'in karşıtı basit sürüm: gömme dondurulur, yalnız sınıflandırıcı başı eğitilir.",
+      "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
+      "status": "ok",
+      "setup_s": 4.879,
+      "cold_ms": 135.8419610000965,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    },
+    {
+      "key": "setfit_minilm",
+      "display": "SetFit (MiniLM çok dilli, 8-shot)",
+      "group": "egitimli",
+      "provider": "setfit",
+      "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "pip install setfit. CPU'da eğitim dakikalar sürebilir.",
+      "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
+      "status": "ok",
+      "setup_s": 160.392,
+      "cold_ms": 146.26817199996367,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151
+    }
+  ],
+  "not_run": [
+    {
+      "key": "jev",
+      "display": "Jev 1.13 (TypeSafe)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "jev-1.13.0",
+      "reason": "TYPESAFE_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.042,
+      "price_out": 0.0,
+      "price_note": "TypeSafe liste tarifesi",
+      "verified": "TypeSafe dokümanı (docs.typesafe.ai) — istek/yanıt şeması doğrulandı",
+      "fix": {
+        "short": "`.env` içine `TYPESAFE_API_KEY=...` ekle · anahtar: https://docs.typesafe.ai",
+        "steps": ".env dosyasına TYPESAFE_API_KEY=... satırını ekle. TypeSafe konsolunda API Keys sayfasından anahtar oluştur (docs.typesafe.ai). Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. Anahtarı Vercel AI Gateway / Zuplo gibi bir aracıdan aldıysan api.typesafe.ai 401 verir: configs/models.yaml içinde jev girdisinin base_url'ini o servise çevir.",
+        "url": "https://docs.typesafe.ai",
+        "cost": "Ücretsiz katman belirtilmemiş; tarife 0,042 USD / 1M giriş tokenı.",
+        "cmd": "python -m clfbench run --models jev"
+      }
+    },
+    {
+      "key": "jev_ai",
+      "display": "Jev (jev-ai.pro)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "",
+      "reason": "JEV_AI_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "Fiyat bilinmiyor: jev-ai.pro tarifesini girin (USD / 1M giriş tokenı)",
+      "verified": "Sağlayıcının verdiği curl örneği: POST /api/v1/systemone, Bearer anahtar, state + questions (System One şeması)",
+      "fix": {
+        "short": "`.env` içine `JEV_AI_API_KEY=...` ekle · anahtar: https://jev-ai.pro",
+        "steps": ".env dosyasına JEV_AI_API_KEY=... satırını ekle. Sağlayıcı panelinden anahtar oluştur (sk_jev-ai_ ile başlar). Uç nokta: https://jev-ai.pro/api/v1/systemone; istekte model alanı yok. Bakiye yoksa API 402 döner; yükleme adresi: https://jev-ai.pro/pricing?context=api&mode=top-up",
+        "url": "https://jev-ai.pro",
+        "cost": "Çağrı için token/kredi bakiyesi gerekir (bakiye yokken ücret kesilmez). Tarife bilinmiyor: models.yaml'da jev_ai fiyatını girersen rapor maliyeti hesaplar.",
+        "cmd": "python -m clfbench run --models jev_ai"
+      }
+    },
+    {
+      "key": "jev_beatapi",
+      "display": "Jev ücretsiz (BeatAPI, jev-1.13-free)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "jev-1.13-free",
+      "reason": "BEATAPI_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "ucretsiz",
+      "free_note": "Hesap başına dakikada 1 başarılı istek (gerçek yanıtla doğrulandı); --limit 40 ≈ 40 dk",
+      "price_in": 0.0,
+      "price_out": 0.0,
+      "price_note": "Ücretsiz katman: hesap başına dakikada 1 başarılı istek (bakiye yükleyenlere daha yüksek limit)",
+      "verified": "Gerçek yanıtla doğrulandı: çalışıyor, ancak 429 rate_limit_exceeded: 'at most 1 successful requests per minute per account'. Tam test (151 örnek) ~2,5 saat; --limit ile daralt veya bakiye yükle",
+      "fix": {
+        "short": "`.env` içine `BEATAPI_API_KEY=...` ekle · anahtar: https://beatapi.io/dashboard/apikeys",
+        "steps": ".env dosyasına BEATAPI_API_KEY=... satırını ekle. beatapi.io'da hesap aç → Dashboard → API keys → anahtar oluştur. Uç nokta: https://api.beatapi.io/v1/systemone. Anahtarı sunucu tarafında (.env) tut. jev-ai.pro anahtarın buraya UYMAZ: her servisin anahtarı ayrıdır.",
+        "url": "https://beatapi.io/dashboard/apikeys",
+        "cost": "Sıfır bakiyede ücretsiz çalışır ama hesap başına dakikada 1 başarılı istek (gerçek yanıtla doğrulandı). Tam test ~2,5 saat; --limit 40 kullan veya bakiye yükle.",
+        "cmd": "python -m clfbench run --models jev_beatapi"
+      }
+    },
+    {
+      "key": "liquid_d1",
+      "display": "Liquid d1 API",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "d1",
+      "reason": "LIQUID_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "olasi",
+      "free_note": "Liquid belgeleri d1:free model adıyla ücretsiz katman sunuyor olabilir (model alanını d1:free yaparak dene); doğrulanmadı",
+      "price_in": 0.04,
+      "price_out": 0.0,
+      "price_note": "",
+      "verified": "Liquid d1 dokümanı (docs.liquid.ai/lfm/models/d1) — choice isteği/yanıtı doğrulandı",
+      "fix": {
+        "short": "`.env` içine `LIQUID_API_KEY=...` ekle · anahtar: https://console.liquid.ai",
+        "steps": ".env dosyasına LIQUID_API_KEY=... satırını ekle. Kaydol → bir organizasyona katıl → Dashboard → API Keys → yeni anahtar (liquid_ ile başlar).",
+        "url": "https://console.liquid.ai",
+        "cost": "d1:free metin için ücretsiz katman sunuyor olabilir; model adını configs/models.yaml'da 'd1:free' yapabilirsin.",
+        "cmd": "python -m clfbench run --models liquid_d1"
+      }
+    },
+    {
+      "key": "instinct_27b",
+      "display": "Instinct 27B (ZooData)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "instinct",
+      "reason": "ZOODATA_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.03,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys",
+        "steps": ".env dosyasına ZOODATA_API_KEY=... satırını ekle. Giriş yap → önce https://zoodata.ai/en/pricing/models üzerinden bakiye yükle (en az 20 USD) → API Keys sayfasında anahtar oluştur (anahtar hms_ ile başlar).",
+        "url": "https://zoodata.ai/en/api-keys",
+        "cost": "En az 20 USD ön yükleme zorunlu; para yatırmak istemiyorsan Instinct modellerini atla.",
+        "cmd": "python -m clfbench run --models instinct_27b"
+      }
+    },
+    {
+      "key": "instinct_tuned_4b",
+      "display": "Instinct tuned 4B (ZooData)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "instinct-tuned-4b",
+      "reason": "ZOODATA_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.01,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys",
+        "steps": ".env dosyasına ZOODATA_API_KEY=... satırını ekle. Giriş yap → önce https://zoodata.ai/en/pricing/models üzerinden bakiye yükle (en az 20 USD) → API Keys sayfasında anahtar oluştur (anahtar hms_ ile başlar).",
+        "url": "https://zoodata.ai/en/api-keys",
+        "cost": "En az 20 USD ön yükleme zorunlu; para yatırmak istemiyorsan Instinct modellerini atla.",
+        "cmd": "python -m clfbench run --models instinct_tuned_4b"
+      }
+    },
+    {
+      "key": "instinct_dual_4b",
+      "display": "Instinct dual 4B (ZooData)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "instinct-dual-4b",
+      "reason": "ZOODATA_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.01,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys",
+        "steps": ".env dosyasına ZOODATA_API_KEY=... satırını ekle. Giriş yap → önce https://zoodata.ai/en/pricing/models üzerinden bakiye yükle (en az 20 USD) → API Keys sayfasında anahtar oluştur (anahtar hms_ ile başlar).",
+        "url": "https://zoodata.ai/en/api-keys",
+        "cost": "En az 20 USD ön yükleme zorunlu; para yatırmak istemiyorsan Instinct modellerini atla.",
+        "cmd": "python -m clfbench run --models instinct_dual_4b"
+      }
+    },
+    {
+      "key": "openai_decisions",
+      "display": "OpenAI Decisions (gpt-6-luna)",
+      "group": "karar-api",
+      "provider": "openai_decisions",
+      "model": "gpt-6-luna",
+      "reason": "OPENAI_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.1,
+      "price_out": 0.0,
+      "price_note": "Public beta",
+      "verified": "OpenAI Decisions dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENAI_API_KEY=...` ekle · anahtar: https://platform.openai.com/api-keys",
+        "steps": ".env dosyasına OPENAI_API_KEY=... satırını ekle. Giriş yap → API keys → Create new secret key. Decisions API public beta'dır; hesabında erişim yoksa 403/404 alırsın.",
+        "url": "https://platform.openai.com/api-keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models openai_decisions"
+      }
+    },
+    {
+      "key": "claude_haiku_5_5",
+      "display": "Claude Haiku 5.5",
+      "group": "uretken-llm",
+      "provider": "claude",
+      "model": "claude-haiku-5-5",
+      "reason": "ANTHROPIC_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.1,
+      "price_out": 0.5,
+      "price_note": "100K token altı istemler için",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys",
+        "steps": ".env dosyasına ANTHROPIC_API_KEY=... satırını ekle. Giriş yap → Settings → API Keys → Create Key; anahtarı hemen kopyala (bir daha gösterilmez). Kullanım için Billing'den kredi yüklemek gerekir.",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "Ön ödemeli kredi; bu veri setinde 150 istek birkaç sentten azdır.",
+        "cmd": "python -m clfbench run --models claude_haiku_5_5"
+      }
+    },
+    {
+      "key": "claude_sonnet_5_5",
+      "display": "Claude Sonnet 5.5",
+      "group": "uretken-llm",
+      "provider": "claude",
+      "model": "claude-sonnet-5-5",
+      "reason": "ANTHROPIC_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 2.0,
+      "price_out": 10.0,
+      "price_note": "",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys",
+        "steps": ".env dosyasına ANTHROPIC_API_KEY=... satırını ekle. Giriş yap → Settings → API Keys → Create Key; anahtarı hemen kopyala (bir daha gösterilmez). Kullanım için Billing'den kredi yüklemek gerekir.",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "Ön ödemeli kredi; bu veri setinde 150 istek birkaç sentten azdır.",
+        "cmd": "python -m clfbench run --models claude_sonnet_5_5"
+      }
+    },
+    {
+      "key": "gemini_3_5_flash_lite",
+      "display": "Gemini 3.5 Flash-Lite",
+      "group": "uretken-llm",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "reason": "GEMINI_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "olasi",
+      "free_note": "AI Studio ücretsiz katmanı gibi davranıyor: gerçek koşuda 40 istekte 4-10 HTTP 429 (kota) görüldü; --concurrency 1 ve tekrar çalıştırma (önbellekten devam) ile tamamlandı. Faturalandırma durumu kesin doğrulanmadı",
+      "price_in": 0.3,
+      "price_out": 2.5,
+      "price_note": "Çıktı fiyatı düşünme tokenlarını da kapsar",
+      "verified": "Google AI fiyat sayfası: model kimliği ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `GEMINI_API_KEY=...` ekle · anahtar: https://aistudio.google.com/apikey",
+        "steps": ".env dosyasına GEMINI_API_KEY=... satırını ekle. Google hesabıyla giriş → Get API key → Create API key.",
+        "url": "https://aistudio.google.com/apikey",
+        "cost": "Ücretsiz katman olabilir (sınırlı hız); ücretli katman için faturalandırma ekle.",
+        "cmd": "python -m clfbench run --models gemini_3_5_flash_lite"
+      }
+    },
+    {
+      "key": "mercury_2_5_or",
+      "display": "Mercury 2.5 (sohbet, OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "inception/mercury-2.5",
+      "reason": "OPENROUTER_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.04,
+      "price_out": 0.15,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı. Mercury Decide OpenRouter'da yok; o için INCEPTION_API_KEY gerekir",
+      "fix": {
+        "short": "`.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys",
+        "steps": ".env dosyasına OPENROUTER_API_KEY=... satırını ekle. Giriş yap → Keys → Create Key. Tek anahtarla birçok sağlayıcıya erişirsin; Credits'ten bakiye yükle.",
+        "url": "https://openrouter.ai/keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models mercury_2_5_or"
+      }
+    },
+    {
+      "key": "gpt_6_luna",
+      "display": "GPT-6 Luna (sohbet, OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "openai/gpt-6-luna",
+      "reason": "OPENROUTER_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.1,
+      "price_out": 0.5,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys",
+        "steps": ".env dosyasına OPENROUTER_API_KEY=... satırını ekle. Giriş yap → Keys → Create Key. Tek anahtarla birçok sağlayıcıya erişirsin; Credits'ten bakiye yükle.",
+        "url": "https://openrouter.ai/keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models gpt_6_luna"
+      }
+    },
+    {
+      "key": "deepseek_v4_flash",
+      "display": "DeepSeek V4 Flash (OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "deepseek/deepseek-v4-flash",
+      "reason": "OPENROUTER_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.03,
+      "price_out": 1.28,
+      "price_note": "Sağlayıcıya göre değişebilir; reasoning çıktı tokenı yükseltir",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys",
+        "steps": ".env dosyasına OPENROUTER_API_KEY=... satırını ekle. Giriş yap → Keys → Create Key. Tek anahtarla birçok sağlayıcıya erişirsin; Credits'ten bakiye yükle.",
+        "url": "https://openrouter.ai/keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models deepseek_v4_flash"
+      }
+    },
+    {
+      "key": "qwen3_8_flash",
+      "display": "Qwen3.8 Flash (OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "qwen/qwen3.8-flash",
+      "reason": "OPENROUTER_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.15,
+      "price_out": 0.47,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys",
+        "steps": ".env dosyasına OPENROUTER_API_KEY=... satırını ekle. Giriş yap → Keys → Create Key. Tek anahtarla birçok sağlayıcıya erişirsin; Credits'ten bakiye yükle.",
+        "url": "https://openrouter.ai/keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models qwen3_8_flash"
+      }
+    },
+    {
+      "key": "sage",
+      "display": "Sage 1.3 (Levanto)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "sage-1.3.0",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.05,
+      "price_out": 10.0,
+      "price_note": "Giriş tarifesi; reasoning/arama ek ücreti ayrı",
+      "verified": "DOĞRULANMADI — Levanto fiyat sayfası uç nokta/şema vermiyor. base_url ve model kimliğini dokümandan doğrulayın",
+      "fix": {
+        "short": "`--models sage` ile açıkça iste (şablon: uç nokta doğrulanmadı)",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. DOĞRULANMADI — Levanto fiyat sayfası uç nokta/şema vermiyor. base_url ve model kimliğini dokümandan doğrulayın",
+        "url": "",
+        "cost": "",
+        "cmd": "python -m clfbench run --models sage"
+      }
+    },
+    {
+      "key": "microsoft_decision_1",
+      "display": "Microsoft-Decision-1 (Foundry)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "microsoft-decision-1",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.042,
+      "price_out": 0.0,
+      "price_note": "Foundry tarifesi doğrulanmalı",
+      "verified": "DOĞRULANMADI — dağıtım uç noktası ve istek şeması Foundry portalından teyit edilmeli",
+      "fix": {
+        "short": "`--models microsoft_decision_1` ile açıkça iste (şablon: uç nokta doğrulanmadı)",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. DOĞRULANMADI — dağıtım uç noktası ve istek şeması Foundry portalından teyit edilmeli",
+        "url": "",
+        "cost": "",
+        "cmd": "python -m clfbench run --models microsoft_decision_1"
+      }
+    },
+    {
+      "key": "claude_opus_5_5",
+      "display": "Claude Opus 5.5",
+      "group": "uretken-llm",
+      "provider": "claude",
+      "model": "claude-opus-5-5",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 4.0,
+      "price_out": 20.0,
+      "price_note": "",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`--models claude_opus_5_5` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models claude_opus_5_5"
+      }
+    },
+    {
+      "key": "gemini_3_8_flash",
+      "display": "Gemini 3.8 Flash",
+      "group": "uretken-llm",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.75,
+      "price_out": 3.75,
+      "price_note": "31 Aralık 2026'ya kadar; 1 Ocak 2027'den itibaren 1.50 / 7.50",
+      "verified": "Google AI fiyat sayfası",
+      "fix": {
+        "short": "`--models gemini_3_8_flash` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://aistudio.google.com/apikey",
+        "cost": "",
+        "cmd": "python -m clfbench run --models gemini_3_8_flash"
+      }
+    },
+    {
+      "key": "qwen3_8_27b",
+      "display": "Qwen3.8 27B (OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "qwen/qwen3.8-27b",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.425,
+      "price_out": 2.55,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`--models qwen3_8_27b` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://openrouter.ai/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models qwen3_8_27b"
+      }
+    },
+    {
+      "key": "gemma_4_31b_free",
+      "display": "Gemma 4 31B (OpenRouter ücretsiz)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "google/gemma-4-31b-it:free",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "olasi",
+      "free_note": "OpenRouter :free modeli; kredisiz hesapta toplam ~50 istek/gün sınırı",
+      "price_in": 0.0,
+      "price_out": 0.0,
+      "price_note": "Ücretsiz katman; günlük istek sınırlı",
+      "verified": "OpenRouter model listesi",
+      "fix": {
+        "short": "`--models gemma_4_31b_free` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://openrouter.ai/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models gemma_4_31b_free"
+      }
+    }
+  ],
+  "eval_examples": [
+    {
+      "id": "diger-845d856f",
+      "tags": [
+        "short"
+      ],
+      "text": "Yanlış numara, kusura bakmayın."
+    },
+    {
+      "id": "diger-8e2a3041",
+      "tags": [],
+      "text": "Evimizin çatısı akıyor, tamirci tavsiye eder misiniz?"
+    },
+    {
+      "id": "diger-8f57c59f",
+      "tags": [
+        "short"
+      ],
+      "text": "Türkiye'nin başkenti neresidir?"
+    },
+    {
+      "id": "diger-98372d77",
+      "tags": [],
+      "text": "Bitcoin yatırımı ile günde 500 dolar kazanın!"
+    },
+    {
+      "id": "diger-9a79c67d",
+      "tags": [],
+      "text": "Annemin doğum günü için pasta tarifi arıyorum."
+    },
+    {
+      "id": "diger-9d01d284",
+      "tags": [
+        "ascii"
+      ],
+      "text": "bilgisayarima format atacak usta lazim istanbul kadikoy"
+    },
+    {
+      "id": "diger-a8e4c8da",
+      "tags": [],
+      "text": "Bugün hava çok güzel, parka gidiyorum."
+    },
+    {
+      "id": "diger-b9316ea0",
+      "tags": [],
+      "text": "Okul servis ücretleri ne kadar?"
+    },
+    {
+      "id": "diger-bf5d2d96",
+      "tags": [],
+      "text": "Mesaj gönderme denemesi 1 2 3"
+    },
+    {
+      "id": "diger-bffbb3dc",
+      "tags": [],
+      "text": "Çocuğumun ödevi için fotosentez hakkında bilgi verir misiniz?"
+    },
+    {
+      "id": "diger-d8dc1ff7",
+      "tags": [],
+      "text": "Aşağıdaki cümleyi İngilizceye çevirir misin: Yarın görüşürüz."
+    },
+    {
+      "id": "diger-dc991cb6",
+      "tags": [],
+      "text": "Ücretsiz bitcoin madenciliği için buraya tıklayın www.kazanc-firsati.example"
+    },
+    {
+      "id": "diger-dce3e044",
+      "tags": [],
+      "text": "Bu akşam hangi filmi izlemeliyim?"
+    },
+    {
+      "id": "diger-df53c2b7",
+      "tags": [
+        "short"
+      ],
+      "text": "Merhaba"
+    },
+    {
+      "id": "diger-e195d3c6",
+      "tags": [
+        "short"
+      ],
+      "text": "Test mesajı"
+    },
+    {
+      "id": "diger-e7b79f4c",
+      "tags": [],
+      "text": "Lorem ipsum dolor sit amet."
+    },
+    {
+      "id": "diger-e81896ab",
+      "tags": [],
+      "text": "Hesabımla ilgili değil ama kedim kayboldu, gören var mı?"
+    },
+    {
+      "id": "diger-e9f19d12",
+      "tags": [
+        "short"
+      ],
+      "text": "Dolar kuru bugün kaç?"
+    },
+    {
+      "id": "diger-fed53d53",
+      "tags": [],
+      "text": "Elinizdeki tüm bilgileri bana verin."
+    },
+    {
+      "id": "fatura_odeme-742c5c80",
+      "tags": [],
+      "text": "Ödeme yaparken sepet tutarı ile çekilen tutar arasında 25 TL fark var."
+    },
+    {
+      "id": "fatura_odeme-86979dcd",
+      "tags": [],
+      "text": "Peşin ödediğim tutarın bir kısmı iade edilecekti, hâlâ görmedim."
+    },
+    {
+      "id": "fatura_odeme-a2f14974",
+      "tags": [],
+      "text": "Banka kartımla ödeme yapamıyorum, sadece kredi kartı mı kabul ediyorsunuz?"
+    },
+    {
+      "id": "fatura_odeme-a477f287",
+      "tags": [],
+      "text": "Kapıda ödeme seçeneği neden kapalı?"
+    },
+    {
+      "id": "fatura_odeme-a9be8435",
+      "tags": [],
+      "text": "Kartımdan aynı sipariş için iki kez çekim yapılmış, fazla tutarın iadesini istiyorum."
+    },
+    {
+      "id": "fatura_odeme-aa32c702",
+      "tags": [],
+      "text": "Para iadesi için IBAN bilgisi vermem gerekiyor mu?"
+    },
+    {
+      "id": "fatura_odeme-acf4c691",
+      "tags": [],
+      "text": "İade edilen tutar kartıma değil mağaza kredisine yüklenmiş, nakit iade istiyorum."
+    },
+    {
+      "id": "fatura_odeme-b0a9f329",
+      "tags": [],
+      "text": "İptal ettiğim siparişin ücreti 10 gündür hesabıma geri yatmadı."
+    },
+    {
+      "id": "fatura_odeme-b16bde29",
+      "tags": [],
+      "text": "Fatura bilgilerimi şirket adına değiştirmek istiyorum."
+    },
+    {
+      "id": "fatura_odeme-b6cc5677",
+      "tags": [],
+      "text": "Aylık plan ücretim dolar kuruna göre mi hesaplanıyor?"
+    },
+    {
+      "id": "fatura_odeme-c6fd1d6d",
+      "tags": [],
+      "text": "Ödememi iki ayrı kartla bölerek yapabilir miyim?"
+    },
+    {
+      "id": "fatura_odeme-cc09749f",
+      "tags": [],
+      "text": "Havale yaptım ama ödeme hâlâ onaylanmadı görünüyor."
+    },
+    {
+      "id": "fatura_odeme-de168fe2",
+      "tags": [],
+      "text": "Ödemem başarısız oldu ama sipariş onay maili geldi, bu normal mi?"
+    },
+    {
+      "id": "fatura_odeme-e2408257",
+      "tags": [],
+      "text": "Kurumsal fatura için vergi numarası ekleyebilir miyim?"
+    },
+    {
+      "id": "fatura_odeme-e2ee8ada",
+      "tags": [],
+      "text": "Borcum görünüyor ama ödemeyi dün yaptım, kayıt güncellenmemiş."
+    },
+    {
+      "id": "fatura_odeme-e86b048d",
+      "tags": [],
+      "text": "Fatura dönemi ortasında paket değiştirdim, fark nasıl yansıtılacak?"
+    },
+    {
+      "id": "fatura_odeme-edecb859",
+      "tags": [],
+      "text": "Bu ayki aidat ücretim neden arttı?"
+    },
+    {
+      "id": "fatura_odeme-f845080a",
+      "tags": [
+        "multi"
+      ],
+      "text": "Kargom gecikti ama asıl sorunum kartımdan iki kez çekim yapılması, önce parayı iade edin."
+    },
+    {
+      "id": "hesap_guvenlik-6a6b8824",
+      "tags": [],
+      "text": "Hesabımdan çıkış yapmadığım başka cihazları kapatabilir miyim?"
+    },
+    {
+      "id": "hesap_guvenlik-768bfd30",
+      "tags": [],
+      "text": "İki adımlı doğrulamayı nasıl açarım?"
+    },
+    {
+      "id": "hesap_guvenlik-7bea5bfe",
+      "tags": [],
+      "text": "Başkası benim adıma işlem yapıyor, hesabımı dondurmanızı istiyorum."
+    },
+    {
+      "id": "hesap_guvenlik-81dd1d2e",
+      "tags": [
+        "ascii"
+      ],
+      "text": "hesabim hacklendi sifremi degistiremiyorum yardim edin"
+    },
+    {
+      "id": "hesap_guvenlik-9d151f7b",
+      "tags": [],
+      "text": "Eski şifremle giriş yapabiliyorum ama yenisiyle yapamıyorum, hesabımda bir sorun mu var?"
+    },
+    {
+      "id": "hesap_guvenlik-a2a468b6",
+      "tags": [],
+      "text": "Çalışanlarımın hesaplarına rol bazlı yetki tanımlayabilir miyim?"
+    },
+    {
+      "id": "hesap_guvenlik-a528c8bd",
+      "tags": [],
+      "text": "Verilerimin bir kopyasını talep ediyorum."
+    },
+    {
+      "id": "hesap_guvenlik-a95a350a",
+      "tags": [],
+      "text": "Profil bilgilerimde yazan doğum tarihi yanlış, düzeltebilir miyim?"
+    },
+    {
+      "id": "hesap_guvenlik-ab402a9e",
+      "tags": [],
+      "text": "Giriş yaptığım cihazların listesini görmek istiyorum."
+    },
+    {
+      "id": "hesap_guvenlik-af22ee63",
+      "tags": [],
+      "text": "E-posta adresimi değiştirdim ama eski adres hâlâ giriş için isteniyor."
+    },
+    {
+      "id": "hesap_guvenlik-b3dc3789",
+      "tags": [],
+      "text": "Adıma açılmış başka bir hesap olduğunu fark ettim, bu dolandırıcılık olabilir mi?"
+    },
+    {
+      "id": "hesap_guvenlik-d7caaa5d",
+      "tags": [],
+      "text": "Sahte bir e-posta aldım, sizden geliyormuş gibi görünüyor ve şifre istiyor."
+    },
+    {
+      "id": "hesap_guvenlik-dc40b4db",
+      "tags": [],
+      "text": "Parolamı sosyal medya hesabımla giriş yaparak kurtarabilir miyim?"
+    },
+    {
+      "id": "hesap_guvenlik-e202c465",
+      "tags": [
+        "short"
+      ],
+      "text": "Güvenlik sorumun cevabını hatırlamıyorum."
+    },
+    {
+      "id": "hesap_guvenlik-e2aa32b4",
+      "tags": [],
+      "text": "Hesap sahibi vefat etti, hesabın devri için ne yapmamız gerekiyor?"
+    },
+    {
+      "id": "hesap_guvenlik-e3c526d8",
+      "tags": [],
+      "text": "Hesabımda benim vermediğim bir sipariş görünüyor, hesabım ele geçirilmiş olabilir."
+    },
+    {
+      "id": "hesap_guvenlik-e5ddfa1b",
+      "tags": [
+        "short"
+      ],
+      "text": "Telefon numaramı güncellemek istiyorum."
+    },
+    {
+      "id": "hesap_guvenlik-eb65d6e9",
+      "tags": [],
+      "text": "Doğrulama kodu SMS ile gelmiyor, giriş yapamıyorum."
+    },
+    {
+      "id": "hesap_guvenlik-f56d5beb",
+      "tags": [],
+      "text": "Gizlilik ayarlarında profilimi kimlerin gördüğünü kontrol etmek istiyorum."
+    },
+    {
+      "id": "iade_degisim-9ded8740",
+      "tags": [],
+      "text": "Hediye aldım, fiyat etiketi yok, iade edebilir miyim?"
+    },
+    {
+      "id": "iade_degisim-a53df295",
+      "tags": [],
+      "text": "Kupon kullanarak aldığım ürünü iade edersem kupon geri gelir mi?"
+    },
+    {
+      "id": "iade_degisim-a8458714",
+      "tags": [],
+      "text": "Telefonun ekranında çizik var, garanti kapsamında değişim mümkün mü?"
+    },
+    {
+      "id": "iade_degisim-b36f33d2",
+      "tags": [],
+      "text": "Aynı üründen iki adet gelmiş, birini geri göndermek istiyorum."
+    },
+    {
+      "id": "iade_degisim-b3cec9e6",
+      "tags": [],
+      "text": "Beden tablosuna göre aldım ama olmadı, değişim hakkım kaç gün?"
+    },
+    {
+      "id": "iade_degisim-b8a3fe61",
+      "tags": [],
+      "text": "Ürünü kullanmadım, 14 gün içinde iade edebilir miyim?"
+    },
+    {
+      "id": "iade_degisim-beaf7798",
+      "tags": [],
+      "text": "Hasarlı gelen ürün için değişim talebi açmak istiyorum, fotoğraflarını yükledim."
+    },
+    {
+      "id": "iade_degisim-c4c66cea",
+      "tags": [],
+      "text": "Ayrı ayrı gelen ürünlerden yalnızca birini iade etmek mümkün mü?"
+    },
+    {
+      "id": "iade_degisim-c5310aba",
+      "tags": [
+        "short"
+      ],
+      "text": "Cayma hakkımı kullanmak istiyorum."
+    },
+    {
+      "id": "iade_degisim-c9b3ee05",
+      "tags": [],
+      "text": "Ürün kutusunu attım, orijinal ambalajı olmadan iade olur mu?"
+    },
+    {
+      "id": "iade_degisim-cfd01900",
+      "tags": [],
+      "text": "Ürün fotoğraftakinden çok farklı çıktı, geri göndermek istiyorum."
+    },
+    {
+      "id": "iade_degisim-dc7fd797",
+      "tags": [],
+      "text": "Aldığım ayakkabı bir numara büyük geldi, değiştirmek istiyorum."
+    },
+    {
+      "id": "iade_degisim-ddec7601",
+      "tags": [],
+      "text": "Pil şişmiş çıktı, güvenlik gereği derhal iade etmek istiyorum."
+    },
+    {
+      "id": "iade_degisim-e14604df",
+      "tags": [],
+      "text": "Aldığım ürünün kutusu açık geldi, kullanılmış gibi, iade etmek istiyorum."
+    },
+    {
+      "id": "iade_degisim-e4a1750c",
+      "tags": [],
+      "text": "Hasarlı ürünüm için iade yerine sadece değişim yapabiliyor musunuz?"
+    },
+    {
+      "id": "iade_degisim-e7162068",
+      "tags": [],
+      "text": "İade talebimi oluşturdum ama ekranda \"beklemede\" yazıyor, ne zaman işlenecek?"
+    },
+    {
+      "id": "iade_degisim-ec31b125",
+      "tags": [
+        "multi"
+      ],
+      "text": "Ürün hasarlı geldi, kargocu da tutanak tutmadı; değişim istiyorum."
+    },
+    {
+      "id": "iade_degisim-f3489a5f",
+      "tags": [],
+      "text": "Defolu ürün gelmiş, tamir yerine yenisini istiyorum."
+    },
+    {
+      "id": "iade_degisim-fab27812",
+      "tags": [],
+      "text": "Siparişimi henüz kargoya verilmeden iptal etmek istiyorum."
+    },
+    {
+      "id": "kargo_teslimat-79a501ea",
+      "tags": [],
+      "text": "Kargom \"teslim edildi\" görünüyor ama bana ulaşmadı."
+    },
+    {
+      "id": "kargo_teslimat-7e07c5e7",
+      "tags": [],
+      "text": "Kargo firması paketimi şubede 5 gündür bekletiyor, geri gönderilecek diyorlar."
+    },
+    {
+      "id": "kargo_teslimat-7f0e328a",
+      "tags": [
+        "ascii"
+      ],
+      "text": "kargom nerde 3 gundur ayni sehirde bekliyor"
+    },
+    {
+      "id": "kargo_teslimat-89d0cd44",
+      "tags": [],
+      "text": "Kargom yanlış adrese teslim edilmiş, ne yapmalıyım?"
+    },
+    {
+      "id": "kargo_teslimat-8eedcfcc",
+      "tags": [],
+      "text": "Kurye telefonuma hiç ulaşmadan \"alıcı yok\" diyerek geri götürmüş."
+    },
+    {
+      "id": "kargo_teslimat-90a28bf8",
+      "tags": [],
+      "text": "Teslimat şubesine gelen kargomu alamıyorum, kimlik yeterli mi?"
+    },
+    {
+      "id": "kargo_teslimat-91c00745",
+      "tags": [],
+      "text": "Bayram tatilinde kargo çalışıyor mu?"
+    },
+    {
+      "id": "kargo_teslimat-96a0ecd8",
+      "tags": [],
+      "text": "Teslimat sırasında kutu açılmış ve yeniden bantlanmıştı."
+    },
+    {
+      "id": "kargo_teslimat-98f76c5f",
+      "tags": [],
+      "text": "Teslim alırken imza istenmedi, nasıl \"teslim edildi\" olmuş?"
+    },
+    {
+      "id": "kargo_teslimat-9c4b0a56",
+      "tags": [],
+      "text": "Hafta sonu teslimat yapıyor musunuz?"
+    },
+    {
+      "id": "kargo_teslimat-b24abca5",
+      "tags": [],
+      "text": "Kuryeniz adresi bulamadığını söyledi ama kapı numaram doğru yazılı."
+    },
+    {
+      "id": "kargo_teslimat-b3f12b9a",
+      "tags": [],
+      "text": "Soğuk zincir ürünlerim eridi, paket ıslak geldi."
+    },
+    {
+      "id": "kargo_teslimat-c0b07969",
+      "tags": [],
+      "text": "Sipariş numaramla kargo takip kodunu eşleştiremiyorum."
+    },
+    {
+      "id": "kargo_teslimat-ccc5b81f",
+      "tags": [],
+      "text": "Paketin ağırlığı 12 kg ama kurye apartman girişine bırakıp gitmiş."
+    },
+    {
+      "id": "kargo_teslimat-e16458a8",
+      "tags": [],
+      "text": "Kuryeye hiçbir şekilde ulaşamıyorum, numarası kapalı."
+    },
+    {
+      "id": "kargo_teslimat-e908cc19",
+      "tags": [
+        "multi"
+      ],
+      "text": "İade ettiğim ürünün kargosu hâlâ şubede bekliyor, kurye almaya gelmedi."
+    },
+    {
+      "id": "kargo_teslimat-f07d88d9",
+      "tags": [],
+      "text": "Siparişim 6 gündür \"dağıtıma çıktı\" görünüyor ama elime ulaşmadı."
+    },
+    {
+      "id": "kargo_teslimat-f3241ee1",
+      "tags": [],
+      "text": "Aynı siparişin parçaları farklı günlerde geliyor, hepsi birlikte gelmeyecek mi?"
+    },
+    {
+      "id": "kargo_teslimat-fabfee0b",
+      "tags": [],
+      "text": "Teslimat saatini akşam 18:00 sonrasına alabilir miyim?"
+    },
+    {
+      "id": "satis_fiyat-983237d8",
+      "tags": [],
+      "text": "Fiyat farkı iadesi yapıyor musunuz? Aldıktan iki gün sonra fiyat düştü."
+    },
+    {
+      "id": "satis_fiyat-98422379",
+      "tags": [],
+      "text": "Bu ürün hangi yaş grubuna uygun?"
+    },
+    {
+      "id": "satis_fiyat-9be4ec61",
+      "tags": [
+        "short"
+      ],
+      "text": "Fiyatı ne kadar?"
+    },
+    {
+      "id": "satis_fiyat-9d0adb9a",
+      "tags": [
+        "ascii"
+      ],
+      "text": "bu urunun fiyati neden dun daha ucuzdu"
+    },
+    {
+      "id": "satis_fiyat-aab3a54f",
+      "tags": [],
+      "text": "Pro paketle standart paket arasındaki farklar neler?"
+    },
+    {
+      "id": "satis_fiyat-ab4b3329",
+      "tags": [],
+      "text": "Öğrenci indirimi var mı, nasıl yararlanabilirim?"
+    },
+    {
+      "id": "satis_fiyat-ab9432de",
+      "tags": [],
+      "text": "Ürünün Türkçe kullanım kılavuzu var mı?"
+    },
+    {
+      "id": "satis_fiyat-ac650ed4",
+      "tags": [],
+      "text": "Şirketimiz için yıllık lisans paketi fiyatları nedir?"
+    },
+    {
+      "id": "satis_fiyat-b0e2a474",
+      "tags": [],
+      "text": "Ürünün yurt dışı modeli ile aynı mı?"
+    },
+    {
+      "id": "satis_fiyat-b14c5ca6",
+      "tags": [],
+      "text": "Aboneliği yıllık ödersem ne kadar tasarruf ederim?"
+    },
+    {
+      "id": "satis_fiyat-b2ff93c4",
+      "tags": [],
+      "text": "Ürünün renk seçenekleri neler, mavi mevcut mu?"
+    },
+    {
+      "id": "satis_fiyat-bce84d5c",
+      "tags": [],
+      "text": "Paket yükseltmek istiyorum, fiyat farkı ne kadar olur?"
+    },
+    {
+      "id": "satis_fiyat-c415f786",
+      "tags": [],
+      "text": "Bayilik almak istiyorum, koşullar nelerdir?"
+    },
+    {
+      "id": "satis_fiyat-d513fa37",
+      "tags": [],
+      "text": "Yeni sezon ürünler ne zaman gelecek?"
+    },
+    {
+      "id": "satis_fiyat-de743e65",
+      "tags": [],
+      "text": "Taksitli alışverişte vade farkı var mı?"
+    },
+    {
+      "id": "satis_fiyat-e7b6acdb",
+      "tags": [
+        "short"
+      ],
+      "text": "Kampanya ne zaman bitiyor?"
+    },
+    {
+      "id": "satis_fiyat-e9136fe8",
+      "tags": [],
+      "text": "Rakibinizin sitesinde aynı ürün daha ucuz, fiyat eşitleme yapıyor musunuz?"
+    },
+    {
+      "id": "satis_fiyat-efeac33e",
+      "tags": [],
+      "text": "Hediye çeki satın alabilir miyim, geçerlilik süresi nedir?"
+    },
+    {
+      "id": "satis_fiyat-fea1beee",
+      "tags": [],
+      "text": "Bu ürünün kutu içeriğinde şarj adaptörü var mı?"
+    },
+    {
+      "id": "sikayet_oneri-a249b8e3",
+      "tags": [],
+      "text": "Sitenizin renkleri gözümü yoruyor, daha sade olabilir."
+    },
+    {
+      "id": "sikayet_oneri-a39c803f",
+      "tags": [],
+      "text": "Fiyat/performans açısından çok başarılı bir hizmet."
+    },
+    {
+      "id": "sikayet_oneri-b21c8915",
+      "tags": [
+        "multi"
+      ],
+      "text": "Uygulama güzel ama kargo süreniz çok yavaş, bunu iyileştirmenizi öneririm."
+    },
+    {
+      "id": "sikayet_oneri-bfba156d",
+      "tags": [],
+      "text": "Bu kadar pahalıya bu hizmeti vermek ayıp."
+    },
+    {
+      "id": "sikayet_oneri-bfbead84",
+      "tags": [],
+      "text": "Bildirimleriniz çok fazla, rahatsız edici olmaya başladı."
+    },
+    {
+      "id": "sikayet_oneri-c201f108",
+      "tags": [],
+      "text": "Çocuklar için özel bir bölüm açmanızı öneririm."
+    },
+    {
+      "id": "sikayet_oneri-c40edcd1",
+      "tags": [],
+      "text": "Canlı destekteki temsilciniz sorunuma çok hızlı çözüm buldu, teşekkürler."
+    },
+    {
+      "id": "sikayet_oneri-d153a164",
+      "tags": [
+        "ascii"
+      ],
+      "text": "cok memnun kaldim tesekkurler hizli ve guvenilir"
+    },
+    {
+      "id": "sikayet_oneri-d816818a",
+      "tags": [],
+      "text": "Reklamlarınız yanıltıcı, sonrasında hayal kırıklığına uğradım."
+    },
+    {
+      "id": "sikayet_oneri-d9d4c24e",
+      "tags": [
+        "short"
+      ],
+      "text": "Mesajlarıma günlerce cevap vermiyorsunuz."
+    },
+    {
+      "id": "sikayet_oneri-dae0e2dc",
+      "tags": [],
+      "text": "Ürün çeşitliliğiniz yetersiz, daha fazla marka eklemelisiniz."
+    },
+    {
+      "id": "sikayet_oneri-dd04840d",
+      "tags": [],
+      "text": "Şube çalışanları çok bilgisizdi, soruma cevap veremediler."
+    },
+    {
+      "id": "sikayet_oneri-deb60f71",
+      "tags": [],
+      "text": "Uygulamanız harika olmuş, ellerinize sağlık."
+    },
+    {
+      "id": "sikayet_oneri-ec70dc14",
+      "tags": [],
+      "text": "Keşke ürün sayfalarına video inceleme de eklenebilse."
+    },
+    {
+      "id": "sikayet_oneri-ec8fcf12",
+      "tags": [],
+      "text": "Çağrı merkezinde 40 dakika bekledim, bu kabul edilemez."
+    },
+    {
+      "id": "sikayet_oneri-ee4b634c",
+      "tags": [],
+      "text": "Müşteri hizmetleriniz çok ilgisizdi, bir daha alışveriş yapmayacağım."
+    },
+    {
+      "id": "sikayet_oneri-ee5cd2f9",
+      "tags": [],
+      "text": "Sizi sosyal medyada şikayet edeceğim, çok mağdur oldum."
+    },
+    {
+      "id": "sikayet_oneri-eff54a0c",
+      "tags": [],
+      "text": "Sürekli aynı şeyleri anlatmak zorunda kalıyorum, her seferinde farklı biri bakıyor."
+    },
+    {
+      "id": "sikayet_oneri-f5ed0076",
+      "tags": [],
+      "text": "Sizinle çalışmaktan memnunum, böyle devam edin."
+    },
+    {
+      "id": "teknik_destek-a59a2ae9",
+      "tags": [],
+      "text": "Ödeme sayfası açılırken sonsuz döngüye giriyor, geri tuşu da çalışmıyor."
+    },
+    {
+      "id": "teknik_destek-b31c4706",
+      "tags": [
+        "multi"
+      ],
+      "text": "Faturamı görmek için hesabıma girmem lazım ama uygulama giriş ekranında çöküyor."
+    },
+    {
+      "id": "teknik_destek-b97b2c4a",
+      "tags": [],
+      "text": "SDK'nın son sürümünü kullanınca derleme hatası alıyoruz, \"undefined reference\" diyor."
+    },
+    {
+      "id": "teknik_destek-b9f72f71",
+      "tags": [],
+      "text": "Harita ekranı hiç yüklenmiyor, sadece gri kutu görünüyor."
+    },
+    {
+      "id": "teknik_destek-ba403854",
+      "tags": [],
+      "text": "Web sitesi Safari'de düzgün görünmüyor, butonlar kaymış."
+    },
+    {
+      "id": "teknik_destek-c0c5c428",
+      "tags": [],
+      "text": "Android 14'te uygulama pil tüketimini aşırı artırıyor."
+    },
+    {
+      "id": "teknik_destek-c852ed0f",
+      "tags": [],
+      "text": "Mobil uygulamada arama çubuğu yazdıklarımı silip duruyor."
+    },
+    {
+      "id": "teknik_destek-cc593fea",
+      "tags": [],
+      "text": "Dil ayarı Türkçe olmasına rağmen menüler İngilizce görünüyor."
+    },
+    {
+      "id": "teknik_destek-d39d17ef",
+      "tags": [],
+      "text": "QR kodu okutunca uygulama kapanıyor."
+    },
+    {
+      "id": "teknik_destek-d6f6745c",
+      "tags": [],
+      "text": "Uygulamanın iPad sürümünde ekran yan çevrilince görünüm bozuluyor."
+    },
+    {
+      "id": "teknik_destek-db3fae7b",
+      "tags": [],
+      "text": "Sesli mesaj özelliği çalışmıyor, mikrofon iznini verdim."
+    },
+    {
+      "id": "teknik_destek-e1bf9bde",
+      "tags": [],
+      "text": "Dashboard'daki grafikler veri göstermiyor, sadece yükleniyor animasyonu var."
+    },
+    {
+      "id": "teknik_destek-e2efb51b",
+      "tags": [],
+      "text": "CSV içe aktarırken Türkçe karakterler bozuk çıkıyor."
+    },
+    {
+      "id": "teknik_destek-ea62fab4",
+      "tags": [],
+      "text": "Fotoğraf yüklerken \"dosya çok büyük\" diyor ama dosya 1 MB bile değil."
+    },
+    {
+      "id": "teknik_destek-ed89246c",
+      "tags": [],
+      "text": "Entegrasyon webhook'ları iki gündür tetiklenmiyor."
+    },
+    {
+      "id": "teknik_destek-ee168001",
+      "tags": [],
+      "text": "Uygulama açılışta sürekli çöküyor, son güncellemeden beri kullanamıyorum."
+    },
+    {
+      "id": "teknik_destek-f2865251",
+      "tags": [
+        "short"
+      ],
+      "text": "Site açılmıyor."
+    },
+    {
+      "id": "teknik_destek-faea1985",
+      "tags": [],
+      "text": "Bildirimler hiç gelmiyor, ayarları kontrol ettim ama sorun devam ediyor."
+    },
+    {
+      "id": "teknik_destek-ff75d54e",
+      "tags": [
+        "typo"
+      ],
+      "text": "Uyguluma yüklenmiyo, play storeden indirmeye çalışıyorum hata veriyor."
+    }
+  ]
+}

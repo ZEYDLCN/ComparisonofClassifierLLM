@@ -120,6 +120,27 @@ Bu modeller ya hiç puanlanamadı ya da bazı istekleri başarısız oldu. Başa
 | DeepSeek V4 Flash (OpenRouter) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, m |
 | Qwen3.8 Flash (OpenRouter) | atlandı | ProviderError: Erişim/ödeme hatası (HTTP 402: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, m |
 
+## Bu koşuda çalıştırılmayan modeller
+
+Kayıt defterinde olup bu koşuya **girmeyen** 14 model var (puanlanan: 9). Bunlar denenip başarısız olmadı; anahtarı/paketi eksik olduğu ya da varsayılan kapalı olduğu için hiç çağrılmadı, dolayısıyla sonuçları bu raporda yoktur. Bunların 5 tanesi ücretsiz (veya ücretsiz olabilir) kullanılabilir; `python -m clfbench run --free` yalnız doğrulanmış ücretsiz olanları seçer.
+
+| Model | Ücret durumu | Neden çalışmadı | Nasıl açılır |
+|:---|:---|:---|:---|
+| Jev 1.13 (TypeSafe) | ücretli | TYPESAFE_API_KEY tanımlı değil (bu koşuda) | `.env` içine `TYPESAFE_API_KEY=...` ekle · anahtar: https://docs.typesafe.ai |
+| Mercury Decide (Inception) | Ücretsiz olabilir (doğrulanmadı) | INCEPTION_API_KEY tanımlı değil (bu koşuda) | `.env` içine `INCEPTION_API_KEY=...` ekle · anahtar: https://platform.inceptionlabs.ai/dashboard/api-keys |
+| Liquid d1 API | Ücretsiz olabilir (doğrulanmadı) | LIQUID_API_KEY tanımlı değil (bu koşuda) | `.env` içine `LIQUID_API_KEY=...` ekle · anahtar: https://console.liquid.ai |
+| OpenAI Decisions (gpt-6-luna) | ücretli | OPENAI_API_KEY tanımlı değil (bu koşuda) | `.env` içine `OPENAI_API_KEY=...` ekle · anahtar: https://platform.openai.com/api-keys |
+| Claude Haiku 5.5 | ücretli | ANTHROPIC_API_KEY tanımlı değil (bu koşuda) | `.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys |
+| Claude Sonnet 5.5 | ücretli | ANTHROPIC_API_KEY tanımlı değil (bu koşuda) | `.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys |
+| Gemini 3.5 Flash-Lite | Ücretsiz olabilir (doğrulanmadı) | GEMINI_API_KEY tanımlı değil (bu koşuda) | `.env` içine `GEMINI_API_KEY=...` ekle · anahtar: https://aistudio.google.com/apikey |
+| Mercury 2.5 (sohbet, Inception) | Ücretsiz olabilir (doğrulanmadı) | INCEPTION_API_KEY tanımlı değil (bu koşuda) | `.env` içine `INCEPTION_API_KEY=...` ekle · anahtar: https://platform.inceptionlabs.ai/dashboard/api-keys |
+| Sage 1.3 (Levanto) | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models sage` ile açıkça iste (şablon: uç nokta doğrulanmadı) |
+| Microsoft-Decision-1 (Foundry) | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models microsoft_decision_1` ile açıkça iste (şablon: uç nokta doğrulanmadı) |
+| Claude Opus 5.5 | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models claude_opus_5_5` ile açıkça iste |
+| Gemini 3.8 Flash | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models gemini_3_8_flash` ile açıkça iste |
+| Qwen3.8 27B (OpenRouter) | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models qwen3_8_27b` ile açıkça iste |
+| Gemma 4 31B (OpenRouter ücretsiz) | Ücretsiz olabilir (doğrulanmadı) | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models gemma_4_31b_free` ile açıkça iste |
+
 ## Yöntem ve sınırlar
 
 - **Veri:** Yerleşik `destek_tr` seti, bu çalışma için hazırlanmış *gümüş* etiketli bir örnek kümesidir; insan etiketli altın küme DEĞİLDİR. Bir satın alma kararı için kendi, insan etiketli Türkçe verinizle (`--dataset`) yeniden çalıştırın.
