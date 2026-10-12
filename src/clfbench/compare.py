@@ -24,8 +24,10 @@ YIGILMA_MIN = 0.25  # ... ve tahminlerin en az bu kadarını oluşturuyorsa
 
 
 def load_data(path: str | Path) -> dict:
-    """Koşu klasöründen (predictions.jsonl varsa) ya da report.html içindeki gömülü panel verisinden okur."""
+    """Koşu klasöründen (predictions.jsonl), birleşik klasörden (merged.json) ya da report.html içindeki gömülü panel verisinden okur."""
     p = Path(path)
+    if (p / "merged.json").exists():  # merge komutunun çıktısı (zincirleme birleştirme / analiz için)
+        return json.loads((p / "merged.json").read_text(encoding="utf-8"))
     if (p / "predictions.jsonl").exists():
         from .dashboard import build_data
         return build_data(p)

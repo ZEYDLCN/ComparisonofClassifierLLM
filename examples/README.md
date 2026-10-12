@@ -6,6 +6,12 @@ Doğrudan bir modele bağlantı: `report.html#m=jev_beatapi`, koyu tema: `#theme
 Jev'i diğer modellerle örnek bazında karşılaştıran derin analiz: [`derin_karsilastirma.md`](jev-40/derin_karsilastirma.md)
 (`python -m clfbench compare examples/jev-40 --reference jev_beatapi` ile yeniden üretilir).
 
+**Yeni: [`jev-gemini-40/`](jev-gemini-40/report.html)** — aynı 40 örnek, `jev-40` + gerçek Gemini 3.5 Flash-Lite koşusu birleştirilmiş
+(`python -m clfbench merge examples/jev-40 <gemini-koşusu> --out examples/jev-gemini-40 --reference jev_beatapi`). Gemini 40/40 geçerli
+yanıtla %95,0 aldı (Jev ile aynı); eşlenmiş testte ayırt edilemez (b=2, c=2). Gemini aynı örnekler ve ayarlarla ayrı oturumda (Linux, bulut)
+koşuldu; ücretsiz katman kotası (HTTP 429) yüzünden `--concurrency 1` ile birkaç denemede tamamlandı, başarısız istekler yeniden denendi
+(model yanıtı değil, kota hatasıydı). Gecikmeler farklı makine/ağlardan geldiği için kıyaslanamaz.
+
 Üretildiği komut:
 
 ```powershell

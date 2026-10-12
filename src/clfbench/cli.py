@@ -257,6 +257,25 @@ def cmd_compare(args) -> int:
     return 0
 
 
+def cmd_merge(args) -> int:
+    from .merge import write_merged
+
+    dirs = []
+    for x in args.dirs:
+        d = Path(x)
+        d = d if d.exists() else RESULTS_DIR / x
+        if not d.exists():
+            print(f"Koşu klasörü bulunamadı: {x}")
+            return 2
+        dirs.append(d)
+    out = Path(args.out)
+    merged = write_merged(dirs, out, reference=args.reference, note=args.note or "")
+    n = sum(1 for m in merged["models"] if m.get("m"))
+    print(f"✓ {len(dirs)} koşu birleştirildi: {n} model puanlı · referans: {merged['meta']['reference']}\n"
+          f"  Panel: {out / 'report.html'}\n  Derin karşılaştırma: {out / 'derin_karsilastirma.md'}")
+    return 0
+
+
 # ------------------------------------------------------------------------------------ argparse
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="clfbench", description="Classifier LLM karşılaştırma altyapısı")
@@ -308,6 +327,13 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--reference", help="referans model anahtarı (varsayılan: koşudaki referans)")
     s.add_argument("--out", help="çıktı dosyası (varsayılan: <klasör>/derin_karsilastirma.md)")
     s.set_defaults(fn=cmd_compare)
+
+    s = sub.add_parser("merge", help="Aynı veri üzerinde ayrı alınmış koşuları tek panelde birleştir")
+    s.add_argument("dirs", nargs="+", help="birleştirilecek koşu klasörleri (en az 2; sıra: ilk koşu temel alınır)")
+    s.add_argument("--out", required=True, help="çıktı klasörü (merged.json, report.html, derin_karsilastirma.md yazılır)")
+    s.add_argument("--reference", help="referans model anahtarı (varsayılan: ilk koşunun referansı)")
+    s.add_argument("--note", help="panele eklenecek ek not")
+    s.set_defaults(fn=cmd_merge)
     return p
 
 

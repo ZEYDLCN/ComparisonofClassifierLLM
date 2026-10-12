@@ -70,7 +70,7 @@ PREFIX_HINT = {
     "OPENAI_API_KEY": "sk-",
     "LIQUID_API_KEY": "liquid_",
     "ZOODATA_API_KEY": "hms_",
-    "GEMINI_API_KEY": "AIza",
+    "GEMINI_API_KEY": ("AIza", "AQ."),  # AQ. önekli anahtar gerçek Gemini isteğiyle doğrulandı
     "JEV_AI_API_KEY": "sk_jev-ai_",
 }
 
@@ -78,7 +78,8 @@ PREFIX_HINT = {
 def prefix_warning(env: str, value: str) -> str | None:
     want = PREFIX_HINT.get(env)
     if want and value and not value.startswith(want):
-        return f"{env} '{want}' ile başlamalı (yanlış anahtar yapıştırılmış olabilir)"
+        shown = " veya ".join(f"'{w}'" for w in ((want,) if isinstance(want, str) else want))
+        return f"{env} {shown} ile başlamalı (yanlış anahtar yapıştırılmış olabilir)"
     return None
 
 

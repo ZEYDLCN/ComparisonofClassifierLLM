@@ -74,6 +74,7 @@ yalnız hızlı yerel modeller için `--models tfidf_lr,embedding_e5_lr,setfit_m
 | `python -m clfbench run --few-shot 2` | Üretken LLM'lere etiket başına 2 örnek ver |
 | `python -m clfbench run --robustness` | Seçenek sırasını karıştırıp tekrarla (dayanıklılık) |
 | `python -m clfbench report <klasör> --reference jev` | Raporu başka referans modelle yeniden üret |
+| `python -m clfbench merge <koşu1> <koşu2> --out <klasör>` | Aynı veri üzerinde ayrı alınmış koşuları tek panelde birleştir (uyumsuz veriyi reddeder) |
 | `python -m clfbench compare <klasör> --reference jev` | Derin karşılaştırma (`derin_karsilastirma.md`): McNemar, referansın hataları, yığılma, güven |
 
 **Hız limitli servisler:** bazı ücretsiz katmanlar çok düşük limit verir (örn. BeatAPI ücretsiz Jev: dakikada 1 istek).
@@ -112,7 +113,7 @@ Hepsi için kısa özet `python -m clfbench keys` ile de görülebilir. Anahtar�
 | `INCEPTION_API_KEY` | Inception → **Mercury Decide**, Mercury 2.5 | <https://platform.inceptionlabs.ai/dashboard/api-keys> | **Yeni kullanıcıya 100 milyon ücretsiz token, kart gerekmiyor** — başlamak için en kolayı |
 | `LIQUID_API_KEY` | Liquid AI → **d1** | <https://console.liquid.ai> | Kaydol → organizasyona katıl → Dashboard → API Keys (`liquid_...`) |
 | `OPENAI_API_KEY` | OpenAI → **Decisions** (gpt-6-luna) | <https://platform.openai.com/api-keys> | Decisions public beta; hesabında erişim yoksa 403/404 döner |
-| `GEMINI_API_KEY` | Google → Gemini 3.5 Flash-Lite | <https://aistudio.google.com/apikey> | Ücretsiz katman olabilir (düşük hız limiti) |
+| `GEMINI_API_KEY` | Google → Gemini 3.5 Flash-Lite | <https://aistudio.google.com/apikey> | Anahtar `AIza…` ya da `AQ.…` ile başlayabilir (ikisi de gerçek istekle çalıştı). Ücretsiz katman gibi davranıyor: 40 istekte 4–10 HTTP 429 (kota) görüldü, bu yüzden `--concurrency 1` ile çalıştırıp aynı komutu tekrarla (başarılı yanıtlar önbellekten gelir; `--no-cache` ile alınan yanıtlar önbelleğe **yazılmaz**) |
 | `OPENROUTER_API_KEY` | OpenRouter → GPT-6 Luna (sohbet), DeepSeek V4 Flash, Qwen3.8 Flash | <https://openrouter.ai/keys> | Tek anahtar, çok model; Credits yükle |
 | `BEATAPI_API_KEY` | BeatAPI → **Jev ücretsiz** (`jev-1.13-free`) | <https://beatapi.io/dashboard/apikeys> | **Gerçek yanıtla doğrulandı: sıfır bakiyede çalışıyor, ama hesap başına dakikada 1 başarılı istek** (429 `rate_limit_exceeded`). Tam test (151 örnek) ~2,5 saat; `--limit 40` ≈ 40 dk. Bakiye yükleyenlere daha yüksek limit veriliyor |
 | `JEV_AI_API_KEY` | Jev AI (jev-ai.pro) → **Jev** | <https://jev-ai.pro> | Anahtar `sk_jev-ai_` ile başlar. **Bakiye yoksa 402 döner**; yükleme: <https://jev-ai.pro/pricing?context=api&mode=top-up>. İstekte `model` alanı yok |
@@ -164,7 +165,8 @@ Her koşu `results/<koşu>/report.html` olarak **tek dosyalık, çevrimdışı �
   grafikleri ve kartları ücretsiz seçeneklere daraltır (rozet kesinliği gösterir: *olabilir* = doğrulanmadı).
 - Koyu/açık tema, CSV dışa aktarma, klavye erişimi, mobil uyum. Bir modele doğrudan bağlantı: `report.html#m=<model_anahtarı>`.
 
-Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnek: [examples/jev-40](examples/jev-40/report.html).
+Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnekler: [examples/jev-40](examples/jev-40/report.html) (tek koşu) ve
+[examples/jev-gemini-40](examples/jev-gemini-40/report.html) (Jev + Gemini, `merge` ile birleştirilmiş).
 
 ## Rapor neleri içerir?
 
@@ -177,6 +179,12 @@ Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretil
 - **Yöntem ve sınırlar** bölümü (neyin neyle kıyaslanabildiği, neyin kıyaslanamadığı)
 
 Araştırma dosyasındaki uyarılar rapora aynen yansır: **tek kazanan ilan edilmez**, küçük farklar "ayırt edilemez" olarak işaretlenir.
+
+**Koşuları birleştirme (`clfbench merge`).** Ücretsiz katmanlar (Jev: dakikada 1 istek; Gemini: kota) ve farklı anahtarlar yüzünden modelleri tek seferde koşmak
+çoğu zaman mümkün olmaz. `python -m clfbench merge results/A results/B --out results/birlesik` etiketleri, örnek kimliklerini, gerçek etiketleri ve
+veri parmak izini kontrol eder (biri uyuşmazsa **reddeder**), modelleri tek panelde toplar, referansa göre farkları ve Pareto sınırlarını yeniden
+hesaplar ve `derin_karsilastirma.md` üretir. Aynı model iki koşuda varsa puanlanmış (ve daha yeni) olan geçer. Birleşik klasör yeni bir `merge`'e girdi olabilir.
+Kaynak koşuların platformları panel notuna yazılır: gecikmeler farklı makine/ağlardan geldiği için doğrudan kıyaslanamaz.
 
 **Derin karşılaştırma (`clfbench compare`).** Ana rapora ek olarak, seçtiğin referans modeli (örn. Jev) diğerleriyle **örnek
 bazında** inceler: Holm düzeltmeli eşlenmiş McNemar testi (yalnız birinin bildiği örnekler), referansın hangi mesajlarda
