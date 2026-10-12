@@ -70,6 +70,7 @@ yalnız hızlı yerel modeller için `--models tfidf_lr,embedding_e5_lr,setfit_m
 | `python -m clfbench estimate` | Koşu öncesi kaba maliyet tahmini |
 | `python -m clfbench run --models jev,claude_haiku_5_5 --limit 40` | Hızlı deneme (40 örnek, iki model) |
 | `python -m clfbench run --groups karar-api` | Yalnız karar API'leri |
+| `python -m clfbench run --free --limit 40` | Yalnız ücretsiz modeller (yerel + doğrulanmış ücretsiz katman), ücret çıkmaz |
 | `python -m clfbench run --few-shot 2` | Üretken LLM'lere etiket başına 2 örnek ver |
 | `python -m clfbench run --robustness` | Seçenek sırasını karıştırıp tekrarla (dayanıklılık) |
 | `python -m clfbench report <klasör> --reference jev` | Raporu başka referans modelle yeniden üret |
@@ -78,6 +79,21 @@ yalnız hızlı yerel modeller için `--models tfidf_lr,embedding_e5_lr,setfit_m
 **Hız limitli servisler:** bazı ücretsiz katmanlar çok düşük limit verir (örn. BeatAPI ücretsiz Jev: dakikada 1 istek).
 `run` ve `estimate` bunu (`rpm_limit`) bilen modeller için çalıştırmadan önce tahmini süreyi uyarır. Tüm modelleri aynı dengeli
 alt kümede kıyaslamak için `python -m clfbench run --limit 40` kullan (sınıf başına 5 örnek; yerel sonuçlar önbellekten gelir).
+
+### Ücretsiz çalıştırma
+
+`python -m clfbench run --free --limit 40` yalnızca **ücret çıkmayacak** modelleri seçer. `configs/models.yaml` içindeki `free` alanı:
+
+| `free` | Anlamı | Modeller |
+|---|---|---|
+| `yerel` | API ücreti yok; model Hugging Face'ten ücretsiz iner (disk/CPU hariç) | TF-IDF, e5 (sıfır örnek / LR), SetFit, GLiClass, Laya, mDeBERTa NLI, ModernBERT-NLI |
+| `ucretsiz` | Ücretsiz katman, **gerçek yanıtla doğrulandı** | Jev ücretsiz (BeatAPI): dakikada 1 istek |
+| `olasi` | Sağlayıcı belgeleri ücretsiz katman/deneme diyor ama **doğrulanmadı**; ücret çıkabilir | Mercury Decide, Mercury 2.5, Liquid d1, Gemini 3.5 Flash-Lite, Gemma 4 31B (OpenRouter `:free`, varsayılan kapalı) |
+| boş | Ücretli | Claude, OpenAI Decisions, Instinct, TypeSafe / jev-ai.pro Jev, OpenRouter'daki ücretli modeller |
+
+`--free` yalnız `yerel` + `ucretsiz` modelleri seçer (testler bunların fiyatının sıfır olduğunu doğrular). `olasi` olanları kendi
+sorumluluğunda dene: `python -m clfbench run --models mercury_decide,mercury_2_5 --limit 40` (önce `estimate` ile bak).
+`python -m clfbench doctor` hangi ücretsiz modellerin şu an hazır olduğunu ve eksik olanların neden çalışmadığını gösterir.
 
 Maliyet güvencesi: tahmini maliyet `--max-cost` (varsayılan 2 USD) değerini aşarsa `--yes` vermeden çalışmaz.
 Aynı koşu tekrarlanırsa başarılı yanıtlar `results/cache` içinden gelir (para harcanmaz); yarıda kesilen koşu kaldığı yerden sürer.
@@ -141,6 +157,11 @@ Her koşu `results/<koşu>/report.html` olarak **tek dosyalık, çevrimdışı �
 - **Sıralanabilir tablo + filtreler:** grup (Karar API / Üretken LLM / Encoder / Eğitimli) ve arama; satıra tıkla → detay; iki modeli işaretle → **yan yana karşılaştırma** ve hangi örnekte biri doğru diğeri yanlış.
 - **Model detayı (yan panel):** tüm ölçüler, sınıf bazında P/R/F1, **etkileşimli karışıklık matrisi** (hücreye tıkla → o hatalar listelenir), gecikme dağılımı, güven kalibrasyonu diyagramı, zor örnek dilimleri, seçenek sırası dayanıklılığı, **hatalı tahminlerin tam listesi** (arama/filtre), teknik notlar. `←` `→` ile modeller arasında gez, `Esc` ile kapat.
 - **Atlanan modeller:** neden çalışmadığı (401 anahtar reddedildi, 402 bakiye yok, paket eksik...) ve çözümü.
+- **Çalıştırılmayan modeller:** kayıt defterinde olup koşuya hiç girmeyen modeller (anahtar/paket eksik, varsayılan kapalı) ayrı bölümde;
+  her kartta neden çalışmadığı, nasıl açılacağı (anahtar adresi, `pip` komutu), ücretsiz kullanım sınırı ve çalıştırma komutu.
+  Böylece "kaç model vardı, kaçı puanlandı" sorusu raporda açıkça görünür (özet kartı: `9 / 31`).
+- **Ücretsiz rozetleri ve filtre:** her modelde *Yerel / Ücretsiz / Ücretsiz olabilir* rozeti; "Yalnız ücretsiz" düğmesi tabloyu,
+  grafikleri ve kartları ücretsiz seçeneklere daraltır (rozet kesinliği gösterir: *olabilir* = doğrulanmadı).
 - Koyu/açık tema, CSV dışa aktarma, klavye erişimi, mobil uyum. Bir modele doğrudan bağlantı: `report.html#m=<model_anahtarı>`.
 
 Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnek: [examples/jev-40](examples/jev-40/report.html).

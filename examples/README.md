@@ -24,6 +24,10 @@ python -m clfbench run --limit 40 --concurrency 1 --name jev-40
 - **8 API modeli puanlanamadı** ve nedeni panelde "Atlananlar" bölümünde görünür: Jev (jev-ai.pro, 402 bakiye yok), Instinct ×3
   (402 cüzdan boş), OpenRouter üzerindeki 4 model (402 kredi yok). Bunlar gerçek API yanıtlarıdır; anahtarlar geçerli, hesaplarda
   bakiye yok. Sistem boş istek atmadan modeli açık nedenle atlar.
+- **14 kayıtlı model bu koşuya girmedi** (8'inin anahtarı yoktu, 6'sı varsayılan kapalı); panelde ve `report.md` içinde "Çalıştırılmayan
+  modeller" bölümünde nedenleri ve nasıl açılacakları var. Not: bu koşu `not_run` / `free` alanları eklenmeden önce alındığı için,
+  bu alanlar `run.json` ve `summary.json`'a kayıt defterinden **geriye dönük** eklendi (koşu yeniden çalıştırılmadı, sonuçlar değişmedi).
+  Yeni koşular bu alanları kendileri yazar.
 - Veri: yerleşik `destek_tr` (gümüş etiketli). Gecikmeler 4 iş parçacıklı bir dizüstü CPU'sunda ölçüldü.
 - Eğitimli modeller `train` bölümünden öğrenir; sıfır örnekli modellerle veri bütçesi farklıdır, panelde ayrı grup olarak görünür.
 - Laya multilingual bu Türkçe görevde zayıf çıktı; sonuç bu veri ve etiket adlarına özgüdür.

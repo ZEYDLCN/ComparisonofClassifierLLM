@@ -48,7 +48,8 @@ def run_benchmark(specs: list[ModelSpec], task: TaskSpec, examples: list[Example
                   seed: int = 0, shots_k: int = 0, robustness: bool = False, warmup: int = 1,
                   concurrency: int | None = None, use_cache: bool = True, run_name: str = "",
                   note: str = "", dataset_label: str = "", out_root: Path | None = None,
-                  reference: str | None = None, limit: int | None = None, argv: list[str] | None = None) -> Path:
+                  reference: str | None = None, limit: int | None = None, argv: list[str] | None = None,
+                  not_run: list[dict] | None = None) -> Path:
     eval_ex = select(examples, split)
     if limit:
         eval_ex = _stratified_limit(eval_ex, limit, task.label_keys)
@@ -120,6 +121,7 @@ def run_benchmark(specs: list[ModelSpec], task: TaskSpec, examples: list[Example
         "environment": {"python": platform.python_version(), "platform": platform.platform(),
                         "packages": _pkg_versions(), "git_commit": _git_commit()},
         "models": models_meta,
+        "not_run": not_run or [],
         "eval_examples": [{"id": e.id, "tags": list(e.tags), "text": e.text} for e in eval_ex],
     }
     (out_dir / "run.json").write_text(json.dumps(run_json, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -140,7 +142,7 @@ def _spec_meta(spec: ModelSpec) -> dict:
         "key": spec.key, "display": spec.display, "group": spec.group, "provider": spec.provider,
         "model": spec.model, "price_in": spec.price_in, "price_out": spec.price_out,
         "price_note": spec.price_note, "verified": spec.verified, "notes": spec.notes,
-        "local": spec.is_local,
+        "local": spec.is_local, "free": spec.free, "free_note": spec.free_note,
     }
 
 
@@ -217,6 +219,6 @@ def finalize(out_dir: Path, reference: str | None = None, n_boot: int = 2000) ->
     summary = {"run_id": run["run_id"], "reference": ref, "labels": labels,
                "pareto_latency": sorted(front_lat), "pareto_cost": sorted(front_cost),
                "models": models, "dataset": run["dataset"], "settings": run["settings"],
-               "environment": run["environment"], "note": run.get("note", "")}
+               "environment": run["environment"], "note": run.get("note", ""), "not_run": run.get("not_run", [])}
     (out_dir / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     return summary

@@ -6,7 +6,7 @@ import json
 import sys
 from pathlib import Path
 
-from .config import ModelSpec, load_env, load_registry, resolve_models
+from .config import FREE_KINDS, SAFE_FREE, ModelSpec, load_env, load_registry, not_run_entries, resolve_models
 from .core import Prediction
 from .data import build_seed_dataset, load_dataset, select
 from .keys import BY_ENV, prefix_warning, render_guides
@@ -35,13 +35,13 @@ def _price(s: ModelSpec) -> str:
 # ------------------------------------------------------------------------------------ komutlar
 def cmd_models(args) -> int:
     reg = load_registry(args.config)
-    print(f"{'anahtar':26s} {'grup':12s} {'sağlayıcı':17s} {'$/1M g/ç':>12s}  durum")
+    print(f"{'anahtar':26s} {'grup':12s} {'sağlayıcı':17s} {'$/1M g/ç':>12s}  {'ücretsiz':9s} durum")
     for s in reg.values():
         if not args.all and not s.enabled:
             continue
         ok, why = s.availability()
         flag = "" if s.enabled else " (varsayılan kapalı)"
-        print(f"{s.key:26s} {s.group:12s} {s.provider:17s} {_price(s):>12s}  {'hazır' if ok else why}{flag}")
+        print(f"{s.key:26s} {s.group:12s} {s.provider:17s} {_price(s):>12s}  {s.free or '—':9s} {'hazır' if ok else why}{flag}")
     return 0
 
 
@@ -86,6 +86,13 @@ def cmd_doctor(args) -> int:
         print(f"\nAtlanacak modeller ({len(skipped)}):")
         for s, why in skipped:
             print(f"  · {s.key:26s} {why}")
+    free_ready = [s.key for s in run if s.free in SAFE_FREE]
+    free_todo = [(s, why) for s, why in skipped if s.free]
+    print(f"\nÜcretsiz ve şu an hazır ('run --free' bunları çalıştırır) ({len(free_ready)}): " + (", ".join(free_ready) or "—"))
+    if free_todo:
+        print("Ücretsiz ama henüz hazır değil:")
+        for s, why in free_todo:
+            print(f"  · {s.key:26s} [{FREE_KINDS.get(s.free, s.free)}] {why}")
     print("\nAnahtar almak için: python -m clfbench keys --missing")
     return 0
 
@@ -173,7 +180,7 @@ def cmd_estimate(args) -> int:
     reg = load_registry(args.config)
     task, ex = load_dataset(args.dataset)
     ev = select(ex, args.split)
-    run, skipped = resolve_models(reg, _split_csv(args.models), _split_csv(args.groups))
+    run, skipped = resolve_models(reg, _split_csv(args.models), _split_csv(args.groups), free_only=args.free)
     total = 0.0
     print(f"{len(ev)} değerlendirme örneği · seçenek sırası testi: {'evet' if args.robustness else 'hayır'}\n")
     for s in run:
@@ -193,7 +200,7 @@ def cmd_run(args) -> int:
     reg = load_registry(args.config)
     task, ex = load_dataset(args.dataset)
     ev = select(ex, args.split)
-    run, skipped = resolve_models(reg, _split_csv(args.models), _split_csv(args.groups))
+    run, skipped = resolve_models(reg, _split_csv(args.models), _split_csv(args.groups), free_only=args.free)
     if skipped:
         print("Atlanan modeller (anahtar/paket eksik):")
         for s, why in skipped:
@@ -215,7 +222,8 @@ def cmd_run(args) -> int:
                         robustness=args.robustness, warmup=args.warmup, concurrency=args.concurrency,
                         use_cache=not args.no_cache, run_name=args.name or "", note=args.note or "",
                         dataset_label=Path(args.dataset).stem if args.dataset != "destek_tr" else "destek_tr",
-                        reference=args.reference, limit=args.limit, argv=sys.argv[1:])
+                        reference=args.reference, limit=args.limit, argv=sys.argv[1:],
+                        not_run=not_run_entries(reg, _split_csv(args.models), _split_csv(args.groups), skipped, args.free))
     print(f"\n✓ Bitti. Rapor: {out / 'report.html'}\n  Markdown: {out / 'report.md'}\n  Özet JSON: {out / 'summary.json'}")
     return 0
 
@@ -269,6 +277,8 @@ def build_parser() -> argparse.ArgumentParser:
     def common(sp):
         sp.add_argument("--models", help="virgülle model anahtarları (varsayılan: hazır olan tüm modeller)")
         sp.add_argument("--groups", help="karar-api,uretken-llm,encoder,egitimli")
+        sp.add_argument("--free", action="store_true",
+                        help="yalnız ücretsiz modeller (yerel + doğrulanmış ücretsiz katman); 'olasi' olanlar --models ile açıkça istenir")
         sp.add_argument("--dataset", default="destek_tr", help="destek_tr | dosya.jsonl | dosya.csv | hf:...")
         sp.add_argument("--split", default="test", choices=["test", "dev", "dev+test"])
         sp.add_argument("--few-shot", type=int, default=0, help="üretken LLM'lerde etiket başına örnek sayısı")

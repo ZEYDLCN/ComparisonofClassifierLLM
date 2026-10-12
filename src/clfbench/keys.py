@@ -89,3 +89,36 @@ def render_guides(only: set[str] | None = None) -> str:
             continue
         out += [f"● {g.env}  —  {g.service}", f"    Adres : {g.url}", f"    Adımlar: {g.steps}", f"    Maliyet: {g.cost}", ""]
     return "\n".join(out)
+
+
+# Eksik Python modülü -> pip ek paketi (pyproject.toml [project.optional-dependencies])
+PKG_EXTRA = {"torch": "local", "transformers": "local", "sentence_transformers": "local", "sklearn": "local",
+             "gliclass": "gliclass", "laya": "laya", "setfit": "setfit", "datasets": "setfit", "anthropic": "anthropic"}
+
+
+def fix_for(spec, reason: str) -> dict:
+    """Çalıştırılmayan model için 'nasıl açılır' bilgisi: {short, steps, url, cost, cmd}.
+
+    short: raporda tek satır; steps: panelde ayrıntılı adımlar."""
+    cmd = f"python -m clfbench run --models {spec.key}"
+    if "tanımlı değil" in reason and spec.api_key_env:
+        g = BY_ENV.get(spec.api_key_env)
+        url = g.url if g else ""
+        return {"short": f"`.env` içine `{spec.api_key_env}=...` ekle" + (f" · anahtar: {url}" if url else ""),
+                "steps": f".env dosyasına {spec.api_key_env}=... satırını ekle. " + (g.steps if g else ""),
+                "url": url, "cost": g.cost if g else "", "cmd": cmd}
+    if "paket eksik" in reason:
+        extras = sorted({PKG_EXTRA.get(m.split(".")[0], "all") for m in spec.missing_requirements()})
+        pip = f'pip install -e ".[{",".join(extras)}]"'
+        return {"short": f"`{pip}`", "steps": f"{pip}  (hepsi için: pip install -e \".[all]\")", "url": "",
+                "cost": "Paketler ücretsizdir.", "cmd": cmd}
+    if "base_url" in reason:
+        msg = "configs/models.yaml içinde bu girdinin base_url alanını sağlayıcı belgesinden doldur."
+        return {"short": msg, "steps": msg, "url": "", "cost": "", "cmd": cmd}
+    if "kapalı" in reason:
+        extra = spec.verified if "DOĞRULANMADI" in spec.verified else ""
+        url = BY_ENV[spec.api_key_env].url if spec.api_key_env in BY_ENV else ""
+        return {"short": f"`--models {spec.key}` ile açıkça iste" + (" (şablon: uç nokta doğrulanmadı)" if extra else ""),
+                "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. " + extra,
+                "url": url, "cost": "", "cmd": cmd}
+    return {"short": "", "steps": "", "url": "", "cost": "", "cmd": cmd}

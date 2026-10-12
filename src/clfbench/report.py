@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from . import charts
+from .config import FREE_KINDS
 from .dashboard import write_dashboard
 
 GROUP_TR = {"karar-api": "Karar API", "uretken-llm": "Üretken LLM", "encoder": "Encoder", "egitimli": "Eğitimli"}
@@ -215,6 +216,7 @@ def build_sections(summary: dict, run: dict, chart_files: dict[str, str]) -> lis
                            ["l", "r", "r", "r", "r"]), "chart": chart_files.get("robustness")})
 
     secs.append(_skipped_section(summary))
+    secs.append(_notrun_section(summary))
     secs.append(_method_section(summary, run))
     return [s for s in secs if s]
 
@@ -230,6 +232,23 @@ def _skipped_section(summary: dict):
     return {"title": "Atlanan veya hatalı modeller", "paras": [
         "Bu modeller ya hiç puanlanamadı ya da bazı istekleri başarısız oldu. Başarısız istekler doğrulukta yanlış sayılır."],
         "table": Table(["Model", "Durum", "Neden / ilk hata"], rows, ["l", "l", "l"])}
+
+
+def _notrun_section(summary: dict):
+    nr = summary.get("not_run") or []
+    if not nr:
+        return None
+    n_scored = len(_scored(summary))
+    rows = []
+    for n in nr:
+        fix = n.get("fix") or {}
+        rows.append([n["display"], FREE_KINDS.get(n.get("free"), "ücretli"), n.get("reason") or "", fix.get("short") or "—"])
+    free_n = sum(1 for n in nr if n.get("free"))
+    return {"title": "Bu koşuda çalıştırılmayan modeller", "paras": [
+        f"Kayıt defterinde olup bu koşuya **girmeyen** {len(nr)} model var (puanlanan: {n_scored}). Bunlar denenip başarısız olmadı; "
+        f"anahtarı/paketi eksik olduğu ya da varsayılan kapalı olduğu için hiç çağrılmadı, dolayısıyla sonuçları bu raporda yoktur. "
+        f"Bunların {free_n} tanesi ücretsiz (veya ücretsiz olabilir) kullanılabilir; `python -m clfbench run --free` yalnız doğrulanmış ücretsiz olanları seçer."],
+        "table": Table(["Model", "Ücret durumu", "Neden çalışmadı", "Nasıl açılır"], rows, ["l", "l", "l", "l"])}
 
 
 def _method_section(summary: dict, run: dict) -> dict:
