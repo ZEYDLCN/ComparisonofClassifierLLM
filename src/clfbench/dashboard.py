@@ -9,6 +9,19 @@ from . import __version__
 TEMPLATE = Path(__file__).with_name("assets") / "dashboard.html"
 
 
+def notrun_models(not_run: list[dict]) -> list[dict]:
+    """Koşuya girmeyen modeller (anahtar/paket eksik, varsayılan kapalı): panelde "Çalıştırılmayanlar" bölümünde gösterilir."""
+    return [{
+        "key": n["key"], "display": n["display"], "group": n["group"], "provider": n["provider"],
+        "model": n.get("model") or "", "status": "notrun", "reason": n.get("reason"), "firstError": None, "notes": "",
+        "verified": n.get("verified") or "", "local": False,
+        "price": {"in": n.get("price_in"), "out": n.get("price_out"), "note": n.get("price_note") or ""},
+        "setupS": None, "coldMs": None, "concurrency": None, "m": None, "preds": [], "slices": {},
+        "free": n.get("free") or "", "freeNote": n.get("free_note") or "", "fix": n.get("fix") or {},
+        "enabled": n.get("enabled", True),
+    } for n in not_run]
+
+
 def build_data(out_dir: Path) -> dict:
     out_dir = Path(out_dir)
     summary = json.loads((out_dir / "summary.json").read_text(encoding="utf-8"))
@@ -47,6 +60,7 @@ def build_data(out_dir: Path) -> dict:
             "price": {"in": m.get("price_in"), "out": m.get("price_out"), "note": m.get("price_note") or ""},
             "setupS": m.get("setup_s"), "coldMs": m.get("cold_ms"), "concurrency": m.get("concurrency"),
             "m": None, "preds": [], "slices": m.get("slices") or {},
+            "free": m.get("free") or "", "freeNote": m.get("free_note") or "",
         }
         mt = m.get("metrics")
         if mt:
@@ -78,6 +92,7 @@ def build_data(out_dir: Path) -> dict:
         if v:
             o["vsRef"] = {"reference": v["reference"], "diff": v["diff"], "lo": v["lo"], "hi": v["hi"]}
         models.append(o)
+    models += notrun_models(summary.get("not_run", []))
 
     ds = dict(summary["dataset"])
     ds["is_builtin"] = ds.get("name") == "destek_tr"

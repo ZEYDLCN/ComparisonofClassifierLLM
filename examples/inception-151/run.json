@@ -1,7 +1,7 @@
 {
   "clfbench_version": "0.1.0",
-  "run_id": "20261012-155610-inception-yerel",
-  "started": "2026-10-12T15:56:10",
+  "run_id": "20261012-163525-inception-yerel",
+  "started": "2026-10-12T16:35:26",
   "argv": [
     "run",
     "--robustness",
@@ -66,7 +66,7 @@
       "laya": "0.4.6",
       "setfit": "1.2.0"
     },
-    "git_commit": "400e8cb"
+    "git_commit": "2d70294"
   },
   "models": [
     {
@@ -81,10 +81,12 @@
       "verified": "Inception dokümanı (docs.inceptionlabs.ai/capabilities/decisions) — şema doğrulandı",
       "notes": "",
       "local": false,
+      "free": "olasi",
+      "free_note": "Inception yeni kullanıcıya ücretsiz token verdiğini belirtiyor (kart gerekmiyor); doğrulanmadı",
       "status": "ok",
       "setup_s": 0.0,
       "cold_ms": 976.9424790000016,
-      "wall_s": 0.004,
+      "wall_s": 0.003,
       "concurrency": 4,
       "cached": 151
     },
@@ -100,6 +102,8 @@
       "verified": "Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta",
       "notes": "",
       "local": false,
+      "free": "olasi",
+      "free_note": "Inception yeni kullanıcıya ücretsiz token verdiğini belirtiyor (kart gerekmiyor); doğrulanmadı",
       "status": "ok",
       "setup_s": 0.0,
       "cold_ms": 1858.4886300000107,
@@ -119,10 +123,12 @@
       "verified": "Laya README: Router.predict(text, questions)",
       "notes": "pip install laya",
       "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
       "status": "ok",
       "setup_s": 0.023,
       "cold_ms": 33126.85497299992,
-      "wall_s": 0.0,
+      "wall_s": 0.001,
       "concurrency": 1,
       "cached": 151
     },
@@ -138,6 +144,8 @@
       "verified": "GLiClass README: ZeroShotClassificationPipeline",
       "notes": "Model kartı çok dilli desteği belirtmiyor; Türkçe sonucu ayrıca yorumlanmalı. pip install gliclass",
       "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
       "status": "ok",
       "setup_s": 16.509,
       "cold_ms": 421.8228849999832,
@@ -157,6 +165,8 @@
       "verified": "",
       "notes": "",
       "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
       "status": "ok",
       "setup_s": 13.796,
       "cold_ms": 270.06685999992897,
@@ -176,6 +186,8 @@
       "verified": "",
       "notes": "İngilizce model Türkçe metinde zayıf beklenir; çok dilli modellerle fark görülsün diye eklendi.",
       "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
       "status": "ok",
       "setup_s": 8.745,
       "cold_ms": 216.7662399999699,
@@ -195,6 +207,8 @@
       "verified": "",
       "notes": "",
       "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
       "status": "ok",
       "setup_s": 12.767,
       "cold_ms": 27.299648000052912,
@@ -214,6 +228,8 @@
       "verified": "",
       "notes": "train bölümüyle eğitilir. Etiketli veri bütçesi: sıfır örnekli modellerden farklı.",
       "local": true,
+      "free": "yerel",
+      "free_note": "Ağ ve indirme gerekmez (yalnız scikit-learn)",
       "status": "ok",
       "setup_s": 2.198,
       "cold_ms": 6.638127000030636,
@@ -233,6 +249,8 @@
       "verified": "",
       "notes": "SetFit'in karşıtı basit sürüm: gömme dondurulur, yalnız sınıflandırıcı başı eğitilir.",
       "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
       "status": "ok",
       "setup_s": 4.879,
       "cold_ms": 135.8419610000965,
@@ -252,6 +270,8 @@
       "verified": "",
       "notes": "pip install setfit. CPU'da eğitim dakikalar sürebilir.",
       "local": true,
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)",
       "status": "ok",
       "setup_s": 160.392,
       "cold_ms": 146.26817199996367,
@@ -260,96 +280,468 @@
       "cached": 151
     }
   ],
-  "skipped": [
+  "not_run": [
     {
       "key": "jev",
       "display": "Jev 1.13 (TypeSafe)",
       "group": "karar-api",
-      "reason": "TYPESAFE_API_KEY tanımlı değil"
+      "provider": "systemone",
+      "model": "jev-1.13.0",
+      "reason": "TYPESAFE_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.042,
+      "price_out": 0.0,
+      "price_note": "TypeSafe liste tarifesi",
+      "verified": "TypeSafe dokümanı (docs.typesafe.ai) — istek/yanıt şeması doğrulandı",
+      "fix": {
+        "short": "`.env` içine `TYPESAFE_API_KEY=...` ekle · anahtar: https://docs.typesafe.ai",
+        "steps": ".env dosyasına TYPESAFE_API_KEY=... satırını ekle. TypeSafe konsolunda API Keys sayfasından anahtar oluştur (docs.typesafe.ai). Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. Anahtarı Vercel AI Gateway / Zuplo gibi bir aracıdan aldıysan api.typesafe.ai 401 verir: configs/models.yaml içinde jev girdisinin base_url'ini o servise çevir.",
+        "url": "https://docs.typesafe.ai",
+        "cost": "Ücretsiz katman belirtilmemiş; tarife 0,042 USD / 1M giriş tokenı.",
+        "cmd": "python -m clfbench run --models jev"
+      }
     },
     {
       "key": "jev_ai",
       "display": "Jev (jev-ai.pro)",
       "group": "karar-api",
-      "reason": "JEV_AI_API_KEY tanımlı değil"
+      "provider": "systemone",
+      "model": "",
+      "reason": "JEV_AI_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "Fiyat bilinmiyor: jev-ai.pro tarifesini girin (USD / 1M giriş tokenı)",
+      "verified": "Sağlayıcının verdiği curl örneği: POST /api/v1/systemone, Bearer anahtar, state + questions (System One şeması)",
+      "fix": {
+        "short": "`.env` içine `JEV_AI_API_KEY=...` ekle · anahtar: https://jev-ai.pro",
+        "steps": ".env dosyasına JEV_AI_API_KEY=... satırını ekle. Sağlayıcı panelinden anahtar oluştur (sk_jev-ai_ ile başlar). Uç nokta: https://jev-ai.pro/api/v1/systemone; istekte model alanı yok. Bakiye yoksa API 402 döner; yükleme adresi: https://jev-ai.pro/pricing?context=api&mode=top-up",
+        "url": "https://jev-ai.pro",
+        "cost": "Çağrı için token/kredi bakiyesi gerekir (bakiye yokken ücret kesilmez). Tarife bilinmiyor: models.yaml'da jev_ai fiyatını girersen rapor maliyeti hesaplar.",
+        "cmd": "python -m clfbench run --models jev_ai"
+      }
     },
     {
       "key": "jev_beatapi",
       "display": "Jev ücretsiz (BeatAPI, jev-1.13-free)",
       "group": "karar-api",
-      "reason": "BEATAPI_API_KEY tanımlı değil"
+      "provider": "systemone",
+      "model": "jev-1.13-free",
+      "reason": "BEATAPI_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "ucretsiz",
+      "free_note": "Hesap başına dakikada 1 başarılı istek (gerçek yanıtla doğrulandı); --limit 40 ≈ 40 dk",
+      "price_in": 0.0,
+      "price_out": 0.0,
+      "price_note": "Ücretsiz katman: hesap başına dakikada 1 başarılı istek (bakiye yükleyenlere daha yüksek limit)",
+      "verified": "Gerçek yanıtla doğrulandı: çalışıyor, ancak 429 rate_limit_exceeded: 'at most 1 successful requests per minute per account'. Tam test (151 örnek) ~2,5 saat; --limit ile daralt veya bakiye yükle",
+      "fix": {
+        "short": "`.env` içine `BEATAPI_API_KEY=...` ekle · anahtar: https://beatapi.io/dashboard/apikeys",
+        "steps": ".env dosyasına BEATAPI_API_KEY=... satırını ekle. beatapi.io'da hesap aç → Dashboard → API keys → anahtar oluştur. Uç nokta: https://api.beatapi.io/v1/systemone. Anahtarı sunucu tarafında (.env) tut. jev-ai.pro anahtarın buraya UYMAZ: her servisin anahtarı ayrıdır.",
+        "url": "https://beatapi.io/dashboard/apikeys",
+        "cost": "Sıfır bakiyede ücretsiz çalışır ama hesap başına dakikada 1 başarılı istek (gerçek yanıtla doğrulandı). Tam test ~2,5 saat; --limit 40 kullan veya bakiye yükle.",
+        "cmd": "python -m clfbench run --models jev_beatapi"
+      }
     },
     {
       "key": "liquid_d1",
       "display": "Liquid d1 API",
       "group": "karar-api",
-      "reason": "LIQUID_API_KEY tanımlı değil"
+      "provider": "systemone",
+      "model": "d1",
+      "reason": "LIQUID_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "olasi",
+      "free_note": "Liquid belgeleri d1:free model adıyla ücretsiz katman sunuyor olabilir (model alanını d1:free yaparak dene); doğrulanmadı",
+      "price_in": 0.04,
+      "price_out": 0.0,
+      "price_note": "",
+      "verified": "Liquid d1 dokümanı (docs.liquid.ai/lfm/models/d1) — choice isteği/yanıtı doğrulandı",
+      "fix": {
+        "short": "`.env` içine `LIQUID_API_KEY=...` ekle · anahtar: https://console.liquid.ai",
+        "steps": ".env dosyasına LIQUID_API_KEY=... satırını ekle. Kaydol → bir organizasyona katıl → Dashboard → API Keys → yeni anahtar (liquid_ ile başlar).",
+        "url": "https://console.liquid.ai",
+        "cost": "d1:free metin için ücretsiz katman sunuyor olabilir; model adını configs/models.yaml'da 'd1:free' yapabilirsin.",
+        "cmd": "python -m clfbench run --models liquid_d1"
+      }
     },
     {
       "key": "instinct_27b",
       "display": "Instinct 27B (ZooData)",
       "group": "karar-api",
-      "reason": "ZOODATA_API_KEY tanımlı değil"
+      "provider": "systemone",
+      "model": "instinct",
+      "reason": "ZOODATA_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.03,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys",
+        "steps": ".env dosyasına ZOODATA_API_KEY=... satırını ekle. Giriş yap → önce https://zoodata.ai/en/pricing/models üzerinden bakiye yükle (en az 20 USD) → API Keys sayfasında anahtar oluştur (anahtar hms_ ile başlar).",
+        "url": "https://zoodata.ai/en/api-keys",
+        "cost": "En az 20 USD ön yükleme zorunlu; para yatırmak istemiyorsan Instinct modellerini atla.",
+        "cmd": "python -m clfbench run --models instinct_27b"
+      }
     },
     {
       "key": "instinct_tuned_4b",
       "display": "Instinct tuned 4B (ZooData)",
       "group": "karar-api",
-      "reason": "ZOODATA_API_KEY tanımlı değil"
+      "provider": "systemone",
+      "model": "instinct-tuned-4b",
+      "reason": "ZOODATA_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.01,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys",
+        "steps": ".env dosyasına ZOODATA_API_KEY=... satırını ekle. Giriş yap → önce https://zoodata.ai/en/pricing/models üzerinden bakiye yükle (en az 20 USD) → API Keys sayfasında anahtar oluştur (anahtar hms_ ile başlar).",
+        "url": "https://zoodata.ai/en/api-keys",
+        "cost": "En az 20 USD ön yükleme zorunlu; para yatırmak istemiyorsan Instinct modellerini atla.",
+        "cmd": "python -m clfbench run --models instinct_tuned_4b"
+      }
     },
     {
       "key": "instinct_dual_4b",
       "display": "Instinct dual 4B (ZooData)",
       "group": "karar-api",
-      "reason": "ZOODATA_API_KEY tanımlı değil"
+      "provider": "systemone",
+      "model": "instinct-dual-4b",
+      "reason": "ZOODATA_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.01,
+      "price_out": 0.0,
+      "price_note": "En az 20 USD bakiye yüklemesi gerekir",
+      "verified": "ZooData/Instinct dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys",
+        "steps": ".env dosyasına ZOODATA_API_KEY=... satırını ekle. Giriş yap → önce https://zoodata.ai/en/pricing/models üzerinden bakiye yükle (en az 20 USD) → API Keys sayfasında anahtar oluştur (anahtar hms_ ile başlar).",
+        "url": "https://zoodata.ai/en/api-keys",
+        "cost": "En az 20 USD ön yükleme zorunlu; para yatırmak istemiyorsan Instinct modellerini atla.",
+        "cmd": "python -m clfbench run --models instinct_dual_4b"
+      }
     },
     {
       "key": "openai_decisions",
       "display": "OpenAI Decisions (gpt-6-luna)",
       "group": "karar-api",
-      "reason": "OPENAI_API_KEY tanımlı değil"
+      "provider": "openai_decisions",
+      "model": "gpt-6-luna",
+      "reason": "OPENAI_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.1,
+      "price_out": 0.0,
+      "price_note": "Public beta",
+      "verified": "OpenAI Decisions dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENAI_API_KEY=...` ekle · anahtar: https://platform.openai.com/api-keys",
+        "steps": ".env dosyasına OPENAI_API_KEY=... satırını ekle. Giriş yap → API keys → Create new secret key. Decisions API public beta'dır; hesabında erişim yoksa 403/404 alırsın.",
+        "url": "https://platform.openai.com/api-keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models openai_decisions"
+      }
     },
     {
       "key": "claude_haiku_5_5",
       "display": "Claude Haiku 5.5",
       "group": "uretken-llm",
-      "reason": "ANTHROPIC_API_KEY tanımlı değil"
+      "provider": "claude",
+      "model": "claude-haiku-5-5",
+      "reason": "ANTHROPIC_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.1,
+      "price_out": 0.5,
+      "price_note": "100K token altı istemler için",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys",
+        "steps": ".env dosyasına ANTHROPIC_API_KEY=... satırını ekle. Giriş yap → Settings → API Keys → Create Key; anahtarı hemen kopyala (bir daha gösterilmez). Kullanım için Billing'den kredi yüklemek gerekir.",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "Ön ödemeli kredi; bu veri setinde 150 istek birkaç sentten azdır.",
+        "cmd": "python -m clfbench run --models claude_haiku_5_5"
+      }
     },
     {
       "key": "claude_sonnet_5_5",
       "display": "Claude Sonnet 5.5",
       "group": "uretken-llm",
-      "reason": "ANTHROPIC_API_KEY tanımlı değil"
+      "provider": "claude",
+      "model": "claude-sonnet-5-5",
+      "reason": "ANTHROPIC_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 2.0,
+      "price_out": 10.0,
+      "price_note": "",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys",
+        "steps": ".env dosyasına ANTHROPIC_API_KEY=... satırını ekle. Giriş yap → Settings → API Keys → Create Key; anahtarı hemen kopyala (bir daha gösterilmez). Kullanım için Billing'den kredi yüklemek gerekir.",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "Ön ödemeli kredi; bu veri setinde 150 istek birkaç sentten azdır.",
+        "cmd": "python -m clfbench run --models claude_sonnet_5_5"
+      }
     },
     {
       "key": "gemini_3_5_flash_lite",
       "display": "Gemini 3.5 Flash-Lite",
       "group": "uretken-llm",
-      "reason": "GEMINI_API_KEY tanımlı değil"
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "reason": "GEMINI_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "olasi",
+      "free_note": "AI Studio ücretsiz katmanı gibi davranıyor: gerçek koşuda 40 istekte 4-10 HTTP 429 (kota) görüldü; --concurrency 1 ve tekrar çalıştırma (önbellekten devam) ile tamamlandı. Faturalandırma durumu kesin doğrulanmadı",
+      "price_in": 0.3,
+      "price_out": 2.5,
+      "price_note": "Çıktı fiyatı düşünme tokenlarını da kapsar",
+      "verified": "Google AI fiyat sayfası: model kimliği ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `GEMINI_API_KEY=...` ekle · anahtar: https://aistudio.google.com/apikey",
+        "steps": ".env dosyasına GEMINI_API_KEY=... satırını ekle. Google hesabıyla giriş → Get API key → Create API key.",
+        "url": "https://aistudio.google.com/apikey",
+        "cost": "Ücretsiz katman olabilir (sınırlı hız); ücretli katman için faturalandırma ekle.",
+        "cmd": "python -m clfbench run --models gemini_3_5_flash_lite"
+      }
     },
     {
       "key": "mercury_2_5_or",
       "display": "Mercury 2.5 (sohbet, OpenRouter)",
       "group": "uretken-llm",
-      "reason": "OPENROUTER_API_KEY tanımlı değil"
+      "provider": "chat_json",
+      "model": "inception/mercury-2.5",
+      "reason": "OPENROUTER_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.04,
+      "price_out": 0.15,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı. Mercury Decide OpenRouter'da yok; o için INCEPTION_API_KEY gerekir",
+      "fix": {
+        "short": "`.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys",
+        "steps": ".env dosyasına OPENROUTER_API_KEY=... satırını ekle. Giriş yap → Keys → Create Key. Tek anahtarla birçok sağlayıcıya erişirsin; Credits'ten bakiye yükle.",
+        "url": "https://openrouter.ai/keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models mercury_2_5_or"
+      }
     },
     {
       "key": "gpt_6_luna",
       "display": "GPT-6 Luna (sohbet, OpenRouter)",
       "group": "uretken-llm",
-      "reason": "OPENROUTER_API_KEY tanımlı değil"
+      "provider": "chat_json",
+      "model": "openai/gpt-6-luna",
+      "reason": "OPENROUTER_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.1,
+      "price_out": 0.5,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys",
+        "steps": ".env dosyasına OPENROUTER_API_KEY=... satırını ekle. Giriş yap → Keys → Create Key. Tek anahtarla birçok sağlayıcıya erişirsin; Credits'ten bakiye yükle.",
+        "url": "https://openrouter.ai/keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models gpt_6_luna"
+      }
     },
     {
       "key": "deepseek_v4_flash",
       "display": "DeepSeek V4 Flash (OpenRouter)",
       "group": "uretken-llm",
-      "reason": "OPENROUTER_API_KEY tanımlı değil"
+      "provider": "chat_json",
+      "model": "deepseek/deepseek-v4-flash",
+      "reason": "OPENROUTER_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.03,
+      "price_out": 1.28,
+      "price_note": "Sağlayıcıya göre değişebilir; reasoning çıktı tokenı yükseltir",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys",
+        "steps": ".env dosyasına OPENROUTER_API_KEY=... satırını ekle. Giriş yap → Keys → Create Key. Tek anahtarla birçok sağlayıcıya erişirsin; Credits'ten bakiye yükle.",
+        "url": "https://openrouter.ai/keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models deepseek_v4_flash"
+      }
     },
     {
       "key": "qwen3_8_flash",
       "display": "Qwen3.8 Flash (OpenRouter)",
       "group": "uretken-llm",
-      "reason": "OPENROUTER_API_KEY tanımlı değil"
+      "provider": "chat_json",
+      "model": "qwen/qwen3.8-flash",
+      "reason": "OPENROUTER_API_KEY tanımlı değil",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.15,
+      "price_out": 0.47,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys",
+        "steps": ".env dosyasına OPENROUTER_API_KEY=... satırını ekle. Giriş yap → Keys → Create Key. Tek anahtarla birçok sağlayıcıya erişirsin; Credits'ten bakiye yükle.",
+        "url": "https://openrouter.ai/keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models qwen3_8_flash"
+      }
+    },
+    {
+      "key": "sage",
+      "display": "Sage 1.3 (Levanto)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "sage-1.3.0",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.05,
+      "price_out": 10.0,
+      "price_note": "Giriş tarifesi; reasoning/arama ek ücreti ayrı",
+      "verified": "DOĞRULANMADI — Levanto fiyat sayfası uç nokta/şema vermiyor. base_url ve model kimliğini dokümandan doğrulayın",
+      "fix": {
+        "short": "`--models sage` ile açıkça iste (şablon: uç nokta doğrulanmadı)",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. DOĞRULANMADI — Levanto fiyat sayfası uç nokta/şema vermiyor. base_url ve model kimliğini dokümandan doğrulayın",
+        "url": "",
+        "cost": "",
+        "cmd": "python -m clfbench run --models sage"
+      }
+    },
+    {
+      "key": "microsoft_decision_1",
+      "display": "Microsoft-Decision-1 (Foundry)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "microsoft-decision-1",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.042,
+      "price_out": 0.0,
+      "price_note": "Foundry tarifesi doğrulanmalı",
+      "verified": "DOĞRULANMADI — dağıtım uç noktası ve istek şeması Foundry portalından teyit edilmeli",
+      "fix": {
+        "short": "`--models microsoft_decision_1` ile açıkça iste (şablon: uç nokta doğrulanmadı)",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. DOĞRULANMADI — dağıtım uç noktası ve istek şeması Foundry portalından teyit edilmeli",
+        "url": "",
+        "cost": "",
+        "cmd": "python -m clfbench run --models microsoft_decision_1"
+      }
+    },
+    {
+      "key": "claude_opus_5_5",
+      "display": "Claude Opus 5.5",
+      "group": "uretken-llm",
+      "provider": "claude",
+      "model": "claude-opus-5-5",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 4.0,
+      "price_out": 20.0,
+      "price_note": "",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`--models claude_opus_5_5` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models claude_opus_5_5"
+      }
+    },
+    {
+      "key": "gemini_3_8_flash",
+      "display": "Gemini 3.8 Flash",
+      "group": "uretken-llm",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.75,
+      "price_out": 3.75,
+      "price_note": "31 Aralık 2026'ya kadar; 1 Ocak 2027'den itibaren 1.50 / 7.50",
+      "verified": "Google AI fiyat sayfası",
+      "fix": {
+        "short": "`--models gemini_3_8_flash` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://aistudio.google.com/apikey",
+        "cost": "",
+        "cmd": "python -m clfbench run --models gemini_3_8_flash"
+      }
+    },
+    {
+      "key": "qwen3_8_27b",
+      "display": "Qwen3.8 27B (OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "qwen/qwen3.8-27b",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.425,
+      "price_out": 2.55,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`--models qwen3_8_27b` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://openrouter.ai/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models qwen3_8_27b"
+      }
+    },
+    {
+      "key": "gemma_4_31b_free",
+      "display": "Gemma 4 31B (OpenRouter ücretsiz)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "google/gemma-4-31b-it:free",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "olasi",
+      "free_note": "OpenRouter :free modeli; kredisiz hesapta toplam ~50 istek/gün sınırı",
+      "price_in": 0.0,
+      "price_out": 0.0,
+      "price_note": "Ücretsiz katman; günlük istek sınırlı",
+      "verified": "OpenRouter model listesi",
+      "fix": {
+        "short": "`--models gemma_4_31b_free` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://openrouter.ai/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models gemma_4_31b_free"
+      }
     }
   ],
   "eval_examples": [

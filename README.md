@@ -70,14 +70,32 @@ yalnız hızlı yerel modeller için `--models tfidf_lr,embedding_e5_lr,setfit_m
 | `python -m clfbench estimate` | Koşu öncesi kaba maliyet tahmini |
 | `python -m clfbench run --models jev,claude_haiku_5_5 --limit 40` | Hızlı deneme (40 örnek, iki model) |
 | `python -m clfbench run --groups karar-api` | Yalnız karar API'leri |
+| `python -m clfbench run --free --limit 40` | Yalnız ücretsiz modeller (yerel + doğrulanmış ücretsiz katman), ücret çıkmaz |
 | `python -m clfbench run --few-shot 2` | Üretken LLM'lere etiket başına 2 örnek ver |
 | `python -m clfbench run --robustness` | Seçenek sırasını karıştırıp tekrarla (dayanıklılık) |
 | `python -m clfbench report <klasör> --reference jev` | Raporu başka referans modelle yeniden üret |
 | `python -m clfbench site <klasör>` | Koşudan Vercel'e yüklenebilir statik karşılaştırma sitesi üretir (`site/`) |
+| `python -m clfbench merge <koşu1> <koşu2> --out <klasör>` | Aynı veri üzerinde ayrı alınmış koşuları tek panelde birleştir (uyumsuz veriyi reddeder) |
+| `python -m clfbench compare <klasör> --reference jev` | Derin karşılaştırma (`derin_karsilastirma.md`): McNemar, referansın hataları, yığılma, güven |
 
 **Hız limitli servisler:** bazı ücretsiz katmanlar çok düşük limit verir (örn. BeatAPI ücretsiz Jev: dakikada 1 istek).
 `run` ve `estimate` bunu (`rpm_limit`) bilen modeller için çalıştırmadan önce tahmini süreyi uyarır. Tüm modelleri aynı dengeli
 alt kümede kıyaslamak için `python -m clfbench run --limit 40` kullan (sınıf başına 5 örnek; yerel sonuçlar önbellekten gelir).
+
+### Ücretsiz çalıştırma
+
+`python -m clfbench run --free --limit 40` yalnızca **ücret çıkmayacak** modelleri seçer. `configs/models.yaml` içindeki `free` alanı:
+
+| `free` | Anlamı | Modeller |
+|---|---|---|
+| `yerel` | API ücreti yok; model Hugging Face'ten ücretsiz iner (disk/CPU hariç) | TF-IDF, e5 (sıfır örnek / LR), SetFit, GLiClass, Laya, mDeBERTa NLI, ModernBERT-NLI |
+| `ucretsiz` | Ücretsiz katman, **gerçek yanıtla doğrulandı** | Jev ücretsiz (BeatAPI): dakikada 1 istek |
+| `olasi` | Sağlayıcı belgeleri ücretsiz katman/deneme diyor ama **doğrulanmadı**; ücret çıkabilir | Mercury Decide, Mercury 2.5, Liquid d1, Gemini 3.5 Flash-Lite, Gemma 4 31B (OpenRouter `:free`, varsayılan kapalı) |
+| boş | Ücretli | Claude, OpenAI Decisions, Instinct, TypeSafe / jev-ai.pro Jev, OpenRouter'daki ücretli modeller |
+
+`--free` yalnız `yerel` + `ucretsiz` modelleri seçer (testler bunların fiyatının sıfır olduğunu doğrular). `olasi` olanları kendi
+sorumluluğunda dene: `python -m clfbench run --models mercury_decide,mercury_2_5 --limit 40` (önce `estimate` ile bak).
+`python -m clfbench doctor` hangi ücretsiz modellerin şu an hazır olduğunu ve eksik olanların neden çalışmadığını gösterir.
 
 Maliyet güvencesi: tahmini maliyet `--max-cost` (varsayılan 2 USD) değerini aşarsa `--yes` vermeden çalışmaz.
 Aynı koşu tekrarlanırsa başarılı yanıtlar `results/cache` içinden gelir (para harcanmaz); yarıda kesilen koşu kaldığı yerden sürer.
@@ -96,7 +114,7 @@ Hepsi için kısa özet `python -m clfbench keys` ile de görülebilir. Anahtar�
 | `INCEPTION_API_KEY` | Inception → **Mercury Decide**, Mercury 2.5 | <https://platform.inceptionlabs.ai/dashboard/api-keys> | **Yeni kullanıcıya 100 milyon ücretsiz token, kart gerekmiyor** — başlamak için en kolayı |
 | `LIQUID_API_KEY` | Liquid AI → **d1** | <https://console.liquid.ai> | Kaydol → organizasyona katıl → Dashboard → API Keys (`liquid_...`) |
 | `OPENAI_API_KEY` | OpenAI → **Decisions** (gpt-6-luna) | <https://platform.openai.com/api-keys> | Decisions public beta; hesabında erişim yoksa 403/404 döner |
-| `GEMINI_API_KEY` | Google → Gemini 3.5 Flash-Lite | <https://aistudio.google.com/apikey> | Ücretsiz katman olabilir (düşük hız limiti) |
+| `GEMINI_API_KEY` | Google → Gemini 3.5 Flash-Lite | <https://aistudio.google.com/apikey> | Anahtar `AIza…` ya da `AQ.…` ile başlayabilir (ikisi de gerçek istekle çalıştı). Ücretsiz katman gibi davranıyor: 40 istekte 4–10 HTTP 429 (kota) görüldü, bu yüzden `--concurrency 1` ile çalıştırıp aynı komutu tekrarla (başarılı yanıtlar önbellekten gelir; `--no-cache` ile alınan yanıtlar önbelleğe **yazılmaz**) |
 | `OPENROUTER_API_KEY` | OpenRouter → GPT-6 Luna (sohbet), DeepSeek V4 Flash, Qwen3.8 Flash | <https://openrouter.ai/keys> | Tek anahtar, çok model; Credits yükle |
 | `BEATAPI_API_KEY` | BeatAPI → **Jev ücretsiz** (`jev-1.13-free`) | <https://beatapi.io/dashboard/apikeys> | **Gerçek yanıtla doğrulandı: sıfır bakiyede çalışıyor, ama hesap başına dakikada 1 başarılı istek** (429 `rate_limit_exceeded`). Tam test (151 örnek) ~2,5 saat; `--limit 40` ≈ 40 dk. Bakiye yükleyenlere daha yüksek limit veriliyor |
 | `JEV_AI_API_KEY` | Jev AI (jev-ai.pro) → **Jev** | <https://jev-ai.pro> | Anahtar `sk_jev-ai_` ile başlar. **Bakiye yoksa 402 döner**; yükleme: <https://jev-ai.pro/pricing?context=api&mode=top-up>. İstekte `model` alanı yok |
@@ -141,9 +159,15 @@ Her koşu `results/<koşu>/report.html` olarak **tek dosyalık, çevrimdışı �
 - **Sıralanabilir tablo + filtreler:** grup (Karar API / Üretken LLM / Encoder / Eğitimli) ve arama; satıra tıkla → detay; iki modeli işaretle → **yan yana karşılaştırma** ve hangi örnekte biri doğru diğeri yanlış.
 - **Model detayı (yan panel):** tüm ölçüler, sınıf bazında P/R/F1, **etkileşimli karışıklık matrisi** (hücreye tıkla → o hatalar listelenir), gecikme dağılımı, güven kalibrasyonu diyagramı, zor örnek dilimleri, seçenek sırası dayanıklılığı, **hatalı tahminlerin tam listesi** (arama/filtre), teknik notlar. `←` `→` ile modeller arasında gez, `Esc` ile kapat.
 - **Atlanan modeller:** neden çalışmadığı (401 anahtar reddedildi, 402 bakiye yok, paket eksik...) ve çözümü.
+- **Çalıştırılmayan modeller:** kayıt defterinde olup koşuya hiç girmeyen modeller (anahtar/paket eksik, varsayılan kapalı) ayrı bölümde;
+  her kartta neden çalışmadığı, nasıl açılacağı (anahtar adresi, `pip` komutu), ücretsiz kullanım sınırı ve çalıştırma komutu.
+  Böylece "kaç model vardı, kaçı puanlandı" sorusu raporda açıkça görünür (özet kartı: `9 / 31`).
+- **Ücretsiz rozetleri ve filtre:** her modelde *Yerel / Ücretsiz / Ücretsiz olabilir* rozeti; "Yalnız ücretsiz" düğmesi tabloyu,
+  grafikleri ve kartları ücretsiz seçeneklere daraltır (rozet kesinliği gösterir: *olabilir* = doğrulanmadı).
 - Koyu/açık tema, CSV dışa aktarma, klavye erişimi, mobil uyum. Bir modele doğrudan bağlantı: `report.html#m=<model_anahtarı>`.
 
-Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnek: [examples/jev-40](examples/jev-40/report.html).
+Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnekler: [examples/jev-40](examples/jev-40/report.html) (tek koşu) ve
+[examples/jev-gemini-40](examples/jev-gemini-40/report.html) (Jev + Gemini, `merge` ile birleştirilmiş).
 
 ## Karşılaştırma sitesi (Vercel)
 
@@ -151,7 +175,7 @@ Tüm ölçütleri tek sayfada, koyu temalı bir portfolyo tasarımında yan yana
 sıralama (ölçüt seçilebilir, güven aralıklı), **ölçüt × model matrisi** (her satırda en iyi değer işaretli, CSV'ye aktarılır),
 hız/maliyet dağılımı ve Pareto sınırı, sınıf bazında P/R/F1 ısı haritası, karışıklık matrisi, zor dilimler,
 seçenek sırası dayanıklılığı ve referansa karşı eşlenmiş fark. Yalnızca **sonuç alınan** modeller gösterilir; anahtarı olmadığı için
-çalıştırılamayanlar siteye girmez (koşu kaydında `run.json > skipped` olarak durur).
+çalıştırılamayanlar siteye girmez (koşu kaydında `run.json > not_run` olarak durur).
 
 ```powershell
 python -m clfbench run --robustness --name benim-kosum      # gerçek koşu (results/<koşu>)
@@ -183,6 +207,18 @@ Site yalnızca **toplu metrikleri** yayımlar: test mesajlarının metni ve tek 
 - **Yöntem ve sınırlar** bölümü (neyin neyle kıyaslanabildiği, neyin kıyaslanamadığı)
 
 Araştırma dosyasındaki uyarılar rapora aynen yansır: **tek kazanan ilan edilmez**, küçük farklar "ayırt edilemez" olarak işaretlenir.
+
+**Koşuları birleştirme (`clfbench merge`).** Ücretsiz katmanlar (Jev: dakikada 1 istek; Gemini: kota) ve farklı anahtarlar yüzünden modelleri tek seferde koşmak
+çoğu zaman mümkün olmaz. `python -m clfbench merge results/A results/B --out results/birlesik` etiketleri, örnek kimliklerini, gerçek etiketleri ve
+veri parmak izini kontrol eder (biri uyuşmazsa **reddeder**), modelleri tek panelde toplar, referansa göre farkları ve Pareto sınırlarını yeniden
+hesaplar ve `derin_karsilastirma.md` üretir. Aynı model iki koşuda varsa puanlanmış (ve daha yeni) olan geçer. Birleşik klasör yeni bir `merge`'e girdi olabilir.
+Kaynak koşuların platformları panel notuna yazılır: gecikmeler farklı makine/ağlardan geldiği için doğrudan kıyaslanamaz.
+
+**Derin karşılaştırma (`clfbench compare`).** Ana rapora ek olarak, seçtiğin referans modeli (örn. Jev) diğerleriyle **örnek
+bazında** inceler: Holm düzeltmeli eşlenmiş McNemar testi (yalnız birinin bildiği örnekler), referansın hangi mesajlarda
+yanıldığı ve diğer modellerin o mesajlardaki tahmini, örnek zorluğu (kaç model doğru bildi), tek sınıfa **yığılma** (örn. bir modelin
+tahminlerinin çoğunu tek etikete vermesi) ve doğru/yanlış yanıtlardaki güven farkı. `predictions.jsonl` olan her koşu klasöründe
+(ya da `report.html` içeren klasörde) çalışır; örnek çıktı: [examples/jev-40/derin_karsilastirma.md](examples/jev-40/derin_karsilastirma.md).
 
 ---
 
@@ -254,6 +290,7 @@ src/clfbench/
   metrics.py                    doğruluk, F1, Brier/ECE, seçici tahmin, bootstrap, Pareto
   bench.py, report.py, charts.py  koşu orkestrasyonu, Markdown/HTML rapor, grafikler
   site.py, assets/site.html     Vercel'e yüklenebilir statik karşılaştırma sitesi üreticisi
+  compare.py                    derin karşılaştırma: McNemar (Holm), hata dökümü, yığılma, güven
   cli.py, keys.py               komutlar ve API anahtar rehberi
 tests/                          sahte API sunucusuyla protokol, metrik, veri ve uçtan uca testler
 site/                           yayınlanabilir site (index.html + data.json); vercel.json bu klasörü yayınlar

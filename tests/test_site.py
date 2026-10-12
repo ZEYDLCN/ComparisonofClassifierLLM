@@ -10,6 +10,7 @@ import pytest
 from clfbench import bench
 from clfbench.bench import run_benchmark
 from clfbench.cli import main
+from clfbench.config import not_run_entries
 from clfbench.core import Example
 from clfbench.site import build_site_data, render, write_site
 
@@ -33,7 +34,7 @@ def run_dir(tmp_path, monkeypatch, make_spec, task_and_data):
     evil = Example(id="evil1", text=EVIL, label="kargo_teslimat", split="test")
     return run_benchmark([s1, s2, dead], task, ex + [evil], split="test", warmup=1, robustness=True,
                          out_root=tmp_path / "out", run_name="site",
-                         skipped=[(nokey, "NOPE_NOT_SET tanımlı değil")])
+                         not_run=not_run_entries({}, ["no_key"], None, [(nokey, "NOPE_NOT_SET tanımlı değil")]))
 
 
 def _embedded(html):
@@ -61,8 +62,8 @@ def test_site_files_and_embedded_data(run_dir, tmp_path):
     assert "metrics" not in by["dead"] and by["dead"]["status"] == "failed" and "402" in by["dead"]["reason"]
     # çalıştırılamayan modeller koşu kaydında (run.json) tutulur ama sitede gösterilmez
     run = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
-    assert [s["key"] for s in run["skipped"]] == ["no_key"]
-    assert "skipped" not in d and "Anahtarsız Model" not in html and "NOPE_NOT_SET" not in html
+    assert [s["key"] for s in run["not_run"]] == ["no_key"]
+    assert not {"skipped", "not_run"} & set(d) and "Anahtarsız Model" not in html and "NOPE_NOT_SET" not in html
     assert "dead" in by and "metrics" not in by["dead"]  # koşulup başarısız olan model veride var, ölçüt tablosunda yok
     assert d["meta"]["dataset"]["n_eval"] > 0 and d["labels"][0]["key"] and d["meta"]["repo"].startswith("https://")
 

@@ -6,7 +6,7 @@ import json
 import sys
 from pathlib import Path
 
-from .config import ModelSpec, load_env, load_registry, resolve_models
+from .config import FREE_KINDS, SAFE_FREE, ModelSpec, load_env, load_registry, not_run_entries, resolve_models
 from .core import Prediction
 from .data import build_seed_dataset, load_dataset, select
 from .keys import BY_ENV, prefix_warning, render_guides
@@ -36,13 +36,13 @@ def _price(s: ModelSpec) -> str:
 # ------------------------------------------------------------------------------------ komutlar
 def cmd_models(args) -> int:
     reg = load_registry(args.config)
-    print(f"{'anahtar':26s} {'grup':12s} {'sağlayıcı':17s} {'$/1M g/ç':>12s}  durum")
+    print(f"{'anahtar':26s} {'grup':12s} {'sağlayıcı':17s} {'$/1M g/ç':>12s}  {'ücretsiz':9s} durum")
     for s in reg.values():
         if not args.all and not s.enabled:
             continue
         ok, why = s.availability()
         flag = "" if s.enabled else " (varsayılan kapalı)"
-        print(f"{s.key:26s} {s.group:12s} {s.provider:17s} {_price(s):>12s}  {'hazır' if ok else why}{flag}")
+        print(f"{s.key:26s} {s.group:12s} {s.provider:17s} {_price(s):>12s}  {s.free or '—':9s} {'hazır' if ok else why}{flag}")
     return 0
 
 
@@ -87,6 +87,13 @@ def cmd_doctor(args) -> int:
         print(f"\nAtlanacak modeller ({len(skipped)}):")
         for s, why in skipped:
             print(f"  · {s.key:26s} {why}")
+    free_ready = [s.key for s in run if s.free in SAFE_FREE]
+    free_todo = [(s, why) for s, why in skipped if s.free]
+    print(f"\nÜcretsiz ve şu an hazır ('run --free' bunları çalıştırır) ({len(free_ready)}): " + (", ".join(free_ready) or "—"))
+    if free_todo:
+        print("Ücretsiz ama henüz hazır değil:")
+        for s, why in free_todo:
+            print(f"  · {s.key:26s} [{FREE_KINDS.get(s.free, s.free)}] {why}")
     print("\nAnahtar almak için: python -m clfbench keys --missing")
     return 0
 
@@ -174,7 +181,7 @@ def cmd_estimate(args) -> int:
     reg = load_registry(args.config)
     task, ex = load_dataset(args.dataset)
     ev = select(ex, args.split)
-    run, skipped = resolve_models(reg, _split_csv(args.models), _split_csv(args.groups))
+    run, skipped = resolve_models(reg, _split_csv(args.models), _split_csv(args.groups), free_only=args.free)
     total = 0.0
     print(f"{len(ev)} değerlendirme örneği · seçenek sırası testi: {'evet' if args.robustness else 'hayır'}\n")
     for s in run:
@@ -194,7 +201,7 @@ def cmd_run(args) -> int:
     reg = load_registry(args.config)
     task, ex = load_dataset(args.dataset)
     ev = select(ex, args.split)
-    run, skipped = resolve_models(reg, _split_csv(args.models), _split_csv(args.groups))
+    run, skipped = resolve_models(reg, _split_csv(args.models), _split_csv(args.groups), free_only=args.free)
     if skipped:
         print("Atlanan modeller (anahtar/paket eksik):")
         for s, why in skipped:
@@ -216,7 +223,8 @@ def cmd_run(args) -> int:
                         robustness=args.robustness, warmup=args.warmup, concurrency=args.concurrency,
                         use_cache=not args.no_cache, run_name=args.name or "", note=args.note or "",
                         dataset_label=Path(args.dataset).stem if args.dataset != "destek_tr" else "destek_tr",
-                        reference=args.reference, limit=args.limit, argv=sys.argv[1:], skipped=skipped)
+                        reference=args.reference, limit=args.limit, argv=sys.argv[1:],
+                        not_run=not_run_entries(reg, _split_csv(args.models), _split_csv(args.groups), skipped, args.free))
     print(f"\n✓ Bitti. Rapor: {out / 'report.html'}\n  Markdown: {out / 'report.md'}\n  Özet JSON: {out / 'summary.json'}")
     return 0
 
@@ -266,6 +274,38 @@ def cmd_site(args) -> int:
     return 0
 
 
+def cmd_compare(args) -> int:
+    from .compare import write_comparison
+
+    d = Path(args.dir)
+    if not d.exists() and (RESULTS_DIR / args.dir).exists():
+        d = RESULTS_DIR / args.dir
+    if not d.exists():
+        print(f"Koşu klasörü bulunamadı: {args.dir}")
+        return 2
+    print(f"✓ Derin karşılaştırma yazıldı: {write_comparison(d, reference=args.reference, out=args.out)}")
+    return 0
+
+
+def cmd_merge(args) -> int:
+    from .merge import write_merged
+
+    dirs = []
+    for x in args.dirs:
+        d = Path(x)
+        d = d if d.exists() else RESULTS_DIR / x
+        if not d.exists():
+            print(f"Koşu klasörü bulunamadı: {x}")
+            return 2
+        dirs.append(d)
+    out = Path(args.out)
+    merged = write_merged(dirs, out, reference=args.reference, note=args.note or "")
+    n = sum(1 for m in merged["models"] if m.get("m"))
+    print(f"✓ {len(dirs)} koşu birleştirildi: {n} model puanlı · referans: {merged['meta']['reference']}\n"
+          f"  Panel: {out / 'report.html'}\n  Derin karşılaştırma: {out / 'derin_karsilastirma.md'}")
+    return 0
+
+
 # ------------------------------------------------------------------------------------ argparse
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="clfbench", description="Classifier LLM karşılaştırma altyapısı")
@@ -286,6 +326,8 @@ def build_parser() -> argparse.ArgumentParser:
     def common(sp):
         sp.add_argument("--models", help="virgülle model anahtarları (varsayılan: hazır olan tüm modeller)")
         sp.add_argument("--groups", help="karar-api,uretken-llm,encoder,egitimli")
+        sp.add_argument("--free", action="store_true",
+                        help="yalnız ücretsiz modeller (yerel + doğrulanmış ücretsiz katman); 'olasi' olanlar --models ile açıkça istenir")
         sp.add_argument("--dataset", default="destek_tr", help="destek_tr | dosya.jsonl | dosya.csv | hf:...")
         sp.add_argument("--split", default="test", choices=["test", "dev", "dev+test"])
         sp.add_argument("--few-shot", type=int, default=0, help="üretken LLM'lerde etiket başına örnek sayısı")
@@ -318,6 +360,18 @@ def build_parser() -> argparse.ArgumentParser:
                    help="BAŞKA bir koşudaki modelin sonucunu 'önceki koşu' olarak ayrı kartta göster "
                         "(sıralamaya katılmaz); tekrarlanabilir. Örn: examples/jev-40:jev_beatapi")
     s.set_defaults(fn=cmd_site)
+    s = sub.add_parser("compare", help="Derin karşılaştırma: McNemar, örnek bazında hata dökümü, yığılma, güven")
+    s.add_argument("dir", help="koşu klasörü (predictions.jsonl) ya da report.html içeren klasör")
+    s.add_argument("--reference", help="referans model anahtarı (varsayılan: koşudaki referans)")
+    s.add_argument("--out", help="çıktı dosyası (varsayılan: <klasör>/derin_karsilastirma.md)")
+    s.set_defaults(fn=cmd_compare)
+
+    s = sub.add_parser("merge", help="Aynı veri üzerinde ayrı alınmış koşuları tek panelde birleştir")
+    s.add_argument("dirs", nargs="+", help="birleştirilecek koşu klasörleri (en az 2; sıra: ilk koşu temel alınır)")
+    s.add_argument("--out", required=True, help="çıktı klasörü (merged.json, report.html, derin_karsilastirma.md yazılır)")
+    s.add_argument("--reference", help="referans model anahtarı (varsayılan: ilk koşunun referansı)")
+    s.add_argument("--note", help="panele eklenecek ek not")
+    s.set_defaults(fn=cmd_merge)
     return p
 
 

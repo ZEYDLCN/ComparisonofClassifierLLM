@@ -8,6 +8,8 @@
 #   JSON zaten istemle istenir ve ayrıştırıcı kod çiti/ek metne toleranslıdır).
 # * enabled: false olan model, yalnızca '--models anahtar' ile açıkça istenirse çalışır.
 # * group: karar-api | uretken-llm | encoder | egitimli  (raporda renk/grup olarak kullanılır)
+# * free: yerel (API ücreti yok) | ucretsiz (ücretsiz katman, gerçek yanıtla doğrulandı) | olasi (belgelerde ücretsiz katman/deneme var, DOĞRULANMADI).
+#   Boş = ücretli. 'run --free' yalnız yerel+ucretsiz modelleri seçer; 'olasi' olanlar ücret çıkarabileceği için --models ile açıkça istenir.
 #
 # Yeni bir "System One" uyumlu karar API'si eklemek için jev girdisini kopyalayıp base_url/path/model/
 # api_key_env/price alanlarını değiştirmeniz yeterlidir. OpenAI uyumlu bir sohbet modeli için provider: chat_json.
@@ -44,6 +46,8 @@ models:
   - key: jev_beatapi
     display: Jev ücretsiz (BeatAPI, jev-1.13-free)
     group: karar-api
+    free: ucretsiz
+    free_note: "Hesap başına dakikada 1 başarılı istek (gerçek yanıtla doğrulandı); --limit 40 ≈ 40 dk"
     provider: systemone
     base_url: https://api.beatapi.io
     path: /v1/systemone
@@ -57,6 +61,8 @@ models:
   - key: mercury_decide
     display: Mercury Decide (Inception)
     group: karar-api
+    free: olasi
+    free_note: "Inception yeni kullanıcıya ücretsiz token verdiğini belirtiyor (kart gerekmiyor); doğrulanmadı"
     provider: systemone
     base_url: https://api.inceptionlabs.ai
     path: /v1/decisions
@@ -68,6 +74,8 @@ models:
   - key: liquid_d1
     display: Liquid d1 API
     group: karar-api
+    free: olasi
+    free_note: "Liquid belgeleri d1:free model adıyla ücretsiz katman sunuyor olabilir (model alanını d1:free yaparak dene); doğrulanmadı"
     provider: systemone
     base_url: https://api.liquid.ai
     path: /decisions/v1/systemone
@@ -182,6 +190,8 @@ models:
   - key: gemini_3_5_flash_lite
     display: Gemini 3.5 Flash-Lite
     group: uretken-llm
+    free: olasi
+    free_note: "AI Studio ücretsiz katmanı gibi davranıyor: gerçek koşuda 40 istekte 4-10 HTTP 429 (kota) görüldü; --concurrency 1 ve tekrar çalıştırma (önbellekten devam) ile tamamlandı. Faturalandırma durumu kesin doğrulanmadı"
     provider: gemini
     model: gemini-3.5-flash-lite
     api_key_env: GEMINI_API_KEY
@@ -203,6 +213,8 @@ models:
   - key: mercury_2_5
     display: Mercury 2.5 (sohbet, Inception)
     group: uretken-llm
+    free: olasi
+    free_note: "Inception yeni kullanıcıya ücretsiz token verdiğini belirtiyor (kart gerekmiyor); doğrulanmadı"
     provider: chat_json
     base_url: https://api.inceptionlabs.ai/v1
     path: /chat/completions
@@ -277,6 +289,8 @@ models:
   - key: laya_multilingual
     display: Laya multilingual (322M)
     group: encoder
+    free: yerel
+    free_note: "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     provider: laya
     model: convaiinnovations/laya-multilingual
     requires: [laya]
@@ -287,6 +301,8 @@ models:
   - key: gliclass_large_v3
     display: GLiClass large v3.0
     group: encoder
+    free: yerel
+    free_note: "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     provider: gliclass
     model: knowledgator/gliclass-large-v3.0
     requires: [gliclass, transformers, torch]
@@ -296,6 +312,8 @@ models:
   - key: nli_mdeberta_xnli
     display: mDeBERTa-v3 çok dilli NLI (sıfır örnek)
     group: encoder
+    free: yerel
+    free_note: "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     provider: nli
     model: MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7
     requires: [transformers, torch]
@@ -304,6 +322,8 @@ models:
   - key: nli_modernbert_en
     display: ModernBERT-base NLI (yalnız İngilizce; negatif kontrol)
     group: encoder
+    free: yerel
+    free_note: "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     provider: nli
     model: tasksource/ModernBERT-base-nli
     requires: [transformers, torch]
@@ -313,6 +333,8 @@ models:
   - key: embedding_e5_zeroshot
     display: multilingual-e5-small (sıfır örnek, kosinüs)
     group: encoder
+    free: yerel
+    free_note: "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     provider: embedding
     model: intfloat/multilingual-e5-small
     requires: [sentence_transformers, torch]
@@ -322,6 +344,8 @@ models:
   - key: tfidf_lr
     display: TF-IDF + Lojistik Regresyon (eğitimli)
     group: egitimli
+    free: yerel
+    free_note: "Ağ ve indirme gerekmez (yalnız scikit-learn)"
     provider: tfidf_lr
     requires: [sklearn]
     notes: "train bölümüyle eğitilir. Etiketli veri bütçesi: sıfır örnekli modellerden farklı."
@@ -329,6 +353,8 @@ models:
   - key: embedding_e5_lr
     display: multilingual-e5-small + LR (eğitimli)
     group: egitimli
+    free: yerel
+    free_note: "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     provider: embedding
     model: intfloat/multilingual-e5-small
     requires: [sentence_transformers, torch, sklearn]
@@ -338,6 +364,8 @@ models:
   - key: setfit_minilm
     display: SetFit (MiniLM çok dilli, 8-shot)
     group: egitimli
+    free: yerel
+    free_note: "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     provider: setfit
     model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
     requires: [setfit, datasets, torch]
@@ -349,6 +377,8 @@ models:
   - key: gemma_4_31b_free
     display: Gemma 4 31B (OpenRouter ücretsiz)
     group: uretken-llm
+    free: olasi
+    free_note: "OpenRouter :free modeli; kredisiz hesapta toplam ~50 istek/gün sınırı"
     provider: chat_json
     enabled: false
     base_url: https://openrouter.ai/api/v1

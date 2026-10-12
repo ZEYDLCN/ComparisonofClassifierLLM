@@ -42,6 +42,8 @@ class ModelSpec:
     verified: str = ""  # arayüzün neye göre doğrulandığı
     requires: list[str] = field(default_factory=list)  # gerekli Python paketleri
     options: dict = field(default_factory=dict)
+    free: str = ""       # "" (ücretli) | yerel | ucretsiz | olasi  (anlamları FREE_KINDS içinde)
+    free_note: str = ""  # ücretsiz kullanımın sınırı (hız limiti, günlük istek vb.)
 
     @property
     def is_local(self) -> bool:
@@ -64,6 +66,12 @@ class ModelSpec:
             return False, "base_url ayarlanmamış (configs/models.yaml)"
         return True, "hazır"
 
+
+# yerel: API ücreti yok (model Hugging Face'ten ücretsiz iner) · ucretsiz: ücretsiz katman, gerçek yanıtla doğrulandı ·
+# olasi: sağlayıcı belgeleri ücretsiz katman/deneme kredisi diyor ama doğrulanmadı (ücret çıkabilir)
+FREE_KINDS = {"yerel": "Yerel — API ücreti yok", "ucretsiz": "Ücretsiz katman (doğrulandı)",
+              "olasi": "Ücretsiz olabilir (doğrulanmadı)"}
+SAFE_FREE = ("yerel", "ucretsiz")  # --free yalnızca bunları seçer: ücret çıkma riski olanlar açıkça istenmeden çalışmaz
 
 LOCAL_PROVIDERS = {"tfidf_lr", "embedding", "nli", "gliclass", "laya", "setfit"}
 
@@ -97,9 +105,9 @@ def load_registry(path: str | Path | None = None) -> dict[str, ModelSpec]:
 
 
 def resolve_models(registry: dict[str, ModelSpec], requested: list[str] | None,
-                   groups: list[str] | None = None, include_disabled: bool = False
+                   groups: list[str] | None = None, include_disabled: bool = False, free_only: bool = False
                    ) -> tuple[list[ModelSpec], list[tuple[ModelSpec, str]]]:
-    """İstenen modelleri seçer. (çalıştırılacaklar, atlananlar+neden) döndürür."""
+    """İstenen modelleri seçer. (çalıştırılacaklar, atlananlar+neden) döndürür. free_only: yalnız SAFE_FREE modeller."""
     if requested:
         unknown = [k for k in requested if k not in registry]
         if unknown:
@@ -111,6 +119,8 @@ def resolve_models(registry: dict[str, ModelSpec], requested: list[str] | None,
         explicit = False
     if groups:
         candidates = [m for m in candidates if m.group in groups]
+    if free_only:
+        candidates = [m for m in candidates if m.free in SAFE_FREE]
     run, skipped = [], []
     for m in candidates:
         if not m.enabled and not (explicit or include_disabled):
@@ -118,3 +128,25 @@ def resolve_models(registry: dict[str, ModelSpec], requested: list[str] | None,
         ok, why = m.availability()
         (run if ok else skipped).append(m if ok else (m, why))
     return run, skipped
+
+
+def not_run_entries(registry: dict[str, ModelSpec], requested: list[str] | None, groups: list[str] | None,
+                    skipped: list[tuple[ModelSpec, str]], free_only: bool = False) -> list[dict]:
+    """Koşuya girmeyen modellerin kaydı (rapor/panel için): anahtarı/paketi eksik olanlar + varsayılan kapalı olanlar.
+
+    Kullanıcı --models ile belirli modeller istediyse listelenmez (istenmeyen modeller "eksik" sayılmaz)."""
+    from .keys import fix_for
+
+    out = [(m, why) for m, why in skipped]
+    if not requested:
+        have = {m.key for m, _ in skipped}
+        for m in registry.values():
+            if m.enabled or m.key in have or (groups and m.group not in groups):
+                continue
+            if free_only and m.free not in SAFE_FREE:
+                continue
+            out.append((m, "varsayılan kapalı (configs/models.yaml: enabled: false)"))
+    return [{"key": m.key, "display": m.display, "group": m.group, "provider": m.provider, "model": m.model,
+             "reason": why, "enabled": m.enabled, "free": m.free, "free_note": m.free_note,
+             "price_in": m.price_in, "price_out": m.price_out, "price_note": m.price_note,
+             "verified": m.verified, "fix": fix_for(m, why)} for m, why in out]

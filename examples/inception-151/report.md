@@ -1,6 +1,6 @@
 # Classifier LLM karşılaştırma raporu
 
-Koşu: `20261012-155610-inception-yerel` · oluşturma: 2026-10-12T15:56:10
+Koşu: `20261012-163525-inception-yerel` · oluşturma: 2026-10-12T16:35:26
 
 ## Koşul özeti
 
@@ -145,6 +145,34 @@ Etiket listesi her örnek için rastgele sıralanıp model yeniden çalıştır�
 | GLiClass large v3.0 | %60,3 | %57,0 | -3,3 puan | %88,7 |
 | Laya multilingual (322M) | %33,1 | %37,1 | +4,0 puan | %81,5 |
 
+## Bu koşuda çalıştırılmayan modeller
+
+Kayıt defterinde olup bu koşuya **girmeyen** 21 model var (puanlanan: 10). Bunlar denenip başarısız olmadı; anahtarı/paketi eksik olduğu ya da varsayılan kapalı olduğu için hiç çağrılmadı, dolayısıyla sonuçları bu raporda yoktur. Bunların 4 tanesi ücretsiz (veya ücretsiz olabilir) kullanılabilir; `python -m clfbench run --free` yalnız doğrulanmış ücretsiz olanları seçer.
+
+| Model | Ücret durumu | Neden çalışmadı | Nasıl açılır |
+|:---|:---|:---|:---|
+| Jev 1.13 (TypeSafe) | ücretli | TYPESAFE_API_KEY tanımlı değil | `.env` içine `TYPESAFE_API_KEY=...` ekle · anahtar: https://docs.typesafe.ai |
+| Jev (jev-ai.pro) | ücretli | JEV_AI_API_KEY tanımlı değil | `.env` içine `JEV_AI_API_KEY=...` ekle · anahtar: https://jev-ai.pro |
+| Jev ücretsiz (BeatAPI, jev-1.13-free) | Ücretsiz katman (doğrulandı) | BEATAPI_API_KEY tanımlı değil | `.env` içine `BEATAPI_API_KEY=...` ekle · anahtar: https://beatapi.io/dashboard/apikeys |
+| Liquid d1 API | Ücretsiz olabilir (doğrulanmadı) | LIQUID_API_KEY tanımlı değil | `.env` içine `LIQUID_API_KEY=...` ekle · anahtar: https://console.liquid.ai |
+| Instinct 27B (ZooData) | ücretli | ZOODATA_API_KEY tanımlı değil | `.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys |
+| Instinct tuned 4B (ZooData) | ücretli | ZOODATA_API_KEY tanımlı değil | `.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys |
+| Instinct dual 4B (ZooData) | ücretli | ZOODATA_API_KEY tanımlı değil | `.env` içine `ZOODATA_API_KEY=...` ekle · anahtar: https://zoodata.ai/en/api-keys |
+| OpenAI Decisions (gpt-6-luna) | ücretli | OPENAI_API_KEY tanımlı değil | `.env` içine `OPENAI_API_KEY=...` ekle · anahtar: https://platform.openai.com/api-keys |
+| Claude Haiku 5.5 | ücretli | ANTHROPIC_API_KEY tanımlı değil | `.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys |
+| Claude Sonnet 5.5 | ücretli | ANTHROPIC_API_KEY tanımlı değil | `.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys |
+| Gemini 3.5 Flash-Lite | Ücretsiz olabilir (doğrulanmadı) | GEMINI_API_KEY tanımlı değil | `.env` içine `GEMINI_API_KEY=...` ekle · anahtar: https://aistudio.google.com/apikey |
+| Mercury 2.5 (sohbet, OpenRouter) | ücretli | OPENROUTER_API_KEY tanımlı değil | `.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys |
+| GPT-6 Luna (sohbet, OpenRouter) | ücretli | OPENROUTER_API_KEY tanımlı değil | `.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys |
+| DeepSeek V4 Flash (OpenRouter) | ücretli | OPENROUTER_API_KEY tanımlı değil | `.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys |
+| Qwen3.8 Flash (OpenRouter) | ücretli | OPENROUTER_API_KEY tanımlı değil | `.env` içine `OPENROUTER_API_KEY=...` ekle · anahtar: https://openrouter.ai/keys |
+| Sage 1.3 (Levanto) | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models sage` ile açıkça iste (şablon: uç nokta doğrulanmadı) |
+| Microsoft-Decision-1 (Foundry) | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models microsoft_decision_1` ile açıkça iste (şablon: uç nokta doğrulanmadı) |
+| Claude Opus 5.5 | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models claude_opus_5_5` ile açıkça iste |
+| Gemini 3.8 Flash | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models gemini_3_8_flash` ile açıkça iste |
+| Qwen3.8 27B (OpenRouter) | ücretli | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models qwen3_8_27b` ile açıkça iste |
+| Gemma 4 31B (OpenRouter ücretsiz) | Ücretsiz olabilir (doğrulanmadı) | varsayılan kapalı (configs/models.yaml: enabled: false) | `--models gemma_4_31b_free` ile açıkça iste |
+
 ## Yöntem ve sınırlar
 
 - **Veri:** Yerleşik `destek_tr` seti, bu çalışma için hazırlanmış *gümüş* etiketli bir örnek kümesidir; insan etiketli altın küme DEĞİLDİR. Bir satın alma kararı için kendi, insan etiketli Türkçe verinizle (`--dataset`) yeniden çalıştırın.
@@ -163,4 +191,4 @@ Etiket listesi her örnek için rastgele sıralanıp model yeniden çalıştır�
 
 - **Tarifeler (USD / 1M giriş / çıkış):** Mercury Decide (Inception): 0,020 / 0,000 (Kampanyalı tarife; normal tarife 0.04); Mercury 2.5 (sohbet, Inception): 0,040 / 0,150 (Kampanyalı tarife (normal 0.20 / 0.75))
 
-- **Sürüm:** clfbench 0.1.0 · git 400e8cb · paketler: requests 2.34.2, numpy 2.5.3, anthropic 1.13.0, scikit-learn 1.9.1, torch 2.14.1+cpu, transformers 5.19.0, sentence-transformers 6.1.0, gliclass 0.1.20, laya 0.4.6, setfit 1.2.0
+- **Sürüm:** clfbench 0.1.0 · git 2d70294 · paketler: requests 2.34.2, numpy 2.5.3, anthropic 1.13.0, scikit-learn 1.9.1, torch 2.14.1+cpu, transformers 5.19.0, sentence-transformers 6.1.0, gliclass 0.1.20, laya 0.4.6, setfit 1.2.0

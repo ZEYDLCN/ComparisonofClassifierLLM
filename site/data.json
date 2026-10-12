@@ -1,7 +1,7 @@
 {
  "meta": {
-  "run_id": "20261012-155610-inception-yerel",
-  "started": "2026-10-12T15:56:10",
+  "run_id": "20261012-163525-inception-yerel",
+  "started": "2026-10-12T16:35:26",
   "dataset": {
    "name": "destek_tr",
    "fingerprint": "9ac13de53ff85f2d",
@@ -35,7 +35,7 @@
   "environment": {
    "python": "3.13.16",
    "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
-   "git_commit": "400e8cb",
+   "git_commit": "2d70294",
    "packages": {
     "requests": "2.34.2",
     "numpy": "2.5.3",
@@ -107,7 +107,7 @@
    "price_note": "Kampanyalı tarife; normal tarife 0.04",
    "setup_s": 0.0,
    "cold_ms": 976.9424790000016,
-   "wall_s": 0.004,
+   "wall_s": 0.003,
    "concurrency": 4,
    "cached": 151,
    "metrics": {
@@ -542,7 +542,7 @@
    "price_note": "",
    "setup_s": 0.023,
    "cold_ms": 33126.85497299992,
-   "wall_s": 0.0,
+   "wall_s": 0.001,
    "concurrency": 1,
    "cached": 151,
    "metrics": {

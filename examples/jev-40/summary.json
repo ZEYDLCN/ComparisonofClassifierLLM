@@ -33,7 +33,9 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {   \"error\": true,   \"url\": \"https://jev-ai.pro/api/v1/systemone\",   \"statusCode\": 402,   \"statusMessage\": \"Credit and token balances are insufficient.\",   \"message\": \"Credit and token balan). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {   \"error\": true,   \"url\": \"https://jev-ai.pro/api/v1/systemone\",   \"statusCode\": 402,   \"statusMessage\": \"Credit and token balances are insufficient.\",   \"message\": \"Credit and token balan). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m ",
+      "free": "",
+      "free_note": ""
     },
     {
       "key": "jev_beatapi",
@@ -228,7 +230,9 @@
         "cost_per_1m": 0.0,
         "retries_total": 44
       },
-      "slices": {}
+      "slices": {},
+      "free": "ucretsiz",
+      "free_note": "Hesap başına dakikada 1 başarılı istek (gerçek yanıtla doğrulandı); --limit 40 ≈ 40 dk"
     },
     {
       "key": "instinct_27b",
@@ -243,7 +247,9 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_7d47d9c0e5444cd8\",\"timestamp\":\"2026-10-10T22:34:50.059844Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_7d47d9c0e5444cd8\",\"timestamp\":\"2026-10-10T22:34:50.059844Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in",
+      "free": "",
+      "free_note": ""
     },
     {
       "key": "instinct_tuned_4b",
@@ -258,7 +264,9 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_07c49f8698594ce9\",\"timestamp\":\"2026-10-10T22:34:50.263237Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_07c49f8698594ce9\",\"timestamp\":\"2026-10-10T22:34:50.263237Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in",
+      "free": "",
+      "free_note": ""
     },
     {
       "key": "instinct_dual_4b",
@@ -273,7 +281,9 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_d79bebcc49514b42\",\"timestamp\":\"2026-10-10T22:34:50.442198Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in"
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"success\":false,\"error\":{\"code\":\"PAYMENT_REQUIRED\",\"message\":\"wallet_not_provisioned\"},\"meta\":{\"requestId\":\"req_d79bebcc49514b42\",\"timestamp\":\"2026-10-10T22:34:50.442198Z\"}}). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m clfbench ping in",
+      "free": "",
+      "free_note": ""
     },
     {
       "key": "mercury_2_5_or",
@@ -288,7 +298,9 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m ",
+      "free": "",
+      "free_note": ""
     },
     {
       "key": "gpt_6_luna",
@@ -303,7 +315,9 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m ",
+      "free": "",
+      "free_note": ""
     },
     {
       "key": "deepseek_v4_flash",
@@ -318,7 +332,9 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m ",
+      "free": "",
+      "free_note": ""
     },
     {
       "key": "qwen3_8_flash",
@@ -333,7 +349,9 @@
       "notes": "",
       "local": false,
       "status": "failed",
-      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m "
+      "reason": "ProviderError: Erişim/ödeme hatası (HTTP 402: {\"error\":{\"message\":\"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settin). Anahtarı, bakiyeyi, model adını ve base_url/path'i kontrol edin: 'python -m ",
+      "free": "",
+      "free_note": ""
     },
     {
       "key": "laya_multilingual",
@@ -535,7 +553,9 @@
         "lo": -0.775,
         "hi": -0.475,
         "p_better": 0.0
-      }
+      },
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     },
     {
       "key": "gliclass_large_v3",
@@ -738,7 +758,9 @@
         "lo": -0.425,
         "hi": -0.125,
         "p_better": 0.0
-      }
+      },
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     },
     {
       "key": "nli_mdeberta_xnli",
@@ -940,7 +962,9 @@
         "lo": -0.75,
         "hi": -0.425,
         "p_better": 0.0
-      }
+      },
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     },
     {
       "key": "nli_modernbert_en",
@@ -1142,7 +1166,9 @@
         "lo": -0.675,
         "hi": -0.375,
         "p_better": 0.0
-      }
+      },
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     },
     {
       "key": "embedding_e5_zeroshot",
@@ -1344,7 +1370,9 @@
         "lo": -0.55,
         "hi": -0.25,
         "p_better": 0.0
-      }
+      },
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     },
     {
       "key": "tfidf_lr",
@@ -1546,7 +1574,9 @@
         "lo": -0.325,
         "hi": -0.025,
         "p_better": 0.0075
-      }
+      },
+      "free": "yerel",
+      "free_note": "Ağ ve indirme gerekmez (yalnız scikit-learn)"
     },
     {
       "key": "embedding_e5_lr",
@@ -1748,7 +1778,9 @@
         "lo": -0.275,
         "hi": 0.025,
         "p_better": 0.026
-      }
+      },
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     },
     {
       "key": "setfit_minilm",
@@ -1950,7 +1982,9 @@
         "lo": -0.2,
         "hi": 0.05,
         "p_better": 0.093
-      }
+      },
+      "free": "yerel",
+      "free_note": "İlk çalıştırmada Hugging Face'ten ücretsiz indirilir (disk ve CPU süresi hariç)"
     }
   ],
   "dataset": {
@@ -1995,5 +2029,315 @@
     },
     "git_commit": "7e4cf16"
   },
-  "note": "Jev ücretsiz katmanı dakikada 1 istek sınırlı: tüm modeller aynı dengeli 40 örnekte (sınıf başına 5) çalıştırıldı"
+  "note": "Jev ücretsiz katmanı dakikada 1 istek sınırlı: tüm modeller aynı dengeli 40 örnekte (sınıf başına 5) çalıştırıldı",
+  "not_run": [
+    {
+      "key": "jev",
+      "display": "Jev 1.13 (TypeSafe)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "jev-1.13.0",
+      "reason": "TYPESAFE_API_KEY tanımlı değil (bu koşuda)",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.042,
+      "price_out": 0.0,
+      "price_note": "TypeSafe liste tarifesi",
+      "verified": "TypeSafe dokümanı (docs.typesafe.ai) — istek/yanıt şeması doğrulandı",
+      "fix": {
+        "short": "`.env` içine `TYPESAFE_API_KEY=...` ekle · anahtar: https://docs.typesafe.ai",
+        "steps": ".env dosyasına TYPESAFE_API_KEY=... satırını ekle. TypeSafe konsolunda API Keys sayfasından anahtar oluştur (docs.typesafe.ai). Üçüncü taraf kaynaklara göre yeni kayıtlar 22 Eylül 2026'da duraklatıldı. Anahtarı Vercel AI Gateway / Zuplo gibi bir aracıdan aldıysan api.typesafe.ai 401 verir: configs/models.yaml içinde jev girdisinin base_url'ini o servise çevir.",
+        "url": "https://docs.typesafe.ai",
+        "cost": "Ücretsiz katman belirtilmemiş; tarife 0,042 USD / 1M giriş tokenı.",
+        "cmd": "python -m clfbench run --models jev"
+      }
+    },
+    {
+      "key": "mercury_decide",
+      "display": "Mercury Decide (Inception)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "mercury-decide",
+      "reason": "INCEPTION_API_KEY tanımlı değil (bu koşuda)",
+      "enabled": true,
+      "free": "olasi",
+      "free_note": "Inception yeni kullanıcıya ücretsiz token verdiğini belirtiyor (kart gerekmiyor); doğrulanmadı",
+      "price_in": 0.02,
+      "price_out": 0.0,
+      "price_note": "Kampanyalı tarife; normal tarife 0.04",
+      "verified": "Inception dokümanı (docs.inceptionlabs.ai/capabilities/decisions) — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `INCEPTION_API_KEY=...` ekle · anahtar: https://platform.inceptionlabs.ai/dashboard/api-keys",
+        "steps": ".env dosyasına INCEPTION_API_KEY=... satırını ekle. https://platform.inceptionlabs.ai adresinden kaydol → Dashboard → API Keys → yeni anahtar oluştur.",
+        "url": "https://platform.inceptionlabs.ai/dashboard/api-keys",
+        "cost": "Yeni kullanıcıya 100 milyon ücretsiz token verildiği belirtiliyor, kart gerekmiyor.",
+        "cmd": "python -m clfbench run --models mercury_decide"
+      }
+    },
+    {
+      "key": "liquid_d1",
+      "display": "Liquid d1 API",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "d1",
+      "reason": "LIQUID_API_KEY tanımlı değil (bu koşuda)",
+      "enabled": true,
+      "free": "olasi",
+      "free_note": "Liquid belgeleri d1:free model adıyla ücretsiz katman sunuyor olabilir (model alanını d1:free yaparak dene); doğrulanmadı",
+      "price_in": 0.04,
+      "price_out": 0.0,
+      "price_note": "",
+      "verified": "Liquid d1 dokümanı (docs.liquid.ai/lfm/models/d1) — choice isteği/yanıtı doğrulandı",
+      "fix": {
+        "short": "`.env` içine `LIQUID_API_KEY=...` ekle · anahtar: https://console.liquid.ai",
+        "steps": ".env dosyasına LIQUID_API_KEY=... satırını ekle. Kaydol → bir organizasyona katıl → Dashboard → API Keys → yeni anahtar (liquid_ ile başlar).",
+        "url": "https://console.liquid.ai",
+        "cost": "d1:free metin için ücretsiz katman sunuyor olabilir; model adını configs/models.yaml'da 'd1:free' yapabilirsin.",
+        "cmd": "python -m clfbench run --models liquid_d1"
+      }
+    },
+    {
+      "key": "openai_decisions",
+      "display": "OpenAI Decisions (gpt-6-luna)",
+      "group": "karar-api",
+      "provider": "openai_decisions",
+      "model": "gpt-6-luna",
+      "reason": "OPENAI_API_KEY tanımlı değil (bu koşuda)",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.1,
+      "price_out": 0.0,
+      "price_note": "Public beta",
+      "verified": "OpenAI Decisions dokümanı — şema doğrulandı",
+      "fix": {
+        "short": "`.env` içine `OPENAI_API_KEY=...` ekle · anahtar: https://platform.openai.com/api-keys",
+        "steps": ".env dosyasına OPENAI_API_KEY=... satırını ekle. Giriş yap → API keys → Create new secret key. Decisions API public beta'dır; hesabında erişim yoksa 403/404 alırsın.",
+        "url": "https://platform.openai.com/api-keys",
+        "cost": "Ön ödemeli kredi.",
+        "cmd": "python -m clfbench run --models openai_decisions"
+      }
+    },
+    {
+      "key": "claude_haiku_5_5",
+      "display": "Claude Haiku 5.5",
+      "group": "uretken-llm",
+      "provider": "claude",
+      "model": "claude-haiku-5-5",
+      "reason": "ANTHROPIC_API_KEY tanımlı değil (bu koşuda)",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.1,
+      "price_out": 0.5,
+      "price_note": "100K token altı istemler için",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys",
+        "steps": ".env dosyasına ANTHROPIC_API_KEY=... satırını ekle. Giriş yap → Settings → API Keys → Create Key; anahtarı hemen kopyala (bir daha gösterilmez). Kullanım için Billing'den kredi yüklemek gerekir.",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "Ön ödemeli kredi; bu veri setinde 150 istek birkaç sentten azdır.",
+        "cmd": "python -m clfbench run --models claude_haiku_5_5"
+      }
+    },
+    {
+      "key": "claude_sonnet_5_5",
+      "display": "Claude Sonnet 5.5",
+      "group": "uretken-llm",
+      "provider": "claude",
+      "model": "claude-sonnet-5-5",
+      "reason": "ANTHROPIC_API_KEY tanımlı değil (bu koşuda)",
+      "enabled": true,
+      "free": "",
+      "free_note": "",
+      "price_in": 2.0,
+      "price_out": 10.0,
+      "price_note": "",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`.env` içine `ANTHROPIC_API_KEY=...` ekle · anahtar: https://platform.claude.com/settings/keys",
+        "steps": ".env dosyasına ANTHROPIC_API_KEY=... satırını ekle. Giriş yap → Settings → API Keys → Create Key; anahtarı hemen kopyala (bir daha gösterilmez). Kullanım için Billing'den kredi yüklemek gerekir.",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "Ön ödemeli kredi; bu veri setinde 150 istek birkaç sentten azdır.",
+        "cmd": "python -m clfbench run --models claude_sonnet_5_5"
+      }
+    },
+    {
+      "key": "gemini_3_5_flash_lite",
+      "display": "Gemini 3.5 Flash-Lite",
+      "group": "uretken-llm",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "reason": "GEMINI_API_KEY tanımlı değil (bu koşuda)",
+      "enabled": true,
+      "free": "olasi",
+      "free_note": "AI Studio ücretsiz katmanı olabilir (düşük hız limiti); doğrulanmadı, ücretli katmanda faturalanır",
+      "price_in": 0.3,
+      "price_out": 2.5,
+      "price_note": "Çıktı fiyatı düşünme tokenlarını da kapsar",
+      "verified": "Google AI fiyat sayfası: model kimliği ve tarife doğrulandı",
+      "fix": {
+        "short": "`.env` içine `GEMINI_API_KEY=...` ekle · anahtar: https://aistudio.google.com/apikey",
+        "steps": ".env dosyasına GEMINI_API_KEY=... satırını ekle. Google hesabıyla giriş → Get API key → Create API key.",
+        "url": "https://aistudio.google.com/apikey",
+        "cost": "Ücretsiz katman olabilir (sınırlı hız); ücretli katman için faturalandırma ekle.",
+        "cmd": "python -m clfbench run --models gemini_3_5_flash_lite"
+      }
+    },
+    {
+      "key": "mercury_2_5",
+      "display": "Mercury 2.5 (sohbet, Inception)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "mercury-2.5",
+      "reason": "INCEPTION_API_KEY tanımlı değil (bu koşuda)",
+      "enabled": true,
+      "free": "olasi",
+      "free_note": "Inception yeni kullanıcıya ücretsiz token verdiğini belirtiyor (kart gerekmiyor); doğrulanmadı",
+      "price_in": 0.04,
+      "price_out": 0.15,
+      "price_note": "Kampanyalı tarife (normal 0.20 / 0.75)",
+      "verified": "Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta",
+      "fix": {
+        "short": "`.env` içine `INCEPTION_API_KEY=...` ekle · anahtar: https://platform.inceptionlabs.ai/dashboard/api-keys",
+        "steps": ".env dosyasına INCEPTION_API_KEY=... satırını ekle. https://platform.inceptionlabs.ai adresinden kaydol → Dashboard → API Keys → yeni anahtar oluştur.",
+        "url": "https://platform.inceptionlabs.ai/dashboard/api-keys",
+        "cost": "Yeni kullanıcıya 100 milyon ücretsiz token verildiği belirtiliyor, kart gerekmiyor.",
+        "cmd": "python -m clfbench run --models mercury_2_5"
+      }
+    },
+    {
+      "key": "sage",
+      "display": "Sage 1.3 (Levanto)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "sage-1.3.0",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.05,
+      "price_out": 10.0,
+      "price_note": "Giriş tarifesi; reasoning/arama ek ücreti ayrı",
+      "verified": "DOĞRULANMADI — Levanto fiyat sayfası uç nokta/şema vermiyor. base_url ve model kimliğini dokümandan doğrulayın",
+      "fix": {
+        "short": "`--models sage` ile açıkça iste (şablon: uç nokta doğrulanmadı)",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. DOĞRULANMADI — Levanto fiyat sayfası uç nokta/şema vermiyor. base_url ve model kimliğini dokümandan doğrulayın",
+        "url": "",
+        "cost": "",
+        "cmd": "python -m clfbench run --models sage"
+      }
+    },
+    {
+      "key": "microsoft_decision_1",
+      "display": "Microsoft-Decision-1 (Foundry)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "microsoft-decision-1",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.042,
+      "price_out": 0.0,
+      "price_note": "Foundry tarifesi doğrulanmalı",
+      "verified": "DOĞRULANMADI — dağıtım uç noktası ve istek şeması Foundry portalından teyit edilmeli",
+      "fix": {
+        "short": "`--models microsoft_decision_1` ile açıkça iste (şablon: uç nokta doğrulanmadı)",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. DOĞRULANMADI — dağıtım uç noktası ve istek şeması Foundry portalından teyit edilmeli",
+        "url": "",
+        "cost": "",
+        "cmd": "python -m clfbench run --models microsoft_decision_1"
+      }
+    },
+    {
+      "key": "claude_opus_5_5",
+      "display": "Claude Opus 5.5",
+      "group": "uretken-llm",
+      "provider": "claude",
+      "model": "claude-opus-5-5",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 4.0,
+      "price_out": 20.0,
+      "price_note": "",
+      "verified": "Resmî Anthropic SDK, JSON-şema çıktısı",
+      "fix": {
+        "short": "`--models claude_opus_5_5` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://platform.claude.com/settings/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models claude_opus_5_5"
+      }
+    },
+    {
+      "key": "gemini_3_8_flash",
+      "display": "Gemini 3.8 Flash",
+      "group": "uretken-llm",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.75,
+      "price_out": 3.75,
+      "price_note": "31 Aralık 2026'ya kadar; 1 Ocak 2027'den itibaren 1.50 / 7.50",
+      "verified": "Google AI fiyat sayfası",
+      "fix": {
+        "short": "`--models gemini_3_8_flash` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://aistudio.google.com/apikey",
+        "cost": "",
+        "cmd": "python -m clfbench run --models gemini_3_8_flash"
+      }
+    },
+    {
+      "key": "qwen3_8_27b",
+      "display": "Qwen3.8 27B (OpenRouter)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "qwen/qwen3.8-27b",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "",
+      "free_note": "",
+      "price_in": 0.425,
+      "price_out": 2.55,
+      "price_note": "",
+      "verified": "OpenRouter model listesi: kimlik ve tarife doğrulandı",
+      "fix": {
+        "short": "`--models qwen3_8_27b` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://openrouter.ai/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models qwen3_8_27b"
+      }
+    },
+    {
+      "key": "gemma_4_31b_free",
+      "display": "Gemma 4 31B (OpenRouter ücretsiz)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "google/gemma-4-31b-it:free",
+      "reason": "varsayılan kapalı (configs/models.yaml: enabled: false)",
+      "enabled": false,
+      "free": "olasi",
+      "free_note": "OpenRouter :free modeli; kredisiz hesapta toplam ~50 istek/gün sınırı",
+      "price_in": 0.0,
+      "price_out": 0.0,
+      "price_note": "Ücretsiz katman; günlük istek sınırlı",
+      "verified": "OpenRouter model listesi",
+      "fix": {
+        "short": "`--models gemma_4_31b_free` ile açıkça iste",
+        "steps": "Girdi varsayılan kapalıdır; --models ile açıkça istenince çalışır. ",
+        "url": "https://openrouter.ai/keys",
+        "cost": "",
+        "cmd": "python -m clfbench run --models gemma_4_31b_free"
+      }
+    }
+  ]
 }
