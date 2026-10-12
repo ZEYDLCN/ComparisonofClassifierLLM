@@ -132,3 +132,34 @@ def test_committed_site_and_vercel_config():
     html = (site / "index.html").read_text(encoding="utf-8")
     assert "__DATA_JSON__" not in html and html.count("<script") == 2
     assert _embedded(html) == json.loads((site / "data.json").read_text(encoding="utf-8"))
+
+
+def test_external_result_is_separate_and_labeled(run_dir, tmp_path):
+    """Başka koşudan gelen sonuç yalnızca 'önceki koşu' kartında görünür; sıralamaya/tabloya girmez."""
+    from clfbench.site import load_external
+
+    src = ROOT / "examples" / "jev-40"
+    if not (src / "summary.json").exists():
+        pytest.skip("örnek koşu yok")
+    ext = load_external(src, "jev_beatapi")
+    assert ext["dataset"]["n_eval"] == 40 and ext["model"]["metrics"]["accuracy"] > 0
+    html = write_site(run_dir, tmp_path / "site", external=[ext]).read_text(encoding="utf-8")
+    d = _embedded(html)
+    assert [e["model"]["key"] for e in d["external"]] == ["jev_beatapi"]
+    assert "jev_beatapi" not in {m["key"] for m in d["models"]}  # asıl koşunun modelleri arasında değil
+    assert "önceki koşu" in html and "Karşılaştırılamaz" in html
+    with pytest.raises(ValueError):
+        load_external(src, "jev_ai")  # o koşuda başarısız (puanlanmamış) model
+    with pytest.raises(ValueError):
+        load_external(src, "yok_boyle_model")
+
+
+def test_cli_also_option(run_dir, tmp_path, capsys):
+    src = ROOT / "examples" / "jev-40"
+    if not (src / "summary.json").exists():
+        pytest.skip("örnek koşu yok")
+    out = tmp_path / "s"
+    assert main(["site", str(run_dir), "--out", str(out), "--also", f"{src}:jev_beatapi"]) == 0
+    assert _embedded((out / "index.html").read_text(encoding="utf-8"))["external"][0]["run_id"].endswith("jev-40")
+    assert main(["site", str(run_dir), "--out", str(out), "--also", str(src)]) == 2  # model anahtarı eksik
+    assert "YOL:MODEL_ANAHTARI" in capsys.readouterr().out

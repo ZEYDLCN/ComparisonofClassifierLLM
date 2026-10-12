@@ -218,6 +218,12 @@ table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
 .sk .chips{display:flex;flex-wrap:wrap;gap:6px}
 .sk .chips span{padding:4px 10px;border-radius:999px;background:#151515;border:1px solid var(--line);font-size:12px;color:var(--ink2)}
 .sk.err{border-color:rgba(255,107,94,.35)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.mt{border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:#0f0f0f}
+.mt small{display:block;color:var(--mut);font-size:11.5px}
+.mt b{display:block;font:300 26px/1.15 var(--font);letter-spacing:-.02em;margin:2px 0}
+.mt span{color:var(--ink2);font-size:11.5px}
+.ext+.ext{margin-top:16px}
 .sk code{display:block;margin-top:8px;padding:8px 10px;border-radius:10px;background:#111;color:var(--ink2);font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-word;white-space:pre-wrap}
 details{border:1px solid var(--line);border-radius:20px;background:var(--card);padding:2px 20px}
 details+details{margin-top:12px}
@@ -256,6 +262,7 @@ noscript .panel{margin:24px 0;color:var(--ink2)}
   .rk-name{grid-area:n}.rk-val{grid-area:v}.rk-track{grid-area:t}
   .db{grid-template-columns:1fr;gap:6px}
   .scale{display:none}
+  .warn{flex-direction:column;gap:4px}
   details dl{grid-template-columns:minmax(0,1fr);gap:2px 0}
   details dd{margin-bottom:12px}
   .mx .rh{min-width:140px;max-width:150px;padding-left:12px;padding-right:8px}
@@ -752,6 +759,22 @@ function renderSkipped(){
   $('#skip-n').textContent=(failed.length+(D.skipped||[]).length)||'';
 }
 
+function renderExternal(){
+  const ex=D.external||[];
+  $('#ext-body').innerHTML=ex.map(e=>{
+    const m=e.model,t=m.metrics,same=e.dataset.fingerprint&&e.dataset.fingerprint===dsn.fingerprint;
+    const tile=(k,v,sub)=>'<div class="mt"><small>'+k+'</small><b>'+v+'</b>'+(sub?'<span>'+sub+'</span>':'')+'</div>';
+    return '<div class="panel ext" style="--c:'+gi(m).c+'"><div class="ph"><div><h3>'+mk(m)+' '+esc(m.display)+' <span class="vd">önceki koşu</span></h3>'+
+      '<p>Bu koşuda ölçülmedi. Sonuç şu koşudan: '+esc(e.run_id)+' · '+e.dataset.n_eval+' örnek · '+tarih(e.started)+'</p></div></div>'+
+      '<div class="warn"><b>Karşılaştırılamaz.</b><span>Bu sayılar bu koşunun '+nEval+' örneğinden değil, '+e.dataset.n_eval+' örneklik başka bir koşudan gelir'+
+      (same?' (aynı veri seti, '+esc(e.dataset.name)+', yalnızca küçük bir dengeli alt küme).':' (farklı bir veri/örnek kümesi).')+
+      ' Yukarıdaki sıralamaya, tabloya ve eşlenmiş farka dahil değildir; %95 aralığı geniştir. Aynı koşulda ölçmek için anahtarı ekleyip koşuyu yeniden çalıştır.</span></div>'+
+      '<div class="mgrid">'+tile('Doğruluk',pct(t.accuracy),'%95 aralık '+esc(rng(t.accuracy_ci)))+tile('Macro-F1',pct(t.macro_f1),esc(rng(t.macro_f1_ci)))+
+      tile('ECE',nf(t.ece,3),'Brier '+nf(t.brier,3))+tile('Gecikme p50',ms(t.lat_p50)+' ms','p95 '+ms(t.lat_p95)+' ms')+
+      tile('1.000 karar',usd(t.cost_per_1000),esc(m.price_note||''))+tile('Ort. token',nf(t.tok_in_mean,0),'çıkış '+nf(t.tok_out_mean,0))+'</div></div>';
+  }).join('');
+}
+
 /* ================================================================= İSKELET */
 const NAV=[['ozet','Özet','home'],['siralama','Sıralama','bars'],['metrikler','Tüm metrikler','table'],['hiz','Hız, maliyet','scatter'],['sinif','Sınıf bazında','grid'],['dayaniklilik','Dayanıklılık','shuffle'],['olculmeyen','Ölçülmeyenler','ban'],['yontem','Yöntem','info']];
 function skeleton(){
@@ -770,7 +793,7 @@ function skeleton(){
   $('#dayaniklilik').innerHTML=head('05',['Dayanıklılık','Sıra değişince sonuç değişiyor mu?'],'Seçenek sırası her örnekte karıştırılıp model yeniden çalıştırıldı. İyi bir sınıflandırıcı, seçeneklerin listelenme sırasına duyarsızdır. Ardından referans modele karşı fark gösterilir.')+
     '<div class="panel"><div class="ph"><div><h3>Seçenek sırası testi</h3><p>Kanonik ve karıştırılmış sıradaki doğruluk</p></div></div><div id="rob-body"></div></div>'+
     '<div class="panel"><div class="ph"><div><h3>Referansa karşı doğruluk farkı</h3><p>Eşlenmiş bootstrap: aynı örnekler üzerinde fark</p></div></div><div id="forest-body"></div></div>';
-  $('#olculmeyen').innerHTML=head('06',['Ölçülmeyenler','Bu koşuda yer almayanlar <span id="skip-n" style="color:var(--mut);font-size:.5em;vertical-align:middle"></span>'],'Anahtarı ya da paketi bulunmayan modeller atlandı; bu yüzden yukarıdaki sıralama yalnızca ölçülenler arasındadır, tüm piyasayı kapsamaz.')+'<div id="skip-body"></div>';
+  $('#olculmeyen').innerHTML=head('06',['Ölçülmeyenler','Bu koşuda yer almayanlar <span id="skip-n" style="color:var(--mut);font-size:.5em;vertical-align:middle"></span>'],'Anahtarı ya da paketi bulunmayan modeller atlandı; bu yüzden yukarıdaki sıralama yalnızca ölçülenler arasındadır, tüm piyasayı kapsamaz.')+'<div id="ext-body"></div><div id="skip-body" style="margin-top:16px"></div>';
   const env=D.meta.environment||{},st=D.meta.settings||{};
   const w=dsn.is_builtin?'<div class="warn"><b>Dürüstlük notu.</b><span>Yerleşik <code>destek_tr</code> veri seti bu çalışma için hazırlanmış, <b style="color:var(--ink)">gümüş etiketli</b> bir kümedir; insan etiketli altın küme değildir ve '+nEval+' örnekte güven aralığı yaklaşık ±6–7 puandır. Boru hattını ve yöntemi doğrulamak içindir; satın alma ya da üretim kararı için kendi insan etiketli Türkçe verinle yeniden ölç.</span></div>':'';
   $('#yontem').innerHTML=head('07',['Yöntem','Nasıl ölçüldü, nelere dikkat?'],'Sayıları doğru okumak için kısa bir rehber.')+w+
@@ -829,7 +852,7 @@ if('IntersectionObserver' in window){
 }
 
 if(!N){document.body.insertAdjacentHTML('afterbegin','<div class="panel" style="margin:40px">Bu koşuda puanlanan model yok. Ayrıntı için "Ölçülmeyenler" bölümüne bakın.</div>');}
-skeleton();renderProfile();renderTop();renderSkipped();renderAll();
+skeleton();renderProfile();renderTop();renderSkipped();renderExternal();renderAll();
 })();
 </script>
 </body>

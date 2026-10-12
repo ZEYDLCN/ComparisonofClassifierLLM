@@ -20,7 +20,22 @@ _MODEL_FIELDS = ("key", "display", "group", "provider", "model", "local", "statu
                  "metrics", "slices", "robustness", "vs_reference")
 
 
-def build_site_data(summary: dict, run: dict, repo: str = DEFAULT_REPO) -> dict:
+def load_external(run_dir: Path, model_key: str) -> dict:
+    """Başka bir koşudaki puanlanmış bir modelin sonucu. Siteye YALNIZCA 'önceki koşu' olarak, ayrı bir kartta girer:
+    sıralamaya, tabloya ve eşlenmiş farka katılmaz (örnek sayısı ve güven aralığı bu koşuyla aynı değildir)."""
+    run_dir = Path(run_dir)
+    summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+    run = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
+    m = next((x for x in summary["models"] if x["key"] == model_key and "metrics" in x), None)
+    if m is None:
+        raise ValueError(f"{run_dir}: '{model_key}' puanlanmış bir model olarak yok")
+    ds = summary["dataset"]
+    return {"run_id": summary["run_id"], "started": run.get("started", ""),
+            "dataset": {k: ds.get(k) for k in ("name", "n_eval", "split", "fingerprint")},
+            "model": {f: m[f] for f in _MODEL_FIELDS if f in m}}
+
+
+def build_site_data(summary: dict, run: dict, repo: str = DEFAULT_REPO, external: list[dict] | None = None) -> dict:
     task = run.get("task", {})
     labels = list(summary["labels"])
     desc, short = task.get("labels", {}), task.get("short", {})
@@ -39,6 +54,7 @@ def build_site_data(summary: dict, run: dict, repo: str = DEFAULT_REPO) -> dict:
         "models": [{f: m[f] for f in _MODEL_FIELDS if f in m} for m in summary["models"]],
         "pareto": {"latency": summary.get("pareto_latency", []), "cost": summary.get("pareto_cost", [])},
         "skipped": summary.get("skipped", []),
+        "external": external or [],
     }
 
 
@@ -49,12 +65,12 @@ def render(data: dict) -> str:
     return TEMPLATE.read_text(encoding="utf-8").replace("__DATA_JSON__", blob)
 
 
-def write_site(run_dir: Path, out_dir: Path, repo: str = DEFAULT_REPO) -> Path:
+def write_site(run_dir: Path, out_dir: Path, repo: str = DEFAULT_REPO, external: list[dict] | None = None) -> Path:
     """`run_dir` (summary.json + run.json) -> `out_dir`/index.html (+ data.json). Var olan dosyaların üzerine yazar."""
     run_dir, out_dir = Path(run_dir), Path(out_dir)
     summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
     run = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
-    data = build_site_data(summary, run, repo)
+    data = build_site_data(summary, run, repo, external)
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "index.html").write_text(render(data), encoding="utf-8", newline="\n")
     (out_dir / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n",

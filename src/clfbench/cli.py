@@ -243,13 +243,24 @@ def cmd_report(args) -> int:
 
 
 def cmd_site(args) -> int:
-    from .site import write_site
+    from .site import load_external, write_site
 
     d = _find_run_dir(args.dir)
     if d is None or not (d / "summary.json").exists():
         print(f"Koşu klasörü (run.json + summary.json) bulunamadı: {args.dir}")
         return 2
-    path = write_site(d, Path(args.out), repo=args.repo)
+    external = []
+    for spec in args.also or []:
+        src, _, key = spec.rpartition(":")  # Windows yolundaki "C:" ile karışmasın diye sondaki parça alınır
+        if not src or "/" in key or "\\" in key:
+            print(f"--also değeri YOL:MODEL_ANAHTARI biçiminde olmalı (örn. examples/jev-40:jev_beatapi): {spec}")
+            return 2
+        sd = _find_run_dir(src)
+        if sd is None or not (sd / "summary.json").exists():
+            print(f"--also koşu klasörü bulunamadı: {src}")
+            return 2
+        external.append(load_external(sd, key))
+    path = write_site(d, Path(args.out), repo=args.repo, external=external)
     print(f"✓ Site üretildi: {path}\n  Vercel için: Root Directory = {Path(args.out).as_posix()} "
           f"(depoda vercel.json bunu zaten ayarlar). Yerelde: python -m http.server -d {Path(args.out).as_posix()}")
     return 0
@@ -303,6 +314,9 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("dir", help="koşu klasörü (run.json + summary.json), örn. results/<koşu> veya examples/<koşu>")
     s.add_argument("--out", default="site", help="çıktı klasörü (varsayılan: site)")
     s.add_argument("--repo", default=DEFAULT_REPO, help="sitedeki GitHub bağlantısı")
+    s.add_argument("--also", action="append", metavar="YOL:MODEL",
+                   help="BAŞKA bir koşudaki modelin sonucunu 'önceki koşu' olarak ayrı kartta göster "
+                        "(sıralamaya katılmaz); tekrarlanabilir. Örn: examples/jev-40:jev_beatapi")
     s.set_defaults(fn=cmd_site)
     return p
 

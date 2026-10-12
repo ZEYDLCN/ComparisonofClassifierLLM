@@ -158,6 +158,10 @@ python -m clfbench site results\<koşu>                      # -> site/index.htm
 python -m http.server -d site                                # yerelde önizle: http://localhost:8000
 ```
 
+Başka bir koşudaki bir modelin sonucunu (örn. o koşuda anahtarı olan Jev) **ayrı bir "önceki koşu" kartı** olarak göstermek için
+`--also YOL:MODEL` ver: `python -m clfbench site results\\<koşu> --also examples/jev-40:jev_beatapi`. Kart örnek sayısını ve
+koşuyu açıkça yazar; sıralamaya, tabloya ve eşlenmiş farka **katılmaz** (örnek sayısı ve güven aralığı farklıdır).
+
 Depoda hazır bir site vardır: [`site/`](site/index.html), [`examples/inception-151`](examples/inception-151) koşusundan üretildi.
 
 **Vercel'e yayınlama:** depoyu Vercel'e bağla (*Add New → Project → Import*). Kök dizindeki [`vercel.json`](vercel.json)

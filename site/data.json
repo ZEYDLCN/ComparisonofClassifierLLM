@@ -2360,5 +2360,211 @@
    "group": "uretken-llm",
    "reason": "OPENROUTER_API_KEY tanımlı değil"
   }
+ ],
+ "external": [
+  {
+   "run_id": "20261011-005911-jev-40",
+   "started": "2026-10-11T01:34:52",
+   "dataset": {
+    "name": "destek_tr",
+    "n_eval": 40,
+    "split": "test",
+    "fingerprint": "9ac13de53ff85f2d"
+   },
+   "model": {
+    "key": "jev_beatapi",
+    "display": "Jev ücretsiz (BeatAPI, jev-1.13-free)",
+    "group": "karar-api",
+    "provider": "systemone",
+    "model": "jev-1.13-free",
+    "local": false,
+    "status": "ok",
+    "notes": "",
+    "price_in": 0.0,
+    "price_out": 0.0,
+    "price_note": "Ücretsiz katman (sıfır bakiyede çalıştığı iddia ediliyor); limitler doğrulanmadı",
+    "setup_s": 0.0,
+    "cold_ms": 1201.1719000292942,
+    "wall_s": 2135.454,
+    "concurrency": 1,
+    "cached": 9,
+    "metrics": {
+     "n": 40,
+     "n_ok": 40,
+     "error_rate": 0.0,
+     "accuracy": 0.95,
+     "accuracy_valid": 0.95,
+     "macro_f1": 0.9460227272727273,
+     "accuracy_ci": [
+      0.875,
+      1.0
+     ],
+     "macro_f1_ci": [
+      0.8481894841269841,
+      1.0
+     ],
+     "per_class": {
+      "fatura_odeme": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 5
+      },
+      "teknik_destek": {
+       "precision": 0.8333333333333334,
+       "recall": 1.0,
+       "f1": 0.9090909090909091,
+       "support": 5
+      },
+      "kargo_teslimat": {
+       "precision": 0.8333333333333334,
+       "recall": 1.0,
+       "f1": 0.9090909090909091,
+       "support": 5
+      },
+      "iade_degisim": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 5
+      },
+      "hesap_guvenlik": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 5
+      },
+      "satis_fiyat": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 5
+      },
+      "sikayet_oneri": {
+       "precision": 1.0,
+       "recall": 0.6,
+       "f1": 0.7499999999999999,
+       "support": 5
+      },
+      "diger": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 5
+      }
+     },
+     "confusion": [
+      [
+       5,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       5,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       5,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       5,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       5,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       5,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       1,
+       1,
+       0,
+       0,
+       0,
+       3,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       5,
+       0
+      ]
+     ],
+     "n_prob": 40,
+     "brier": 0.06797499999999998,
+     "ece": 0.037749999999999964,
+     "mean_conf": 0.95625,
+     "conf_kinds": [
+      "native"
+     ],
+     "acc_at_cov80": 1.0,
+     "cov_at_acc95": 1.0,
+     "lat_p50": 494.4412499316968,
+     "lat_p95": 755.6762749794833,
+     "lat_p99": 2617.229376013856,
+     "lat_mean": 611.1453525081743,
+     "tok_in_mean": 761.925,
+     "tok_out_mean": 103.4,
+     "tokens_estimated": false,
+     "cost_per_1000": 0.0,
+     "cost_per_1m": 0.0,
+     "retries_total": 44
+    },
+    "slices": {}
+   }
+  }
  ]
 }
