@@ -3,6 +3,8 @@
 [`jev-40/report.html`](jev-40/report.html) dosyasını tarayıcıda aç: etkileşimli panel (tıklanınca model detayı,
 karşılaştırma, filtreler, koyu tema). Aynı sonuçların Markdown sürümü: [`report.md`](jev-40/report.md).
 Doğrudan bir modele bağlantı: `report.html#m=jev_beatapi`, koyu tema: `#theme=dark`.
+Jev'i diğer modellerle örnek bazında karşılaştıran derin analiz: [`derin_karsilastirma.md`](jev-40/derin_karsilastirma.md)
+(`python -m clfbench compare examples/jev-40 --reference jev_beatapi` ile yeniden üretilir).
 
 Üretildiği komut:
 

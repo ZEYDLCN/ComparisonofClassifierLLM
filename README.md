@@ -73,6 +73,7 @@ yalnız hızlı yerel modeller için `--models tfidf_lr,embedding_e5_lr,setfit_m
 | `python -m clfbench run --few-shot 2` | Üretken LLM'lere etiket başına 2 örnek ver |
 | `python -m clfbench run --robustness` | Seçenek sırasını karıştırıp tekrarla (dayanıklılık) |
 | `python -m clfbench report <klasör> --reference jev` | Raporu başka referans modelle yeniden üret |
+| `python -m clfbench compare <klasör> --reference jev` | Derin karşılaştırma (`derin_karsilastirma.md`): McNemar, referansın hataları, yığılma, güven |
 
 **Hız limitli servisler:** bazı ücretsiz katmanlar çok düşük limit verir (örn. BeatAPI ücretsiz Jev: dakikada 1 istek).
 `run` ve `estimate` bunu (`rpm_limit`) bilen modeller için çalıştırmadan önce tahmini süreyi uyarır. Tüm modelleri aynı dengeli
@@ -156,6 +157,12 @@ Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretil
 
 Araştırma dosyasındaki uyarılar rapora aynen yansır: **tek kazanan ilan edilmez**, küçük farklar "ayırt edilemez" olarak işaretlenir.
 
+**Derin karşılaştırma (`clfbench compare`).** Ana rapora ek olarak, seçtiğin referans modeli (örn. Jev) diğerleriyle **örnek
+bazında** inceler: Holm düzeltmeli eşlenmiş McNemar testi (yalnız birinin bildiği örnekler), referansın hangi mesajlarda
+yanıldığı ve diğer modellerin o mesajlardaki tahmini, örnek zorluğu (kaç model doğru bildi), tek sınıfa **yığılma** (örn. bir modelin
+tahminlerinin çoğunu tek etikete vermesi) ve doğru/yanlış yanıtlardaki güven farkı. `predictions.jsonl` olan her koşu klasöründe
+(ya da `report.html` içeren klasörde) çalışır; örnek çıktı: [examples/jev-40/derin_karsilastirma.md](examples/jev-40/derin_karsilastirma.md).
+
 ---
 
 ## Kendi verinle çalıştır (önerilen)
@@ -224,6 +231,7 @@ src/clfbench/
   runner.py                     paralel çalıştırma, önbellek/devam, ısınma, gecikme ölçümü
   metrics.py                    doğruluk, F1, Brier/ECE, seçici tahmin, bootstrap, Pareto
   bench.py, report.py, charts.py  koşu orkestrasyonu, Markdown/HTML rapor, grafikler
+  compare.py                    derin karşılaştırma: McNemar (Holm), hata dökümü, yığılma, güven
   cli.py, keys.py               komutlar ve API anahtar rehberi
 tests/                          sahte API sunucusuyla protokol, metrik, veri ve uçtan uca testler
 results/                        koşu çıktıları (git'e girmez)

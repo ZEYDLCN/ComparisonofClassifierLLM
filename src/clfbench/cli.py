@@ -236,6 +236,19 @@ def cmd_report(args) -> int:
     return 0
 
 
+def cmd_compare(args) -> int:
+    from .compare import write_comparison
+
+    d = Path(args.dir)
+    if not d.exists() and (RESULTS_DIR / args.dir).exists():
+        d = RESULTS_DIR / args.dir
+    if not d.exists():
+        print(f"Koşu klasörü bulunamadı: {args.dir}")
+        return 2
+    print(f"✓ Derin karşılaştırma yazıldı: {write_comparison(d, reference=args.reference, out=args.out)}")
+    return 0
+
+
 # ------------------------------------------------------------------------------------ argparse
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="clfbench", description="Classifier LLM karşılaştırma altyapısı")
@@ -279,6 +292,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = sub.add_parser("report", help="Var olan koşudan raporu yeniden üret")
     s.add_argument("dir"); s.add_argument("--reference"); s.set_defaults(fn=cmd_report)
+
+    s = sub.add_parser("compare", help="Derin karşılaştırma: McNemar, örnek bazında hata dökümü, yığılma, güven")
+    s.add_argument("dir", help="koşu klasörü (predictions.jsonl) ya da report.html içeren klasör")
+    s.add_argument("--reference", help="referans model anahtarı (varsayılan: koşudaki referans)")
+    s.add_argument("--out", help="çıktı dosyası (varsayılan: <klasör>/derin_karsilastirma.md)")
+    s.set_defaults(fn=cmd_compare)
     return p
 
 
