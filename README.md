@@ -73,6 +73,7 @@ yalnız hızlı yerel modeller için `--models tfidf_lr,embedding_e5_lr,setfit_m
 | `python -m clfbench run --few-shot 2` | Üretken LLM'lere etiket başına 2 örnek ver |
 | `python -m clfbench run --robustness` | Seçenek sırasını karıştırıp tekrarla (dayanıklılık) |
 | `python -m clfbench report <klasör> --reference jev` | Raporu başka referans modelle yeniden üret |
+| `python -m clfbench site <klasör>` | Koşudan Vercel'e yüklenebilir statik karşılaştırma sitesi üretir (`site/`) |
 
 **Hız limitli servisler:** bazı ücretsiz katmanlar çok düşük limit verir (örn. BeatAPI ücretsiz Jev: dakikada 1 istek).
 `run` ve `estimate` bunu (`rpm_limit`) bilen modeller için çalıştırmadan önce tahmini süreyi uyarır. Tüm modelleri aynı dengeli
@@ -144,6 +145,28 @@ Her koşu `results/<koşu>/report.html` olarak **tek dosyalık, çevrimdışı �
 
 Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretilir. Örnek: [examples/jev-40](examples/jev-40/report.html).
 
+## Karşılaştırma sitesi (Vercel)
+
+Tüm ölçütleri tek sayfada, koyu temalı bir portfolyo tasarımında yan yana gösteren **statik bir site** üretilir:
+sıralama (ölçüt seçilebilir, güven aralıklı), **ölçüt × model matrisi** (her satırda en iyi değer işaretli, CSV'ye aktarılır),
+hız/maliyet dağılımı ve Pareto sınırı, sınıf bazında P/R/F1 ısı haritası, karışıklık matrisi, zor dilimler,
+seçenek sırası dayanıklılığı, referansa karşı eşlenmiş fark ve **ölçülmeyen modeller** (neden atlandığıyla).
+
+```powershell
+python -m clfbench run --robustness --name benim-kosum      # gerçek koşu (results/<koşu>)
+python -m clfbench site results\<koşu>                      # -> site/index.html + site/data.json
+python -m http.server -d site                                # yerelde önizle: http://localhost:8000
+```
+
+Depoda hazır bir site vardır: [`site/`](site/index.html), [`examples/inception-151`](examples/inception-151) koşusundan üretildi.
+
+**Vercel'e yayınlama:** depoyu Vercel'e bağla (*Add New → Project → Import*). Kök dizindeki [`vercel.json`](vercel.json)
+çıktı klasörünü `site` olarak ayarlar ve derleme/kurulum adımını kapatır, yani ek ayar gerekmez. Komut satırından:
+`npx vercel --prod`. Yeni bir koşu yaptıysan `site` komutunu yeniden çalıştırıp `site/` klasörünü commit'le.
+
+Site yalnızca **toplu metrikleri** yayımlar: test mesajlarının metni ve tek tek tahminler siteye girmez; bu yüzden kendi
+(özel) veri setinle üretilen site de paylaşılabilir. Yazı tipleri Google Fonts'tan yüklenir (internet yoksa sistem yazı tipine düşer).
+
 ## Rapor neleri içerir?
 
 - **Doğruluk** (geçersiz yanıt = yanlış; geçersiz oranı ayrıca), **macro-F1**, sınıf başına P/R/F1, karışıklık matrisi
@@ -207,6 +230,7 @@ Tamamen yeni bir arayüz için `src/clfbench/providers/` altına `Provider` alt 
 - **Güven değerleri aynı ölçekte değil.** Karar API'leri ve yerel modeller olasılık verir; üretken LLM'ler *sözel* güven yazar.
 - **Gecikme kontrollü bir donanım yarışı değil.** İstemci tarafı uçtan uca süre; konum, ağ, eşzamanlılık ve sunucu yükünden etkilenir. Yerel modeller bu makinenin CPU/GPU'sunda ölçülür. Isınma isteği hariç tutulur, ilk istek ayrıca raporlanır.
 - **Maliyet.** Abonelik, minimum bakiye, yeniden deneme ve altyapı dahil değildir.
+- **Muhakeme (reasoning) modelleri.** Mercury 2.5 gibi modellerde `max_tokens` düşünme tokenlarını da kapsar (medyan ~650, en çok ~1900). 512 ya da 2048 bazı örneklerde boş yanıt (`finish_reason=length`) verdi ve bu, model hatası değil bütçe hatası olarak doğruluğu düşürdü; `models.yaml`'da 4096'ya çıkarıldı.
 - **Claude notu.** Claude 5.x modellerinde zorunlu `tool_choice` ve örnekleme parametreleri (temperature vb.) reddedildiği için JSON-şema çıktısı kullanılır, örnekleme parametresi gönderilmez ve `effort: low` ayarlanır.
 - **Eğitimli modeller** yalnızca `train` bölümünü görür; few-shot örnekleri de `train`'den gelir ve değerlendirmeden çıkarılır. `train` hiçbir zaman değerlendirilmez.
 - **Başarısız istekler** sessizce atılmaz: sıkı doğrulukta yanlış sayılır, hata oranı ve ilk hata raporda görünür.
@@ -224,8 +248,11 @@ src/clfbench/
   runner.py                     paralel çalıştırma, önbellek/devam, ısınma, gecikme ölçümü
   metrics.py                    doğruluk, F1, Brier/ECE, seçici tahmin, bootstrap, Pareto
   bench.py, report.py, charts.py  koşu orkestrasyonu, Markdown/HTML rapor, grafikler
+  site.py, assets/site.html     Vercel'e yüklenebilir statik karşılaştırma sitesi üreticisi
   cli.py, keys.py               komutlar ve API anahtar rehberi
 tests/                          sahte API sunucusuyla protokol, metrik, veri ve uçtan uca testler
+site/                           yayınlanabilir site (index.html + data.json); vercel.json bu klasörü yayınlar
+examples/                       gerçek koşu çıktıları (rapor, özet, grafikler)
 results/                        koşu çıktıları (git'e girmez)
 ```
 

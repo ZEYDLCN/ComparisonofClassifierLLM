@@ -19,6 +19,9 @@ results/
 .cache/
 *.log
 
+# Vercel CLI yerel bağlantı klasörü
+.vercel/
+
 # IDE / OS
 .vscode/
 .idea/

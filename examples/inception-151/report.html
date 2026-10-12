@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Classifier LLM Karşılaştırma Paneli</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f6f3;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+  --border:rgba(11,11,11,.10);--shadow:0 1px 2px rgba(11,11,11,.06),0 8px 24px rgba(11,11,11,.06);
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--good:#0c8a0c;--warn:#b87800;--crit:#d03b3b;--accent:#2a78d6;--chip:#eeeeea;
+  --q1:#cde2fb;--q2:#9ec5f4;--q3:#6da7ec;--q4:#3987e5;--q5:#256abf;--q6:#184f95;--q7:#0d366b;
+}
+:root[data-theme=dark]{
+  color-scheme:dark;
+  --bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--axis:#383835;
+  --border:rgba(255,255,255,.10);--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--good:#0ca30c;--warn:#fab219;--crit:#e66767;--accent:#3987e5;--chip:#262624;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme=light]){
+    color-scheme:dark;
+    --bg:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--axis:#383835;
+    --border:rgba(255,255,255,.10);--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+    --s1:#3987e5;--s2:#d95926;--s3:#199e70;--good:#0ca30c;--warn:#fab219;--crit:#e66767;--accent:#3987e5;--chip:#262624;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:56px}
+.brand{font-weight:650;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+.brand small{color:var(--muted);font-weight:500;margin-left:8px}
+nav.links{display:flex;gap:2px;margin-left:12px;overflow-x:auto}
+nav.links a{padding:6px 10px;border-radius:8px;color:var(--ink2);text-decoration:none;white-space:nowrap;font-size:13px}
+nav.links a:hover{background:var(--chip);color:var(--ink)}
+.spacer{flex:1}
+.iconbtn{border:1px solid var(--border);background:var(--surface);border-radius:8px;height:34px;padding:0 12px;display:inline-flex;align-items:center;gap:6px;color:var(--ink2)}
+.iconbtn:hover{color:var(--ink);border-color:var(--axis)}
+.hero{padding:28px 0 8px}
+h1{font-size:28px;line-height:1.2;margin:0 0 6px;letter-spacing:-.02em}
+.sub{color:var(--ink2);margin:0;max-width:880px}
+.sub b{color:var(--ink);font-weight:600}
+.warnbox{margin:14px 0 0;padding:10px 14px;border:1px solid color-mix(in srgb,var(--warn) 45%,var(--border));background:color-mix(in srgb,var(--warn) 9%,var(--surface));border-radius:10px;color:var(--ink2);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 4px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);text-align:left;width:100%}
+button.kpi:hover{border-color:var(--axis)}
+.kpi .k{color:var(--muted);font-size:12px;letter-spacing:.02em;text-transform:uppercase}
+.kpi .v{font-size:30px;font-weight:650;letter-spacing:-.02em;margin:4px 0 2px;line-height:1.1}
+.kpi .d{color:var(--ink2);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+section{margin:30px 0}
+.sechead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+h2{font-size:18px;margin:0;letter-spacing:-.01em}
+.hint{color:var(--muted);font-size:13px;margin:2px 0 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0 0}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:5px 12px 5px 10px;font-size:13px;color:var(--ink2)}
+.chip[aria-pressed=false]{opacity:.5}
+.chip:hover{border-color:var(--axis)}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dot.dia{border-radius:2px;transform:rotate(45deg) scale(.85)}
+.search{flex:1;min-width:180px;max-width:320px;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:6px 14px;outline:none}
+.search:focus{border-color:var(--accent)}
+select.sel{border:1px solid var(--border);background:var(--surface);border-radius:8px;padding:5px 8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:9px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:5px 12px;color:var(--ink2);font-size:13px}
+.seg button[aria-pressed=true]{background:var(--chip);color:var(--ink);font-weight:600}
+svg{display:block;max-width:100%;height:auto;overflow:visible}
+svg text{font-family:inherit}
+.bar{cursor:pointer}
+.bar:hover rect.fill,.bar:focus-visible rect.fill{filter:brightness(1.08)}
+.bar:hover .rowbg,.bar:focus-visible .rowbg{opacity:1}
+.rowbg{fill:var(--chip);opacity:0}
+.pt{cursor:pointer}
+.pt:hover circle,.pt:hover path,.pt:focus-visible circle,.pt:focus-visible path{stroke:var(--ink);stroke-width:2}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--ink2);font-size:12.5px;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--grid);white-space:nowrap;text-align:left}
+th{font-weight:600;color:var(--ink2);font-size:12.5px;background:var(--surface);position:sticky;top:0}
+th button{border:0;background:transparent;font-weight:600;color:inherit;padding:0;display:inline-flex;align-items:center;gap:4px}
+th button:hover{color:var(--ink)}
+th .arr{opacity:.35;font-size:10px}th[aria-sort=ascending] .arr,th[aria-sort=descending] .arr{opacity:1;color:var(--accent)}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.row{cursor:pointer}
+tr.row:hover td{background:var(--chip)}
+tr:last-child td{border-bottom:0}
+.mname{font-weight:600}
+.mname small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--ink2)}
+.minibar{position:relative;width:76px;height:8px;background:var(--grid);border-radius:4px;display:inline-block;vertical-align:middle;margin-left:8px}
+.minibar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.minibar b{position:absolute;top:-2px;bottom:-2px;width:0;border-left:1.5px solid var(--ink2)}
+.minibar b.h{width:auto;border:0;border-top:1.5px solid var(--ink2);height:0;top:50%;bottom:auto}
+.chk{width:16px;height:16px;accent-color:var(--accent)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.failcard{background:var(--surface);border:1px solid color-mix(in srgb,var(--crit) 35%,var(--border));border-radius:12px;padding:12px 14px}
+.failcard h4{margin:0 0 4px;font-size:14px}
+.failcard p{margin:4px 0;color:var(--ink2);font-size:13px}
+.failcard code{display:block;background:var(--chip);padding:6px 8px;border-radius:6px;font-size:12px;color:var(--ink2);word-break:break-word;white-space:pre-wrap;margin-top:6px}
+.tag{font-size:11.5px;padding:1px 7px;border-radius:6px;background:var(--chip);color:var(--ink2)}
+.ok{color:var(--good)}.bad{color:var(--crit)}
+details.method{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:4px 16px}
+details.method summary{cursor:pointer;font-weight:600;padding:10px 0}
+details.method ul{margin:4px 0 12px;padding-left:20px;color:var(--ink2)}
+details.method li{margin:5px 0}
+dl.gl{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;color:var(--ink2);margin:6px 0 12px}
+dl.gl dt{font-weight:600;color:var(--ink)}dl.gl dd{margin:0}
+footer{color:var(--muted);font-size:12.5px;padding:8px 0 48px}
+/* tooltip */
+#tip{position:fixed;z-index:60;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--axis);border-radius:10px;padding:8px 11px;box-shadow:var(--shadow);font-size:12.5px;max-width:300px;opacity:0;transition:opacity .08s}
+#tip.on{opacity:1}
+#tip b{font-weight:650}#tip .m{color:var(--ink2)}
+/* drawer */
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:40;opacity:0;pointer-events:none;transition:opacity .18s}
+#scrim.on{opacity:1;pointer-events:auto}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(780px,100vw);background:var(--bg);z-index:50;transform:translateX(102%);transition:transform .22s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;border-left:1px solid var(--axis);box-shadow:-12px 0 40px rgba(0,0,0,.25)}
+#drawer.on{transform:none}
+.dhead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface)}
+.dhead h3{margin:0;font-size:17px;letter-spacing:-.01em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dbody{overflow:auto;padding:18px;flex:1}
+.dbody section{margin:22px 0}
+.dbody h4{margin:0 0 8px;font-size:14px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+.mc .k{color:var(--muted);font-size:12px}.mc .v{font-size:20px;font-weight:650;letter-spacing:-.01em}.mc .s{color:var(--ink2);font-size:12px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;border:1px solid var(--border);color:var(--ink2);margin:0 6px 6px 0}
+.cm{border-collapse:separate;border-spacing:2px;font-size:11.5px;width:auto}
+.cm td,.cm th{padding:0;border:0;position:static;background:transparent}
+.cm th.col{height:84px;vertical-align:bottom;font-weight:500;color:var(--ink2)}
+.cm th.col div{transform:rotate(-55deg);transform-origin:left bottom;white-space:nowrap;width:22px;margin-bottom:-2px}
+.cm th.row{text-align:right;padding-right:8px;font-weight:500;color:var(--ink2);white-space:nowrap}
+.cm td.c{width:40px;height:34px;text-align:center;border-radius:5px;cursor:pointer;font-variant-numeric:tabular-nums}
+.cm td.c:hover{outline:2px solid var(--ink)}
+.cm td.c.sel{outline:2px solid var(--accent)}
+.errtable td{white-space:normal;vertical-align:top}
+.errtable td.t{min-width:260px}
+.errtable td.r{white-space:nowrap}
+.cmp{margin-top:14px;display:none}
+.cmp.on{display:block}
+.empty{color:var(--muted);padding:18px;text-align:center}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}nav.links{display:none}.brand small{display:none}}
+@media(max-width:560px){.wrap{padding:0 14px}h1{font-size:23px}.kpi .v{font-size:25px}#drawer{width:100vw}}
+@media print{header.top,.filters,#drawer,#scrim{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">Classifier LLM Paneli<small id="runid"></small></div>
+  <nav class="links">
+    <a href="#overview">Genel bakış</a><a href="#tradeoff">Hız &amp; maliyet</a><a href="#table">Tablo</a><a href="#failed" id="navfailed">Atlananlar</a><a href="#method">Yöntem</a>
+  </nav>
+  <div class="spacer"></div>
+  <button class="iconbtn" id="csvbtn" title="Tabloyu CSV olarak indir">⭳ CSV</button>
+  <button class="iconbtn" id="themebtn" title="Tema değiştir" aria-label="Tema değiştir">◐ Tema</button>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>Classifier modelleri: aynı veri, aynı ölçüler</h1>
+    <p class="sub" id="subtitle"></p>
+    <div class="warnbox" id="warnbox"></div>
+  </div>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="filters" id="filters" role="group" aria-label="Filtreler"></div>
+
+  <section id="overview">
+    <div class="sechead">
+      <div><h2>Sıralama</h2><p class="hint">Bir çubuğa tıkla: model detayı açılır. Çizgi %95 güven aralığıdır; aralıklar çakışan modeller arasında kesin sıralama yapılamaz.</p></div>
+      <label class="hint">Ölçüt&nbsp;<select class="sel" id="rankmetric" aria-label="Sıralama ölçütü"></select></label>
+    </div>
+    <div class="card"><div id="rank"></div><div class="legend" id="legend1"></div></div>
+  </section>
+
+  <section id="tradeoff">
+    <div class="sechead">
+      <div><h2>Doğruluk, hız ve maliyet dengesi</h2><p class="hint">Sol üst köşe en iyi bölgedir. Kesikli çizgi Pareto sınırıdır: onu geçen başka model yok.</p></div>
+      <div class="seg" role="group" aria-label="X ekseni"><button id="xlat" aria-pressed="true">Gecikme (p50)</button><button id="xcost" aria-pressed="false">Maliyet ($/1.000)</button></div>
+    </div>
+    <div class="card"><div id="scatter"></div><div class="legend" id="legend2"></div></div>
+  </section>
+
+  <section id="table">
+    <div class="sechead">
+      <div><h2>Tüm modeller</h2><p class="hint">Sütun başlığına tıkla: sırala. Satıra tıkla: detay. İki model işaretle: karşılaştır.</p></div>
+    </div>
+    <div class="tablewrap"><table id="tbl"></table></div>
+    <div class="card cmp" id="cmp"></div>
+  </section>
+
+  <section id="failed"><div class="sechead"><div><h2>Çalışmayan / atlanan modeller</h2><p class="hint">Bu modeller puanlanamadı; nedeni ve çözümü aşağıda.</p></div></div><div class="cards" id="failcards"></div></section>
+
+  <section id="method">
+    <details class="method" id="methodbox"><summary>Yöntem, ölçüler ve sınırlar</summary><div id="methodbody"></div></details>
+  </section>
+  <footer id="foot"></footer>
+</main>
+
+<div id="scrim"></div>
+<aside id="drawer" role="dialog" aria-modal="true" aria-labelledby="dtitle" aria-hidden="true">
+  <div class="dhead">
+    <button class="iconbtn" id="dprev" aria-label="Önceki model" title="Önceki model (←)">←</button>
+    <button class="iconbtn" id="dnext" aria-label="Sonraki model" title="Sonraki model (→)">→</button>
+    <h3 id="dtitle"></h3>
+    <button class="iconbtn" id="dclose" aria-label="Kapat" title="Kapat (Esc)">✕ Kapat</button>
+  </div>
+  <div class="dbody" id="dbody"></div>
+</aside>
+<div id="tip" role="tooltip"></div>
+
+<script id="data" type="application/json">{"meta":{"run_id":"20261012-155610-inception-yerel","started":"2026-10-12T15:56:10","dataset":{"name":"destek_tr","fingerprint":"9ac13de53ff85f2d","split":"test","n_eval":151,"n_train":128,"class_counts":{"fatura_odeme":18,"teknik_destek":19,"kargo_teslimat":19,"iade_degisim":19,"hesap_guvenlik":19,"satis_fiyat":19,"sikayet_oneri":19,"diger":19},"is_builtin":true},"settings":{"seed":0,"shots_per_label":0,"robustness":true,"warmup":1,"prompt_version":"v1","concurrency_override":null},"environment":{"python":"3.13.16","platform":"Linux-6.18.44-fc-v114-x86_64-with-glibc2.39","packages":{"requests":"2.34.2","numpy":"2.5.3","anthropic":"1.13.0","scikit-learn":"1.9.1","torch":"2.14.1+cpu","transformers":"5.19.0","sentence-transformers":"6.1.0","gliclass":"0.1.20","laya":"0.4.6","setfit":"1.2.0"},"git_commit":"400e8cb"},"note":"Gerçek koşu: Inception API modelleri (Mercury Decide, Mercury 2.5) ve tüm yerel modeller. Diğer servislerin anahtarı tanımlı olmadığı için atlandı. Gecikmeler bulut kapsayıcısında (CPU, tek istemci konumu) ölçüldü.","reference":"mercury_2_5","version":"0.1.0"},"labels":[{"key":"fatura_odeme","desc":"Ödeme, çifte veya hatalı çekim, fatura, taksit, abonelik ücreti, ödenmiş paranın hesaba geri yatması","short":""},{"key":"teknik_destek","desc":"Uygulama veya site hataları, çökme, yavaşlık, yükleme sorunları, bildirim, API ve entegrasyon sorunları","short":""},{"key":"kargo_teslimat","desc":"Kargo takibi, gecikme, hasarlı veya eksik teslimat, adres değişikliği, kurye ve teslimat seçenekleri","short":""},{"key":"iade_degisim","desc":"Ürünü geri gönderme, ürün değişimi, sipariş iptali, cayma hakkı, garanti ve arıza başvurusu","short":""},{"key":"hesap_guvenlik","desc":"Şifre, hesap kilitlenmesi, yetkisiz erişim, dolandırıcılık şüphesi, kişisel veriler ve gizlilik, hesap ayarları","short":""},{"key":"satis_fiyat","desc":"Satın alma öncesi bilgi: fiyat, kampanya, stok, indirim kodu, kurumsal satış, ürün özellikleri","short":""},{"key":"sikayet_oneri","desc":"Belirli bir talep içermeyen genel memnuniyetsizlik, personel şikayeti, teşekkür, övgü veya öneri","short":""},{"key":"diger","desc":"Kapsam dışı, anlamsız, spam, test veya şirketle ilgisiz mesajlar","short":""}],"examples":[{"id":"diger-845d856f","x":"Yanlış numara, kusura bakmayın.","t":7,"g":["short"]},{"id":"diger-8e2a3041","x":"Evimizin çatısı akıyor, tamirci tavsiye eder misiniz?","t":7,"g":[]},{"id":"diger-8f57c59f","x":"Türkiye'nin başkenti neresidir?","t":7,"g":["short"]},{"id":"diger-98372d77","x":"Bitcoin yatırımı ile günde 500 dolar kazanın!","t":7,"g":[]},{"id":"diger-9a79c67d","x":"Annemin doğum günü için pasta tarifi arıyorum.","t":7,"g":[]},{"id":"diger-9d01d284","x":"bilgisayarima format atacak usta lazim istanbul kadikoy","t":7,"g":["ascii"]},{"id":"diger-a8e4c8da","x":"Bugün hava çok güzel, parka gidiyorum.","t":7,"g":[]},{"id":"diger-b9316ea0","x":"Okul servis ücretleri ne kadar?","t":7,"g":[]},{"id":"diger-bf5d2d96","x":"Mesaj gönderme denemesi 1 2 3","t":7,"g":[]},{"id":"diger-bffbb3dc","x":"Çocuğumun ödevi için fotosentez hakkında bilgi verir misiniz?","t":7,"g":[]},{"id":"diger-d8dc1ff7","x":"Aşağıdaki cümleyi İngilizceye çevirir misin: Yarın görüşürüz.","t":7,"g":[]},{"id":"diger-dc991cb6","x":"Ücretsiz bitcoin madenciliği için buraya tıklayın www.kazanc-firsati.example","t":7,"g":[]},{"id":"diger-dce3e044","x":"Bu akşam hangi filmi izlemeliyim?","t":7,"g":[]},{"id":"diger-df53c2b7","x":"Merhaba","t":7,"g":["short"]},{"id":"diger-e195d3c6","x":"Test mesajı","t":7,"g":["short"]},{"id":"diger-e7b79f4c","x":"Lorem ipsum dolor sit amet.","t":7,"g":[]},{"id":"diger-e81896ab","x":"Hesabımla ilgili değil ama kedim kayboldu, gören var mı?","t":7,"g":[]},{"id":"diger-e9f19d12","x":"Dolar kuru bugün kaç?","t":7,"g":["short"]},{"id":"diger-fed53d53","x":"Elinizdeki tüm bilgileri bana verin.","t":7,"g":[]},{"id":"fatura_odeme-742c5c80","x":"Ödeme yaparken sepet tutarı ile çekilen tutar arasında 25 TL fark var.","t":0,"g":[]},{"id":"fatura_odeme-86979dcd","x":"Peşin ödediğim tutarın bir kısmı iade edilecekti, hâlâ görmedim.","t":0,"g":[]},{"id":"fatura_odeme-a2f14974","x":"Banka kartımla ödeme yapamıyorum, sadece kredi kartı mı kabul ediyorsunuz?","t":0,"g":[]},{"id":"fatura_odeme-a477f287","x":"Kapıda ödeme seçeneği neden kapalı?","t":0,"g":[]},{"id":"fatura_odeme-a9be8435","x":"Kartımdan aynı sipariş için iki kez çekim yapılmış, fazla tutarın iadesini istiyorum.","t":0,"g":[]},{"id":"fatura_odeme-aa32c702","x":"Para iadesi için IBAN bilgisi vermem gerekiyor mu?","t":0,"g":[]},{"id":"fatura_odeme-acf4c691","x":"İade edilen tutar kartıma değil mağaza kredisine yüklenmiş, nakit iade istiyorum.","t":0,"g":[]},{"id":"fatura_odeme-b0a9f329","x":"İptal ettiğim siparişin ücreti 10 gündür hesabıma geri yatmadı.","t":0,"g":[]},{"id":"fatura_odeme-b16bde29","x":"Fatura bilgilerimi şirket adına değiştirmek istiyorum.","t":0,"g":[]},{"id":"fatura_odeme-b6cc5677","x":"Aylık plan ücretim dolar kuruna göre mi hesaplanıyor?","t":0,"g":[]},{"id":"fatura_odeme-c6fd1d6d","x":"Ödememi iki ayrı kartla bölerek yapabilir miyim?","t":0,"g":[]},{"id":"fatura_odeme-cc09749f","x":"Havale yaptım ama ödeme hâlâ onaylanmadı görünüyor.","t":0,"g":[]},{"id":"fatura_odeme-de168fe2","x":"Ödemem başarısız oldu ama sipariş onay maili geldi, bu normal mi?","t":0,"g":[]},{"id":"fatura_odeme-e2408257","x":"Kurumsal fatura için vergi numarası ekleyebilir miyim?","t":0,"g":[]},{"id":"fatura_odeme-e2ee8ada","x":"Borcum görünüyor ama ödemeyi dün yaptım, kayıt güncellenmemiş.","t":0,"g":[]},{"id":"fatura_odeme-e86b048d","x":"Fatura dönemi ortasında paket değiştirdim, fark nasıl yansıtılacak?","t":0,"g":[]},{"id":"fatura_odeme-edecb859","x":"Bu ayki aidat ücretim neden arttı?","t":0,"g":[]},{"id":"fatura_odeme-f845080a","x":"Kargom gecikti ama asıl sorunum kartımdan iki kez çekim yapılması, önce parayı iade edin.","t":0,"g":["multi"]},{"id":"hesap_guvenlik-6a6b8824","x":"Hesabımdan çıkış yapmadığım başka cihazları kapatabilir miyim?","t":4,"g":[]},{"id":"hesap_guvenlik-768bfd30","x":"İki adımlı doğrulamayı nasıl açarım?","t":4,"g":[]},{"id":"hesap_guvenlik-7bea5bfe","x":"Başkası benim adıma işlem yapıyor, hesabımı dondurmanızı istiyorum.","t":4,"g":[]},{"id":"hesap_guvenlik-81dd1d2e","x":"hesabim hacklendi sifremi degistiremiyorum yardim edin","t":4,"g":["ascii"]},{"id":"hesap_guvenlik-9d151f7b","x":"Eski şifremle giriş yapabiliyorum ama yenisiyle yapamıyorum, hesabımda bir sorun mu var?","t":4,"g":[]},{"id":"hesap_guvenlik-a2a468b6","x":"Çalışanlarımın hesaplarına rol bazlı yetki tanımlayabilir miyim?","t":4,"g":[]},{"id":"hesap_guvenlik-a528c8bd","x":"Verilerimin bir kopyasını talep ediyorum.","t":4,"g":[]},{"id":"hesap_guvenlik-a95a350a","x":"Profil bilgilerimde yazan doğum tarihi yanlış, düzeltebilir miyim?","t":4,"g":[]},{"id":"hesap_guvenlik-ab402a9e","x":"Giriş yaptığım cihazların listesini görmek istiyorum.","t":4,"g":[]},{"id":"hesap_guvenlik-af22ee63","x":"E-posta adresimi değiştirdim ama eski adres hâlâ giriş için isteniyor.","t":4,"g":[]},{"id":"hesap_guvenlik-b3dc3789","x":"Adıma açılmış başka bir hesap olduğunu fark ettim, bu dolandırıcılık olabilir mi?","t":4,"g":[]},{"id":"hesap_guvenlik-d7caaa5d","x":"Sahte bir e-posta aldım, sizden geliyormuş gibi görünüyor ve şifre istiyor.","t":4,"g":[]},{"id":"hesap_guvenlik-dc40b4db","x":"Parolamı sosyal medya hesabımla giriş yaparak kurtarabilir miyim?","t":4,"g":[]},{"id":"hesap_guvenlik-e202c465","x":"Güvenlik sorumun cevabını hatırlamıyorum.","t":4,"g":["short"]},{"id":"hesap_guvenlik-e2aa32b4","x":"Hesap sahibi vefat etti, hesabın devri için ne yapmamız gerekiyor?","t":4,"g":[]},{"id":"hesap_guvenlik-e3c526d8","x":"Hesabımda benim vermediğim bir sipariş görünüyor, hesabım ele geçirilmiş olabilir.","t":4,"g":[]},{"id":"hesap_guvenlik-e5ddfa1b","x":"Telefon numaramı güncellemek istiyorum.","t":4,"g":["short"]},{"id":"hesap_guvenlik-eb65d6e9","x":"Doğrulama kodu SMS ile gelmiyor, giriş yapamıyorum.","t":4,"g":[]},{"id":"hesap_guvenlik-f56d5beb","x":"Gizlilik ayarlarında profilimi kimlerin gördüğünü kontrol etmek istiyorum.","t":4,"g":[]},{"id":"iade_degisim-9ded8740","x":"Hediye aldım, fiyat etiketi yok, iade edebilir miyim?","t":3,"g":[]},{"id":"iade_degisim-a53df295","x":"Kupon kullanarak aldığım ürünü iade edersem kupon geri gelir mi?","t":3,"g":[]},{"id":"iade_degisim-a8458714","x":"Telefonun ekranında çizik var, garanti kapsamında değişim mümkün mü?","t":3,"g":[]},{"id":"iade_degisim-b36f33d2","x":"Aynı üründen iki adet gelmiş, birini geri göndermek istiyorum.","t":3,"g":[]},{"id":"iade_degisim-b3cec9e6","x":"Beden tablosuna göre aldım ama olmadı, değişim hakkım kaç gün?","t":3,"g":[]},{"id":"iade_degisim-b8a3fe61","x":"Ürünü kullanmadım, 14 gün içinde iade edebilir miyim?","t":3,"g":[]},{"id":"iade_degisim-beaf7798","x":"Hasarlı gelen ürün için değişim talebi açmak istiyorum, fotoğraflarını yükledim.","t":3,"g":[]},{"id":"iade_degisim-c4c66cea","x":"Ayrı ayrı gelen ürünlerden yalnızca birini iade etmek mümkün mü?","t":3,"g":[]},{"id":"iade_degisim-c5310aba","x":"Cayma hakkımı kullanmak istiyorum.","t":3,"g":["short"]},{"id":"iade_degisim-c9b3ee05","x":"Ürün kutusunu attım, orijinal ambalajı olmadan iade olur mu?","t":3,"g":[]},{"id":"iade_degisim-cfd01900","x":"Ürün fotoğraftakinden çok farklı çıktı, geri göndermek istiyorum.","t":3,"g":[]},{"id":"iade_degisim-dc7fd797","x":"Aldığım ayakkabı bir numara büyük geldi, değiştirmek istiyorum.","t":3,"g":[]},{"id":"iade_degisim-ddec7601","x":"Pil şişmiş çıktı, güvenlik gereği derhal iade etmek istiyorum.","t":3,"g":[]},{"id":"iade_degisim-e14604df","x":"Aldığım ürünün kutusu açık geldi, kullanılmış gibi, iade etmek istiyorum.","t":3,"g":[]},{"id":"iade_degisim-e4a1750c","x":"Hasarlı ürünüm için iade yerine sadece değişim yapabiliyor musunuz?","t":3,"g":[]},{"id":"iade_degisim-e7162068","x":"İade talebimi oluşturdum ama ekranda \"beklemede\" yazıyor, ne zaman işlenecek?","t":3,"g":[]},{"id":"iade_degisim-ec31b125","x":"Ürün hasarlı geldi, kargocu da tutanak tutmadı; değişim istiyorum.","t":3,"g":["multi"]},{"id":"iade_degisim-f3489a5f","x":"Defolu ürün gelmiş, tamir yerine yenisini istiyorum.","t":3,"g":[]},{"id":"iade_degisim-fab27812","x":"Siparişimi henüz kargoya verilmeden iptal etmek istiyorum.","t":3,"g":[]},{"id":"kargo_teslimat-79a501ea","x":"Kargom \"teslim edildi\" görünüyor ama bana ulaşmadı.","t":2,"g":[]},{"id":"kargo_teslimat-7e07c5e7","x":"Kargo firması paketimi şubede 5 gündür bekletiyor, geri gönderilecek diyorlar.","t":2,"g":[]},{"id":"kargo_teslimat-7f0e328a","x":"kargom nerde 3 gundur ayni sehirde bekliyor","t":2,"g":["ascii"]},{"id":"kargo_teslimat-89d0cd44","x":"Kargom yanlış adrese teslim edilmiş, ne yapmalıyım?","t":2,"g":[]},{"id":"kargo_teslimat-8eedcfcc","x":"Kurye telefonuma hiç ulaşmadan \"alıcı yok\" diyerek geri götürmüş.","t":2,"g":[]},{"id":"kargo_teslimat-90a28bf8","x":"Teslimat şubesine gelen kargomu alamıyorum, kimlik yeterli mi?","t":2,"g":[]},{"id":"kargo_teslimat-91c00745","x":"Bayram tatilinde kargo çalışıyor mu?","t":2,"g":[]},{"id":"kargo_teslimat-96a0ecd8","x":"Teslimat sırasında kutu açılmış ve yeniden bantlanmıştı.","t":2,"g":[]},{"id":"kargo_teslimat-98f76c5f","x":"Teslim alırken imza istenmedi, nasıl \"teslim edildi\" olmuş?","t":2,"g":[]},{"id":"kargo_teslimat-9c4b0a56","x":"Hafta sonu teslimat yapıyor musunuz?","t":2,"g":[]},{"id":"kargo_teslimat-b24abca5","x":"Kuryeniz adresi bulamadığını söyledi ama kapı numaram doğru yazılı.","t":2,"g":[]},{"id":"kargo_teslimat-b3f12b9a","x":"Soğuk zincir ürünlerim eridi, paket ıslak geldi.","t":2,"g":[]},{"id":"kargo_teslimat-c0b07969","x":"Sipariş numaramla kargo takip kodunu eşleştiremiyorum.","t":2,"g":[]},{"id":"kargo_teslimat-ccc5b81f","x":"Paketin ağırlığı 12 kg ama kurye apartman girişine bırakıp gitmiş.","t":2,"g":[]},{"id":"kargo_teslimat-e16458a8","x":"Kuryeye hiçbir şekilde ulaşamıyorum, numarası kapalı.","t":2,"g":[]},{"id":"kargo_teslimat-e908cc19","x":"İade ettiğim ürünün kargosu hâlâ şubede bekliyor, kurye almaya gelmedi.","t":2,"g":["multi"]},{"id":"kargo_teslimat-f07d88d9","x":"Siparişim 6 gündür \"dağıtıma çıktı\" görünüyor ama elime ulaşmadı.","t":2,"g":[]},{"id":"kargo_teslimat-f3241ee1","x":"Aynı siparişin parçaları farklı günlerde geliyor, hepsi birlikte gelmeyecek mi?","t":2,"g":[]},{"id":"kargo_teslimat-fabfee0b","x":"Teslimat saatini akşam 18:00 sonrasına alabilir miyim?","t":2,"g":[]},{"id":"satis_fiyat-983237d8","x":"Fiyat farkı iadesi yapıyor musunuz? Aldıktan iki gün sonra fiyat düştü.","t":5,"g":[]},{"id":"satis_fiyat-98422379","x":"Bu ürün hangi yaş grubuna uygun?","t":5,"g":[]},{"id":"satis_fiyat-9be4ec61","x":"Fiyatı ne kadar?","t":5,"g":["short"]},{"id":"satis_fiyat-9d0adb9a","x":"bu urunun fiyati neden dun daha ucuzdu","t":5,"g":["ascii"]},{"id":"satis_fiyat-aab3a54f","x":"Pro paketle standart paket arasındaki farklar neler?","t":5,"g":[]},{"id":"satis_fiyat-ab4b3329","x":"Öğrenci indirimi var mı, nasıl yararlanabilirim?","t":5,"g":[]},{"id":"satis_fiyat-ab9432de","x":"Ürünün Türkçe kullanım kılavuzu var mı?","t":5,"g":[]},{"id":"satis_fiyat-ac650ed4","x":"Şirketimiz için yıllık lisans paketi fiyatları nedir?","t":5,"g":[]},{"id":"satis_fiyat-b0e2a474","x":"Ürünün yurt dışı modeli ile aynı mı?","t":5,"g":[]},{"id":"satis_fiyat-b14c5ca6","x":"Aboneliği yıllık ödersem ne kadar tasarruf ederim?","t":5,"g":[]},{"id":"satis_fiyat-b2ff93c4","x":"Ürünün renk seçenekleri neler, mavi mevcut mu?","t":5,"g":[]},{"id":"satis_fiyat-bce84d5c","x":"Paket yükseltmek istiyorum, fiyat farkı ne kadar olur?","t":5,"g":[]},{"id":"satis_fiyat-c415f786","x":"Bayilik almak istiyorum, koşullar nelerdir?","t":5,"g":[]},{"id":"satis_fiyat-d513fa37","x":"Yeni sezon ürünler ne zaman gelecek?","t":5,"g":[]},{"id":"satis_fiyat-de743e65","x":"Taksitli alışverişte vade farkı var mı?","t":5,"g":[]},{"id":"satis_fiyat-e7b6acdb","x":"Kampanya ne zaman bitiyor?","t":5,"g":["short"]},{"id":"satis_fiyat-e9136fe8","x":"Rakibinizin sitesinde aynı ürün daha ucuz, fiyat eşitleme yapıyor musunuz?","t":5,"g":[]},{"id":"satis_fiyat-efeac33e","x":"Hediye çeki satın alabilir miyim, geçerlilik süresi nedir?","t":5,"g":[]},{"id":"satis_fiyat-fea1beee","x":"Bu ürünün kutu içeriğinde şarj adaptörü var mı?","t":5,"g":[]},{"id":"sikayet_oneri-a249b8e3","x":"Sitenizin renkleri gözümü yoruyor, daha sade olabilir.","t":6,"g":[]},{"id":"sikayet_oneri-a39c803f","x":"Fiyat/performans açısından çok başarılı bir hizmet.","t":6,"g":[]},{"id":"sikayet_oneri-b21c8915","x":"Uygulama güzel ama kargo süreniz çok yavaş, bunu iyileştirmenizi öneririm.","t":6,"g":["multi"]},{"id":"sikayet_oneri-bfba156d","x":"Bu kadar pahalıya bu hizmeti vermek ayıp.","t":6,"g":[]},{"id":"sikayet_oneri-bfbead84","x":"Bildirimleriniz çok fazla, rahatsız edici olmaya başladı.","t":6,"g":[]},{"id":"sikayet_oneri-c201f108","x":"Çocuklar için özel bir bölüm açmanızı öneririm.","t":6,"g":[]},{"id":"sikayet_oneri-c40edcd1","x":"Canlı destekteki temsilciniz sorunuma çok hızlı çözüm buldu, teşekkürler.","t":6,"g":[]},{"id":"sikayet_oneri-d153a164","x":"cok memnun kaldim tesekkurler hizli ve guvenilir","t":6,"g":["ascii"]},{"id":"sikayet_oneri-d816818a","x":"Reklamlarınız yanıltıcı, sonrasında hayal kırıklığına uğradım.","t":6,"g":[]},{"id":"sikayet_oneri-d9d4c24e","x":"Mesajlarıma günlerce cevap vermiyorsunuz.","t":6,"g":["short"]},{"id":"sikayet_oneri-dae0e2dc","x":"Ürün çeşitliliğiniz yetersiz, daha fazla marka eklemelisiniz.","t":6,"g":[]},{"id":"sikayet_oneri-dd04840d","x":"Şube çalışanları çok bilgisizdi, soruma cevap veremediler.","t":6,"g":[]},{"id":"sikayet_oneri-deb60f71","x":"Uygulamanız harika olmuş, ellerinize sağlık.","t":6,"g":[]},{"id":"sikayet_oneri-ec70dc14","x":"Keşke ürün sayfalarına video inceleme de eklenebilse.","t":6,"g":[]},{"id":"sikayet_oneri-ec8fcf12","x":"Çağrı merkezinde 40 dakika bekledim, bu kabul edilemez.","t":6,"g":[]},{"id":"sikayet_oneri-ee4b634c","x":"Müşteri hizmetleriniz çok ilgisizdi, bir daha alışveriş yapmayacağım.","t":6,"g":[]},{"id":"sikayet_oneri-ee5cd2f9","x":"Sizi sosyal medyada şikayet edeceğim, çok mağdur oldum.","t":6,"g":[]},{"id":"sikayet_oneri-eff54a0c","x":"Sürekli aynı şeyleri anlatmak zorunda kalıyorum, her seferinde farklı biri bakıyor.","t":6,"g":[]},{"id":"sikayet_oneri-f5ed0076","x":"Sizinle çalışmaktan memnunum, böyle devam edin.","t":6,"g":[]},{"id":"teknik_destek-a59a2ae9","x":"Ödeme sayfası açılırken sonsuz döngüye giriyor, geri tuşu da çalışmıyor.","t":1,"g":[]},{"id":"teknik_destek-b31c4706","x":"Faturamı görmek için hesabıma girmem lazım ama uygulama giriş ekranında çöküyor.","t":1,"g":["multi"]},{"id":"teknik_destek-b97b2c4a","x":"SDK'nın son sürümünü kullanınca derleme hatası alıyoruz, \"undefined reference\" diyor.","t":1,"g":[]},{"id":"teknik_destek-b9f72f71","x":"Harita ekranı hiç yüklenmiyor, sadece gri kutu görünüyor.","t":1,"g":[]},{"id":"teknik_destek-ba403854","x":"Web sitesi Safari'de düzgün görünmüyor, butonlar kaymış.","t":1,"g":[]},{"id":"teknik_destek-c0c5c428","x":"Android 14'te uygulama pil tüketimini aşırı artırıyor.","t":1,"g":[]},{"id":"teknik_destek-c852ed0f","x":"Mobil uygulamada arama çubuğu yazdıklarımı silip duruyor.","t":1,"g":[]},{"id":"teknik_destek-cc593fea","x":"Dil ayarı Türkçe olmasına rağmen menüler İngilizce görünüyor.","t":1,"g":[]},{"id":"teknik_destek-d39d17ef","x":"QR kodu okutunca uygulama kapanıyor.","t":1,"g":[]},{"id":"teknik_destek-d6f6745c","x":"Uygulamanın iPad sürümünde ekran yan çevrilince görünüm bozuluyor.","t":1,"g":[]},{"id":"teknik_destek-db3fae7b","x":"Sesli mesaj özelliği çalışmıyor, mikrofon iznini verdim.","t":1,"g":[]},{"id":"teknik_destek-e1bf9bde","x":"Dashboard'daki grafikler veri göstermiyor, sadece yükleniyor animasyonu var.","t":1,"g":[]},{"id":"teknik_destek-e2efb51b","x":"CSV içe aktarırken Türkçe karakterler bozuk çıkıyor.","t":1,"g":[]},{"id":"teknik_destek-ea62fab4","x":"Fotoğraf yüklerken \"dosya çok büyük\" diyor ama dosya 1 MB bile değil.","t":1,"g":[]},{"id":"teknik_destek-ed89246c","x":"Entegrasyon webhook'ları iki gündür tetiklenmiyor.","t":1,"g":[]},{"id":"teknik_destek-ee168001","x":"Uygulama açılışta sürekli çöküyor, son güncellemeden beri kullanamıyorum.","t":1,"g":[]},{"id":"teknik_destek-f2865251","x":"Site açılmıyor.","t":1,"g":["short"]},{"id":"teknik_destek-faea1985","x":"Bildirimler hiç gelmiyor, ayarları kontrol ettim ama sorun devam ediyor.","t":1,"g":[]},{"id":"teknik_destek-ff75d54e","x":"Uyguluma yüklenmiyo, play storeden indirmeye çalışıyorum hata veriyor.","t":1,"g":["typo"]}],"models":[{"key":"mercury_decide","display":"Mercury Decide (Inception)","group":"karar-api","provider":"systemone","model":"mercury-decide","status":"ok","reason":null,"firstError":null,"notes":"","verified":"Inception dokümanı (docs.inceptionlabs.ai/capabilities/decisions) — şema doğrulandı","local":false,"price":{"in":0.02,"out":0.0,"note":"Kampanyalı tarife; normal tarife 0.04"},"setupS":0.0,"coldMs":976.9424790000016,"concurrency":4,"m":{"n":151,"nOk":151,"accuracy":0.9337748344370861,"accuracyCI":[0.8940397350993378,0.9735099337748344],"accuracyValid":0.9337748344370861,"macroF1":0.9327954398194336,"macroF1CI":[0.8861163085368555,0.970401477775816],"errorRate":0.0,"ece":0.0495653989308678,"brier":0.10056550670085894,"nProb":151,"confKinds":["native"],"accAtCov80":0.9917355371900827,"covAtAcc95":0.9801324503311258,"latP50":287.95230700001184,"latP95":383.6329020000022,"latP99":828.9076129999984,"tokIn":461.9933774834437,"tokOut":1.0,"tokensEstimated":false,"cost1000":0.009239867549668873,"perClass":{"fatura_odeme":{"precision":0.8947368421052632,"recall":0.9444444444444444,"f1":0.918918918918919,"support":18},"teknik_destek":{"precision":0.95,"recall":1.0,"f1":0.9743589743589743,"support":19},"kargo_teslimat":{"precision":0.9473684210526315,"recall":0.9473684210526315,"f1":0.9473684210526315,"support":19},"iade_degisim":{"precision":0.9047619047619048,"recall":1.0,"f1":0.9500000000000001,"support":19},"hesap_guvenlik":{"precision":0.9473684210526315,"recall":0.9473684210526315,"f1":0.9473684210526315,"support":19},"satis_fiyat":{"precision":1.0,"recall":0.7894736842105263,"f1":0.8823529411764706,"support":19},"sikayet_oneri":{"precision":0.9444444444444444,"recall":0.8947368421052632,"f1":0.918918918918919,"support":19},"diger":{"precision":0.9,"recall":0.9473684210526315,"f1":0.9230769230769231,"support":19}},"confusion":[[17,0,0,1,0,0,0,0,0],[0,19,0,0,0,0,0,0,0],[0,0,18,0,0,0,1,0,0],[0,0,0,19,0,0,0,0,0],[0,0,0,0,18,0,0,1,0],[2,0,0,1,0,15,0,1,0],[0,1,1,0,0,0,17,0,0],[0,0,0,0,1,0,0,18,0]]},"preds":[[7,0.9993,817.7,null],[7,0.9998,835.6,null],[7,0.9997,822.2,null],[7,0.9992,972.8,null],[7,0.9997,322.2,null],[7,0.9995,318.5,null],[7,0.9984,300.6,null],[7,0.9903,313.2,null],[7,0.9973,347.3,null],[7,0.9998,286.8,null],[7,0.9971,273.5,null],[7,0.9993,296.2,null],[7,0.9996,269.5,null],[7,0.9591,326.6,null],[7,0.9979,280.1,null],[7,0.9986,313.1,null],[7,0.9994,294.4,null],[7,0.9997,258.0,null],[4,0.9496,284.7,null],[0,0.9997,273.7,null],[0,0.9992,288.3,null],[0,0.9997,278.2,null],[0,0.9708,289.3,null],[0,0.9999,341.1,null],[3,0.5335,316.5,null],[0,0.9378,333.1,null],[0,0.9961,304.9,null],[0,0.9974,340.0,null],[0,0.9937,429.8,null],[0,0.9999,266.5,null],[0,0.9996,274.3,null],[0,0.9988,280.5,null],[0,0.9995,306.0,null],[0,0.9988,278.8,null],[0,0.9946,313.2,null],[0,0.9992,368.6,null],[0,0.9999,262.5,null],[4,0.9996,354.6,null],[4,0.9997,253.0,null],[4,0.9998,357.5,null],[4,0.9996,304.4,null],[4,0.9981,301.1,null],[4,0.9442,256.2,null],[4,0.9995,296.9,null],[4,0.9984,273.2,null],[4,0.9995,255.6,null],[4,0.9956,385.5,null],[4,0.9998,266.8,null],[4,0.9997,314.5,null],[4,0.9997,259.2,null],[4,0.9996,260.0,null],[7,0.9099,276.6,null],[4,0.9996,272.2,null],[4,0.9993,355.8,null],[4,0.8288,295.3,null],[4,0.9998,342.5,null],[3,0.9995,285.9,null],[3,0.9987,273.5,null],[3,0.9998,274.5,null],[3,0.9996,300.4,null],[3,0.9998,306.7,null],[3,0.9997,288.0,null],[3,0.9852,278.9,null],[3,0.9998,264.7,null],[3,0.9997,330.0,null],[3,0.9998,303.8,null],[3,0.9994,270.1,null],[3,0.9998,273.5,null],[3,0.9985,331.5,null],[3,0.9961,319.0,null],[3,0.9984,250.7,null],[3,0.9996,275.2,null],[3,0.9444,285.8,null],[3,0.9961,269.4,null],[3,0.9998,323.9,null],[2,0.9993,319.0,null],[2,0.9866,254.5,null],[2,0.9991,317.5,null],[2,0.999,316.4,null],[2,0.9917,284.7,null],[2,0.9993,245.9,null],[2,0.9992,329.5,null],[2,0.9973,307.9,null],[2,0.9863,254.2,null],[2,0.9998,326.5,null],[2,0.996,290.0,null],[2,0.9814,258.0,null],[2,0.9984,353.7,null],[2,0.9787,272.1,null],[6,0.7728,277.1,null],[2,0.8281,248.3,null],[2,0.9988,264.0,null],[2,0.9987,333.4,null],[2,0.9997,283.8,null],[3,0.7275,283.9,null],[5,0.9969,332.5,null],[5,0.9986,323.4,null],[5,0.9093,334.6,null],[5,0.9969,243.4,null],[5,0.9994,259.1,null],[5,0.9896,275.0,null],[5,0.9969,277.0,null],[5,0.9929,262.0,null],[0,0.768,314.4,null],[5,0.9996,281.8,null],[5,0.894,317.8,null],[7,0.8766,282.0,null],[5,0.9954,324.3,null],[0,0.9994,313.7,null],[5,0.9995,275.6,null],[5,0.9947,314.8,null],[5,0.9427,330.0,null],[5,0.9969,362.2,null],[6,0.9989,263.8,null],[6,0.9996,305.7,null],[2,0.7423,381.7,null],[6,0.9977,296.0,null],[1,0.9936,269.8,null],[6,0.9998,267.0,null],[6,0.9997,276.8,null],[6,0.9996,266.4,null],[6,0.9979,261.3,null],[6,0.9992,260.1,null],[6,0.9996,273.8,null],[6,0.9996,260.5,null],[6,0.9997,305.7,null],[6,0.9997,275.7,null],[6,0.9994,264.8,null],[6,0.9995,242.2,null],[6,0.999,262.4,null],[6,0.9971,484.3,null],[6,0.9996,308.6,null],[1,0.9977,304.6,null],[1,0.9929,251.2,null],[1,0.9995,272.2,null],[1,0.9998,326.1,null],[1,0.9994,271.1,null],[1,0.9985,308.7,null],[1,0.9993,263.4,null],[1,0.9509,256.7,null],[1,0.9998,302.3,null],[1,0.9994,336.5,null],[1,0.9996,342.6,null],[1,0.9998,242.9,null],[1,0.999,306.5,null],[1,0.9998,263.1,null],[1,0.9998,370.9,null],[1,0.9994,273.6,null],[1,0.9995,259.6,null],[1,0.9997,266.1,null],[1,0.9997,423.1,null]],"slices":{"ascii":{"n":5,"accuracy":1.0},"multi":{"n":5,"accuracy":0.8},"short":{"n":12,"accuracy":1.0}},"robustness":{"accCanonical":0.9337748344370861,"accShuffled":0.9602649006622517,"delta":0.026490066225165587,"consistency":0.9735099337748344},"vsRef":{"reference":"mercury_2_5","diff":-0.033112582781456956,"lo":-0.07947019867549669,"hi":0.013245033112582781}},{"key":"mercury_2_5","display":"Mercury 2.5 (sohbet, Inception)","group":"uretken-llm","provider":"chat_json","model":"mercury-2.5","status":"ok","reason":null,"firstError":null,"notes":"","verified":"Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta","local":false,"price":{"in":0.04,"out":0.15,"note":"Kampanyalı tarife (normal 0.20 / 0.75)"},"setupS":0.0,"coldMs":1858.4886300000107,"concurrency":4,"m":{"n":151,"nOk":151,"accuracy":0.9668874172185431,"accuracyCI":[0.9337748344370861,0.9933774834437086],"accuracyValid":0.9668874172185431,"macroF1":0.9667070917070917,"macroF1CI":[0.9329802413239913,0.9932238240123636],"errorRate":0.0,"ece":0.020264900662251555,"brier":0.06495061494796593,"nProb":151,"confKinds":["verbalized"],"accAtCov80":0.9669421487603306,"covAtAcc95":1.0,"latP50":2007.8126660000635,"latP95":3812.328400500064,"latP99":5636.40078200001,"tokIn":521.2715231788079,"tokOut":750.1390728476821,"tokensEstimated":false,"cost1000":0.13337172185430463,"perClass":{"fatura_odeme":{"precision":0.9444444444444444,"recall":0.9444444444444444,"f1":0.9444444444444444,"support":18},"teknik_destek":{"precision":0.95,"recall":1.0,"f1":0.9743589743589743,"support":19},"kargo_teslimat":{"precision":1.0,"recall":0.9473684210526315,"f1":0.972972972972973,"support":19},"iade_degisim":{"precision":0.95,"recall":1.0,"f1":0.9743589743589743,"support":19},"hesap_guvenlik":{"precision":1.0,"recall":1.0,"f1":1.0,"support":19},"satis_fiyat":{"precision":0.9,"recall":0.9473684210526315,"f1":0.9230769230769231,"support":19},"sikayet_oneri":{"precision":1.0,"recall":1.0,"f1":1.0,"support":19},"diger":{"precision":1.0,"recall":0.8947368421052632,"f1":0.9444444444444444,"support":19}},"confusion":[[17,0,0,0,0,1,0,0,0],[0,19,0,0,0,0,0,0,0],[0,0,18,1,0,0,0,0,0],[0,0,0,19,0,0,0,0,0],[0,0,0,0,19,0,0,0,0],[1,0,0,0,0,18,0,0,0],[0,0,0,0,0,0,19,0,0],[0,1,0,0,0,1,0,17,0]]},"preds":[[7,0.98,2667.4,null],[7,0.95,3437.0,null],[7,0.95,2696.3,null],[7,0.95,2746.7,null],[7,0.95,1977.3,null],[1,0.95,2130.6,null],[7,0.98,1821.6,null],[5,0.95,1798.7,null],[7,0.95,1491.7,null],[7,0.95,3103.0,null],[7,0.95,1885.7,null],[7,0.95,2659.6,null],[7,0.95,3071.8,null],[7,0.95,2832.3,null],[7,0.98,1545.2,null],[7,0.99,2381.7,null],[7,0.95,1412.3,null],[7,0.95,2744.1,null],[7,0.9,2932.6,null],[0,0.95,2375.2,null],[0,0.95,2652.2,null],[0,0.95,2208.9,null],[5,0.9,5474.0,null],[0,0.95,3068.7,null],[0,0.85,6649.5,null],[0,0.95,4880.4,null],[0,0.95,4353.7,null],[0,0.95,1885.9,null],[0,0.95,2960.1,null],[0,0.95,2740.1,null],[0,0.95,2380.0,null],[0,0.95,2014.6,null],[0,0.95,2333.1,null],[0,0.95,2418.3,null],[0,0.95,2362.8,null],[0,0.95,1830.5,null],[0,0.95,1638.9,null],[4,0.95,1741.6,null],[4,0.95,2230.8,null],[4,0.95,1831.7,null],[4,0.95,1201.2,null],[4,0.95,1383.7,null],[4,0.95,1897.2,null],[4,0.95,1787.8,null],[4,0.95,1269.1,null],[4,0.95,1730.4,null],[4,0.95,1405.5,null],[4,0.95,2470.8,null],[4,0.95,2868.8,null],[4,0.95,1535.6,null],[4,0.95,1701.2,null],[4,0.95,2568.9,null],[4,0.95,2501.7,null],[4,0.95,1360.6,null],[4,0.95,3715.2,null],[4,0.95,1410.7,null],[3,0.95,2689.2,null],[3,0.95,2483.0,null],[3,0.95,1643.9,null],[3,0.95,1817.2,null],[3,0.95,2498.4,null],[3,0.98,1921.9,null],[3,0.95,2223.8,null],[3,0.95,1829.6,null],[3,0.95,1208.5,null],[3,0.95,1597.5,null],[3,0.98,1755.6,null],[3,0.98,1947.1,null],[3,0.95,1916.6,null],[3,0.95,1327.4,null],[3,0.95,1510.9,null],[3,0.95,1363.9,null],[3,0.95,2227.4,null],[3,0.95,1688.8,null],[3,0.98,1848.9,null],[2,0.95,2193.8,null],[2,0.95,1590.5,null],[2,0.95,1940.1,null],[2,0.98,1776.8,null],[2,0.95,1817.2,null],[2,0.95,1902.6,null],[2,0.95,1749.8,null],[2,0.95,2057.6,null],[2,0.95,1651.9,null],[2,0.95,1695.2,null],[2,0.95,1866.3,null],[2,0.95,3795.0,null],[2,0.95,1860.4,null],[2,0.95,2428.7,null],[2,0.95,1961.2,null],[3,0.95,3682.9,null],[2,0.95,1984.0,null],[2,0.95,2527.4,null],[2,0.95,1463.5,null],[0,0.95,5798.8,null],[5,0.95,1990.8,null],[5,0.98,1107.9,null],[5,0.95,1298.2,null],[5,0.95,1836.7,null],[5,0.95,1534.2,null],[5,0.85,2566.4,null],[5,0.95,1948.8,null],[5,0.95,1977.4,null],[5,0.95,2478.7,null],[5,0.95,1581.4,null],[5,0.95,2567.8,null],[5,0.9,3673.8,null],[5,0.95,1670.6,null],[5,0.95,1238.2,null],[5,0.95,2060.0,null],[5,0.95,1842.5,null],[5,0.95,2141.7,null],[5,0.95,1644.2,null],[6,0.95,1294.6,null],[6,0.95,1726.5,null],[6,0.95,3829.6,null],[6,0.9,2623.8,null],[6,0.9,4035.1,null],[6,0.95,3000.2,null],[6,0.95,2053.1,null],[6,0.95,3200.6,null],[6,0.95,2683.5,null],[6,0.95,2007.8,null],[6,0.95,1114.1,null],[6,0.95,2433.4,null],[6,0.95,1862.3,null],[6,0.95,2148.2,null],[6,0.95,2653.3,null],[6,0.95,1421.2,null],[6,0.95,1570.3,null],[6,0.95,3007.5,null],[6,0.95,2634.4,null],[1,0.95,2720.9,null],[1,0.95,4401.8,null],[1,0.98,1636.9,null],[1,0.95,1967.5,null],[1,0.95,1847.5,null],[1,0.95,2454.1,null],[1,0.95,1848.3,null],[1,0.95,2309.6,null],[1,0.95,2285.5,null],[1,0.95,2111.8,null],[1,0.95,2279.5,null],[1,0.95,1834.9,null],[1,0.95,1814.4,null],[1,0.95,2490.8,null],[1,0.95,2976.1,null],[1,0.95,2451.6,null],[1,0.95,2060.9,null],[1,0.95,1568.8,null],[1,0.95,2051.1,null]],"slices":{"ascii":{"n":5,"accuracy":0.8},"multi":{"n":5,"accuracy":0.8},"short":{"n":12,"accuracy":1.0}},"robustness":{"accCanonical":0.9668874172185431,"accShuffled":0.9668874172185431,"delta":0.0,"consistency":0.9735099337748344}},{"key":"laya_multilingual","display":"Laya multilingual (322M)","group":"encoder","provider":"laya","model":"convaiinnovations/laya-multilingual","status":"ok","reason":null,"firstError":null,"notes":"pip install laya","verified":"Laya README: Router.predict(text, questions)","local":true,"price":{"in":null,"out":null,"note":""},"setupS":0.023,"coldMs":33126.85497299992,"concurrency":1,"m":{"n":151,"nOk":151,"accuracy":0.33112582781456956,"accuracyCI":[0.2582781456953642,0.40397350993377484],"accuracyValid":0.33112582781456956,"macroF1":0.2823419540229885,"macroF1CI":[0.21367177856789732,0.3411460507540978],"errorRate":0.0,"ece":0.5688263853422313,"brier":1.201045349155424,"nProb":151,"confKinds":["native"],"accAtCov80":0.3305785123966942,"covAtAcc95":0.0,"latP50":232.04066999994666,"latP95":284.60922400000754,"latP99":337.25667850001173,"tokIn":null,"tokOut":null,"tokensEstimated":false,"cost1000":null,"perClass":{"fatura_odeme":{"precision":0.8333333333333334,"recall":0.2777777777777778,"f1":0.4166666666666667,"support":18},"teknik_destek":{"precision":0.18556701030927836,"recall":0.9473684210526315,"f1":0.31034482758620685,"support":19},"kargo_teslimat":{"precision":0.8,"recall":0.42105263157894735,"f1":0.5517241379310345,"support":19},"iade_degisim":{"precision":0.45161290322580644,"recall":0.7368421052631579,"f1":0.56,"support":19},"hesap_guvenlik":{"precision":1.0,"recall":0.05263157894736842,"f1":0.1,"support":19},"satis_fiyat":{"precision":0.6666666666666666,"recall":0.21052631578947367,"f1":0.32,"support":19},"sikayet_oneri":{"precision":0.0,"recall":0.0,"f1":0.0,"support":19},"diger":{"precision":0.0,"recall":0.0,"f1":0.0,"support":19}},"confusion":[[5,7,1,5,0,0,0,0,0],[1,18,0,0,0,0,0,0,0],[0,7,8,4,0,0,0,0,0],[0,5,0,14,0,0,0,0,0],[0,18,0,0,1,0,0,0,0],[0,8,0,7,0,4,0,0,0],[0,16,1,1,0,1,0,0,0],[0,18,0,0,0,1,0,0,0]]},"preds":[[1,0.9655,228.7,null],[1,0.6935,286.6,null],[1,0.9955,304.6,null],[1,0.9879,244.2,null],[5,0.8712,210.1,null],[1,0.9968,230.4,null],[1,0.9422,260.5,null],[1,0.6817,205.3,null],[1,0.942,206.5,null],[1,0.9877,235.3,null],[1,0.9737,239.4,null],[1,0.6318,269.2,null],[1,0.985,224.9,null],[1,0.98,276.3,null],[1,0.9838,198.0,null],[1,0.9824,218.9,null],[1,0.95,219.7,null],[1,0.8362,226.2,null],[1,0.927,246.0,null],[0,0.6345,342.8,null],[1,0.9503,245.6,null],[1,0.8381,252.1,null],[1,0.6754,248.0,null],[1,0.4892,254.4,null],[3,1.0,256.5,null],[3,1.0,234.0,null],[1,0.8776,230.3,null],[3,0.9779,192.5,null],[1,0.9387,210.8,null],[1,0.7993,217.4,null],[0,0.9631,278.9,null],[0,0.9953,283.4,null],[0,0.9925,244.6,null],[0,0.6285,227.1,null],[3,0.6875,234.3,null],[3,0.9134,214.7,null],[2,0.5031,239.1,null],[1,0.9524,217.7,null],[1,0.9828,216.8,null],[1,0.9721,255.8,null],[1,0.9637,232.1,null],[1,0.5037,285.9,null],[1,0.8727,231.2,null],[1,0.9882,278.0,null],[1,0.9705,238.1,null],[1,0.9826,228.5,null],[1,0.9393,241.8,null],[1,0.9666,228.5,null],[1,0.7766,283.3,null],[1,0.9524,263.2,null],[4,0.997,262.2,null],[1,0.8656,244.3,null],[1,0.9497,225.6,null],[1,0.8927,263.1,null],[1,0.9892,273.9,null],[1,0.8295,216.6,null],[3,1.0,215.1,null],[3,0.9979,225.5,null],[1,0.8759,235.0,null],[3,0.6209,222.7,null],[3,0.9094,275.0,null],[3,1.0,239.8,null],[3,0.9895,255.0,null],[3,0.9999,233.2,null],[1,0.9343,215.1,null],[3,0.9995,256.2,null],[3,0.4843,260.8,null],[1,0.9699,238.6,null],[1,0.8927,236.9,null],[3,0.9994,255.1,null],[3,0.9996,248.3,null],[3,1.0,214.5,null],[3,0.9147,270.9,null],[3,0.6693,276.4,null],[1,0.8658,253.0,null],[2,1.0,242.8,null],[2,0.9987,237.1,null],[1,0.9874,221.4,null],[1,0.7914,229.4,null],[3,0.9098,242.9,null],[2,1.0,246.2,null],[2,1.0,225.7,null],[2,0.9962,218.7,null],[3,0.6168,337.7,null],[2,0.9995,336.8,null],[1,0.8501,297.1,null],[1,0.9391,314.5,null],[2,0.7104,225.1,null],[3,0.7225,217.0,null],[1,0.988,219.5,null],[3,1.0,240.6,null],[1,0.8564,247.9,null],[1,0.9638,230.4,null],[2,1.0,223.9,null],[5,0.9179,234.9,null],[3,0.8286,221.0,null],[5,0.9992,208.4,null],[1,0.9759,245.2,null],[1,0.9255,260.1,null],[1,0.9971,280.2,null],[1,0.6808,215.1,null],[5,0.968,200.6,null],[3,0.9425,204.0,null],[1,0.6922,199.9,null],[1,0.8708,195.3,null],[5,0.5117,208.2,null],[3,0.9627,231.5,null],[1,0.4803,209.4,null],[3,0.9284,203.4,null],[1,0.9707,197.6,null],[3,0.9788,208.0,null],[3,1.0,236.5,null],[3,0.8422,194.4,null],[1,0.9952,196.6,null],[5,0.9861,209.3,null],[2,0.9446,215.0,null],[1,0.7813,213.7,null],[1,0.888,201.4,null],[1,0.9808,221.6,null],[1,0.9477,210.9,null],[1,0.6313,222.9,null],[1,0.9492,233.0,null],[1,0.9748,228.2,null],[3,0.7542,257.6,null],[1,0.8638,228.8,null],[1,0.9939,238.2,null],[1,0.9157,200.8,null],[1,0.9574,220.0,null],[1,0.9348,246.2,null],[1,0.9572,223.2,null],[1,0.9904,215.6,null],[1,0.9432,246.4,null],[0,0.6231,237.9,null],[1,0.9924,241.8,null],[1,0.463,218.3,null],[1,0.981,231.1,null],[1,0.9876,228.5,null],[1,0.9976,226.6,null],[1,0.9977,205.9,null],[1,0.8756,203.4,null],[1,0.9949,225.6,null],[1,0.9804,232.0,null],[1,0.8231,279.6,null],[1,0.9842,244.6,null],[1,0.729,247.3,null],[1,0.9964,221.6,null],[1,0.4312,228.2,null],[1,0.9986,248.0,null],[1,0.9986,219.7,null],[1,0.9016,237.9,null],[1,0.9912,248.0,null]],"slices":{"ascii":{"n":5,"accuracy":0.0},"multi":{"n":5,"accuracy":0.4},"short":{"n":12,"accuracy":0.25}},"robustness":{"accCanonical":0.33112582781456956,"accShuffled":0.3708609271523179,"delta":0.039735099337748325,"consistency":0.8145695364238411},"vsRef":{"reference":"mercury_2_5","diff":-0.6357615894039735,"lo":-0.7152317880794702,"hi":-0.5562913907284768}},{"key":"gliclass_large_v3","display":"GLiClass large v3.0","group":"encoder","provider":"gliclass","model":"knowledgator/gliclass-large-v3.0","status":"ok","reason":null,"firstError":null,"notes":"Model kartı çok dilli desteği belirtmiyor; Türkçe sonucu ayrıca yorumlanmalı. pip install gliclass","verified":"GLiClass README: ZeroShotClassificationPipeline","local":true,"price":{"in":null,"out":null,"note":""},"setupS":16.509,"coldMs":421.8228849999832,"concurrency":1,"m":{"n":151,"nOk":151,"accuracy":0.6026490066225165,"accuracyCI":[0.5231788079470199,0.6754966887417219],"accuracyValid":0.6026490066225165,"macroF1":0.5944414381914381,"macroF1CI":[0.5095241087689929,0.6620679408628587],"errorRate":0.0,"ece":0.3973509933774835,"brier":0.7947019867549668,"nProb":151,"confKinds":["derived","native"],"accAtCov80":0.6033057851239669,"covAtAcc95":0.006622516556291391,"latP50":385.01410999992913,"latP95":495.59320049996813,"latP99":529.8561325000151,"tokIn":null,"tokOut":null,"tokensEstimated":false,"cost1000":null,"perClass":{"fatura_odeme":{"precision":0.5185185185185185,"recall":0.7777777777777778,"f1":0.6222222222222222,"support":18},"teknik_destek":{"precision":0.42857142857142855,"recall":0.7894736842105263,"f1":0.5555555555555555,"support":19},"kargo_teslimat":{"precision":0.9230769230769231,"recall":0.631578947368421,"f1":0.7499999999999999,"support":19},"iade_degisim":{"precision":0.7619047619047619,"recall":0.8421052631578947,"f1":0.8,"support":19},"hesap_guvenlik":{"precision":0.5625,"recall":0.47368421052631576,"f1":0.5142857142857142,"support":19},"satis_fiyat":{"precision":0.6470588235294118,"recall":0.5789473684210527,"f1":0.6111111111111113,"support":19},"sikayet_oneri":{"precision":0.5,"recall":0.21052631578947367,"f1":0.2962962962962963,"support":19},"diger":{"precision":0.7142857142857143,"recall":0.5263157894736842,"f1":0.6060606060606061,"support":19}},"confusion":[[14,0,0,4,0,0,0,0,0],[1,15,0,0,1,1,0,1,0],[0,6,12,0,0,0,0,1,0],[1,1,0,16,0,0,1,0,0],[2,5,0,1,9,0,2,0,0],[3,3,0,0,1,11,0,1,0],[1,5,1,0,5,2,4,1,0],[5,0,0,0,0,3,1,10,0]]},"preds":[[7,1.0,402.6,null],[6,1.0,447.1,null],[7,1.0,341.4,null],[7,1.0,359.0,null],[5,1.0,400.9,null],[7,1.0,411.7,null],[7,1.0,382.9,null],[0,1.0,336.2,null],[7,1.0,315.9,null],[0,1.0,314.2,null],[0,1.0,360.4,null],[5,1.0,370.6,null],[7,1.0,378.8,null],[0,1.0,325.2,null],[7,1.0,310.8,null],[7,1.0,314.8,null],[7,1.0,360.5,null],[5,1.0,398.5,null],[0,1.0,332.1,null],[0,1.0,385.7,null],[0,1.0,430.3,null],[0,1.0,457.7,null],[0,1.0,339.4,null],[3,1.0,479.5,null],[0,1.0,363.6,null],[3,1.0,419.0,null],[3,1.0,397.7,null],[0,1.0,369.7,null],[0,1.0,408.2,null],[0,1.0,386.3,null],[0,1.0,353.5,null],[0,1.0,347.2,null],[0,1.0,404.5,null],[0,1.0,401.1,null],[0,1.0,379.6,null],[0,1.0,329.4,null],[3,1.0,512.1,null],[1,1.0,507.5,null],[1,1.0,392.1,null],[4,1.0,401.4,null],[4,1.0,345.9,null],[1,1.0,424.5,null],[4,1.0,437.6,null],[4,1.0,415.4,null],[6,1.0,494.8,null],[1,1.0,537.1,null],[3,1.0,387.9,null],[4,1.0,496.4,null],[6,1.0,445.8,null],[4,1.0,425.3,null],[4,1.0,385.7,null],[4,1.0,444.6,null],[0,1.0,409.5,null],[0,1.0,351.5,null],[1,1.0,317.1,null],[4,1.0,338.7,null],[3,1.0,361.3,null],[3,1.0,335.9,null],[1,1.0,365.0,null],[3,1.0,367.4,null],[3,1.0,381.8,null],[3,1.0,369.2,null],[3,1.0,396.7,null],[3,1.0,394.3,null],[0,1.0,347.9,null],[3,1.0,427.4,null],[6,1.0,348.8,null],[3,1.0,383.2,null],[3,1.0,385.0,null],[3,1.0,462.1,null],[3,1.0,388.5,null],[3,1.0,353.1,null],[3,1.0,415.3,null],[3,1.0,395.8,null],[3,1.0,353.1,null],[2,1.0,372.6,null],[2,1.0,413.6,null],[2,1.0,332.8,null],[2,1.0,336.5,null],[7,1.0,379.8,null],[2,1.0,352.3,null],[2,1.0,338.8,null],[2,1.0,351.8,null],[1,1.0,361.9,null],[2,1.0,413.6,null],[1,1.0,368.7,null],[2,1.0,357.9,null],[1,1.0,354.0,null],[2,1.0,374.5,null],[1,1.0,336.7,null],[2,1.0,396.9,null],[1,1.0,405.0,null],[1,1.0,358.7,null],[2,1.0,388.3,null],[5,1.0,361.2,null],[5,1.0,347.8,null],[5,1.0,321.8,null],[5,1.0,331.0,null],[5,1.0,420.5,null],[0,1.0,435.2,null],[4,1.0,387.1,null],[0,1.0,366.4,null],[1,1.0,350.2,null],[0,1.0,347.1,null],[5,1.0,356.1,null],[5,1.0,337.9,null],[5,1.0,316.0,null],[5,1.0,385.2,null],[1,1.0,339.3,null],[7,1.0,315.9,null],[5,1.0,359.1,null],[5,1.0,451.4,null],[1,1.0,379.1,null],[5,1.0,467.9,null],[5,1.0,404.9,null],[2,1.0,409.6,null],[0,1.0,414.0,null],[6,1.0,423.2,null],[4,1.0,381.5,null],[1,1.0,338.6,null],[4,1.0,375.1,null],[6,1.0,546.2,null],[6,1.0,446.9,null],[1,1.0,453.3,null],[1,1.0,444.2,null],[4,1.0,522.6,null],[4,1.0,481.4,null],[1,1.0,465.4,null],[7,1.0,509.1,null],[6,1.0,413.7,null],[1,1.0,404.5,null],[4,1.0,444.3,null],[1,1.0,387.8,null],[0,1.0,375.6,null],[1,1.0,496.8,null],[1,1.0,441.9,null],[1,1.0,441.8,null],[5,1.0,395.5,null],[1,1.0,426.3,null],[1,1.0,354.5,null],[4,1.0,418.7,null],[1,1.0,359.6,null],[1,1.0,364.1,null],[7,1.0,392.5,null],[1,1.0,338.9,null],[1,1.0,443.9,null],[1,1.0,339.4,null],[1,1.0,385.1,null],[1,1.0,327.0,null],[1,1.0,342.7,null],[1,1.0,438.3,null]],"slices":{"ascii":{"n":5,"accuracy":0.8},"multi":{"n":5,"accuracy":0.4},"short":{"n":12,"accuracy":0.5833333333333334}},"robustness":{"accCanonical":0.6026490066225165,"accShuffled":0.5695364238410596,"delta":-0.0331125827814569,"consistency":0.8874172185430463},"vsRef":{"reference":"mercury_2_5","diff":-0.36423841059602646,"lo":-0.4504966887417219,"hi":-0.2847682119205298}},{"key":"nli_mdeberta_xnli","display":"mDeBERTa-v3 çok dilli NLI (sıfır örnek)","group":"encoder","provider":"nli","model":"MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7","status":"ok","reason":null,"firstError":null,"notes":"","verified":"","local":true,"price":{"in":null,"out":null,"note":""},"setupS":13.796,"coldMs":270.06685999992897,"concurrency":1,"m":{"n":151,"nOk":151,"accuracy":0.2980132450331126,"accuracyCI":[0.2251655629139073,0.3708609271523179],"accuracyValid":0.2980132450331126,"macroF1":0.3156533835331304,"macroF1CI":[0.23850304638755082,0.379675082048274],"errorRate":0.0,"ece":0.18087281844848058,"brier":0.8499565121337177,"nProb":151,"confKinds":["native"],"accAtCov80":0.3140495867768595,"covAtAcc95":0.026490066225165563,"latP50":238.54844499999217,"latP95":328.86209249994636,"latP99":380.0430564999715,"tokIn":null,"tokOut":null,"tokensEstimated":false,"cost1000":null,"perClass":{"fatura_odeme":{"precision":1.0,"recall":0.2222222222222222,"f1":0.3636363636363636,"support":18},"teknik_destek":{"precision":0.09523809523809523,"recall":0.10526315789473684,"f1":0.1,"support":19},"kargo_teslimat":{"precision":0.75,"recall":0.631578947368421,"f1":0.6857142857142857,"support":19},"iade_degisim":{"precision":0.375,"recall":0.15789473684210525,"f1":0.22222222222222218,"support":19},"hesap_guvenlik":{"precision":0.5555555555555556,"recall":0.5263157894736842,"f1":0.5405405405405405,"support":19},"satis_fiyat":{"precision":0.5,"recall":0.21052631578947367,"f1":0.2962962962962963,"support":19},"sikayet_oneri":{"precision":0.13333333333333333,"recall":0.42105263157894735,"f1":0.20253164556962025,"support":19},"diger":{"precision":0.125,"recall":0.10526315789473684,"f1":0.11428571428571428,"support":19}},"confusion":[[4,0,3,0,1,1,9,0,0],[0,2,0,1,4,0,7,5,0],[0,3,12,1,0,0,2,1,0],[0,4,1,3,0,0,11,0,0],[0,2,0,2,10,0,3,2,0],[0,4,0,0,0,4,11,0,0],[0,2,0,0,1,2,8,6,0],[0,4,0,1,2,1,9,2,0]]},"preds":[[7,0.3414,214.4,null],[1,0.9046,324.4,null],[6,0.3776,201.6,null],[6,0.5282,226.1,null],[6,0.8542,245.2,null],[1,0.613,282.0,null],[1,0.3584,256.6,null],[6,0.5013,219.6,null],[3,0.235,292.5,null],[1,0.5365,352.1,null],[6,0.2712,253.0,null],[4,0.5225,258.5,null],[6,0.8957,233.5,null],[6,0.2615,220.0,null],[4,0.1885,204.9,null],[6,0.2316,199.3,null],[7,0.8226,249.7,null],[5,0.4834,260.5,null],[6,0.2881,244.3,null],[5,0.3618,245.6,null],[6,0.3734,266.9,null],[6,0.4572,279.6,null],[6,0.3565,216.3,null],[2,0.5352,236.3,null],[6,0.4112,196.6,null],[6,0.3681,238.5,null],[6,0.2562,211.5,null],[4,0.3673,209.1,null],[6,0.5511,217.6,null],[6,0.4569,216.7,null],[0,0.799,207.4,null],[2,0.2446,241.4,null],[6,0.3771,258.4,null],[0,0.3807,229.9,null],[0,0.2847,243.3,null],[0,0.3046,194.5,null],[2,0.7322,273.9,null],[4,0.4513,209.8,null],[1,0.8257,203.2,null],[6,0.3258,238.4,null],[4,0.8491,214.8,null],[4,0.689,257.0,null],[4,0.4201,239.2,null],[4,0.3301,206.8,null],[6,0.7309,260.9,null],[1,0.4115,218.3,null],[3,0.3133,206.1,null],[6,0.5179,228.5,null],[7,0.7126,237.7,null],[4,0.7245,211.2,null],[4,0.4939,202.3,null],[4,0.3438,252.4,null],[4,0.4854,256.1,null],[3,0.3062,192.8,null],[7,0.3082,203.2,null],[4,0.9637,221.2,null],[6,0.474,219.4,null],[3,0.3315,247.5,null],[1,0.7788,229.5,null],[6,0.3093,232.5,null],[6,0.2733,207.0,null],[6,0.7442,214.1,null],[6,0.8339,265.0,null],[3,0.2153,321.8,null],[6,0.334,252.1,null],[6,0.4191,291.7,null],[6,0.3797,282.3,null],[1,0.3419,320.6,null],[1,0.875,355.9,null],[3,0.2637,351.2,null],[6,0.5019,246.1,null],[1,0.5739,264.3,null],[6,0.4961,601.3,null],[6,0.2644,258.8,null],[2,0.352,242.1,null],[2,0.6529,264.8,null],[2,0.7661,250.9,null],[2,0.7608,225.9,null],[2,0.9341,315.6,null],[3,0.309,263.5,null],[2,0.8132,272.1,null],[1,0.5687,230.0,null],[2,0.788,200.3,null],[2,0.3318,235.6,null],[2,0.356,203.2,null],[6,0.4008,224.9,null],[2,0.4222,231.0,null],[2,0.7022,205.2,null],[1,0.4853,220.1,null],[1,0.4034,205.3,null],[2,0.6061,237.3,null],[7,0.2688,272.0,null],[2,0.2701,326.0,null],[6,0.5194,316.3,null],[5,0.453,241.7,null],[6,0.6986,297.6,null],[5,0.4342,210.5,null],[5,0.7417,220.2,null],[1,0.3628,207.4,null],[6,0.5741,229.9,null],[1,0.4415,228.7,null],[6,0.3387,241.0,null],[6,0.2533,269.5,null],[6,0.6647,274.0,null],[6,0.6301,257.0,null],[6,0.3431,212.2,null],[6,0.6762,221.1,null],[6,0.4277,224.5,null],[1,0.4814,213.5,null],[6,0.2904,186.2,null],[5,0.8835,232.1,null],[6,0.6149,231.2,null],[1,0.8048,243.7,null],[7,0.2744,254.1,null],[5,0.7269,242.0,null],[6,0.5661,257.0,null],[5,0.4053,211.7,null],[7,0.3591,259.7,null],[6,0.5099,211.9,null],[6,0.9526,231.5,null],[6,0.4962,205.8,null],[7,0.3961,215.2,null],[7,0.6866,201.8,null],[6,0.9314,235.3,null],[7,0.301,291.1,null],[6,0.7866,242.5,null],[1,0.5577,275.3,null],[6,0.2506,334.7,null],[6,0.4007,314.6,null],[4,0.3593,351.8,null],[7,0.3732,296.6,null],[1,0.3295,275.2,null],[4,0.3104,300.6,null],[4,0.4512,294.0,null],[7,0.5039,277.8,null],[7,0.2897,404.2,null],[6,0.561,238.2,null],[6,0.3638,331.8,null],[3,0.3134,244.4,null],[6,0.2218,232.1,null],[4,0.2211,214.1,null],[6,0.2095,244.6,null],[1,0.4147,224.9,null],[7,0.3604,252.9,null],[4,0.2209,249.7,null],[1,0.2362,280.6,null],[6,0.2961,255.9,null],[6,0.468,223.9,null],[7,0.1874,173.5,null],[7,0.2361,211.2,null],[6,0.5112,203.9,null]],"slices":{"ascii":{"n":5,"accuracy":0.8},"multi":{"n":5,"accuracy":0.4},"short":{"n":12,"accuracy":0.25}},"vsRef":{"reference":"mercury_2_5","diff":-0.6688741721854304,"lo":-0.7483443708609272,"hi":-0.5894039735099338}},{"key":"nli_modernbert_en","display":"ModernBERT-base NLI (yalnız İngilizce; negatif kontrol)","group":"encoder","provider":"nli","model":"tasksource/ModernBERT-base-nli","status":"ok","reason":null,"firstError":null,"notes":"İngilizce model Türkçe metinde zayıf beklenir; çok dilli modellerle fark görülsün diye eklendi.","verified":"","local":true,"price":{"in":null,"out":null,"note":""},"setupS":8.745,"coldMs":216.7662399999699,"concurrency":1,"m":{"n":151,"nOk":151,"accuracy":0.3841059602649007,"accuracyCI":[0.31125827814569534,0.45695364238410596],"accuracyValid":0.3841059602649007,"macroF1":0.3671670577209002,"macroF1CI":[0.2873321734604978,0.4326014135799469],"errorRate":0.0,"ece":0.1131902672268173,"brier":0.7372392470884624,"nProb":151,"confKinds":["native"],"accAtCov80":0.45454545454545453,"covAtAcc95":0.013245033112582781,"latP50":251.35467399991285,"latP95":345.8793904999311,"latP99":378.8135904999308,"tokIn":null,"tokOut":null,"tokensEstimated":false,"cost1000":null,"perClass":{"fatura_odeme":{"precision":0.5833333333333334,"recall":0.3888888888888889,"f1":0.4666666666666666,"support":18},"teknik_destek":{"precision":0.25,"recall":0.15789473684210525,"f1":0.1935483870967742,"support":19},"kargo_teslimat":{"precision":0.6666666666666666,"recall":0.5263157894736842,"f1":0.5882352941176471,"support":19},"iade_degisim":{"precision":0.30434782608695654,"recall":0.7368421052631579,"f1":0.43076923076923074,"support":19},"hesap_guvenlik":{"precision":0.3103448275862069,"recall":0.47368421052631576,"f1":0.375,"support":19},"satis_fiyat":{"precision":0.32,"recall":0.42105263157894735,"f1":0.3636363636363636,"support":19},"sikayet_oneri":{"precision":0.6666666666666666,"recall":0.3157894736842105,"f1":0.42857142857142855,"support":19},"diger":{"precision":0.3333333333333333,"recall":0.05263157894736842,"f1":0.09090909090909091,"support":19}},"confusion":[[7,0,1,7,2,1,0,0,0],[2,3,0,2,7,4,0,1,0],[1,1,10,1,3,2,1,0,0],[0,0,1,14,2,2,0,0,0],[0,2,1,6,9,1,0,0,0],[0,2,0,6,2,8,1,0,0],[0,2,1,4,2,3,6,1,0],[2,2,1,6,2,4,1,1,0]]},"preds":[[0,0.1642,178.9,null],[3,0.223,239.0,null],[1,0.2535,193.7,null],[5,0.2278,199.1,null],[5,0.4156,194.0,null],[6,0.2276,212.7,null],[4,0.1519,202.7,null],[3,0.199,196.9,null],[3,0.3037,167.8,null],[0,0.2448,265.5,null],[4,0.2211,280.9,null],[5,0.2515,257.0,null],[3,0.2367,170.3,null],[3,0.2371,133.1,null],[7,0.2416,136.9,null],[5,0.1541,156.2,null],[3,0.3071,236.6,null],[1,0.2636,154.6,null],[2,0.1568,210.9,null],[0,0.4503,247.5,null],[3,0.5312,273.6,null],[3,0.2698,330.4,null],[3,0.2434,220.2,null],[3,0.4609,274.8,null],[3,0.4539,187.6,null],[3,0.6664,268.5,null],[3,0.3448,320.2,null],[0,0.6683,261.2,null],[4,0.1916,217.9,null],[0,0.2965,323.4,null],[4,0.4855,322.5,null],[0,0.3713,249.7,null],[0,0.5553,203.2,null],[0,0.5832,237.4,null],[0,0.5535,295.2,null],[5,0.3664,197.1,null],[2,0.2647,296.6,null],[4,0.3383,237.1,null],[3,0.2423,228.1,null],[3,0.4,257.4,null],[3,0.2171,230.7,null],[4,0.4239,323.0,null],[4,0.3524,298.0,null],[1,0.23,195.1,null],[3,0.2627,256.2,null],[3,0.1706,218.3,null],[3,0.4047,288.9,null],[4,0.6684,300.8,null],[5,0.3257,256.6,null],[4,0.5444,256.6,null],[4,0.62,185.8,null],[4,0.5187,245.0,null],[4,0.4541,382.2,null],[1,0.2521,212.6,null],[4,0.255,240.2,null],[2,0.1949,312.3,null],[3,0.3471,344.5,null],[3,0.3939,327.2,null],[3,0.3087,295.0,null],[3,0.3193,324.9,null],[3,0.3302,347.5,null],[3,0.4896,270.3,null],[3,0.3276,357.7,null],[3,0.5093,369.7,null],[5,0.149,316.9,null],[3,0.3485,347.3,null],[4,0.2032,271.3,null],[3,0.2548,244.8,null],[4,0.4197,246.7,null],[3,0.5079,338.4,null],[3,0.6156,258.4,null],[3,0.4522,311.9,null],[2,0.3902,307.1,null],[5,0.232,244.6,null],[3,0.4155,285.0,null],[2,0.7611,245.8,null],[2,0.3071,283.5,null],[2,0.2881,215.5,null],[2,0.8022,236.1,null],[5,0.1785,280.5,null],[2,0.6444,250.4,null],[2,0.6057,204.1,null],[2,0.5155,279.4,null],[1,0.2271,244.6,null],[2,0.2845,191.8,null],[4,0.1596,295.1,null],[5,0.3205,241.8,null],[2,0.3763,210.4,null],[0,0.204,302.4,null],[6,0.1563,248.8,null],[3,0.3812,256.3,null],[4,0.1674,295.1,null],[4,0.4499,294.7,null],[2,0.2853,205.4,null],[5,0.5048,277.0,null],[3,0.295,234.6,null],[5,0.4356,206.1,null],[5,0.3465,251.7,null],[5,0.2553,280.2,null],[3,0.2204,259.8,null],[4,0.1571,375.4,null],[5,0.5986,262.9,null],[4,0.1791,219.1,null],[3,0.2012,261.1,null],[3,0.2277,229.5,null],[5,0.5564,251.4,null],[1,0.2922,207.9,null],[3,0.2013,212.1,null],[3,0.3129,228.5,null],[1,0.1994,185.3,null],[5,0.6187,324.3,null],[5,0.5049,390.1,null],[6,0.1656,277.2,null],[1,0.2482,244.9,null],[5,0.6687,260.0,null],[2,0.3809,364.5,null],[6,0.1577,244.7,null],[3,0.2536,297.1,null],[6,0.3101,231.1,null],[1,0.6024,287.0,null],[6,0.2785,247.8,null],[4,0.1697,280.2,null],[7,0.4792,190.7,null],[6,0.1988,228.8,null],[4,0.2397,224.1,null],[6,0.3217,198.8,null],[3,0.1883,228.1,null],[3,0.1833,291.9,null],[3,0.2364,284.3,null],[6,0.5891,261.0,null],[5,0.2299,323.8,null],[5,0.2069,222.0,null],[0,0.3596,275.6,null],[4,0.5684,277.9,null],[5,0.228,284.6,null],[4,0.3279,226.5,null],[5,0.1604,236.9,null],[0,0.1455,241.1,null],[3,0.1628,277.5,null],[4,0.2756,277.8,null],[4,0.149,185.8,null],[4,0.2278,248.4,null],[7,0.2722,238.3,null],[1,0.2643,274.6,null],[1,0.1902,296.6,null],[5,0.27,310.9,null],[1,0.3078,194.2,null],[4,0.2312,273.2,null],[4,0.1599,147.0,null],[3,0.2753,244.2,null],[5,0.2797,238.0,null]],"slices":{"ascii":{"n":5,"accuracy":0.6},"multi":{"n":5,"accuracy":0.0},"short":{"n":12,"accuracy":0.25}},"vsRef":{"reference":"mercury_2_5","diff":-0.5827814569536424,"lo":-0.6622516556291391,"hi":-0.5033112582781457}},{"key":"embedding_e5_zeroshot","display":"multilingual-e5-small (sıfır örnek, kosinüs)","group":"encoder","provider":"embedding","model":"intfloat/multilingual-e5-small","status":"ok","reason":null,"firstError":null,"notes":"","verified":"","local":true,"price":{"in":null,"out":null,"note":""},"setupS":12.767,"coldMs":27.299648000052912,"concurrency":1,"m":{"n":151,"nOk":151,"accuracy":0.5827814569536424,"accuracyCI":[0.5033112582781457,0.6556291390728477],"accuracyValid":0.5827814569536424,"macroF1":0.5563037406355379,"macroF1CI":[0.4753781339395733,0.624630903599446],"errorRate":0.0,"ece":0.3725383403961948,"brier":0.759519023446502,"nProb":151,"confKinds":["derived"],"accAtCov80":0.6611570247933884,"covAtAcc95":0.1390728476821192,"latP50":14.145461999987674,"latP95":19.501127000012275,"latP99":21.235522500091975,"tokIn":null,"tokOut":null,"tokensEstimated":false,"cost1000":null,"perClass":{"fatura_odeme":{"precision":0.7692307692307693,"recall":0.5555555555555556,"f1":0.6451612903225806,"support":18},"teknik_destek":{"precision":0.5454545454545454,"recall":0.9473684210526315,"f1":0.6923076923076923,"support":19},"kargo_teslimat":{"precision":0.64,"recall":0.8421052631578947,"f1":0.7272727272727272,"support":19},"iade_degisim":{"precision":0.5333333333333333,"recall":0.8421052631578947,"f1":0.653061224489796,"support":19},"hesap_guvenlik":{"precision":0.875,"recall":0.3684210526315789,"f1":0.5185185185185185,"support":19},"satis_fiyat":{"precision":0.5217391304347826,"recall":0.631578947368421,"f1":0.5714285714285715,"support":19},"sikayet_oneri":{"precision":0.7142857142857143,"recall":0.2631578947368421,"f1":0.3846153846153846,"support":19},"diger":{"precision":0.3333333333333333,"recall":0.21052631578947367,"f1":0.2580645161290323,"support":19}},"confusion":[[10,0,0,7,1,0,0,0,0],[0,18,0,0,0,0,0,1,0],[0,1,16,1,0,0,0,1,0],[0,0,3,16,0,0,0,0,0],[0,5,2,2,7,1,0,2,0],[1,0,1,4,0,12,0,1,0],[0,6,1,0,0,4,5,3,0],[2,3,2,0,0,6,2,4,0]]},"preds":[[7,0.1802,15.0,null],[1,0.1916,15.8,null],[2,0.1789,15.4,null],[5,0.1558,16.1,null],[5,0.1533,14.1,null],[1,0.174,13.8,null],[2,0.1641,12.4,null],[5,0.1608,11.6,null],[7,0.1894,14.1,null],[0,0.173,16.2,null],[6,0.1685,14.0,null],[7,0.1581,18.3,null],[5,0.1413,16.4,null],[6,0.176,11.8,null],[7,0.3058,11.3,null],[1,0.1859,12.3,null],[0,0.1516,15.4,null],[5,0.1586,14.1,null],[5,0.15,16.8,null],[0,0.2931,15.1,null],[3,0.1901,14.1,null],[0,0.2374,15.2,null],[0,0.2203,11.9,null],[3,0.2232,20.3,null],[3,0.1703,17.1,null],[3,0.2632,14.3,null],[3,0.1625,13.6,null],[0,0.2355,11.7,null],[4,0.1693,16.7,null],[0,0.2534,14.1,null],[0,0.1947,13.6,null],[3,0.1596,14.7,null],[0,0.2233,18.6,null],[0,0.181,20.2,null],[0,0.2609,20.3,null],[3,0.1797,18.9,null],[0,0.1767,21.1,null],[7,0.2075,21.3,null],[1,0.176,22.5,null],[3,0.1409,21.2,null],[4,0.1921,20.2,null],[1,0.262,15.3,null],[4,0.2467,14.1,null],[3,0.1631,12.3,null],[1,0.2409,14.0,null],[5,0.1522,12.6,null],[2,0.1744,14.4,null],[4,0.2552,15.3,null],[4,0.1777,16.1,null],[7,0.1774,13.8,null],[4,0.2125,11.1,null],[4,0.2227,13.4,null],[2,0.1511,13.8,null],[1,0.1687,11.1,null],[1,0.2228,14.0,null],[4,0.1896,14.3,null],[3,0.2559,12.5,null],[3,0.3249,13.5,null],[3,0.1975,12.8,null],[3,0.288,12.4,null],[3,0.2105,15.3,null],[3,0.2726,12.3,null],[2,0.2019,15.2,null],[3,0.3782,14.0,null],[3,0.2134,12.8,null],[3,0.3056,14.9,null],[3,0.1757,14.0,null],[3,0.2085,17.0,null],[3,0.2471,14.1,null],[3,0.3068,14.2,null],[3,0.3641,14.1,null],[3,0.2172,14.6,null],[2,0.2588,13.7,null],[3,0.2225,14.0,null],[2,0.1931,14.6,null],[2,0.2372,14.1,null],[2,0.2511,14.8,null],[2,0.2162,14.0,null],[2,0.3323,14.1,null],[7,0.2485,14.1,null],[2,0.2779,14.6,null],[2,0.2547,11.9,null],[2,0.1804,15.2,null],[2,0.2032,18.2,null],[2,0.1981,17.2,null],[2,0.1614,15.0,null],[3,0.1791,14.7,null],[2,0.2135,15.6,null],[2,0.2088,14.7,null],[2,0.1799,14.0,null],[2,0.2149,15.5,null],[1,0.1845,16.4,null],[2,0.1869,14.6,null],[2,0.1933,13.4,null],[3,0.2515,13.4,null],[5,0.2247,11.3,null],[5,0.2699,11.3,null],[5,0.1763,14.5,null],[3,0.1691,13.7,null],[5,0.1612,12.9,null],[5,0.183,11.4,null],[5,0.1673,13.8,null],[5,0.215,12.3,null],[0,0.2571,18.1,null],[5,0.2226,12.8,null],[5,0.187,12.0,null],[5,0.2143,11.1,null],[5,0.27,11.4,null],[2,0.1876,13.2,null],[7,0.1564,10.6,null],[5,0.2154,13.1,null],[3,0.1609,12.5,null],[3,0.1844,13.0,null],[1,0.2278,14.0,null],[5,0.1668,12.6,null],[1,0.234,13.9,null],[1,0.209,12.3,null],[1,0.2029,16.8,null],[5,0.157,12.0,null],[2,0.1835,12.9,null],[6,0.1944,13.6,null],[1,0.1849,15.2,null],[7,0.2317,11.8,null],[5,0.1779,12.9,null],[6,0.233,12.7,null],[7,0.1435,10.9,null],[5,0.1696,13.1,null],[1,0.188,16.4,null],[6,0.1583,15.9,null],[6,0.1782,16.9,null],[7,0.1467,14.0,null],[6,0.1525,13.9,null],[1,0.1891,18.8,null],[1,0.2151,16.0,null],[1,0.1684,17.2,null],[1,0.1957,15.6,null],[1,0.2915,15.9,null],[1,0.2534,15.4,null],[1,0.2095,14.6,null],[1,0.1694,15.6,null],[1,0.2334,15.3,null],[1,0.3023,16.0,null],[7,0.2014,15.1,null],[1,0.2657,15.8,null],[1,0.2346,15.8,null],[1,0.1644,15.3,null],[1,0.254,17.5,null],[1,0.3174,15.7,null],[1,0.3203,14.9,null],[1,0.2713,16.9,null],[1,0.2675,16.1,null]],"slices":{"ascii":{"n":5,"accuracy":0.8},"multi":{"n":5,"accuracy":0.6},"short":{"n":12,"accuracy":0.5}},"vsRef":{"reference":"mercury_2_5","diff":-0.3841059602649007,"lo":-0.46357615894039733,"hi":-0.304635761589404}},{"key":"tfidf_lr","display":"TF-IDF + Lojistik Regresyon (eğitimli)","group":"egitimli","provider":"tfidf_lr","model":"","status":"ok","reason":null,"firstError":null,"notes":"train bölümüyle eğitilir. Etiketli veri bütçesi: sıfır örnekli modellerden farklı.","verified":"","local":true,"price":{"in":null,"out":null,"note":""},"setupS":2.198,"coldMs":6.638127000030636,"concurrency":1,"m":{"n":151,"nOk":151,"accuracy":0.7019867549668874,"accuracyCI":[0.6225165562913907,0.7748344370860927],"accuracyValid":0.7019867549668874,"macroF1":0.696761683656845,"macroF1CI":[0.6127418927775784,0.76353736644201],"errorRate":0.0,"ece":0.25824265729495105,"brier":0.5038153946195892,"nProb":151,"confKinds":["native"],"accAtCov80":0.768595041322314,"covAtAcc95":0.24503311258278146,"latP50":1.7656320000014603,"latP95":5.905920500026696,"latP99":6.004190500021878,"tokIn":null,"tokOut":null,"tokensEstimated":false,"cost1000":null,"perClass":{"fatura_odeme":{"precision":0.7692307692307693,"recall":0.5555555555555556,"f1":0.6451612903225806,"support":18},"teknik_destek":{"precision":0.64,"recall":0.8421052631578947,"f1":0.7272727272727272,"support":19},"kargo_teslimat":{"precision":0.6,"recall":0.7894736842105263,"f1":0.6818181818181819,"support":19},"iade_degisim":{"precision":0.6956521739130435,"recall":0.8421052631578947,"f1":0.761904761904762,"support":19},"hesap_guvenlik":{"precision":0.7142857142857143,"recall":0.7894736842105263,"f1":0.7500000000000001,"support":19},"satis_fiyat":{"precision":0.7647058823529411,"recall":0.6842105263157895,"f1":0.7222222222222222,"support":19},"sikayet_oneri":{"precision":0.75,"recall":0.631578947368421,"f1":0.6857142857142857,"support":19},"diger":{"precision":0.8181818181818182,"recall":0.47368421052631576,"f1":0.6,"support":19}},"confusion":[[10,0,3,3,2,0,0,0,0],[0,16,1,0,1,0,1,0,0],[0,1,15,3,0,0,0,0,0],[0,0,1,16,2,0,0,0,0],[1,2,0,1,15,0,0,0,0],[1,0,3,0,1,13,1,0,0],[0,4,1,0,0,0,12,2,0],[1,2,1,0,0,4,2,9,0]]},"preds":[[0,0.3997,1.8,null],[6,0.242,5.9,null],[7,0.1882,1.6,null],[7,0.215,5.8,null],[7,0.2679,1.9,null],[7,0.3439,6.1,null],[7,0.2783,1.8,null],[5,0.3105,5.9,null],[7,0.258,1.9,null],[5,0.2828,6.0,null],[7,0.3408,2.1,null],[5,0.4266,6.0,null],[5,0.498,2.2,null],[7,0.3598,6.0,null],[7,0.4023,1.7,null],[1,0.1674,5.9,null],[2,0.2924,1.8,null],[1,0.2235,5.8,null],[6,0.2052,1.5,null],[0,0.513,1.6,null],[2,0.3282,5.9,null],[0,0.479,1.7,null],[0,0.5065,5.7,null],[4,0.2806,1.9,null],[3,0.4183,5.9,null],[3,0.876,1.7,null],[2,0.2589,6.0,null],[0,0.3979,1.6,null],[0,0.2593,5.6,null],[4,0.3272,1.5,null],[0,0.371,1.6,null],[0,0.2756,1.8,null],[0,0.2832,1.7,null],[2,0.2071,2.4,null],[0,0.2652,2.2,null],[0,0.3568,1.6,null],[3,0.2989,1.6,null],[4,0.6467,1.8,null],[4,0.2511,1.8,null],[4,0.7321,1.8,null],[4,0.5098,1.7,null],[4,0.6855,1.6,null],[4,0.4152,1.6,null],[4,0.3965,1.5,null],[0,0.3795,1.6,null],[4,0.4353,1.6,null],[4,0.3353,1.8,null],[4,0.5823,1.8,null],[4,0.5635,1.7,null],[4,0.7337,2.1,null],[1,0.2239,1.7,null],[4,0.3005,1.8,null],[4,0.7991,1.8,null],[4,0.4405,1.7,null],[1,0.3358,1.9,null],[3,0.5264,1.8,null],[3,0.5051,1.6,null],[3,0.695,1.8,null],[2,0.2848,1.7,null],[3,0.4433,1.8,null],[3,0.2694,1.7,null],[3,0.6429,1.7,null],[3,0.3873,1.8,null],[3,0.5647,1.6,null],[4,0.5797,1.6,null],[3,0.76,1.6,null],[3,0.5979,1.8,null],[4,0.3388,1.6,null],[3,0.9233,1.9,null],[3,0.9186,1.7,null],[3,0.7022,1.8,null],[3,0.2567,1.7,null],[3,0.6202,1.6,null],[3,0.3454,1.6,null],[3,0.5795,2.3,null],[2,0.8176,2.6,null],[2,0.6493,2.6,null],[2,0.5277,2.0,null],[2,0.5518,1.7,null],[2,0.2797,1.7,null],[2,0.7109,1.7,null],[3,0.266,1.6,null],[2,0.4498,1.6,null],[2,0.5564,1.6,null],[2,0.647,1.5,null],[1,0.2072,1.7,null],[2,0.3542,1.7,null],[3,0.3079,1.8,null],[2,0.4603,1.6,null],[2,0.345,1.7,null],[3,0.5859,1.7,null],[2,0.6923,1.8,null],[2,0.2103,1.8,null],[2,0.487,1.8,null],[5,0.6568,1.9,null],[5,0.5071,1.7,null],[5,0.6968,1.7,null],[6,0.2813,2.0,null],[2,0.3785,1.7,null],[5,0.6034,1.6,null],[5,0.5214,1.6,null],[5,0.3197,1.6,null],[5,0.3235,1.6,null],[0,0.4019,1.7,null],[5,0.3569,2.5,null],[5,0.3492,1.8,null],[4,0.3144,1.9,null],[2,0.2684,2.0,null],[5,0.4549,1.9,null],[2,0.215,1.9,null],[5,0.7169,1.8,null],[5,0.3926,1.8,null],[5,0.4937,1.8,null],[6,0.3855,1.8,null],[6,0.8244,1.8,null],[6,0.4991,2.0,null],[6,0.2181,1.7,null],[6,0.6484,1.8,null],[7,0.2746,1.7,null],[6,0.6121,1.9,null],[6,0.6754,1.9,null],[7,0.189,2.5,null],[1,0.1894,2.1,null],[6,0.6322,2.3,null],[6,0.6776,1.8,null],[1,0.22,1.7,null],[1,0.2394,1.7,null],[2,0.3514,1.5,null],[6,0.9029,1.8,null],[6,0.8024,1.7,null],[1,0.247,1.9,null],[6,0.3457,1.6,null],[1,0.7349,1.9,null],[4,0.2852,1.8,null],[1,0.4447,1.7,null],[1,0.3555,2.0,null],[6,0.1975,2.2,null],[1,0.6666,1.6,null],[1,0.4607,1.7,null],[1,0.2584,1.6,null],[1,0.8576,1.5,null],[1,0.5731,1.7,null],[1,0.2782,1.8,null],[1,0.3194,1.7,null],[1,0.3684,1.6,null],[1,0.3387,1.7,null],[2,0.3192,1.6,null],[1,0.7112,1.6,null],[1,0.7869,1.6,null],[1,0.2215,3.2,null],[1,0.7778,2.2,null]],"slices":{"ascii":{"n":5,"accuracy":0.8},"multi":{"n":5,"accuracy":0.4},"short":{"n":12,"accuracy":0.5}},"vsRef":{"reference":"mercury_2_5","diff":-0.26490066225165565,"lo":-0.3443708609271523,"hi":-0.18543046357615894}},{"key":"embedding_e5_lr","display":"multilingual-e5-small + LR (eğitimli)","group":"egitimli","provider":"embedding","model":"intfloat/multilingual-e5-small","status":"ok","reason":null,"firstError":null,"notes":"SetFit'in karşıtı basit sürüm: gömme dondurulur, yalnız sınıflandırıcı başı eğitilir.","verified":"","local":true,"price":{"in":null,"out":null,"note":""},"setupS":4.879,"coldMs":135.8419610000965,"concurrency":1,"m":{"n":151,"nOk":151,"accuracy":0.8079470198675497,"accuracyCI":[0.7417218543046358,0.8675496688741722],"accuracyValid":0.8079470198675497,"macroF1":0.8074304350620141,"macroF1CI":[0.7349431136462626,0.8671536841293754],"errorRate":0.0,"ece":0.33958811595776095,"brier":0.4291823542723197,"nProb":151,"confKinds":["native"],"accAtCov80":0.859504132231405,"covAtAcc95":0.2781456953642384,"latP50":15.901563999932478,"latP95":25.07017850007287,"latP99":47.456332500019016,"tokIn":null,"tokOut":null,"tokensEstimated":false,"cost1000":null,"perClass":{"fatura_odeme":{"precision":0.7777777777777778,"recall":0.7777777777777778,"f1":0.7777777777777778,"support":18},"teknik_destek":{"precision":0.8823529411764706,"recall":0.7894736842105263,"f1":0.8333333333333333,"support":19},"kargo_teslimat":{"precision":0.8,"recall":0.8421052631578947,"f1":0.8205128205128205,"support":19},"iade_degisim":{"precision":0.7619047619047619,"recall":0.8421052631578947,"f1":0.8,"support":19},"hesap_guvenlik":{"precision":0.7391304347826086,"recall":0.8947368421052632,"f1":0.8095238095238095,"support":19},"satis_fiyat":{"precision":0.8421052631578947,"recall":0.8421052631578947,"f1":0.8421052631578947,"support":19},"sikayet_oneri":{"precision":0.8823529411764706,"recall":0.7894736842105263,"f1":0.8333333333333333,"support":19},"diger":{"precision":0.8125,"recall":0.6842105263157895,"f1":0.742857142857143,"support":19}},"confusion":[[14,0,1,3,0,0,0,0,0],[0,15,1,0,2,0,1,0,0],[0,1,16,1,1,0,0,0,0],[0,0,1,16,1,1,0,0,0],[0,1,0,0,17,0,0,1,0],[2,0,0,1,0,16,0,0,0],[0,0,1,0,1,0,15,2,0],[2,0,0,0,1,2,1,13,0]]},"preds":[[7,0.4328,19.3,null],[7,0.1932,24.0,null],[7,0.5088,23.0,null],[5,0.3623,12.3,null],[7,0.2868,12.7,null],[7,0.2144,13.0,null],[6,0.4706,12.6,null],[5,0.5232,12.4,null],[7,0.446,12.2,null],[7,0.242,15.0,null],[7,0.5292,16.7,null],[7,0.1907,16.5,null],[7,0.8067,12.8,null],[7,0.4673,13.5,null],[7,0.4958,14.1,null],[7,0.3257,12.3,null],[0,0.2593,17.3,null],[0,0.277,12.8,null],[4,0.3322,15.9,null],[0,0.6168,17.6,null],[0,0.3023,15.9,null],[0,0.4456,14.8,null],[0,0.5979,12.8,null],[3,0.3855,14.6,null],[3,0.3217,13.9,null],[3,0.5901,14.1,null],[2,0.257,15.5,null],[0,0.4603,13.0,null],[0,0.5082,14.9,null],[0,0.5717,17.4,null],[0,0.4676,16.3,null],[0,0.358,34.6,null],[0,0.4599,32.7,null],[0,0.6027,19.3,null],[0,0.696,15.6,null],[0,0.4187,14.6,null],[0,0.3522,22.6,null],[4,0.4778,14.2,null],[7,0.3778,12.1,null],[4,0.3685,14.3,null],[4,0.4972,14.4,null],[4,0.6407,16.1,null],[4,0.375,14.9,null],[4,0.3078,13.8,null],[4,0.2793,13.9,null],[4,0.388,14.6,null],[4,0.4658,18.4,null],[4,0.4322,17.3,null],[4,0.7389,14.8,null],[4,0.514,25.1,null],[4,0.2183,15.5,null],[4,0.4896,16.9,null],[4,0.5967,17.5,null],[4,0.4624,14.0,null],[1,0.5796,19.5,null],[4,0.5232,16.0,null],[3,0.6932,15.3,null],[3,0.726,16.0,null],[5,0.2597,17.0,null],[3,0.5189,16.7,null],[3,0.3668,18.6,null],[3,0.7118,16.1,null],[3,0.297,69.8,null],[3,0.7821,19.7,null],[4,0.3432,15.1,null],[3,0.7332,19.1,null],[3,0.246,14.9,null],[3,0.3655,44.4,null],[3,0.3975,24.0,null],[3,0.6976,18.5,null],[3,0.7808,17.7,null],[3,0.4702,16.9,null],[2,0.3971,17.0,null],[3,0.2829,18.2,null],[3,0.2606,14.7,null],[2,0.6677,25.0,null],[2,0.7951,21.0,null],[2,0.5507,21.5,null],[2,0.6459,21.3,null],[2,0.3764,17.4,null],[2,0.532,15.4,null],[2,0.5082,12.6,null],[2,0.3637,16.3,null],[2,0.418,18.7,null],[2,0.3728,13.0,null],[4,0.27,12.9,null],[1,0.2541,14.0,null],[2,0.2764,16.0,null],[2,0.708,12.9,null],[2,0.3031,15.5,null],[3,0.4018,14.0,null],[2,0.3421,16.9,null],[2,0.4126,15.7,null],[2,0.4442,16.3,null],[3,0.4044,15.5,null],[5,0.6401,12.8,null],[5,0.7845,13.6,null],[0,0.2428,50.5,null],[5,0.4471,15.0,null],[5,0.4732,14.8,null],[5,0.3554,15.9,null],[5,0.5852,12.9,null],[5,0.5951,13.9,null],[0,0.6015,16.6,null],[5,0.5631,13.4,null],[5,0.6268,13.3,null],[5,0.5668,12.8,null],[5,0.713,14.4,null],[5,0.397,15.1,null],[5,0.3533,14.0,null],[5,0.5169,15.3,null],[5,0.3517,14.5,null],[5,0.2699,16.0,null],[6,0.4485,16.8,null],[6,0.8418,15.7,null],[6,0.6935,13.8,null],[6,0.3731,20.4,null],[6,0.4206,14.4,null],[7,0.3732,14.2,null],[6,0.5178,16.4,null],[6,0.8516,14.2,null],[6,0.2981,23.4,null],[7,0.1957,16.7,null],[6,0.3939,14.8,null],[6,0.455,17.2,null],[6,0.6512,13.0,null],[6,0.2562,17.8,null],[2,0.3599,15.2,null],[6,0.6175,14.7,null],[4,0.2873,16.6,null],[6,0.4594,15.1,null],[6,0.7037,12.5,null],[1,0.6553,16.3,null],[4,0.3431,13.8,null],[1,0.4163,15.7,null],[1,0.6027,17.5,null],[1,0.6174,14.7,null],[1,0.5522,26.9,null],[4,0.2935,27.1,null],[6,0.2482,20.5,null],[1,0.6412,23.5,null],[1,0.7296,22.0,null],[1,0.4176,21.7,null],[1,0.6221,21.4,null],[1,0.2919,21.7,null],[2,0.2875,21.9,null],[1,0.4062,20.6,null],[1,0.6179,21.7,null],[1,0.7513,15.9,null],[1,0.6163,21.3,null],[1,0.4444,20.8,null]],"slices":{"ascii":{"n":5,"accuracy":0.8},"multi":{"n":5,"accuracy":0.4},"short":{"n":12,"accuracy":0.75}},"vsRef":{"reference":"mercury_2_5","diff":-0.15894039735099338,"lo":-0.2251655629139073,"hi":-0.09933774834437085}},{"key":"setfit_minilm","display":"SetFit (MiniLM çok dilli, 8-shot)","group":"egitimli","provider":"setfit","model":"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2","status":"ok","reason":null,"firstError":null,"notes":"pip install setfit. CPU'da eğitim dakikalar sürebilir.","verified":"","local":true,"price":{"in":null,"out":null,"note":""},"setupS":160.392,"coldMs":146.26817199996367,"concurrency":1,"m":{"n":151,"nOk":151,"accuracy":0.7483443708609272,"accuracyCI":[0.6754966887417219,0.8145695364238411],"accuracyValid":0.7483443708609272,"macroF1":0.7509653659034464,"macroF1CI":[0.6738121256038895,0.8139103258624354],"errorRate":0.0,"ece":0.11734373965872286,"brier":0.39126578399070117,"nProb":151,"confKinds":["native"],"accAtCov80":0.8181818181818182,"covAtAcc95":0.3973509933774834,"latP50":12.751861999959146,"latP95":17.32677900008639,"latP99":22.93542649988467,"tokIn":null,"tokOut":null,"tokensEstimated":false,"cost1000":null,"perClass":{"fatura_odeme":{"precision":0.75,"recall":0.8333333333333334,"f1":0.7894736842105262,"support":18},"teknik_destek":{"precision":0.8421052631578947,"recall":0.8421052631578947,"f1":0.8421052631578947,"support":19},"kargo_teslimat":{"precision":0.8666666666666667,"recall":0.6842105263157895,"f1":0.7647058823529413,"support":19},"iade_degisim":{"precision":0.7368421052631579,"recall":0.7368421052631579,"f1":0.7368421052631579,"support":19},"hesap_guvenlik":{"precision":0.85,"recall":0.8947368421052632,"f1":0.8717948717948718,"support":19},"satis_fiyat":{"precision":0.65,"recall":0.6842105263157895,"f1":0.6666666666666667,"support":19},"sikayet_oneri":{"precision":0.8666666666666667,"recall":0.6842105263157895,"f1":0.7647058823529413,"support":19},"diger":{"precision":0.5217391304347826,"recall":0.631578947368421,"f1":0.5714285714285715,"support":19}},"confusion":[[15,0,0,2,0,0,1,0,0],[1,16,0,0,0,0,1,1,0],[1,1,13,1,1,0,0,2,0],[0,1,1,14,1,2,0,0,0],[0,0,0,0,17,1,0,1,0],[2,0,0,2,0,13,0,2,0],[0,0,0,0,0,1,13,5,0],[1,1,1,0,1,3,0,12,0]]},"preds":[[7,0.7644,15.8,null],[2,0.5127,18.8,null],[7,0.5979,13.1,null],[5,0.2874,12.1,null],[7,0.3084,12.4,null],[1,0.4397,14.0,null],[7,0.7735,12.1,null],[5,0.4678,13.2,null],[7,0.6569,11.7,null],[7,0.6018,13.8,null],[7,0.9772,13.5,null],[5,0.6161,15.9,null],[7,0.8235,12.6,null],[7,0.9544,10.0,null],[7,0.6993,10.3,null],[7,0.8362,11.1,null],[4,0.7009,13.3,null],[0,0.4252,12.1,null],[7,0.7023,13.8,null],[0,0.8901,13.2,null],[0,0.8511,12.2,null],[0,0.8071,13.7,null],[0,0.9291,11.1,null],[3,0.497,16.2,null],[3,0.3421,11.6,null],[0,0.8099,15.0,null],[0,0.714,12.3,null],[0,0.5116,10.7,null],[0,0.617,12.0,null],[0,0.4891,11.7,null],[0,0.9243,11.2,null],[0,0.2753,14.2,null],[0,0.932,11.0,null],[0,0.8624,12.8,null],[0,0.4308,12.7,null],[6,0.4289,11.4,null],[0,0.6729,13.0,null],[4,0.9065,11.6,null],[4,0.3118,11.1,null],[4,0.3938,12.3,null],[4,0.7266,13.1,null],[4,0.9512,14.0,null],[4,0.8281,13.4,null],[5,0.3071,11.5,null],[4,0.5357,12.9,null],[4,0.2841,11.6,null],[4,0.8343,14.3,null],[4,0.4754,12.4,null],[4,0.9471,13.5,null],[4,0.9523,12.4,null],[7,0.327,11.3,null],[4,0.7064,13.3,null],[4,0.9435,13.3,null],[4,0.4706,11.5,null],[4,0.7791,11.7,null],[4,0.7531,11.9,null],[3,0.8812,13.3,null],[3,0.7423,12.6,null],[4,0.5285,14.1,null],[3,0.6481,12.6,null],[3,0.502,13.6,null],[3,0.8341,12.7,null],[5,0.3024,12.6,null],[3,0.6149,10.5,null],[3,0.8082,9.8,null],[3,0.6784,12.5,null],[3,0.3192,11.6,null],[3,0.6419,10.2,null],[3,0.5233,11.7,null],[3,0.5715,13.9,null],[3,0.733,12.9,null],[1,0.3435,13.4,null],[2,0.5067,13.5,null],[5,0.4003,11.9,null],[3,0.5289,11.5,null],[2,0.8952,12.4,null],[2,0.6837,12.7,null],[2,0.787,13.7,null],[2,0.8447,13.0,null],[2,0.4053,23.8,null],[2,0.5845,17.3,null],[2,0.6435,10.8,null],[2,0.4539,13.3,null],[4,0.5812,13.2,null],[3,0.3502,10.7,null],[2,0.6778,11.8,null],[2,0.556,12.7,null],[2,0.6765,12.0,null],[2,0.6325,12.2,null],[1,0.4503,13.7,null],[2,0.8926,12.9,null],[0,0.6799,12.3,null],[7,0.297,12.1,null],[7,0.5417,12.3,null],[5,0.4706,13.2,null],[5,0.7412,12.8,null],[5,0.9296,10.6,null],[5,0.4149,11.0,null],[5,0.8096,10.6,null],[5,0.764,11.2,null],[5,0.5989,11.1,null],[5,0.8849,11.6,null],[5,0.8146,12.3,null],[0,0.8845,12.4,null],[5,0.7434,14.6,null],[5,0.8301,12.1,null],[3,0.8103,11.2,null],[7,0.5154,11.4,null],[0,0.352,11.2,null],[7,0.4426,10.8,null],[5,0.9534,13.8,null],[3,0.4061,14.6,null],[5,0.4583,20.2,null],[6,0.4282,19.3,null],[6,0.5218,14.7,null],[6,0.4625,17.4,null],[6,0.8583,20.8,null],[6,0.8306,14.7,null],[7,0.6452,15.8,null],[6,0.3179,16.2,null],[7,0.4869,15.3,null],[6,0.8435,14.6,null],[7,0.6208,15.6,null],[6,0.4938,13.2,null],[6,0.2458,13.9,null],[7,0.4106,12.9,null],[5,0.4372,14.0,null],[6,0.3504,12.5,null],[6,0.4705,15.8,null],[6,0.7661,22.0,null],[6,0.5301,24.9,null],[7,0.6194,15.1,null],[1,0.8274,14.7,null],[0,0.7463,15.3,null],[1,0.677,15.3,null],[1,0.6214,16.2,null],[1,0.9109,13.3,null],[6,0.2508,12.3,null],[1,0.4867,12.7,null],[7,0.6046,13.4,null],[1,0.9007,11.9,null],[1,0.8502,16.4,null],[1,0.4309,12.8,null],[1,0.8584,14.8,null],[1,0.6144,11.7,null],[1,0.7022,13.0,null],[1,0.4715,12.4,null],[1,0.9047,12.0,null],[1,0.796,9.4,null],[1,0.4631,13.1,null],[1,0.6938,14.1,null]],"slices":{"ascii":{"n":5,"accuracy":0.6},"multi":{"n":5,"accuracy":0.6},"short":{"n":12,"accuracy":0.6666666666666666}},"vsRef":{"reference":"mercury_2_5","diff":-0.2185430463576159,"lo":-0.2980132450331126,"hi":-0.1456953642384106}}],"pareto":{"latency":["embedding_e5_lr","mercury_2_5","mercury_decide","setfit_minilm","tfidf_lr"],"cost":["mercury_2_5","mercury_decide"]}}</script>
+<script>
+(function(){
+"use strict";
+const D = JSON.parse(document.getElementById('data').textContent);
+const LAB = D.labels, EX = D.examples, K = LAB.length;
+const ALL = D.models;
+const scored = ALL.filter(m => m.m);
+const failed = ALL.filter(m => !m.m);
+
+/* ---------- yardımcılar ---------- */
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf = (x, d = 1) => x == null || isNaN(x) ? '—' : x.toFixed(d).replace('.', ',');
+const pct = (x, d = 1) => x == null ? '—' : '%' + nf(x * 100, d);
+const pp = (x, d = 1) => x == null ? '—' : (x >= 0 ? '+' : '−') + nf(Math.abs(x) * 100, d) + ' puan';
+const ms = x => x == null ? '—' : x >= 1000 ? nf(x / 1000, 2) + ' sn' : x >= 100 ? Math.round(x).toLocaleString('tr-TR') + ' ms' : nf(x, 1) + ' ms';
+const usd = (x, est) => x == null ? '—' : (est ? '~' : '') + '$' + (x < 1 ? x.toFixed(4) : x.toFixed(2)).replace('.', ',');
+const GROUP = {
+  'karar-api': {name: 'Karar API', pg: 'karar-api'},
+  'uretken-llm': {name: 'Üretken LLM', pg: 'uretken-llm'},
+  'encoder': {name: 'Encoder (yerel)', pg: 'yerel'},
+  'egitimli': {name: 'Eğitimli (yerel)', pg: 'yerel'},
+};
+const PGCOLOR = {'karar-api': 'var(--s1)', 'uretken-llm': 'var(--s2)', 'yerel': 'var(--s3)'};
+const colorOf = m => PGCOLOR[(GROUP[m.group] || GROUP.encoder).pg];
+const KINDS = {native: 'yerel olasılık', verbalized: 'sözel güven', derived: 'türetilmiş skor'};
+const SLICE = {ascii: 'Türkçe karaktersiz', typo: 'Yazım hatalı', short: 'Çok kısa (≤4 sözcük)', multi: 'Çok niyetli', long: 'Uzun (≥22 sözcük)'};
+const byKey = k => ALL.find(m => m.key === k);
+const ref = D.meta.reference;
+
+const state = {
+  groups: new Set(Object.keys(GROUP).filter(g => scored.some(m => m.group === g) || failed.some(m => m.group === g))),
+  q: '', sortKey: 'accuracy', sortDir: -1, rank: 'accuracy', x: 'lat', open: null, cmp: [],
+};
+
+/* ---------- tema ---------- */
+(function theme(){
+  let t = null; try { t = localStorage.getItem('clf-theme'); } catch (e) {}
+  const ht = /theme=(dark|light)/.exec(location.hash); if (ht) t = ht[1];
+  if (t) document.documentElement.dataset.theme = t;
+  $('#themebtn').onclick = () => {
+    const cur = document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+    const nx = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nx;
+    try { localStorage.setItem('clf-theme', nx); } catch (e) {}
+  };
+})();
+
+/* ---------- tooltip ---------- */
+const tip = $('#tip');
+function showTip(html, ev){
+  tip.innerHTML = html; tip.classList.add('on');
+  const r = tip.getBoundingClientRect(), pad = 14;
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad;
+  tip.style.left = Math.max(8, x) + 'px'; tip.style.top = Math.max(8, y) + 'px';
+}
+function hideTip(){ tip.classList.remove('on'); }
+function bindTip(el, htmlFn){
+  el.addEventListener('mousemove', e => showTip(htmlFn(), e));
+  el.addEventListener('mouseleave', hideTip);
+  el.addEventListener('focus', () => { const r = el.getBoundingClientRect(); showTip(htmlFn(), {clientX: r.left + r.width / 2, clientY: r.top}); });
+  el.addEventListener('blur', hideTip);
+}
+function modelTip(m){
+  const t = m.m;
+  return `<b>${esc(m.display)}</b><div class="m">${esc((GROUP[m.group] || {}).name || m.group)}</div>` +
+    `<div>Doğruluk <b>${pct(t.accuracy)}</b> <span class="m">[${pct(t.accuracyCI[0], 0)}–${pct(t.accuracyCI[1], 0)}]</span></div>` +
+    `<div>Macro-F1 <b>${pct(t.macroF1)}</b> · p50 <b>${ms(t.latP50)}</b></div>` +
+    `<div>Maliyet <b>${t.cost1000 == null ? (m.local ? 'yerel' : '—') : usd(t.cost1000, t.tokensEstimated) + ' / 1.000'}</b></div>` +
+    `<div class="m">Ayrıntı için tıkla</div>`;
+}
+
+/* ---------- veri yardımcıları ---------- */
+const visible = () => scored.filter(m => state.groups.has(m.group) && (!state.q || (m.display + ' ' + m.model + ' ' + m.key).toLowerCase().includes(state.q)));
+const visibleFailed = () => failed.filter(m => state.groups.has(m.group) && (!state.q || (m.display + ' ' + m.key).toLowerCase().includes(state.q)));
+const isCorrect = (m, i) => m.preds[i] && m.preds[i][0] === EX[i].t && !m.preds[i][3];
+
+/* ---------- üst bölüm ---------- */
+function renderHeader(){
+  const d = D.meta.dataset, e = D.meta.environment;
+  $('#runid').textContent = D.meta.run_id;
+  $('#subtitle').innerHTML = `<b>${esc(d.name)}</b> verisi · <b>${d.n_eval}</b> değerlendirme örneği (<code>${esc(d.split)}</code> bölümü) · ${K} sınıf · eğitim bölümü ${d.n_train} örnek · ` +
+    `${scored.length} model puanlandı${failed.length ? `, ${failed.length} model atlandı` : ''} · ${esc(D.meta.started.replace('T', ' '))}` +
+    (D.meta.note ? `<br><span class="hint">${esc(D.meta.note)}</span>` : '');
+  $('#warnbox').innerHTML = '<b>Okumadan önce:</b> yerleşik <code>destek_tr</code> seti gümüş etiketlidir (insan altın kümesi değil) ve test bölümü küçüktür: güven aralıkları geniştir. ' +
+    'Bu panel yöntemi ve boru hattını gösterir; satın alma kararı için kendi insan etiketli Türkçe verinle çalıştır.';
+  if (!d.is_builtin) $('#warnbox').style.display = 'none';
+}
+function renderKPIs(){
+  const box = $('#kpis');
+  if (!scored.length){ box.innerHTML = '<div class="empty card" style="grid-column:1/-1">Puanlanan model yok. Aşağıdaki "Atlananlar" bölümüne bak.</div>'; return; }
+  const best = scored.reduce((a, b) => b.m.accuracy > a.m.accuracy ? b : a);
+  const lat = scored.filter(m => m.m.latP50 != null);
+  const fast = lat.length ? lat.reduce((a, b) => b.m.latP50 < a.m.latP50 ? b : a) : null;
+  const priced = scored.filter(m => m.m.cost1000 != null && m.m.cost1000 > 0);
+  const cheap = priced.length ? priced.reduce((a, b) => b.m.cost1000 < a.m.cost1000 ? b : a) : null;
+  const tiles = [
+    ['En yüksek doğruluk', pct(best.m.accuracy), best.display, best.key],
+    ['En düşük gecikme (p50)', fast ? ms(fast.m.latP50) : '—', fast ? `${fast.display} · doğruluk ${pct(fast.m.accuracy)}` : 'ölçüm yok', fast && fast.key],
+    ['En düşük API maliyeti', cheap ? usd(cheap.m.cost1000, cheap.m.tokensEstimated) : '—', cheap ? `1.000 karar · ${cheap.display}` : 'fiyatlı API modeli yok', cheap && cheap.key],
+    ['Model sayısı', `${scored.length}<span style="font-size:16px;color:var(--muted)"> / ${ALL.length}</span>`, failed.length ? `${failed.length} model atlandı (aşağıda nedeni)` : 'hepsi puanlandı', null],
+  ];
+  box.innerHTML = tiles.map(([k, v, d, key]) => `<${key ? 'button' : 'div'} class="kpi" ${key ? `data-open="${esc(key)}"` : ''}><div class="k">${k}</div><div class="v">${v}</div><div class="d" title="${esc(d)}">${esc(d)}</div></${key ? 'button' : 'div'}>`).join('');
+  box.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openModel(b.dataset.open));
+}
+function renderFilters(){
+  const f = $('#filters');
+  const gs = Object.keys(GROUP).filter(g => ALL.some(m => m.group === g));
+  f.innerHTML = gs.map(g => {
+    const n = ALL.filter(m => m.group === g).length;
+    const col = PGCOLOR[GROUP[g].pg];
+    return `<button class="chip" data-g="${g}" aria-pressed="${state.groups.has(g)}"><span class="dot ${g === 'egitimli' ? 'dia' : ''}" style="background:${col}"></span>${GROUP[g].name}<span style="color:var(--muted)">${n}</span></button>`;
+  }).join('') + '<input class="search" id="q" type="search" placeholder="Model ara…" aria-label="Model ara">';
+  f.querySelectorAll('.chip').forEach(b => b.onclick = () => {
+    const g = b.dataset.g; state.groups.has(g) ? state.groups.delete(g) : state.groups.add(g);
+    b.setAttribute('aria-pressed', state.groups.has(g)); renderAll();
+  });
+  $('#q').oninput = e => { state.q = e.target.value.trim().toLowerCase(); renderAll(false); };
+}
+
+/* ---------- sıralama grafiği ---------- */
+const RANKS = {
+  accuracy: {label: 'Doğruluk', get: m => m.m.accuracy, fmt: pct, hi: true, ci: m => m.m.accuracyCI, max: 1},
+  macroF1: {label: 'Macro-F1', get: m => m.m.macroF1, fmt: pct, hi: true, ci: m => m.m.macroF1CI, max: 1},
+  ece: {label: 'Kalibrasyon hatası (ECE, düşük iyi)', get: m => m.m.ece, fmt: x => nf(x * 100) + ' puan', hi: false, max: null},
+  latP50: {label: 'Gecikme p50 (düşük iyi)', get: m => m.m.latP50, fmt: ms, hi: false, max: null},
+  cost1000: {label: '1.000 karar maliyeti (düşük iyi)', get: m => m.m.cost1000, fmt: x => usd(x), hi: false, max: null},
+};
+function renderRank(){
+  const cfg = RANKS[state.rank];
+  const rows = visible().filter(m => cfg.get(m) != null);
+  const box = $('#rank');
+  if (!rows.length){ box.innerHTML = '<div class="empty">Gösterilecek model yok (filtreleri kontrol et).</div>'; return; }
+  rows.sort((a, b) => cfg.hi ? cfg.get(b) - cfg.get(a) : cfg.get(a) - cfg.get(b));
+  const W = 1000, rowH = 34, labW = 340, valW = 70, top = 6, H = top + rows.length * rowH + 28;
+  const maxV = cfg.max || Math.max(...rows.map(cfg.get)) * 1.05 || 1;
+  const sx = v => labW + (W - labW - valW) * Math.min(v / maxV, 1);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cfg.label)} sıralaması">`;
+  const ticks = cfg.max ? [0, .2, .4, .6, .8, 1] : [0, .25, .5, .75, 1].map(f => f * maxV);
+  ticks.forEach(t => { const x = sx(t); s += `<line x1="${x}" x2="${x}" y1="${top}" y2="${H - 22}" stroke="var(--grid)"/><text x="${x}" y="${H - 6}" text-anchor="middle" font-size="11" fill="var(--muted)">${cfg.max ? '%' + Math.round(t * 100) : (cfg.fmt(t))}</text>`; });
+  rows.forEach((m, i) => {
+    const y = top + i * rowH, v = cfg.get(m), c = colorOf(m);
+    s += `<g class="bar" data-k="${esc(m.key)}" tabindex="0" role="button" aria-label="${esc(m.display)}: ${esc(cfg.fmt(v))}. Ayrıntı için Enter">`;
+    s += `<rect class="rowbg" x="0" y="${y}" width="${W}" height="${rowH}" rx="6"/>`;
+    s += `<text x="${labW - 12}" y="${y + rowH / 2 + 4}" text-anchor="end" font-size="13" fill="var(--ink2)">${esc(clip(m.display, 52))}</text>`;
+    s += `<rect class="fill" x="${labW}" y="${y + 7}" width="${Math.max(2, sx(v) - labW)}" height="${rowH - 14}" rx="4" fill="${c}"/>`;
+    if (cfg.ci){ const [lo, hi] = cfg.ci(m); const yy = y + rowH / 2;
+      s += `<line x1="${sx(lo)}" x2="${sx(hi)}" y1="${yy}" y2="${yy}" stroke="var(--ink)" stroke-width="1.3"/><line x1="${sx(lo)}" x2="${sx(lo)}" y1="${yy - 5}" y2="${yy + 5}" stroke="var(--ink)" stroke-width="1.3"/><line x1="${sx(hi)}" x2="${sx(hi)}" y1="${yy - 5}" y2="${yy + 5}" stroke="var(--ink)" stroke-width="1.3"/>`; }
+    const endX = cfg.ci ? sx(cfg.ci(m)[1]) : sx(v);
+    s += `<text x="${endX + 8}" y="${y + rowH / 2 + 4}" font-size="12.5" font-weight="600" fill="var(--ink)">${esc(cfg.fmt(v))}</text></g>`;
+  });
+  box.innerHTML = s + '</svg>';
+  box.querySelectorAll('.bar').forEach(g => {
+    const m = byKey(g.dataset.k);
+    g.onclick = () => openModel(m.key);
+    g.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModel(m.key); } };
+    bindTip(g, () => modelTip(m));
+  });
+  legend('#legend1', rows);
+}
+const clip = (s, n) => s.length > n ? s.slice(0, n - 1) + '…' : s;
+function legend(sel, rows, diamondNote){
+  const pgs = ['karar-api', 'uretken-llm', 'yerel'].filter(p => rows.some(m => (GROUP[m.group] || GROUP.encoder).pg === p));
+  const name = {'karar-api': 'Karar API', 'uretken-llm': 'Üretken LLM', 'yerel': 'Yerel model'};
+  let h = pgs.map(p => `<span><i class="dot" style="background:${PGCOLOR[p]}"></i>${name[p]}</span>`).join('');
+  if (diamondNote && rows.some(m => m.group === 'egitimli')) h += '<span><i class="dot dia" style="background:var(--muted)"></i>elmas işaret = eğitimli model (train bölümünden öğrenir)</span>';
+  $(sel).innerHTML = h;
+}
+
+/* ---------- dağılım grafiği ---------- */
+function paretoSet(rows, xf){
+  const pts = rows.filter(m => xf(m) != null && xf(m) > 0);
+  return new Set(pts.filter(a => !pts.some(b => b !== a && b.m.accuracy >= a.m.accuracy && xf(b) <= xf(a) && (b.m.accuracy > a.m.accuracy || xf(b) < xf(a)))).map(m => m.key));
+}
+function renderScatter(){
+  const xf = state.x === 'lat' ? (m => m.m.latP50) : (m => m.m.cost1000);
+  const rows = visible().filter(m => xf(m) != null && xf(m) > 0);
+  const box = $('#scatter');
+  if (rows.length < 1){ box.innerHTML = `<div class="empty">${state.x === 'cost' ? 'Fiyatı bilinen API modeli yok: yerel modellerin API ücreti olmadığı için bu grafikte görünmezler.' : 'Gösterilecek model yok.'}</div>`; $('#legend2').innerHTML = ''; return; }
+  const W = 1000, H = 520, L = 64, R = 24, T = 16, B = 52;
+  const xs = rows.map(xf), lo = Math.min(...xs), hi = Math.max(...xs);
+  const x0 = Math.pow(10, Math.floor(Math.log10(lo) - .15)), x1 = Math.pow(10, Math.ceil(Math.log10(hi) + .15));
+  const accs = rows.map(m => m.m.accuracy * 100);
+  const y0 = Math.max(0, Math.floor((Math.min(...accs) - 6) / 10) * 10), y1 = Math.min(100, Math.ceil((Math.max(...accs) + 4) / 10) * 10);
+  const sx = v => L + (W - L - R) * (Math.log10(v) - Math.log10(x0)) / (Math.log10(x1) - Math.log10(x0));
+  const sy = v => T + (H - T - B) * (1 - (v - y0) / (y1 - y0));
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Doğruluk ve ${state.x === 'lat' ? 'gecikme' : 'maliyet'} dağılımı">`;
+  for (let v = y0; v <= y1; v += 10) s += `<line x1="${L}" x2="${W - R}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--grid)"/><text x="${L - 10}" y="${sy(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">%${v}</text>`;
+  for (let e = Math.log10(x0); e <= Math.log10(x1) + 1e-9; e++){
+    const v = Math.pow(10, e), x = sx(v);
+    s += `<line x1="${x}" x2="${x}" y1="${T}" y2="${H - B}" stroke="var(--grid)"/><text x="${x}" y="${H - B + 18}" text-anchor="middle" font-size="11" fill="var(--muted)">${state.x === 'lat' ? ms(v) : '$' + (v < 1 ? v.toString().replace('.', ',') : v)}</text>`;
+  }
+  s += `<line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--axis)"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H - B}" stroke="var(--axis)"/>`;
+  s += `<text x="${(L + W - R) / 2}" y="${H - 8}" text-anchor="middle" font-size="12" fill="var(--ink2)">${state.x === 'lat' ? 'p50 gecikme (log ölçek) — sola doğru daha hızlı' : '1.000 karar başına maliyet, USD (log ölçek) — sola doğru daha ucuz'}</text>`;
+  s += `<text transform="translate(16 ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle" font-size="12" fill="var(--ink2)">Doğruluk — yukarı daha iyi</text>`;
+  const par = paretoSet(rows, xf);
+  const pp_ = rows.filter(m => par.has(m.key)).sort((a, b) => xf(a) - xf(b));
+  if (pp_.length > 1){
+    let d = `M${sx(xf(pp_[0]))} ${sy(pp_[0].m.accuracy * 100)}`;
+    for (let i = 1; i < pp_.length; i++) d += ` H${sx(xf(pp_[i]))} V${sy(pp_[i].m.accuracy * 100)}`;
+    s += `<path d="${d}" fill="none" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="5 4"/>`;
+  }
+  const boxes = [];
+  rows.forEach(m => { boxes.push({x: sx(xf(m)) - 9, y: sy(m.m.accuracy * 100) - 9, w: 18, h: 18}); });
+  const overl = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  const placed = [];
+  let pts = '', labels = '';
+  [...rows].sort((a, b) => xf(a) - xf(b)).forEach(m => {
+    const cx = sx(xf(m)), cy = sy(m.m.accuracy * 100), c = colorOf(m), dia = m.group === 'egitimli';
+    const shape = dia ? `<path d="M${cx} ${cy - 9} L${cx + 9} ${cy} L${cx} ${cy + 9} L${cx - 9} ${cy} Z" fill="${c}" stroke="var(--surface)" stroke-width="1.5"/>` : `<circle cx="${cx}" cy="${cy}" r="7.5" fill="${c}" stroke="var(--surface)" stroke-width="1.5"/>`;
+    pts += `<g class="pt" data-k="${esc(m.key)}" tabindex="0" role="button" aria-label="${esc(m.display)}">${shape}</g>`;
+    const txt = clip(m.display, 46), tw = txt.length * 6.1 + 4;
+    const cands = [[11, -6, 'start'], [11, 14, 'start'], [-11, -6, 'end'], [-11, 14, 'end'], [0, -16, 'middle'], [0, 24, 'middle']];
+    let pick = cands[0];
+    for (const c2 of cands){
+      const bx = c2[2] === 'start' ? cx + c2[0] : c2[2] === 'end' ? cx + c2[0] - tw : cx - tw / 2;
+      const r = {x: bx, y: cy + c2[1] - 11, w: tw, h: 14};
+      if (bx > L && bx + tw < W - 2 && r.y > T - 4 && r.y + r.h < H - B + 2 && !placed.some(p => overl(r, p)) && !boxes.some(b => overl(r, b))) { pick = c2; placed.push(r); break; }
+    }
+    labels += `<text x="${cx + pick[0]}" y="${cy + pick[1]}" text-anchor="${pick[2]}" font-size="11.5" fill="var(--ink2)" pointer-events="none">${esc(txt)}</text>`;
+  });
+  box.innerHTML = s + labels + pts + '</svg>';
+  box.querySelectorAll('.pt').forEach(g => {
+    const m = byKey(g.dataset.k);
+    g.onclick = () => openModel(m.key);
+    g.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModel(m.key); } };
+    bindTip(g, () => modelTip(m) + (par.has(m.key) ? '<div class="ok">✓ Pareto sınırında</div>' : ''));
+  });
+  legend('#legend2', rows, true);
+}
+
+/* ---------- tablo ---------- */
+const COLS = [
+  {k: 'name', label: 'Model', get: m => m.display.toLowerCase(), cls: ''},
+  {k: 'group', label: 'Grup', get: m => m.group, cls: ''},
+  {k: 'accuracy', label: 'Doğruluk [%95 GA]', get: m => m.m.accuracy, cls: 'r'},
+  {k: 'macroF1', label: 'Macro-F1', get: m => m.m.macroF1, cls: 'r'},
+  {k: 'err', label: 'Geçersiz', get: m => m.m.errorRate, cls: 'r'},
+  {k: 'ece', label: 'ECE', get: m => m.m.ece, cls: 'r'},
+  {k: 'p50', label: 'p50', get: m => m.m.latP50, cls: 'r'},
+  {k: 'p95', label: 'p95', get: m => m.m.latP95, cls: 'r'},
+  {k: 'cost', label: '$/1.000 karar', get: m => m.m.cost1000, cls: 'r'},
+];
+function renderTable(){
+  const rows = visible();
+  const col = COLS.find(c => c.k === state.sortKey) || COLS[2];
+  rows.sort((a, b) => {
+    const x = col.get(a), y = col.get(b);
+    if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1;
+    return (x < y ? -1 : x > y ? 1 : 0) * state.sortDir;
+  });
+  const head = '<thead><tr><th style="width:34px" aria-label="Karşılaştır"></th>' + COLS.map(c =>
+    `<th class="${c.cls}" aria-sort="${c.k === state.sortKey ? (state.sortDir > 0 ? 'ascending' : 'descending') : 'none'}"><button data-sort="${c.k}">${c.label}<span class="arr">${c.k === state.sortKey ? (state.sortDir > 0 ? '▲' : '▼') : '▲▼'}</span></button></th>`).join('') + '</tr></thead>';
+  const body = '<tbody>' + rows.map(m => {
+    const t = m.m, c = colorOf(m), g = GROUP[m.group] || {name: m.group};
+    const cost = t.cost1000 != null ? usd(t.cost1000, t.tokensEstimated) : (m.local ? '<span style="color:var(--muted)">yerel</span>' : '—');
+    return `<tr class="row" data-k="${esc(m.key)}" tabindex="0"><td><input class="chk" type="checkbox" data-c="${esc(m.key)}" ${state.cmp.includes(m.key) ? 'checked' : ''} aria-label="${esc(m.display)} karşılaştır"></td>` +
+      `<td><div class="mname">${esc(m.display)}<small>${esc(m.model || m.provider)}</small></div></td>` +
+      `<td><span class="badge"><i class="dot ${m.group === 'egitimli' ? 'dia' : ''}" style="background:${c}"></i>${esc(g.name)}</span></td>` +
+      `<td class="r"><b>${pct(t.accuracy)}</b> <span style="color:var(--muted)">[${pct(t.accuracyCI[0], 0)}–${pct(t.accuracyCI[1], 0)}]</span><span class="minibar"><i style="width:${t.accuracy * 100}%;background:${c}"></i><b style="left:${t.accuracyCI[0] * 100}%"></b><b style="left:${t.accuracyCI[1] * 100}%"></b></span></td>` +
+      `<td class="r">${pct(t.macroF1)}</td><td class="r ${t.errorRate > 0 ? 'bad' : ''}">${pct(t.errorRate)}</td>` +
+      `<td class="r">${t.ece == null ? '—' : nf(t.ece * 100) + ' pp'}</td><td class="r">${ms(t.latP50)}</td><td class="r">${ms(t.latP95)}</td><td class="r">${cost}</td></tr>`;
+  }).join('') + '</tbody>';
+  const tbl = $('#tbl');
+  tbl.innerHTML = head + (rows.length ? body : '<tbody><tr><td colspan="10" class="empty">Eşleşen model yok.</td></tr></tbody>');
+  tbl.querySelectorAll('[data-sort]').forEach(b => b.onclick = () => {
+    const k = b.dataset.sort; if (state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = (k === 'name' || k === 'group' || k === 'err' || k === 'ece' || k === 'p50' || k === 'p95' || k === 'cost') ? 1 : -1; }
+    renderTable();
+  });
+  tbl.querySelectorAll('tr.row').forEach(tr => {
+    tr.onclick = e => { if (e.target.closest('.chk')) return; openModel(tr.dataset.k); };
+    tr.onkeydown = e => { if (e.key === 'Enter' && !e.target.closest('.chk')) openModel(tr.dataset.k); };
+  });
+  tbl.querySelectorAll('.chk').forEach(c => c.onchange = () => {
+    const k = c.dataset.c;
+    if (c.checked){ state.cmp.push(k); if (state.cmp.length > 2) state.cmp.shift(); } else state.cmp = state.cmp.filter(x => x !== k);
+    renderTable(); renderCompare();
+  });
+}
+function renderFailed(){
+  const rows = visibleFailed();
+  $('#navfailed').style.display = $('#failed').style.display = failed.length ? '' : 'none';
+  $('#failcards').innerHTML = rows.map(m => {
+    const r = m.reason || m.firstError || m.status || '';
+    return `<div class="failcard"><h4>${esc(m.display)} <span class="tag">${esc((GROUP[m.group] || {}).name || m.group)}</span></h4><p><b class="bad">${esc(m.status === 'failed' ? 'Çalıştırılamadı' : 'Durdu')}</b> — ${esc(hint(r))}</p>` +
+      (m.verified ? `<p style="color:var(--muted);font-size:12px">${esc(m.verified)}</p>` : '') + `<code>${esc(r)}</code></div>`;
+  }).join('') || '<div class="empty">Filtrelere uyan atlanan model yok.</div>';
+}
+function hint(r){
+  if (/HTTP 401/.test(r)) return 'Anahtar bu servis tarafından reddedildi (401). Anahtarın bu API’ye ait ve geçerli olduğundan emin ol; yanlış servisin anahtarı olabilir.';
+  if (/HTTP 402|wallet|credits|PAYMENT|insufficient/i.test(r)) return 'Anahtar geçerli ama hesapta bakiye/kredi yok (402). Servise kredi yüklenince model otomatik çalışır.';
+  if (/HTTP 403/.test(r)) return 'Erişim yok (403). Hesabın bu modele/betaya erişimi olmayabilir.';
+  if (/HTTP 404/.test(r)) return 'Uç nokta veya model adı bulunamadı (404). configs/models.yaml içindeki base_url/model değerlerini kontrol et.';
+  if (/paket eksik/.test(r)) return 'Gerekli Python paketi kurulu değil. pip install -e ".[all]" ile kurabilirsin.';
+  if (/tanımlı değil/.test(r)) return 'API anahtarı .env dosyasında tanımlı değil.';
+  return 'Ayrıntı aşağıdaki hata metninde.';
+}
+
+/* ---------- karşılaştırma ---------- */
+function renderCompare(){
+  const box = $('#cmp');
+  if (state.cmp.length < 2){ box.classList.remove('on'); box.innerHTML = ''; return; }
+  const [a, b] = state.cmp.map(byKey);
+  let both = 0, onlyA = [], onlyB = [], none = 0;
+  EX.forEach((e, i) => { const x = isCorrect(a, i), y = isCorrect(b, i); if (x && y) both++; else if (x) onlyA.push(i); else if (y) onlyB.push(i); else none++; });
+  const row = (lab, f) => `<tr><td>${lab}</td><td class="r">${f(a)}</td><td class="r">${f(b)}</td></tr>`;
+  const list = (idx, m, other) => idx.slice(0, 12).map(i => `<tr><td style="white-space:normal">${esc(EX[i].x)}</td><td>${esc(LAB[EX[i].t].key)}</td><td>${esc(predName(other, i))}</td></tr>`).join('') || `<tr><td colspan="3" class="empty">Yok</td></tr>`;
+  box.innerHTML = `<div class="sechead"><div><h2>Karşılaştırma</h2><p class="hint">Aynı ${EX.length} örnek üzerinde iki model.</p></div><button class="iconbtn" id="cmpclear">Temizle</button></div>` +
+    `<div class="grid2"><div class="tablewrap" style="box-shadow:none"><table><thead><tr><th></th><th class="r">${esc(clip(a.display, 28))}</th><th class="r">${esc(clip(b.display, 28))}</th></tr></thead><tbody>` +
+    row('Doğruluk', m => pct(m.m.accuracy)) + row('Macro-F1', m => pct(m.m.macroF1)) + row('Geçersiz yanıt', m => pct(m.m.errorRate)) + row('ECE', m => m.m.ece == null ? '—' : nf(m.m.ece * 100) + ' pp') +
+    row('Gecikme p50', m => ms(m.m.latP50)) + row('Gecikme p95', m => ms(m.m.latP95)) + row('$/1.000 karar', m => m.m.cost1000 == null ? '—' : usd(m.m.cost1000)) +
+    `</tbody></table></div><div class="card" style="box-shadow:none"><h4>Aynı mı, farklı mı?</h4>` +
+    `<p>İkisi de doğru: <b>${both}</b> · ikisi de yanlış: <b>${none}</b></p><p>Yalnız <b>${esc(clip(a.display, 24))}</b> doğru: <b>${onlyA.length}</b> · yalnız <b>${esc(clip(b.display, 24))}</b> doğru: <b>${onlyB.length}</b></p>` +
+    `<p class="hint">Model hataları ne kadar farklı dağılıyorsa, ikisini birlikte kullanmak (örn. ucuz model + belirsizlikte güçlü model) o kadar anlamlıdır.</p></div></div>` +
+    `<div class="grid2" style="margin-top:14px"><div><h4>Yalnız ${esc(clip(a.display, 30))} doğru</h4><div class="tablewrap" style="box-shadow:none"><table class="errtable"><thead><tr><th>Mesaj</th><th>Gerçek</th><th>Diğer model</th></tr></thead><tbody>${list(onlyA, a, b)}</tbody></table></div></div>` +
+    `<div><h4>Yalnız ${esc(clip(b.display, 30))} doğru</h4><div class="tablewrap" style="box-shadow:none"><table class="errtable"><thead><tr><th>Mesaj</th><th>Gerçek</th><th>Diğer model</th></tr></thead><tbody>${list(onlyB, b, a)}</tbody></table></div></div></div>`;
+  box.classList.add('on');
+  $('#cmpclear').onclick = () => { state.cmp = []; renderTable(); renderCompare(); };
+}
+function predName(m, i){ const p = m.preds[i]; return !p || p[0] < 0 || p[3] ? '— (hata)' : LAB[p[0]].key; }
+
+/* ---------- model detayı (çekmece) ---------- */
+let lastFocus = null;
+function openModel(key, noHash){
+  const m = byKey(key); if (!m) return;
+  state.open = key; state.cell = null; state.errOnly = true; state.errQ = '';
+  lastFocus = document.activeElement;
+  $('#dtitle').textContent = m.display;
+  renderDrawer(m);
+  $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden', 'false');
+  $('#dbody').scrollTop = 0; $('#dclose').focus();
+  if (!noHash) history.replaceState(null, '', '#m=' + encodeURIComponent(key));
+}
+function closeDrawer(){
+  state.open = null; hideTip();
+  $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); $('#drawer').setAttribute('aria-hidden', 'true');
+  history.replaceState(null, '', location.pathname + location.search);
+  if (lastFocus && lastFocus.focus) try { lastFocus.focus(); } catch (e) {}
+}
+function stepModel(d){
+  const list = ALL.filter(m => m.m && state.groups.has(m.group));
+  if (!list.length) return; let i = list.findIndex(m => m.key === state.open); if (i < 0) i = 0;
+  openModel(list[(i + d + list.length) % list.length].key);
+}
+function failDrawer(m){
+  const r = m.reason || m.firstError || '';
+  return `<section><span class="pill">${esc((GROUP[m.group] || {}).name || m.group)}</span><span class="pill">${esc(m.provider)}</span>${m.model ? `<span class="pill">${esc(m.model)}</span>` : ''}</section>` +
+    `<section><h4 class="bad">Bu model puanlanamadı</h4><p>${esc(hint(r))}</p><div class="failcard" style="border-color:var(--border)"><code>${esc(r)}</code></div>` +
+    (m.verified ? `<p class="hint">${esc(m.verified)}</p>` : '') + (m.notes ? `<p class="hint">${esc(m.notes)}</p>` : '') + '</section>';
+}
+function mcard(k, v, s){ return `<div class="mc"><div class="k">${k}</div><div class="v">${v}</div>${s ? `<div class="s">${s}</div>` : ''}</div>`; }
+function renderDrawer(m){
+  const body = $('#dbody');
+  if (!m.m){ body.innerHTML = failDrawer(m); return; }
+  const t = m.m, g = GROUP[m.group] || {name: m.group};
+  let h = `<section style="margin-top:0"><span class="pill" style="border-color:${colorOf(m)};color:var(--ink)">${esc(g.name)}</span><span class="pill">${esc(m.provider)}</span>${m.model ? `<span class="pill">${esc(m.model)}</span>` : ''}` +
+    (t.confKinds.length ? t.confKinds.map(k => `<span class="pill">güven: ${KINDS[k] || k}</span>`).join('') : '<span class="pill">olasılık yok</span>') + `</section>`;
+  if (m.notes) h += `<p class="hint" style="margin-top:-6px">${esc(m.notes)}</p>`;
+  h += '<section><h4>Özet ölçüler</h4><div class="mgrid">' +
+    mcard('Doğruluk', pct(t.accuracy), `%95 GA ${pct(t.accuracyCI[0])}–${pct(t.accuracyCI[1])}`) +
+    mcard('Macro-F1', pct(t.macroF1), `%95 GA ${pct(t.macroF1CI[0], 0)}–${pct(t.macroF1CI[1], 0)}`) +
+    mcard('Geçersiz yanıt', pct(t.errorRate), `${t.n - t.nOk} / ${t.n} istek başarısız`) +
+    mcard('Gecikme p50', ms(t.latP50), `p95 ${ms(t.latP95)} · p99 ${ms(t.latP99)}`) +
+    mcard('Maliyet / 1.000 karar', t.cost1000 == null ? (m.local ? 'yerel' : '—') : usd(t.cost1000, t.tokensEstimated), t.tokIn != null ? `ort. ${nf(t.tokIn, 0)} giriş / ${nf(t.tokOut || 0, 0)} çıkış token${t.tokensEstimated ? ' (tahmin)' : ''}` : (m.local ? 'API ücreti yok (altyapı hariç)' : 'token bilgisi yok')) +
+    mcard('Kalibrasyon (ECE)', t.ece == null ? '—' : nf(t.ece * 100) + ' pp', t.brier == null ? '' : `Brier ${nf(t.brier, 3)}`) +
+    mcard('Doğruluk @%80 kapsama', pct(t.accAtCov80), `en emin %80'in doğruluğu`) +
+    mcard('Kapsama @%95 doğruluk', t.covAtAcc95 == null ? '—' : pct(t.covAtAcc95, 0), 'doğruluk ≥%95 kalacak en geniş kapsama') +
+    '</div></section>';
+  if (m.vsRef) h += `<section><h4>Referans modele göre (${esc((byKey(m.vsRef.reference) || {}).display || m.vsRef.reference)})</h4><p>Eşlenmiş fark <b>${pp(m.vsRef.diff)}</b> · %95 aralık ${pp(m.vsRef.lo)} … ${pp(m.vsRef.hi)} → <b>${m.vsRef.lo > 0 ? 'referanstan anlamlı iyi' : m.vsRef.hi < 0 ? 'referanstan anlamlı kötü' : 'referansla ayırt edilemez'}</b></p></section>`;
+  else if (m.key === ref) h += '<section><p class="hint">Bu model eşlenmiş karşılaştırmalarda <b>referans</b> olarak kullanıldı.</p></section>';
+  h += '<section><h4>Sınıf bazında başarı</h4>' + classTable(m) + '</section>';
+  h += '<section><h4>Karışıklık matrisi</h4><p class="hint">Satır: gerçek sınıf, sütun: tahmin. Hücreye tıkla: o hataları aşağıda filtrele.</p><div style="overflow-x:auto">' + confusion(m) + '</div></section>';
+  h += '<section><h4>Gecikme dağılımı</h4>' + latHist(m) + '</section>';
+  h += '<section><h4>Güven kalibrasyonu</h4>' + (t.nProb ? '<p class="hint">Modelin söylediği güven ile gerçek doğruluk. Noktalar köşegende ise model dürüsttür; köşegenin altı aşırı özgüvendir.</p>' + reliab(m) : '<p class="hint">Bu model olasılık/güven değeri vermiyor.</p>') + '</section>';
+  const sl = Object.entries(m.slices || {});
+  if (sl.length) h += '<section><h4>Zor örnek dilimleri</h4>' + sl.map(([k, v]) => bar1(SLICE[k] || k, v.accuracy, `n=${v.n}`, colorOf(m))).join('') + '<p class="hint">Küçük örneklemler; yalnızca yön gösterir.</p></section>';
+  if (m.robustness && m.robustness.accShuffled != null){
+    const r = m.robustness;
+    h += `<section><h4>Seçenek sırası dayanıklılığı</h4><p>Varsayılan sıra <b>${pct(r.accCanonical)}</b> → karıştırılmış sıra <b>${pct(r.accShuffled)}</b> (${pp(r.delta)}). Aynı etiketi seçme oranı: <b>${pct(r.consistency, 0)}</b>.</p></section>`;
+  }
+  h += '<section><h4>Hatalı tahminler</h4><div id="errbox"></div></section>';
+  h += '<section><h4>Teknik notlar</h4><div class="mgrid">' +
+    mcard('Kurulum / yükleme', m.setupS == null ? '—' : nf(m.setupS, 1) + ' sn', 'model yükleme, eğitim') +
+    mcard('İlk (soğuk) istek', ms(m.coldMs), 'ısınma isteği; p50/p95 dışında') +
+    mcard('Eşzamanlılık', m.concurrency == null ? '—' : String(m.concurrency), 'aynı anda istek') +
+    mcard('Fiyat (g/ç, $/1M token)', m.price.in == null ? '—' : `${nf(m.price.in, 3)} / ${nf(m.price.out || 0, 3)}`, m.price.note || '') +
+    '</div>' + (m.verified ? `<p class="hint">Doğrulama: ${esc(m.verified)}</p>` : '') + '</section>';
+  body.innerHTML = h;
+  bindConfusion(m); renderErrors(m);
+  body.querySelectorAll('.tt').forEach(el => bindTip(el, () => el.dataset.tip));
+}
+function bar1(label, v, extra, color){
+  return `<div style="display:grid;grid-template-columns:170px 1fr 90px;gap:10px;align-items:center;margin:5px 0"><span style="color:var(--ink2)">${esc(label)}</span><span style="background:var(--grid);height:10px;border-radius:5px;position:relative"><i style="position:absolute;left:0;top:0;bottom:0;width:${Math.max(0, v) * 100}%;background:${color};border-radius:5px"></i></span><span style="text-align:right;font-variant-numeric:tabular-nums"><b>${pct(v, 0)}</b> <span style="color:var(--muted)">${esc(extra || '')}</span></span></div>`;
+}
+function classTable(m){
+  const pc = m.m.perClass;
+  return '<div class="tablewrap" style="box-shadow:none"><table><thead><tr><th>Sınıf</th><th class="r">Örnek</th><th class="r">Precision</th><th class="r">Recall</th><th class="r">F1</th></tr></thead><tbody>' +
+    LAB.map(l => { const c = pc[l.key]; if (!c) return ''; return `<tr><td><span class="tt" data-tip="${esc(l.desc)}" tabindex="0">${esc(l.key)}</span></td><td class="r">${c.support}</td><td class="r">${pct(c.precision, 0)}</td><td class="r">${pct(c.recall, 0)}</td><td class="r"><b>${pct(c.f1, 0)}</b><span class="minibar" style="width:70px"><i style="width:${c.f1 * 100}%;background:${colorOf(m)}"></i></span></td></tr>`; }).join('') + '</tbody></table></div>';
+}
+function confusion(m){
+  const cm = m.m.confusion;
+  const ramp = ['--q1', '--q2', '--q3', '--q4', '--q5', '--q6', '--q7'];
+  let h = '<table class="cm"><thead><tr><th></th>' + LAB.map(l => `<th class="col"><div>${esc(l.key)}</div></th>`).join('') + '<th class="col"><div>geçersiz</div></th></tr></thead><tbody>';
+  cm.forEach((row, i) => {
+    const tot = row.reduce((a, b) => a + b, 0) || 1;
+    h += `<tr><th class="row">${esc(LAB[i].key)}</th>` + row.map((v, j) => {
+      const f = v / tot, step = v ? Math.min(6, Math.floor(f * 6.99)) : 0;
+      const bg = v ? `var(${ramp[Math.max(1, step)]})` : 'var(--chip)';
+      const fg = v && step >= 3 ? '#fff' : 'var(--ink)';
+      const jl = j < K ? LAB[j].key : 'geçersiz';
+      return `<td class="c" data-i="${i}" data-j="${j}" style="background:${bg};color:${fg}">${v || ''}</td>`;
+    }).join('') + '</tr>';
+  });
+  return h + '</tbody></table>';
+}
+function bindConfusion(m){
+  document.querySelectorAll('.cm td.c').forEach(td => {
+    const i = +td.dataset.i, j = +td.dataset.j, v = m.m.confusion[i][j];
+    const tot = m.m.confusion[i].reduce((a, b) => a + b, 0) || 1;
+    bindTip(td, () => `<b>${esc(LAB[i].key)} → ${j < K ? esc(LAB[j].key) : 'geçersiz'}</b><div>${v} örnek · gerçek sınıfın ${pct(v / tot, 0)}'${j === i ? 'i doğru' : 'i bu şekilde'}</div>`);
+    td.onclick = () => { state.cell = (state.cell && state.cell.i === i && state.cell.j === j) ? null : {i, j}; state.errOnly = true; document.querySelectorAll('.cm td.c').forEach(x => x.classList.remove('sel')); if (state.cell) td.classList.add('sel'); renderErrors(m); };
+  });
+}
+function latHist(m){
+  const v = m.preds.filter(p => p && !p[3] && p[2] != null).map(p => p[2]);
+  if (!v.length) return '<p class="hint">Gecikme verisi yok.</p>';
+  const lo = Math.min(...v), hi = Math.max(...v), nb = 14;
+  const l0 = Math.log10(Math.max(lo, .1)), l1 = Math.log10(Math.max(hi, lo * 1.01 + .01));
+  const bins = new Array(nb).fill(0);
+  v.forEach(x => { let b = Math.floor((Math.log10(Math.max(x, .1)) - l0) / (l1 - l0 + 1e-9) * nb); bins[Math.min(nb - 1, Math.max(0, b))]++; });
+  const W = 700, H = 150, L = 8, R = 8, T = 10, B = 34, mx = Math.max(...bins);
+  const sx = x => L + (W - L - R) * (Math.log10(Math.max(x, .1)) - l0) / (l1 - l0 + 1e-9);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gecikme histogramı">`;
+  const bw = (W - L - R) / nb;
+  bins.forEach((c, i) => { const h2 = (H - T - B) * c / mx; s += `<rect class="tt" data-tip="${c} istek" x="${L + i * bw + 1}" y="${H - B - h2}" width="${bw - 2}" height="${h2}" rx="3" fill="${colorOf(m)}" opacity=".85"/>`; });
+  s += `<line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--axis)"/>`;
+  [['p50', m.m.latP50], ['p95', m.m.latP95], ['p99', m.m.latP99]].forEach(([n, x], i) => { if (x == null) return; const px = sx(x); s += `<line x1="${px}" x2="${px}" y1="${T}" y2="${H - B}" stroke="var(--ink)" stroke-dasharray="3 3"/><text x="${px + 3}" y="${T + 10 + i * 12}" font-size="11" fill="var(--ink2)">${n} ${ms(x)}</text>`; });
+  s += `<text x="${L}" y="${H - 14}" font-size="11" fill="var(--muted)">${ms(lo)}</text><text x="${W - R}" y="${H - 14}" text-anchor="end" font-size="11" fill="var(--muted)">${ms(hi)}</text><text x="${W / 2}" y="${H - 2}" text-anchor="middle" font-size="11" fill="var(--muted)">log ölçek</text></svg>`;
+  return s;
+}
+function reliab(m){
+  const bins = Array.from({length: 10}, () => ({n: 0, c: 0, s: 0}));
+  m.preds.forEach((p, i) => { if (!p || p[3] || p[1] == null) return; const b = Math.min(9, Math.floor(p[1] * 10)); bins[b].n++; bins[b].s += p[1]; bins[b].c += isCorrect(m, i) ? 1 : 0; });
+  const S = 250, P = 34, mx = Math.max(...bins.map(b => b.n)) || 1;
+  const sx = x => P + (S - P - 10) * x, sy = y => S - P - (S - P - 10) * y;
+  let s = `<svg viewBox="0 0 ${S + 150} ${S}" style="max-width:420px" role="img" aria-label="Güvenilirlik diyagramı">`;
+  [0, .5, 1].forEach(t => { s += `<line x1="${sx(0)}" x2="${sx(1)}" y1="${sy(t)}" y2="${sy(t)}" stroke="var(--grid)"/><line x1="${sx(t)}" x2="${sx(t)}" y1="${sy(0)}" y2="${sy(1)}" stroke="var(--grid)"/><text x="${sx(t)}" y="${S - P + 16}" text-anchor="middle" font-size="10" fill="var(--muted)">%${t * 100}</text><text x="${P - 6}" y="${sy(t) + 3}" text-anchor="end" font-size="10" fill="var(--muted)">%${t * 100}</text>`; });
+  s += `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(1)}" y2="${sy(1)}" stroke="var(--muted)" stroke-dasharray="4 3"/>`;
+  s += `<text x="${(sx(0) + sx(1)) / 2}" y="${S - 4}" text-anchor="middle" font-size="10.5" fill="var(--ink2)">Model güveni</text><text transform="translate(9 ${(sy(0) + sy(1)) / 2}) rotate(-90)" text-anchor="middle" font-size="10.5" fill="var(--ink2)">Gerçek doğruluk</text>`;
+  bins.forEach((b, i) => { if (!b.n) return; const cx = sx(b.s / b.n), cy = sy(b.c / b.n), r = 3 + 7 * Math.sqrt(b.n / mx);
+    s += `<circle class="tt" tabindex="0" data-tip="Güven ${pct(i / 10, 0)}–${pct((i + 1) / 10, 0)}: ${b.n} örnek · gerçek doğruluk ${pct(b.c / b.n, 0)} · ort. güven ${pct(b.s / b.n, 0)}" cx="${cx}" cy="${cy}" r="${r}" fill="${colorOf(m)}" stroke="var(--surface)" stroke-width="1.5"/>`; });
+  s += `<text x="${S + 8}" y="40" font-size="11" fill="var(--ink2)">Nokta boyutu =</text><text x="${S + 8}" y="54" font-size="11" fill="var(--ink2)">örnek sayısı</text></svg>`;
+  return s;
+}
+function renderErrors(m){
+  const box = $('#errbox'); if (!box) return;
+  const c = state.cell;
+  let idx = EX.map((_, i) => i).filter(i => {
+    const p = m.preds[i]; const ok = isCorrect(m, i);
+    if (state.errOnly && ok) return false;
+    if (c){ const pj = !p || p[3] || p[0] < 0 ? K : p[0]; if (EX[i].t !== c.i || pj !== c.j) return false; }
+    if (state.errQ && !EX[i].x.toLowerCase().includes(state.errQ)) return false;
+    return true;
+  });
+  const total = idx.length; idx = idx.slice(0, 60);
+  box.innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px"><div class="seg"><button data-eo="1" aria-pressed="${state.errOnly}">Yalnız hatalar</button><button data-eo="0" aria-pressed="${!state.errOnly}">Tüm örnekler</button></div>` +
+    `<input class="search" id="errq" type="search" placeholder="Mesajda ara…" value="${esc(state.errQ)}" aria-label="Mesajlarda ara" style="max-width:240px">` +
+    (c ? `<span class="pill">${esc(LAB[c.i].key)} → ${c.j < K ? esc(LAB[c.j].key) : 'geçersiz'} <button class="iconbtn" id="clrcell" style="height:22px;padding:0 8px;margin-left:6px">✕</button></span>` : '') +
+    `<span class="hint">${total} örnek${total > 60 ? ' (ilk 60 gösteriliyor)' : ''}</span></div>` +
+    (idx.length ? `<div class="tablewrap" style="box-shadow:none"><table class="errtable"><thead><tr><th>Mesaj</th><th>Gerçek</th><th>Tahmin</th><th class="r">Güven</th><th class="r">Süre</th></tr></thead><tbody>` +
+      idx.map(i => { const p = m.preds[i] || [], ok = isCorrect(m, i), err = p[3];
+        return `<tr><td class="t">${esc(EX[i].x)}${EX[i].g.length ? ' ' + EX[i].g.map(g => `<span class="tag">${esc(SLICE[g] || g)}</span>`).join(' ') : ''}</td><td>${esc(LAB[EX[i].t].key)}</td>` +
+          `<td class="${ok ? 'ok' : 'bad'}">${err ? 'hata: ' + esc(clip(err, 60)) : esc(predName(m, i))}</td><td class="r">${p[1] == null ? '—' : pct(p[1], 0)}</td><td class="r">${ms(p[2])}</td></tr>`; }).join('') + '</tbody></table></div>'
+      : '<div class="empty">Bu filtreyle örnek yok.</div>');
+  box.querySelectorAll('[data-eo]').forEach(b => b.onclick = () => { state.errOnly = b.dataset.eo === '1'; renderErrors(m); });
+  const q = $('#errq'); q.oninput = e => { state.errQ = e.target.value.trim().toLowerCase(); renderErrors(m); const q2 = $('#errq'); q2.focus(); q2.setSelectionRange(q2.value.length, q2.value.length); };
+  const cl = $('#clrcell'); if (cl) cl.onclick = () => { state.cell = null; document.querySelectorAll('.cm td.c').forEach(x => x.classList.remove('sel')); renderErrors(m); };
+}
+
+/* ---------- yöntem ---------- */
+function renderMethod(){
+  const s = D.meta.settings, e = D.meta.environment;
+  $('#methodbody').innerHTML =
+    '<dl class="gl"><dt>Doğruluk (sıkı)</dt><dd>Doğru etiket sayısı / tüm istekler. Başarısız veya geçersiz yanıtlar yanlış sayılır; oranı ayrıca "Geçersiz" sütununda görünür.</dd>' +
+    '<dt>Macro-F1</dt><dd>Her sınıfın F1 değerinin ortalaması. Dengesiz sınıflarda doğruluktan daha dürüsttür.</dd>' +
+    '<dt>%95 GA</dt><dd>Örnekler üzerinde 2000 bootstrap ile güven aralığı. Aralıklar çakışıyorsa kesin sıralama yapılamaz.</dd>' +
+    '<dt>ECE / Brier</dt><dd>Kalibrasyon: modelin söylediği güven gerçek doğrulukla uyuşuyor mu? Düşük iyi. Üretken LLM\'lerde güven modelin yazdığı sayıdır (sözel), karar API\'lerinde ve yerel modellerde gerçek olasılıktır: doğrudan kıyaslanmaz.</dd>' +
+    '<dt>Doğruluk@%80 kapsama</dt><dd>Model yalnız en emin olduğu %80 örnekte karar verse doğruluğu ne olur? Belirsizlikte insana/güçlü modele aktarma senaryosu için.</dd>' +
+    '<dt>p50 / p95 / p99</dt><dd>İstemci tarafı uçtan uca gecikme (ms). Isınma isteği hariç; ilk (soğuk) istek ayrıca verilir.</dd>' +
+    '<dt>$/1.000 karar</dt><dd>Yanıttan okunan gerçek token kullanımı × tarife. API token vermezse tahmindir (~). Yerel modellerde API ücreti yoktur (altyapı maliyeti hariç).</dd></dl>' +
+    '<ul><li><b>Veri:</b> ' + esc(D.meta.dataset.name) + ' · ' + D.meta.dataset.n_eval + ' değerlendirme örneği · parmak izi <code>' + esc(D.meta.dataset.fingerprint) + '</code>. Eğitimli modeller yalnız <code>train</code> bölümünü görür; few-shot örnekleri de oradan gelir. Değerlendirme hiçbir zaman <code>train</code> üzerinde yapılmaz.</li>' +
+    '<li><b>Aynı görev, doğal arayüz:</b> Karar API\'leri kendi <code>choice</code> şemasıyla, üretken LLM\'ler aynı Türkçe talimat + JSON şemasıyla, encoder modeller etiketlerin kısa Türkçe adlarıyla çağrılır. Farkın bir kısmı arayüz/istem farkından gelebilir.</li>' +
+    '<li><b>Gecikme kontrollü bir donanım yarışı değildir:</b> ağ, konum, eşzamanlılık ve sunucu yükü etkiler; yerel modeller bu makinenin CPU\'sunda ölçüldü.</li>' +
+    '<li><b>Ayarlar:</b> tohum ' + s.seed + ' · etiket başına few-shot ' + s.shots_per_label + ' · seçenek sırası testi ' + (s.robustness ? 'evet' : 'hayır') + ' · istem sürümü ' + esc(s.prompt_version) + '</li>' +
+    '<li><b>Ortam:</b> Python ' + esc(e.python) + ' · ' + esc(e.platform) + ' · clfbench ' + esc(D.meta.version) + (e.git_commit ? ' · git ' + esc(e.git_commit) : '') + '</li></ul>';
+  $('#foot').textContent = 'clfbench ' + D.meta.version + ' ile üretildi. Bu dosya tek başına çalışır (internet gerekmez); veriler içine gömülüdür.';
+}
+
+/* ---------- CSV ---------- */
+function exportCSV(){
+  const head = ['model', 'grup', 'model_id', 'dogruluk', 'dogruluk_ga_alt', 'dogruluk_ga_ust', 'macro_f1', 'gecersiz_oran', 'ece', 'brier', 'p50_ms', 'p95_ms', 'p99_ms', 'maliyet_1000_usd'];
+  const rows = scored.map(m => { const t = m.m; return [m.display, m.group, m.model, t.accuracy, t.accuracyCI[0], t.accuracyCI[1], t.macroF1, t.errorRate, t.ece, t.brier, t.latP50, t.latP95, t.latP99, t.cost1000]; });
+  const q = v => v == null ? '' : /[",\n;]/.test(String(v)) ? '"' + String(v).replace(/"/g, '""') + '"' : v;
+  const csv = '﻿' + [head, ...rows].map(r => r.map(q).join(',')).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8'}));
+  a.download = (D.meta.run_id || 'sonuclar') + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------- başlat ---------- */
+function renderAll(full){
+  renderRank(); renderScatter(); renderTable(); renderFailed(); renderCompare();
+}
+function init(){
+  renderHeader(); renderKPIs(); renderFilters(); renderMethod();
+  const sel = $('#rankmetric');
+  sel.innerHTML = Object.entries(RANKS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
+  sel.onchange = () => { state.rank = sel.value; renderRank(); };
+  const setX = x => { state.x = x; $('#xlat').setAttribute('aria-pressed', x === 'lat'); $('#xcost').setAttribute('aria-pressed', x === 'cost'); renderScatter(); };
+  $('#xlat').onclick = () => setX('lat'); $('#xcost').onclick = () => setX('cost');
+  $('#csvbtn').onclick = exportCSV;
+  $('#dclose').onclick = closeDrawer; $('#scrim').onclick = closeDrawer;
+  $('#dprev').onclick = () => stepModel(-1); $('#dnext').onclick = () => stepModel(1);
+  document.addEventListener('keydown', e => {
+    if (!state.open) return;
+    if (e.key === 'Escape') closeDrawer();
+    else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) stepModel(e.key === 'ArrowRight' ? 1 : -1);
+  });
+  renderAll();
+  const hm = /[#&]m=([^&]+)/.exec(location.hash); if (hm) openModel(decodeURIComponent(hm[1]), true);
+  const hc = /[#&]cmp=([^,&]+),([^&]+)/.exec(location.hash); if (hc){ state.cmp = [decodeURIComponent(hc[1]), decodeURIComponent(hc[2])].filter(byKey); renderTable(); renderCompare(); }
+  window.__clfReady = true;
+}
+init();
+})();
+</script>
+</body>
+</html>

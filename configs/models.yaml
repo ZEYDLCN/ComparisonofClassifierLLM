@@ -209,7 +209,7 @@ models:
     model: mercury-2.5
     api_key_env: INCEPTION_API_KEY
     price: {input: 0.04, output: 0.15, note: "Kampanyalı tarife (normal 0.20 / 0.75)"}
-    options: {max_tokens: 512}
+    options: {max_tokens: 4096}   # muhakeme modeli: reasoning tokenları cevaptan önce harcanır (medyan ~650, en çok ~1900); 512/2048 bazı örneklerde boş yanıt (finish_reason=length) verdi
     verified: "Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta"
 
   - key: mercury_2_5_or
@@ -221,7 +221,7 @@ models:
     model: inception/mercury-2.5
     api_key_env: OPENROUTER_API_KEY
     price: {input: 0.04, output: 0.15}
-    options: {max_tokens: 512}
+    options: {max_tokens: 4096}   # bkz. mercury_2_5: reasoning tokenları bütçeyi tüketir
     verified: "OpenRouter model listesi: kimlik ve tarife doğrulandı. Mercury Decide OpenRouter'da yok; o için INCEPTION_API_KEY gerekir"
 
   - key: gpt_6_luna

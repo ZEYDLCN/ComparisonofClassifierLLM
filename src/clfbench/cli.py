@@ -12,6 +12,7 @@ from .data import build_seed_dataset, load_dataset, select
 from .keys import BY_ENV, prefix_warning, render_guides
 from .paths import RESULTS_DIR, ROOT
 from .prompts import estimate_tokens, system_prompt
+from .site import DEFAULT_REPO
 
 
 def _utf8() -> None:
@@ -215,24 +216,42 @@ def cmd_run(args) -> int:
                         robustness=args.robustness, warmup=args.warmup, concurrency=args.concurrency,
                         use_cache=not args.no_cache, run_name=args.name or "", note=args.note or "",
                         dataset_label=Path(args.dataset).stem if args.dataset != "destek_tr" else "destek_tr",
-                        reference=args.reference, limit=args.limit, argv=sys.argv[1:])
+                        reference=args.reference, limit=args.limit, argv=sys.argv[1:], skipped=skipped)
     print(f"\n✓ Bitti. Rapor: {out / 'report.html'}\n  Markdown: {out / 'report.md'}\n  Özet JSON: {out / 'summary.json'}")
     return 0
+
+
+def _find_run_dir(name: str) -> Path | None:
+    d = Path(name)
+    if not (d / "run.json").exists():
+        cand = RESULTS_DIR / name
+        d = cand if (cand / "run.json").exists() else d
+    return d if (d / "run.json").exists() else None
 
 
 def cmd_report(args) -> int:
     from .bench import finalize
     from .report import generate_report
 
-    d = Path(args.dir)
-    if not (d / "run.json").exists():
-        cand = RESULTS_DIR / args.dir
-        d = cand if (cand / "run.json").exists() else d
-    if not (d / "run.json").exists():
+    d = _find_run_dir(args.dir)
+    if d is None:
         print(f"Koşu klasörü bulunamadı: {args.dir}")
         return 2
     finalize(d, reference=args.reference)
     print(f"✓ Rapor yeniden üretildi: {generate_report(d)}")
+    return 0
+
+
+def cmd_site(args) -> int:
+    from .site import write_site
+
+    d = _find_run_dir(args.dir)
+    if d is None or not (d / "summary.json").exists():
+        print(f"Koşu klasörü (run.json + summary.json) bulunamadı: {args.dir}")
+        return 2
+    path = write_site(d, Path(args.out), repo=args.repo)
+    print(f"✓ Site üretildi: {path}\n  Vercel için: Root Directory = {Path(args.out).as_posix()} "
+          f"(depoda vercel.json bunu zaten ayarlar). Yerelde: python -m http.server -d {Path(args.out).as_posix()}")
     return 0
 
 
@@ -279,6 +298,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = sub.add_parser("report", help="Var olan koşudan raporu yeniden üret")
     s.add_argument("dir"); s.add_argument("--reference"); s.set_defaults(fn=cmd_report)
+
+    s = sub.add_parser("site", help="Koşudan tüm metrikleri karşılaştıran statik site üret (Vercel'e yüklenir)")
+    s.add_argument("dir", help="koşu klasörü (run.json + summary.json), örn. results/<koşu> veya examples/<koşu>")
+    s.add_argument("--out", default="site", help="çıktı klasörü (varsayılan: site)")
+    s.add_argument("--repo", default=DEFAULT_REPO, help="sitedeki GitHub bağlantısı")
+    s.set_defaults(fn=cmd_site)
     return p
 
 

@@ -1,0 +1,2334 @@
+{
+  "run_id": "20261012-155610-inception-yerel",
+  "reference": "mercury_2_5",
+  "labels": [
+    "fatura_odeme",
+    "teknik_destek",
+    "kargo_teslimat",
+    "iade_degisim",
+    "hesap_guvenlik",
+    "satis_fiyat",
+    "sikayet_oneri",
+    "diger"
+  ],
+  "pareto_latency": [
+    "embedding_e5_lr",
+    "mercury_2_5",
+    "mercury_decide",
+    "setfit_minilm",
+    "tfidf_lr"
+  ],
+  "pareto_cost": [
+    "mercury_2_5",
+    "mercury_decide"
+  ],
+  "models": [
+    {
+      "key": "mercury_decide",
+      "display": "Mercury Decide (Inception)",
+      "group": "karar-api",
+      "provider": "systemone",
+      "model": "mercury-decide",
+      "price_in": 0.02,
+      "price_out": 0.0,
+      "price_note": "Kampanyalı tarife; normal tarife 0.04",
+      "verified": "Inception dokümanı (docs.inceptionlabs.ai/capabilities/decisions) — şema doğrulandı",
+      "notes": "",
+      "local": false,
+      "status": "ok",
+      "setup_s": 0.0,
+      "cold_ms": 976.9424790000016,
+      "wall_s": 0.004,
+      "concurrency": 4,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.9337748344370861,
+        "accuracy_valid": 0.9337748344370861,
+        "macro_f1": 0.9327954398194336,
+        "accuracy_ci": [
+          0.8940397350993378,
+          0.9735099337748344
+        ],
+        "macro_f1_ci": [
+          0.8861163085368555,
+          0.970401477775816
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.8947368421052632,
+            "recall": 0.9444444444444444,
+            "f1": 0.918918918918919,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.95,
+            "recall": 1.0,
+            "f1": 0.9743589743589743,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.9473684210526315,
+            "recall": 0.9473684210526315,
+            "f1": 0.9473684210526315,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.9047619047619048,
+            "recall": 1.0,
+            "f1": 0.9500000000000001,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.9473684210526315,
+            "recall": 0.9473684210526315,
+            "f1": 0.9473684210526315,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 1.0,
+            "recall": 0.7894736842105263,
+            "f1": 0.8823529411764706,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.9444444444444444,
+            "recall": 0.8947368421052632,
+            "f1": 0.918918918918919,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.9,
+            "recall": 0.9473684210526315,
+            "f1": 0.9230769230769231,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            17,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            19,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            18,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            19,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            18,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            1,
+            0,
+            15,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            17,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            18,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.10056550670085894,
+        "ece": 0.0495653989308678,
+        "mean_conf": 0.9833402333679538,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.9917355371900827,
+        "cov_at_acc95": 0.9801324503311258,
+        "lat_p50": 287.95230700001184,
+        "lat_p95": 383.6329020000022,
+        "lat_p99": 828.9076129999984,
+        "lat_mean": 311.7609454834435,
+        "tok_in_mean": 461.9933774834437,
+        "tok_out_mean": 1.0,
+        "tokens_estimated": false,
+        "cost_per_1000": 0.009239867549668873,
+        "cost_per_1m": 9.239867549668874,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 1.0
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 1.0
+        }
+      },
+      "robustness": {
+        "n": 151,
+        "acc_canonical": 0.9337748344370861,
+        "acc_shuffled": 0.9602649006622517,
+        "delta": 0.026490066225165587,
+        "consistency": 0.9735099337748344
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.033112582781456956,
+        "lo": -0.07947019867549669,
+        "hi": 0.013245033112582781,
+        "p_better": 0.0605
+      }
+    },
+    {
+      "key": "mercury_2_5",
+      "display": "Mercury 2.5 (sohbet, Inception)",
+      "group": "uretken-llm",
+      "provider": "chat_json",
+      "model": "mercury-2.5",
+      "price_in": 0.04,
+      "price_out": 0.15,
+      "price_note": "Kampanyalı tarife (normal 0.20 / 0.75)",
+      "verified": "Inception model listesi: kimlik ve tarife doğrulandı; OpenAI uyumlu uç nokta",
+      "notes": "",
+      "local": false,
+      "status": "ok",
+      "setup_s": 0.0,
+      "cold_ms": 1858.4886300000107,
+      "wall_s": 0.0,
+      "concurrency": 4,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.9668874172185431,
+        "accuracy_valid": 0.9668874172185431,
+        "macro_f1": 0.9667070917070917,
+        "accuracy_ci": [
+          0.9337748344370861,
+          0.9933774834437086
+        ],
+        "macro_f1_ci": [
+          0.9329802413239913,
+          0.9932238240123636
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.9444444444444444,
+            "recall": 0.9444444444444444,
+            "f1": 0.9444444444444444,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.95,
+            "recall": 1.0,
+            "f1": 0.9743589743589743,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 1.0,
+            "recall": 0.9473684210526315,
+            "f1": 0.972972972972973,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.95,
+            "recall": 1.0,
+            "f1": 0.9743589743589743,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.9,
+            "recall": 0.9473684210526315,
+            "f1": 0.9230769230769231,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 19
+          },
+          "diger": {
+            "precision": 1.0,
+            "recall": 0.8947368421052632,
+            "f1": 0.9444444444444444,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            17,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            19,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            18,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            19,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            19,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            0,
+            0,
+            18,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            19,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            17,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.06495061494796593,
+        "ece": 0.020264900662251555,
+        "mean_conf": 0.9492715231788081,
+        "conf_kinds": [
+          "verbalized"
+        ],
+        "acc_at_cov80": 0.9669421487603306,
+        "cov_at_acc95": 1.0,
+        "lat_p50": 2007.8126660000635,
+        "lat_p95": 3812.328400500064,
+        "lat_p99": 5636.40078200001,
+        "lat_mean": 2258.2084085894026,
+        "tok_in_mean": 521.2715231788079,
+        "tok_out_mean": 750.1390728476821,
+        "tokens_estimated": false,
+        "cost_per_1000": 0.13337172185430463,
+        "cost_per_1m": 133.3717218543046,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 1.0
+        }
+      },
+      "robustness": {
+        "n": 151,
+        "acc_canonical": 0.9668874172185431,
+        "acc_shuffled": 0.9668874172185431,
+        "delta": 0.0,
+        "consistency": 0.9735099337748344
+      }
+    },
+    {
+      "key": "laya_multilingual",
+      "display": "Laya multilingual (322M)",
+      "group": "encoder",
+      "provider": "laya",
+      "model": "convaiinnovations/laya-multilingual",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "Laya README: Router.predict(text, questions)",
+      "notes": "pip install laya",
+      "local": true,
+      "status": "ok",
+      "setup_s": 0.023,
+      "cold_ms": 33126.85497299992,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.33112582781456956,
+        "accuracy_valid": 0.33112582781456956,
+        "macro_f1": 0.2823419540229885,
+        "accuracy_ci": [
+          0.2582781456953642,
+          0.40397350993377484
+        ],
+        "macro_f1_ci": [
+          0.21367177856789732,
+          0.3411460507540978
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.8333333333333334,
+            "recall": 0.2777777777777778,
+            "f1": 0.4166666666666667,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.18556701030927836,
+            "recall": 0.9473684210526315,
+            "f1": 0.31034482758620685,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.8,
+            "recall": 0.42105263157894735,
+            "f1": 0.5517241379310345,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.45161290322580644,
+            "recall": 0.7368421052631579,
+            "f1": 0.56,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 1.0,
+            "recall": 0.05263157894736842,
+            "f1": 0.1,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.6666666666666666,
+            "recall": 0.21052631578947367,
+            "f1": 0.32,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            5,
+            7,
+            1,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            18,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            7,
+            8,
+            4,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            5,
+            0,
+            14,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            18,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            8,
+            0,
+            7,
+            0,
+            4,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            16,
+            1,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            18,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 1.201045349155424,
+        "ece": 0.5688263853422313,
+        "mean_conf": 0.8913152163168945,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.3305785123966942,
+        "cov_at_acc95": 0.0,
+        "lat_p50": 232.04066999994666,
+        "lat_p95": 284.60922400000754,
+        "lat_p99": 337.25667850001173,
+        "lat_mean": 237.18330462913963,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.0
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.4
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.25
+        }
+      },
+      "robustness": {
+        "n": 151,
+        "acc_canonical": 0.33112582781456956,
+        "acc_shuffled": 0.3708609271523179,
+        "delta": 0.039735099337748325,
+        "consistency": 0.8145695364238411
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.6357615894039735,
+        "lo": -0.7152317880794702,
+        "hi": -0.5562913907284768,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "gliclass_large_v3",
+      "display": "GLiClass large v3.0",
+      "group": "encoder",
+      "provider": "gliclass",
+      "model": "knowledgator/gliclass-large-v3.0",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "GLiClass README: ZeroShotClassificationPipeline",
+      "notes": "Model kartı çok dilli desteği belirtmiyor; Türkçe sonucu ayrıca yorumlanmalı. pip install gliclass",
+      "local": true,
+      "status": "ok",
+      "setup_s": 16.509,
+      "cold_ms": 421.8228849999832,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.6026490066225165,
+        "accuracy_valid": 0.6026490066225165,
+        "macro_f1": 0.5944414381914381,
+        "accuracy_ci": [
+          0.5231788079470199,
+          0.6754966887417219
+        ],
+        "macro_f1_ci": [
+          0.5095241087689929,
+          0.6620679408628587
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.5185185185185185,
+            "recall": 0.7777777777777778,
+            "f1": 0.6222222222222222,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.42857142857142855,
+            "recall": 0.7894736842105263,
+            "f1": 0.5555555555555555,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.9230769230769231,
+            "recall": 0.631578947368421,
+            "f1": 0.7499999999999999,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.7619047619047619,
+            "recall": 0.8421052631578947,
+            "f1": 0.8,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.5625,
+            "recall": 0.47368421052631576,
+            "f1": 0.5142857142857142,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.6470588235294118,
+            "recall": 0.5789473684210527,
+            "f1": 0.6111111111111113,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.5,
+            "recall": 0.21052631578947367,
+            "f1": 0.2962962962962963,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.7142857142857143,
+            "recall": 0.5263157894736842,
+            "f1": 0.6060606060606061,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            14,
+            0,
+            0,
+            4,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            15,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            6,
+            12,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            0,
+            16,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            5,
+            0,
+            1,
+            9,
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            0,
+            0,
+            1,
+            11,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            5,
+            1,
+            0,
+            5,
+            2,
+            4,
+            1,
+            0
+          ],
+          [
+            5,
+            0,
+            0,
+            0,
+            0,
+            3,
+            1,
+            10,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.7947019867549668,
+        "ece": 0.3973509933774835,
+        "mean_conf": 1.0,
+        "conf_kinds": [
+          "derived",
+          "native"
+        ],
+        "acc_at_cov80": 0.6033057851239669,
+        "cov_at_acc95": 0.006622516556291391,
+        "lat_p50": 385.01410999992913,
+        "lat_p95": 495.59320049996813,
+        "lat_p99": 529.8561325000151,
+        "lat_mean": 390.31531993377234,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.4
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.5833333333333334
+        }
+      },
+      "robustness": {
+        "n": 151,
+        "acc_canonical": 0.6026490066225165,
+        "acc_shuffled": 0.5695364238410596,
+        "delta": -0.0331125827814569,
+        "consistency": 0.8874172185430463
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.36423841059602646,
+        "lo": -0.4504966887417219,
+        "hi": -0.2847682119205298,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "nli_mdeberta_xnli",
+      "display": "mDeBERTa-v3 çok dilli NLI (sıfır örnek)",
+      "group": "encoder",
+      "provider": "nli",
+      "model": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "",
+      "local": true,
+      "status": "ok",
+      "setup_s": 13.796,
+      "cold_ms": 270.06685999992897,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.2980132450331126,
+        "accuracy_valid": 0.2980132450331126,
+        "macro_f1": 0.3156533835331304,
+        "accuracy_ci": [
+          0.2251655629139073,
+          0.3708609271523179
+        ],
+        "macro_f1_ci": [
+          0.23850304638755082,
+          0.379675082048274
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 1.0,
+            "recall": 0.2222222222222222,
+            "f1": 0.3636363636363636,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.09523809523809523,
+            "recall": 0.10526315789473684,
+            "f1": 0.1,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.75,
+            "recall": 0.631578947368421,
+            "f1": 0.6857142857142857,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.375,
+            "recall": 0.15789473684210525,
+            "f1": 0.22222222222222218,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.5555555555555556,
+            "recall": 0.5263157894736842,
+            "f1": 0.5405405405405405,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.5,
+            "recall": 0.21052631578947367,
+            "f1": 0.2962962962962963,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.13333333333333333,
+            "recall": 0.42105263157894735,
+            "f1": 0.20253164556962025,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.125,
+            "recall": 0.10526315789473684,
+            "f1": 0.11428571428571428,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            4,
+            0,
+            3,
+            0,
+            1,
+            1,
+            9,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            1,
+            4,
+            0,
+            7,
+            5,
+            0
+          ],
+          [
+            0,
+            3,
+            12,
+            1,
+            0,
+            0,
+            2,
+            1,
+            0
+          ],
+          [
+            0,
+            4,
+            1,
+            3,
+            0,
+            0,
+            11,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            2,
+            10,
+            0,
+            3,
+            2,
+            0
+          ],
+          [
+            0,
+            4,
+            0,
+            0,
+            0,
+            4,
+            11,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            0,
+            1,
+            2,
+            8,
+            6,
+            0
+          ],
+          [
+            0,
+            4,
+            0,
+            1,
+            2,
+            1,
+            9,
+            2,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.8499565121337177,
+        "ece": 0.18087281844848058,
+        "mean_conf": 0.478886063481593,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.3140495867768595,
+        "cov_at_acc95": 0.026490066225165563,
+        "lat_p50": 238.54844499999217,
+        "lat_p95": 328.86209249994636,
+        "lat_p99": 380.0430564999715,
+        "lat_mean": 248.2990513377484,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.4
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.25
+        }
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.6688741721854304,
+        "lo": -0.7483443708609272,
+        "hi": -0.5894039735099338,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "nli_modernbert_en",
+      "display": "ModernBERT-base NLI (yalnız İngilizce; negatif kontrol)",
+      "group": "encoder",
+      "provider": "nli",
+      "model": "tasksource/ModernBERT-base-nli",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "İngilizce model Türkçe metinde zayıf beklenir; çok dilli modellerle fark görülsün diye eklendi.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 8.745,
+      "cold_ms": 216.7662399999699,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.3841059602649007,
+        "accuracy_valid": 0.3841059602649007,
+        "macro_f1": 0.3671670577209002,
+        "accuracy_ci": [
+          0.31125827814569534,
+          0.45695364238410596
+        ],
+        "macro_f1_ci": [
+          0.2873321734604978,
+          0.4326014135799469
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.5833333333333334,
+            "recall": 0.3888888888888889,
+            "f1": 0.4666666666666666,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.25,
+            "recall": 0.15789473684210525,
+            "f1": 0.1935483870967742,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.6666666666666666,
+            "recall": 0.5263157894736842,
+            "f1": 0.5882352941176471,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.30434782608695654,
+            "recall": 0.7368421052631579,
+            "f1": 0.43076923076923074,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.3103448275862069,
+            "recall": 0.47368421052631576,
+            "f1": 0.375,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.32,
+            "recall": 0.42105263157894735,
+            "f1": 0.3636363636363636,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.6666666666666666,
+            "recall": 0.3157894736842105,
+            "f1": 0.42857142857142855,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.3333333333333333,
+            "recall": 0.05263157894736842,
+            "f1": 0.09090909090909091,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            7,
+            0,
+            1,
+            7,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            3,
+            0,
+            2,
+            7,
+            4,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            10,
+            1,
+            3,
+            2,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            14,
+            2,
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            1,
+            6,
+            9,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0,
+            6,
+            2,
+            8,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            1,
+            4,
+            2,
+            3,
+            6,
+            1,
+            0
+          ],
+          [
+            2,
+            2,
+            1,
+            6,
+            2,
+            4,
+            1,
+            1,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.7372392470884624,
+        "ece": 0.1131902672268173,
+        "mean_conf": 0.33319951268399794,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.45454545454545453,
+        "cov_at_acc95": 0.013245033112582781,
+        "lat_p50": 251.35467399991285,
+        "lat_p95": 345.8793904999311,
+        "lat_p99": 378.8135904999308,
+        "lat_mean": 255.78334576821,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.6
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.0
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.25
+        }
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.5827814569536424,
+        "lo": -0.6622516556291391,
+        "hi": -0.5033112582781457,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "embedding_e5_zeroshot",
+      "display": "multilingual-e5-small (sıfır örnek, kosinüs)",
+      "group": "encoder",
+      "provider": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "",
+      "local": true,
+      "status": "ok",
+      "setup_s": 12.767,
+      "cold_ms": 27.299648000052912,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.5827814569536424,
+        "accuracy_valid": 0.5827814569536424,
+        "macro_f1": 0.5563037406355379,
+        "accuracy_ci": [
+          0.5033112582781457,
+          0.6556291390728477
+        ],
+        "macro_f1_ci": [
+          0.4753781339395733,
+          0.624630903599446
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.7692307692307693,
+            "recall": 0.5555555555555556,
+            "f1": 0.6451612903225806,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.5454545454545454,
+            "recall": 0.9473684210526315,
+            "f1": 0.6923076923076923,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.64,
+            "recall": 0.8421052631578947,
+            "f1": 0.7272727272727272,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.5333333333333333,
+            "recall": 0.8421052631578947,
+            "f1": 0.653061224489796,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.875,
+            "recall": 0.3684210526315789,
+            "f1": 0.5185185185185185,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.5217391304347826,
+            "recall": 0.631578947368421,
+            "f1": 0.5714285714285715,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.7142857142857143,
+            "recall": 0.2631578947368421,
+            "f1": 0.3846153846153846,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.3333333333333333,
+            "recall": 0.21052631578947367,
+            "f1": 0.2580645161290323,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            10,
+            0,
+            0,
+            7,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            18,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            16,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            3,
+            16,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            5,
+            2,
+            2,
+            7,
+            1,
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            0,
+            1,
+            4,
+            0,
+            12,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            6,
+            1,
+            0,
+            0,
+            4,
+            5,
+            3,
+            0
+          ],
+          [
+            2,
+            3,
+            2,
+            0,
+            0,
+            6,
+            2,
+            4,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.759519023446502,
+        "ece": 0.3725383403961948,
+        "mean_conf": 0.21024311655744762,
+        "conf_kinds": [
+          "derived"
+        ],
+        "acc_at_cov80": 0.6611570247933884,
+        "cov_at_acc95": 0.1390728476821192,
+        "lat_p50": 14.145461999987674,
+        "lat_p95": 19.501127000012275,
+        "lat_p99": 21.235522500091975,
+        "lat_mean": 14.656259456952158,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.6
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.5
+        }
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.3841059602649007,
+        "lo": -0.46357615894039733,
+        "hi": -0.304635761589404,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "tfidf_lr",
+      "display": "TF-IDF + Lojistik Regresyon (eğitimli)",
+      "group": "egitimli",
+      "provider": "tfidf_lr",
+      "model": "",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "train bölümüyle eğitilir. Etiketli veri bütçesi: sıfır örnekli modellerden farklı.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 2.198,
+      "cold_ms": 6.638127000030636,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.7019867549668874,
+        "accuracy_valid": 0.7019867549668874,
+        "macro_f1": 0.696761683656845,
+        "accuracy_ci": [
+          0.6225165562913907,
+          0.7748344370860927
+        ],
+        "macro_f1_ci": [
+          0.6127418927775784,
+          0.76353736644201
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.7692307692307693,
+            "recall": 0.5555555555555556,
+            "f1": 0.6451612903225806,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.64,
+            "recall": 0.8421052631578947,
+            "f1": 0.7272727272727272,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.6,
+            "recall": 0.7894736842105263,
+            "f1": 0.6818181818181819,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.6956521739130435,
+            "recall": 0.8421052631578947,
+            "f1": 0.761904761904762,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.7142857142857143,
+            "recall": 0.7894736842105263,
+            "f1": 0.7500000000000001,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.7647058823529411,
+            "recall": 0.6842105263157895,
+            "f1": 0.7222222222222222,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.75,
+            "recall": 0.631578947368421,
+            "f1": 0.6857142857142857,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.8181818181818182,
+            "recall": 0.47368421052631576,
+            "f1": 0.6,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            10,
+            0,
+            3,
+            3,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            16,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            15,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            16,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            2,
+            0,
+            1,
+            15,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            3,
+            0,
+            1,
+            13,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            4,
+            1,
+            0,
+            0,
+            0,
+            12,
+            2,
+            0
+          ],
+          [
+            1,
+            2,
+            1,
+            0,
+            0,
+            4,
+            2,
+            9,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.5038153946195892,
+        "ece": 0.25824265729495105,
+        "mean_conf": 0.44610095027405955,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.768595041322314,
+        "cov_at_acc95": 0.24503311258278146,
+        "lat_p50": 1.7656320000014603,
+        "lat_p95": 5.905920500026696,
+        "lat_p99": 6.004190500021878,
+        "lat_mean": 2.1746385231793868,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.4
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.5
+        }
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.26490066225165565,
+        "lo": -0.3443708609271523,
+        "hi": -0.18543046357615894,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "embedding_e5_lr",
+      "display": "multilingual-e5-small + LR (eğitimli)",
+      "group": "egitimli",
+      "provider": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "SetFit'in karşıtı basit sürüm: gömme dondurulur, yalnız sınıflandırıcı başı eğitilir.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 4.879,
+      "cold_ms": 135.8419610000965,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.8079470198675497,
+        "accuracy_valid": 0.8079470198675497,
+        "macro_f1": 0.8074304350620141,
+        "accuracy_ci": [
+          0.7417218543046358,
+          0.8675496688741722
+        ],
+        "macro_f1_ci": [
+          0.7349431136462626,
+          0.8671536841293754
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.7777777777777778,
+            "recall": 0.7777777777777778,
+            "f1": 0.7777777777777778,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.8823529411764706,
+            "recall": 0.7894736842105263,
+            "f1": 0.8333333333333333,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.8,
+            "recall": 0.8421052631578947,
+            "f1": 0.8205128205128205,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.7619047619047619,
+            "recall": 0.8421052631578947,
+            "f1": 0.8,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.7391304347826086,
+            "recall": 0.8947368421052632,
+            "f1": 0.8095238095238095,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.8421052631578947,
+            "recall": 0.8421052631578947,
+            "f1": 0.8421052631578947,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.8823529411764706,
+            "recall": 0.7894736842105263,
+            "f1": 0.8333333333333333,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.8125,
+            "recall": 0.6842105263157895,
+            "f1": 0.742857142857143,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            14,
+            0,
+            1,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            15,
+            1,
+            0,
+            2,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            16,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            16,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            17,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            1,
+            0,
+            16,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            15,
+            2,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            0,
+            1,
+            2,
+            1,
+            13,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.4291823542723197,
+        "ece": 0.33958811595776095,
+        "mean_conf": 0.46835890390978874,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.859504132231405,
+        "cov_at_acc95": 0.2781456953642384,
+        "lat_p50": 15.901563999932478,
+        "lat_p95": 25.07017850007287,
+        "lat_p99": 47.456332500019016,
+        "lat_mean": 17.458953291392184,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.8
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.4
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.75
+        }
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.15894039735099338,
+        "lo": -0.2251655629139073,
+        "hi": -0.09933774834437085,
+        "p_better": 0.0
+      }
+    },
+    {
+      "key": "setfit_minilm",
+      "display": "SetFit (MiniLM çok dilli, 8-shot)",
+      "group": "egitimli",
+      "provider": "setfit",
+      "model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "price_in": null,
+      "price_out": null,
+      "price_note": "",
+      "verified": "",
+      "notes": "pip install setfit. CPU'da eğitim dakikalar sürebilir.",
+      "local": true,
+      "status": "ok",
+      "setup_s": 160.392,
+      "cold_ms": 146.26817199996367,
+      "wall_s": 0.0,
+      "concurrency": 1,
+      "cached": 151,
+      "metrics": {
+        "n": 151,
+        "n_ok": 151,
+        "error_rate": 0.0,
+        "accuracy": 0.7483443708609272,
+        "accuracy_valid": 0.7483443708609272,
+        "macro_f1": 0.7509653659034464,
+        "accuracy_ci": [
+          0.6754966887417219,
+          0.8145695364238411
+        ],
+        "macro_f1_ci": [
+          0.6738121256038895,
+          0.8139103258624354
+        ],
+        "per_class": {
+          "fatura_odeme": {
+            "precision": 0.75,
+            "recall": 0.8333333333333334,
+            "f1": 0.7894736842105262,
+            "support": 18
+          },
+          "teknik_destek": {
+            "precision": 0.8421052631578947,
+            "recall": 0.8421052631578947,
+            "f1": 0.8421052631578947,
+            "support": 19
+          },
+          "kargo_teslimat": {
+            "precision": 0.8666666666666667,
+            "recall": 0.6842105263157895,
+            "f1": 0.7647058823529413,
+            "support": 19
+          },
+          "iade_degisim": {
+            "precision": 0.7368421052631579,
+            "recall": 0.7368421052631579,
+            "f1": 0.7368421052631579,
+            "support": 19
+          },
+          "hesap_guvenlik": {
+            "precision": 0.85,
+            "recall": 0.8947368421052632,
+            "f1": 0.8717948717948718,
+            "support": 19
+          },
+          "satis_fiyat": {
+            "precision": 0.65,
+            "recall": 0.6842105263157895,
+            "f1": 0.6666666666666667,
+            "support": 19
+          },
+          "sikayet_oneri": {
+            "precision": 0.8666666666666667,
+            "recall": 0.6842105263157895,
+            "f1": 0.7647058823529413,
+            "support": 19
+          },
+          "diger": {
+            "precision": 0.5217391304347826,
+            "recall": 0.631578947368421,
+            "f1": 0.5714285714285715,
+            "support": 19
+          }
+        },
+        "confusion": [
+          [
+            15,
+            0,
+            0,
+            2,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            16,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            13,
+            1,
+            1,
+            0,
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            14,
+            1,
+            2,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            17,
+            1,
+            0,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            0,
+            2,
+            0,
+            13,
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            13,
+            5,
+            0
+          ],
+          [
+            1,
+            1,
+            1,
+            0,
+            1,
+            3,
+            0,
+            12,
+            0
+          ]
+        ],
+        "n_prob": 151,
+        "brier": 0.39126578399070117,
+        "ece": 0.11734373965872286,
+        "mean_conf": 0.6310006312022042,
+        "conf_kinds": [
+          "native"
+        ],
+        "acc_at_cov80": 0.8181818181818182,
+        "cov_at_acc95": 0.3973509933774834,
+        "lat_p50": 12.751861999959146,
+        "lat_p95": 17.32677900008639,
+        "lat_p99": 22.93542649988467,
+        "lat_mean": 13.25219652316842,
+        "tok_in_mean": null,
+        "tok_out_mean": null,
+        "tokens_estimated": false,
+        "cost_per_1000": null,
+        "cost_per_1m": null,
+        "retries_total": 0
+      },
+      "slices": {
+        "ascii": {
+          "n": 5,
+          "accuracy": 0.6
+        },
+        "multi": {
+          "n": 5,
+          "accuracy": 0.6
+        },
+        "short": {
+          "n": 12,
+          "accuracy": 0.6666666666666666
+        }
+      },
+      "vs_reference": {
+        "reference": "mercury_2_5",
+        "diff": -0.2185430463576159,
+        "lo": -0.2980132450331126,
+        "hi": -0.1456953642384106,
+        "p_better": 0.0
+      }
+    }
+  ],
+  "dataset": {
+    "name": "destek_tr",
+    "fingerprint": "9ac13de53ff85f2d",
+    "split": "test",
+    "n_eval": 151,
+    "n_train": 128,
+    "class_counts": {
+      "fatura_odeme": 18,
+      "teknik_destek": 19,
+      "kargo_teslimat": 19,
+      "iade_degisim": 19,
+      "hesap_guvenlik": 19,
+      "satis_fiyat": 19,
+      "sikayet_oneri": 19,
+      "diger": 19
+    }
+  },
+  "settings": {
+    "seed": 0,
+    "shots_per_label": 0,
+    "robustness": true,
+    "warmup": 1,
+    "prompt_version": "v1",
+    "concurrency_override": null
+  },
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+    "packages": {
+      "requests": "2.34.2",
+      "numpy": "2.5.3",
+      "anthropic": "1.13.0",
+      "scikit-learn": "1.9.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0",
+      "sentence-transformers": "6.1.0",
+      "gliclass": "0.1.20",
+      "laya": "0.4.6",
+      "setfit": "1.2.0"
+    },
+    "git_commit": "400e8cb"
+  },
+  "note": "Gerçek koşu: Inception API modelleri (Mercury Decide, Mercury 2.5) ve tüm yerel modeller. Diğer servislerin anahtarı tanımlı olmadığı için atlandı. Gecikmeler bulut kapsayıcısında (CPU, tek istemci konumu) ölçüldü.",
+  "skipped": [
+    {
+      "key": "jev",
+      "display": "Jev 1.13 (TypeSafe)",
+      "group": "karar-api",
+      "reason": "TYPESAFE_API_KEY tanımlı değil"
+    },
+    {
+      "key": "jev_ai",
+      "display": "Jev (jev-ai.pro)",
+      "group": "karar-api",
+      "reason": "JEV_AI_API_KEY tanımlı değil"
+    },
+    {
+      "key": "jev_beatapi",
+      "display": "Jev ücretsiz (BeatAPI, jev-1.13-free)",
+      "group": "karar-api",
+      "reason": "BEATAPI_API_KEY tanımlı değil"
+    },
+    {
+      "key": "liquid_d1",
+      "display": "Liquid d1 API",
+      "group": "karar-api",
+      "reason": "LIQUID_API_KEY tanımlı değil"
+    },
+    {
+      "key": "instinct_27b",
+      "display": "Instinct 27B (ZooData)",
+      "group": "karar-api",
+      "reason": "ZOODATA_API_KEY tanımlı değil"
+    },
+    {
+      "key": "instinct_tuned_4b",
+      "display": "Instinct tuned 4B (ZooData)",
+      "group": "karar-api",
+      "reason": "ZOODATA_API_KEY tanımlı değil"
+    },
+    {
+      "key": "instinct_dual_4b",
+      "display": "Instinct dual 4B (ZooData)",
+      "group": "karar-api",
+      "reason": "ZOODATA_API_KEY tanımlı değil"
+    },
+    {
+      "key": "openai_decisions",
+      "display": "OpenAI Decisions (gpt-6-luna)",
+      "group": "karar-api",
+      "reason": "OPENAI_API_KEY tanımlı değil"
+    },
+    {
+      "key": "claude_haiku_5_5",
+      "display": "Claude Haiku 5.5",
+      "group": "uretken-llm",
+      "reason": "ANTHROPIC_API_KEY tanımlı değil"
+    },
+    {
+      "key": "claude_sonnet_5_5",
+      "display": "Claude Sonnet 5.5",
+      "group": "uretken-llm",
+      "reason": "ANTHROPIC_API_KEY tanımlı değil"
+    },
+    {
+      "key": "gemini_3_5_flash_lite",
+      "display": "Gemini 3.5 Flash-Lite",
+      "group": "uretken-llm",
+      "reason": "GEMINI_API_KEY tanımlı değil"
+    },
+    {
+      "key": "mercury_2_5_or",
+      "display": "Mercury 2.5 (sohbet, OpenRouter)",
+      "group": "uretken-llm",
+      "reason": "OPENROUTER_API_KEY tanımlı değil"
+    },
+    {
+      "key": "gpt_6_luna",
+      "display": "GPT-6 Luna (sohbet, OpenRouter)",
+      "group": "uretken-llm",
+      "reason": "OPENROUTER_API_KEY tanımlı değil"
+    },
+    {
+      "key": "deepseek_v4_flash",
+      "display": "DeepSeek V4 Flash (OpenRouter)",
+      "group": "uretken-llm",
+      "reason": "OPENROUTER_API_KEY tanımlı değil"
+    },
+    {
+      "key": "qwen3_8_flash",
+      "display": "Qwen3.8 Flash (OpenRouter)",
+      "group": "uretken-llm",
+      "reason": "OPENROUTER_API_KEY tanımlı değil"
+    }
+  ]
+}
