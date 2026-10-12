@@ -59,8 +59,11 @@ def test_site_files_and_embedded_data(run_dir, tmp_path):
         assert 0 < m["accuracy"] <= 1 and len(m["confusion"]) == len(d["labels"]) and m["per_class"]
         assert by[k]["robustness"]["consistency"] == pytest.approx(1.0)
     assert "metrics" not in by["dead"] and by["dead"]["status"] == "failed" and "402" in by["dead"]["reason"]
-    assert d["skipped"] == [{"key": "no_key", "display": "Anahtarsız Model", "group": "karar-api",
-                             "reason": "NOPE_NOT_SET tanımlı değil"}]
+    # çalıştırılamayan modeller koşu kaydında (run.json) tutulur ama sitede gösterilmez
+    run = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
+    assert [s["key"] for s in run["skipped"]] == ["no_key"]
+    assert "skipped" not in d and "Anahtarsız Model" not in html and "NOPE_NOT_SET" not in html
+    assert "dead" in by and "metrics" not in by["dead"]  # koşulup başarısız olan model veride var, ölçüt tablosunda yok
     assert d["meta"]["dataset"]["n_eval"] > 0 and d["labels"][0]["key"] and d["meta"]["repo"].startswith("https://")
 
 
@@ -112,7 +115,7 @@ def test_old_run_without_skipped_still_renders(tmp_path):
     if not (src / "summary.json").exists():
         pytest.skip("örnek koşu yok")
     d = _embedded(write_site(src, tmp_path / "site").read_text(encoding="utf-8"))
-    assert d["skipped"] == [] and sum(1 for m in d["models"] if "metrics" in m) >= 9
+    assert sum(1 for m in d["models"] if "metrics" in m) >= 9
 
 
 def test_cli_site_command(run_dir, tmp_path, capsys):

@@ -15,8 +15,8 @@ python -m clfbench site examples/inception-151        # -> site/
 - **10 model puanlandı** (151 örnek): Mercury Decide %93,4 [%89–%97], Mercury 2.5 %96,7 [%93–%99]; eğitimli ve yerel modeller
   daha düşük. Mercury Decide ile Mercury 2.5 arasındaki fark bu örnek sayısında **ayırt edilemez** (eşlenmiş fark −3,3 puan, %95
   aralık [−8, +1]); gecikme ve maliyet farkı ise büyüktür (p50 ~290 ms ve ~$0,009 / 1.000 karar, ~2.000 ms ve ~$0,13).
-- **15 model ölçülmedi**: anahtarları tanımlı değildi (Jev, Liquid d1, Instinct, OpenAI Decisions, OpenRouter modelleri, Claude,
-  Gemini). Sıralama yalnızca ölçülenler arasındadır, tüm piyasayı kapsamaz.
+- **15 model çalıştırılamadı** (anahtarları tanımlı değildi; `run.json > skipped` içinde kayıtlı). Sıralama yalnızca
+  ölçülenler arasındadır, tüm piyasayı kapsamaz.
 - Yerel modellerin gecikmesi bulut kapsayıcısının CPU'sunda, API gecikmesi ağ üzerinden ölçüldü: birbiriyle birebir kıyaslanamaz.
 - Veri yerleşik `destek_tr` (gümüş etiketli, ~151 test örneği: güven aralığı ±6-7 puan). `jev-40` koşusuyla aynı yerel modeller
   benzer büyüklük sırasında çıktı (örn. Laya %33, mDeBERTa %30, e5+LR %81), yani sonuçlar kuruluma özgü değil.

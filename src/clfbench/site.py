@@ -53,7 +53,6 @@ def build_site_data(summary: dict, run: dict, repo: str = DEFAULT_REPO, external
         "labels": [{"key": k, "desc": desc.get(k, ""), "short": short.get(k) or k.replace("_", " ")} for k in labels],
         "models": [{f: m[f] for f in _MODEL_FIELDS if f in m} for m in summary["models"]],
         "pareto": {"latency": summary.get("pareto_latency", []), "cost": summary.get("pareto_cost", [])},
-        "skipped": summary.get("skipped", []),
         "external": external or [],
     }
 

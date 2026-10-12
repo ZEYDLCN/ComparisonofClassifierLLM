@@ -150,7 +150,8 @@ Aynı sonuçların Markdown sürümü (`report.md`) ve PNG grafikleri de üretil
 Tüm ölçütleri tek sayfada, koyu temalı bir portfolyo tasarımında yan yana gösteren **statik bir site** üretilir:
 sıralama (ölçüt seçilebilir, güven aralıklı), **ölçüt × model matrisi** (her satırda en iyi değer işaretli, CSV'ye aktarılır),
 hız/maliyet dağılımı ve Pareto sınırı, sınıf bazında P/R/F1 ısı haritası, karışıklık matrisi, zor dilimler,
-seçenek sırası dayanıklılığı, referansa karşı eşlenmiş fark ve **ölçülmeyen modeller** (neden atlandığıyla).
+seçenek sırası dayanıklılığı ve referansa karşı eşlenmiş fark. Yalnızca **sonuç alınan** modeller gösterilir; anahtarı olmadığı için
+çalıştırılamayanlar siteye girmez (koşu kaydında `run.json > skipped` olarak durur).
 
 ```powershell
 python -m clfbench run --robustness --name benim-kosum      # gerçek koşu (results/<koşu>)

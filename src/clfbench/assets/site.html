@@ -224,6 +224,7 @@ table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
 .mt b{display:block;font:300 26px/1.15 var(--font);letter-spacing:-.02em;margin:2px 0}
 .mt span{color:var(--ink2);font-size:11.5px}
 .ext+.ext{margin-top:16px}
+#ext-body:not(:empty){margin-top:16px}
 .sk code{display:block;margin-top:8px;padding:8px 10px;border-radius:10px;background:#111;color:var(--ink2);font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-word;white-space:pre-wrap}
 details{border:1px solid var(--line);border-radius:20px;background:var(--card);padding:2px 20px}
 details+details{margin-top:12px}
@@ -285,7 +286,6 @@ noscript .panel{margin:24px 0;color:var(--ink2)}
     <section class="sec" id="hiz"></section>
     <section class="sec" id="sinif"></section>
     <section class="sec" id="dayaniklilik"></section>
-    <section class="sec" id="olculmeyen"></section>
     <section class="sec" id="yontem"></section>
     <footer id="foot"></footer>
     <noscript><div class="panel">Bu sayfa JavaScript ile çalışır. Ham veriler için <a href="data.json">data.json</a> dosyasına bakın.</div></noscript>
@@ -389,14 +389,6 @@ const rkOf=id=>RK.find(r=>r.id===id)||RK[0];
 /* tüm metrikler tablosu: dir 1 = yüksek iyi, -1 = düşük iyi, 0 = bilgi */
 function matrixRows(){
   const M=(f)=>m=>f(m.metrics), R=(f)=>m=>m.robustness?f(m.robustness):null;
-  const kinds={native:'yerel olasılık',verbalized:'sözel güven',derived:'türetilmiş skor'};
-  const verdict=m=>{
-    if(m.key===D.meta.reference)return {t:'referans',c:'ref'};
-    const v=m.vs_reference;if(!v)return null;
-    if(v.lo>0)return {t:'daha iyi',c:'up'};
-    if(v.hi<0)return {t:'daha kötü',c:'dn'};
-    return {t:'ayırt edilemez',c:''};
-  };
   return [
     {sec:'Doğruluk'},
     {l:'Doğruluk (sıkı)',h:'geçersiz yanıt = yanlış',dir:1,val:M(x=>x.accuracy),f:v=>pct(v)},
@@ -412,7 +404,6 @@ function matrixRows(){
     {l:'Ortalama güven',h:'doğruluğa yakınsa iyi kalibre',dir:0,txt:M(x=>pct(x.mean_conf))},
     {l:'Doğruluk @ en güvenli %80',dir:1,val:M(x=>x.acc_at_cov80),f:v=>pct(v)},
     {l:'%95 doğrulukta kapsama',h:'yüksek = az yanıtı eleyerek güvenilir',dir:1,val:M(x=>x.cov_at_acc95),f:v=>pct(v)},
-    {l:'Güven türü',dir:0,txt:M(x=>(x.conf_kinds||[]).map(k=>kinds[k]||k).join(', ')||'—')},
     {sec:'Hız'},
     {l:'Gecikme p50 (ms)',dir:-1,val:M(x=>x.lat_p50),f:ms},
     {l:'Gecikme p95 (ms)',dir:-1,val:M(x=>x.lat_p95),f:ms},
@@ -432,8 +423,7 @@ function matrixRows(){
     {l:'Tahmin tutarlılığı',h:'iki sırada aynı etiket',dir:1,val:R(x=>x.consistency),f:v=>pct(v)},
     {sec:'Referansa karşı (eşlenmiş bootstrap)'},
     {l:'Doğruluk farkı',h:refM?'referans: '+nameOf(refM):'',dir:0,txt:m=>m.vs_reference?pp(m.vs_reference.diff):'—'},
-    {l:'%95 aralık (puan)',dir:0,txt:m=>m.vs_reference?'['+nf(m.vs_reference.lo*100)+'; '+nf(m.vs_reference.hi*100)+']':'—'},
-    {l:'Sonuç',dir:0,vd:verdict}
+    {l:'%95 aralık (puan)',dir:0,txt:m=>m.vs_reference?'['+nf(m.vs_reference.lo*100)+'; '+nf(m.vs_reference.hi*100)+']':'—'}
   ];
 }
 
@@ -565,8 +555,7 @@ function renderMatrix(){
     if(r.sec)return '<tr class="sh"><th class="rh" scope="rowgroup">'+esc(r.sec)+'</th><td colspan="'+pool.length+'"></td></tr>';
     const cells=pool.map(m=>{
       let v=null,txt=null;
-      if(r.vd){const d=r.vd(m);txt=d?'<span class="vd '+d.c+'">'+d.t+'</span>':'—';}
-      else if(r.txt)txt=esc(r.txt(m));
+      if(r.txt)txt=esc(r.txt(m));
       else v=r.val(m);
       return {m:m,v:v,txt:txt};
     });
@@ -587,7 +576,6 @@ function csvExport(){
   matrixRows().forEach(r=>{
     if(r.sec){sec=r.sec;return;}
     const cells=pool.map(m=>{
-      if(r.vd){const d=r.vd(m);return d?d.t:'';}
       if(r.txt)return r.txt(m);
       const v=r.val(m);return isNum(v)?String(v):'';
     });
@@ -748,17 +736,6 @@ function renderForest(){
 }
 
 /* ================================================================= ÖLÇÜLMEYENLER + YÖNTEM */
-function renderSkipped(){
-  const failed=MODELS.filter(m=>!m.metrics);
-  const byReason={};
-  (D.skipped||[]).forEach(s=>{(byReason[s.reason]=byReason[s.reason]||[]).push(s);});
-  const reasons=Object.keys(byReason).sort((a,b)=>byReason[b].length-byReason[a].length);
-  const cards=failed.map(m=>'<div class="sk err"><h4>'+esc(m.display)+'</h4><p>Koşu sırasında başarısız oldu; sonuç yok.</p><code>'+esc(m.reason||m.first_error||'bilinmeyen hata')+'</code></div>').join('')+
-    reasons.map(r=>'<div class="sk"><h4>'+esc(r)+'</h4><p>'+byReason[r].length+' model ölçülmedi:</p><div class="chips">'+byReason[r].map(s=>'<span>'+esc(s.display)+'</span>').join('')+'</div></div>').join('');
-  $('#skip-body').innerHTML=cards?'<div class="skips">'+cards+'</div><p class="note">Hangi anahtarı nereden alacağın için <b>python -m clfbench keys --missing</b>, ardından <b>python -m clfbench run</b> ve <b>python -m clfbench site results/&lt;koşu&gt;</b> komutlarını çalıştır; aynı site yeni modellerle yeniden üretilir.</p>':'<div class="empty">Kayıtlı tüm modeller ölçüldü.</div>';
-  $('#skip-n').textContent=(failed.length+(D.skipped||[]).length)||'';
-}
-
 function renderExternal(){
   const ex=D.external||[];
   $('#ext-body').innerHTML=ex.map(e=>{
@@ -776,14 +753,14 @@ function renderExternal(){
 }
 
 /* ================================================================= İSKELET */
-const NAV=[['ozet','Özet','home'],['siralama','Sıralama','bars'],['metrikler','Tüm metrikler','table'],['hiz','Hız, maliyet','scatter'],['sinif','Sınıf bazında','grid'],['dayaniklilik','Dayanıklılık','shuffle'],['olculmeyen','Ölçülmeyenler','ban'],['yontem','Yöntem','info']];
+const NAV=[['ozet','Özet','home'],['siralama','Sıralama','bars'],['metrikler','Tüm metrikler','table'],['hiz','Hız, maliyet','scatter'],['sinif','Sınıf bazında','grid'],['dayaniklilik','Dayanıklılık','shuffle'],['yontem','Yöntem','info']];
 function skeleton(){
   $('#rail').innerHTML=NAV.map((n,i)=>'<a href="#'+n[0]+'" aria-label="'+n[1]+'" title="'+n[1]+'"'+(i===0?' aria-current="true"':'')+'>'+ic(n[2])+'</a>').join('');
   const head=(no,t,lead)=>'<p class="eyebrow">'+no+' — '+t[0]+'</p><h2>'+t[1]+'</h2><p class="lead">'+lead+'</p>';
   $('#siralama').innerHTML=head('01',['Sıralama','Hangi model nerede?'],'Bir ölçüt seç; modeller en iyiden en kötüye dizilir. Üstteki gruplar tüm bölümleri süzer.')+'<div class="panel" id="rk-body"></div>';
   $('#metrikler').innerHTML=head('02',['Tüm metrikler','Yan yana, eksiksiz'],'Her satırda en iyi değer sarıyla işaretlidir (hepsi eşitse işaretlenmez). Modele tıklayınca ilgili sütun her bölümde öne çıkar.')+
     '<div class="panel"><div class="ph"><div><h3>Ölçüt × model matrisi</h3><p>Doğruluk, F1, kalibrasyon, hız, maliyet, dayanıklılık ve referansa karşı fark</p></div><button class="pill" id="csv2">'+ic('dl')+' CSV indir</button></div><div id="mx-body"></div>'+
-    '<p class="note"><b>Gecikme karşılaştırması:</b> API modelleri ağ üzerinden, yerel modeller bu makinenin CPU\'sunda ölçülür; birbiriyle birebir kıyaslanamaz. <b>Maliyet:</b> yanıttan okunan gerçek token sayısı × tarife; yerel modellerde API maliyeti yoktur.</p></div>';
+    '<p class="note"><b>Gecikme karşılaştırması:</b> API modelleri ağ üzerinden, yerel modeller bu makinenin CPU\'sunda ölçülür; birbiriyle birebir kıyaslanamaz. <b>Maliyet:</b> yanıttan okunan gerçek token sayısı × tarife; yerel modellerde API maliyeti yoktur.</p></div><div id="ext-body"></div>';
   $('#hiz').innerHTML=head('03',['Hız ve maliyet','Doğruluk neye mal oluyor?'],'Sol üst köşe hem hızlı hem doğrudur. Kesikli çizgi, başka hiçbir modelin aynı anda hem daha doğru hem daha hızlı (ya da ucuz) olmadığı Pareto sınırıdır.')+
     '<div class="panel"><div class="ph"><div class="seg" id="xseg" role="group" aria-label="Yatay eksen"><button data-x="lat_p50" aria-pressed="true">Gecikme (p50)</button><button data-x="cost_per_1000" aria-pressed="false">Maliyet</button></div></div><div id="scatter"></div><div class="legend" id="legend"></div></div>';
   $('#sinif').innerHTML=head('04',['Sınıf bazında','Hangi sınıfta kim zayıf?'],'Sınıf başına F1, kesinlik ve duyarlılık; karışıklık matrisi; yazım hatalı, ascii, kısa ve çok niyetli gibi zor dilimler.')+
@@ -793,10 +770,9 @@ function skeleton(){
   $('#dayaniklilik').innerHTML=head('05',['Dayanıklılık','Sıra değişince sonuç değişiyor mu?'],'Seçenek sırası her örnekte karıştırılıp model yeniden çalıştırıldı. İyi bir sınıflandırıcı, seçeneklerin listelenme sırasına duyarsızdır. Ardından referans modele karşı fark gösterilir.')+
     '<div class="panel"><div class="ph"><div><h3>Seçenek sırası testi</h3><p>Kanonik ve karıştırılmış sıradaki doğruluk</p></div></div><div id="rob-body"></div></div>'+
     '<div class="panel"><div class="ph"><div><h3>Referansa karşı doğruluk farkı</h3><p>Eşlenmiş bootstrap: aynı örnekler üzerinde fark</p></div></div><div id="forest-body"></div></div>';
-  $('#olculmeyen').innerHTML=head('06',['Ölçülmeyenler','Bu koşuda yer almayanlar <span id="skip-n" style="color:var(--mut);font-size:.5em;vertical-align:middle"></span>'],'Anahtarı ya da paketi bulunmayan modeller atlandı; bu yüzden yukarıdaki sıralama yalnızca ölçülenler arasındadır, tüm piyasayı kapsamaz.')+'<div id="ext-body"></div><div id="skip-body" style="margin-top:16px"></div>';
   const env=D.meta.environment||{},st=D.meta.settings||{};
   const w=dsn.is_builtin?'<div class="warn"><b>Dürüstlük notu.</b><span>Yerleşik <code>destek_tr</code> veri seti bu çalışma için hazırlanmış, <b style="color:var(--ink)">gümüş etiketli</b> bir kümedir; insan etiketli altın küme değildir ve '+nEval+' örnekte güven aralığı yaklaşık ±6–7 puandır. Boru hattını ve yöntemi doğrulamak içindir; satın alma ya da üretim kararı için kendi insan etiketli Türkçe verinle yeniden ölç.</span></div>':'';
-  $('#yontem').innerHTML=head('07',['Yöntem','Nasıl ölçüldü, nelere dikkat?'],'Sayıları doğru okumak için kısa bir rehber.')+w+
+  $('#yontem').innerHTML=head('06',['Yöntem','Nasıl ölçüldü, nelere dikkat?'],'Sayıları doğru okumak için kısa bir rehber.')+w+
    '<details open><summary>Ölçütlerin anlamı</summary><dl>'+
    '<dt>Doğruluk (sıkı)</dt><dd>Doğru etiket sayısı / tüm örnek. Geçersiz ya da başarısız yanıt <b>yanlış</b> sayılır; oranı ayrıca gösterilir.</dd>'+
    '<dt>Macro-F1</dt><dd>Sınıf başına F1\'in ortalaması: az örnekli sınıflar da eşit ağırlıkta sayılır.</dd>'+
@@ -851,8 +827,8 @@ if('IntersectionObserver' in window){
   NAV.forEach(n=>io.observe($('#'+n[0])));
 }
 
-if(!N){document.body.insertAdjacentHTML('afterbegin','<div class="panel" style="margin:40px">Bu koşuda puanlanan model yok. Ayrıntı için "Ölçülmeyenler" bölümüne bakın.</div>');}
-skeleton();renderProfile();renderTop();renderSkipped();renderExternal();renderAll();
+if(!N){document.body.insertAdjacentHTML('afterbegin','<div class="panel" style="margin:40px">Bu koşuda puanlanan model yok.</div>');}
+skeleton();renderProfile();renderTop();renderExternal();renderAll();
 })();
 </script>
 </body>
